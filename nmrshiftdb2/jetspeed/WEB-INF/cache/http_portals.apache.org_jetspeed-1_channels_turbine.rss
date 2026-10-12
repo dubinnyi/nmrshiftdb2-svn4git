@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!--
+Copyright 2005 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<rss version="0.91">
+
+    <channel>
+        <title>Apache Turbine</title>
+        <link>http://jakarta.apache.org/turbine/</link>
+        <description>
+        Java Web Application Framework
+        </description>
+
+        <item>
+            <title>Turbine</title>
+            <link>http://jakarta.apache.org/turbine/</link>
+            <description>
+            Turbine is a complete and flexible web application 
+            framework based on a model 2+1 design
+            </description>
+        </item>
+    
+        <item>
+            <title>Torque</title>
+            <link>http://db.apache.org/torque/</link>
+            <description>
+            Torque is a persistence layer. Torque generates all the database resources required by your application 
+            and includes a runtime environment to run the generated classes. Torque was developed as part of the Turbine Framework. 
+            It is now decoupled and can be used by itself. 
+            </description>
+        </item>
+    
+    </channel>
+
+</rss>
+

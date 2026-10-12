@@ -1,0 +1,832 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright 2004 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<registry>
+	<portlet-entry name="HelloVelocityCached" hidden="false" type="ref" parent="CustomizerVelocity" application="false">
+		<meta-info>
+			<title>HelloVelocityCached</title>
+			<description>Simple Cached Velocity Portlet Example</description>
+		</meta-info>
+		<parameter name="template" value="hello" hidden="true"/>
+		<parameter name="_TimeToLive" value="60000" hidden="false"/>
+		<parameter name="action" value="portlets.HelloAction" hidden="true"/>
+		<parameter name="text" value="Hello - only changes occasionally due to content caching" hidden="false"/>
+		<media-type ref="html"/>
+		<category>demo</category>
+		<category>velocity.demo</category>
+	</portlet-entry>
+	<portlet-entry name="HelloVelocity" hidden="false" type="ref" parent="CustomizerVelocity" application="false">
+		<meta-info>
+			<title>HelloVelocity</title>
+			<description>Simple Velocity Portlet Example</description>
+		</meta-info>
+		<parameter name="template" value="hello" hidden="true"/>
+		<parameter name="action" value="portlets.HelloAction" hidden="true"/>
+		<parameter name="text" value="Hello World in Velocity" hidden="false"/>
+		<media-type ref="html"/>
+		<category>demo</category>
+		<category>velocity.demo</category>
+	</portlet-entry>
+	<portlet-entry name="HelloJSP" hidden="false" type="ref" parent="JSP" application="false">
+		<meta-info>
+			<title>HelloJSP</title>
+			<description>Simple JSP Portlet Example</description>
+		</meta-info>
+		<parameter name="template" value="hello.jsp" hidden="true"/>
+		<media-type ref="html"/>
+		<category>demo</category>
+		<category>jsp.demo</category>
+	</portlet-entry>
+	<portlet-entry name="JSP1_1andJetspeedTagLib" hidden="false" type="ref" parent="JSP" application="false">
+		<meta-info>
+			<title>JSP1_1andJetspeedTagLib</title>
+			<description>
+              JSP Portlet Example that displays data from the Jetspeed
+              Tag Libaray and Java Servlet v1.2 request class.  Requires a
+              Tomcat v3.x or a JSP 1.1 servlet engine.
+            </description>
+		</meta-info>
+		<parameter name="template" value="JSP1_1andJetspeedTagLib.jsp" hidden="true"/>
+		<media-type ref="html"/>
+		<category>demo</category>
+		<category>jsp.demo</category>
+	</portlet-entry>
+	<portlet-entry name="JSP1_2andJetspeedTagLib" hidden="false" type="ref" parent="JSP" application="false">
+		<meta-info>
+			<title>JSP1_2andJetspeedTagLib</title>
+			<description>
+              JSP Portlet Example that displays data from the Jetspeed
+              Tag Libaray and Java Servlet v1.2 request class.  Requires a
+              Tomcat v4.x or a JSP 1.2 servlet engine.
+            </description>
+		</meta-info>
+		<parameter name="template" value="JSP1_2andJetspeedTagLib.jsp" hidden="true"/>
+		<media-type ref="html"/>
+		<category>demo</category>
+		<category>jsp.demo</category>
+	</portlet-entry>
+	<portlet-entry name="jslink_examples" hidden="false" type="ref" parent="Velocity" application="false">
+		<meta-info>
+			<title>JSLINK Examples</title>
+			<description>$jslink examples</description>
+		</meta-info>
+		<parameter name="template" value="Tool_jslink_examples" hidden="true"/>
+		<media-type ref="html"/>
+		<category>demo</category>
+		<category>velocity.demo</category>
+	</portlet-entry>
+	<portlet-entry name="Search" hidden="false" type="ref" parent="HTML" application="false">
+		<meta-info>
+			<title>Web Search</title>
+			<description>Search the Internet</description>
+		</meta-info>
+		<url>/search/index.html</url>
+		<category>search</category>
+		<category>html</category>
+	</portlet-entry>
+	<portlet-entry name="Welcome" hidden="false" type="ref" parent="HTML" application="false">
+		<meta-info>
+			<title>Welcome</title>
+		</meta-info>
+		<url>/welcome.html</url>
+		<category>demo</category>
+		<category>html.demo</category>
+	</portlet-entry>
+	<portlet-entry name="LoggedInWelcome" hidden="false" type="ref" parent="HTML" application="false">
+		<security-ref parent="user-view_admin-all"/>
+		<meta-info>
+			<title>Welcome to Logged in user</title>
+			<description>Example of a portlet with not Titlebar</description>
+		</meta-info>
+		<parameter name="_showtitlebar" value="false" hidden="false"/>
+		<url>/LoggedInWelcome.html</url>
+		<category>demo</category>
+		<category>html.demo</category>
+	</portlet-entry>
+	<portlet-entry name="XMLHack" hidden="false" type="ref" parent="RSS" application="false">
+		<meta-info>
+			<title>XMLHack</title>
+		</meta-info>
+		<url>http://www.xmlhack.com/rss.php</url>
+		<category>news.software.opensource</category>
+	</portlet-entry>
+	<portlet-entry name="Apacheweek" hidden="false" type="ref" parent="RSS" application="false">
+		<meta-info>
+			<title>Apacheweek</title>
+		</meta-info>
+		<url>http://www.apacheweek.com/issues/apacheweek-headlines.xml</url>
+		<category>news.software.opensource</category>
+	</portlet-entry>
+	<portlet-entry name="Mozilla" hidden="false" type="ref" parent="RSS" application="false">
+		<meta-info>
+			<title>Mozilla</title>
+		</meta-info>
+		<parameter name="itemdisplayed" value="10" hidden="false"/>
+		<url>http://www.mozilla.org/news.rdf</url>
+		<category>news.software.opensource</category>
+	</portlet-entry>
+	<portlet-entry name="Jetspeed" hidden="false" type="ref" parent="RSS" application="false">
+		<parameter name="openinpopup" value="true" hidden="false"/>
+		<url>/rss/Jetspeed.rss</url>
+		<category>news.software.opensource</category>
+		<meta-info>
+			<title>Jetspeed Documentation</title>
+			<description>Jetspeed Documentation Portlet</description>
+		</meta-info>
+	</portlet-entry>
+	<portlet-entry name="JavaWeb" hidden="false" type="ref" parent="WebPagePortlet" application="false">
+		<meta-info>
+			<title>JavaSoft</title>
+			<description>JavaSoft</description>
+		</meta-info>
+		<parameter name="dont_remove_applet" value="yes" hidden="false"/>
+		<url>http://java.sun.com/</url>
+		<category>sites.companies.sun</category>
+	</portlet-entry>
+	<portlet-entry type="ref" parent="Velocity" name="StockQuote" application="false" hidden="false">
+		<meta-info>
+			<title>Stock Portfolio</title>
+			<description>Stock Portfolio Portlet</description>
+		</meta-info>
+		<parameter name="template" value="stock-quote" hidden="true"/>
+		<parameter name="action" value="portlets.StockQuoteAction" hidden="true"/>
+		<parameter name="columns" value="Symbols,Price,Change,Volume" type="style" hidden="false">
+			<meta-info>
+				<title>Columns</title>
+				<description>Columns to display</description>
+			</meta-info>
+		</parameter>
+		<parameter name="columns.style.items" value="Symbol,Price,Change,Volume" hidden="true" cachedOnName="true" cachedOnValue="true"/>
+		<parameter name="columns.style.layout" value="$eastwest" hidden="true" cachedOnName="true" cachedOnValue="true"/>
+		<parameter name="columns.style" value="CheckBoxGroup" hidden="true" cachedOnName="true" cachedOnValue="true"/>
+		<parameter name="symbols" value="MSFT,IBM,ORCL,SUNW" type="style" hidden="false" cachedOnName="true" cachedOnValue="true">
+			<meta-info>
+				<title>Symbols</title>
+				<description>List of comma-separated stock symbols</description>
+			</meta-info>
+		</parameter>
+		<parameter name="symbols.style" value="TextArea" hidden="true" cachedOnName="true" cachedOnValue="true"/>
+		<media-type ref="html"/>
+		<media-type ref="wml"/>
+		<category>web services</category>
+		<category>finance.stocks</category>
+	</portlet-entry>
+	<portlet-entry name="myLinks" hidden="false" type="ref" parent="LinkPortlet" application="false">
+		<meta-info>
+			<title>My Bookmarks</title>
+			<description>Insert your personal links!</description>
+		</meta-info>
+		<parameter name="image" value="images/jetspeed-powered.gif" hidden="false"/>
+		<parameter name="link" value="http://portals.apache.org/jetspeed-1/" hidden="false"/>
+		<parameter name="anchor" value="Jetspeed" hidden="false"/>
+		<parameter name="description" value="Jetspeed's home page" hidden="false"/>
+		<parameter name="image1" value="" hidden="false"/>
+		<parameter name="link1" value="" hidden="false"/>
+		<parameter name="anchor1" value="" hidden="false"/>
+		<parameter name="description1" value="" hidden="true"/>
+		<parameter name="image2" value="" hidden="false"/>
+		<parameter name="link2" value="" hidden="false"/>
+		<parameter name="anchor2" value="" hidden="false"/>
+		<parameter name="description2" value="" hidden="true"/>
+		<parameter name="image3" value="" hidden="false"/>
+		<parameter name="link3" value="" hidden="false"/>
+		<parameter name="anchor3" value="" hidden="false"/>
+		<parameter name="description3" value="" hidden="true"/>
+		<parameter name="image4" value="" hidden="false"/>
+		<parameter name="link4" value="" hidden="false"/>
+		<parameter name="anchor4" value="" hidden="false"/>
+		<parameter name="description4" value="" hidden="true"/>
+		<media-type ref="html"/>
+		<category>bookmarks</category>
+	</portlet-entry>
+	<portlet-entry name="JetspeedFramed" hidden="false" type="ref" parent="IFramePortlet" application="false">
+		<meta-info>
+			<title>Jetspeed Framed</title>
+			<description>Navigate SomeSite within an IFRAME</description>
+		</meta-info>
+		<parameter name="source" value="http://portals.apache.org/jetspeed-1" hidden="false"/>
+		<media-type ref="html"/>
+		<category>frames</category>
+	</portlet-entry>
+	<portlet-entry name="DatabaseBrowserTest" hidden="false" type="ref" parent="DatabaseBrowserPortlet" application="false">
+		<meta-info>
+			<title>DatabaseBrowserTest</title>
+			<description>Simple Test Database Browser Portlet Example</description>
+		</meta-info>
+		<parameter name="sql" value="select * from coffees" type="style" hidden="false">
+			<security-ref parent="admin-only"/>
+			<meta-info>
+				<title>SQL Query</title>
+			</meta-info>
+		</parameter>
+		<parameter name="sql.style" value="TextArea" hidden="true"/>
+		<parameter name="windowSize" value="5" hidden="false">
+			<meta-info>
+				<title>Window Size</title>
+				<description>Number of rows per page to display</description>
+			</meta-info>
+		</parameter>
+		<!-- to use an alternate torque pool, set this parameter -->
+		<!-- parameter name="poolname" value="otherpool" hidden="true"/-->
+		<media-type ref="html"/>
+		<category>database</category>
+	</portlet-entry>
+	<portlet-entry name="DatabaseBrowserWithParms" hidden="false" type="ref" parent="DatabaseBrowserPortlet" application="false">
+		<meta-info>
+			<title>DatabaseBrowserTest with parameters</title>
+			<description>Simple Test Database Browser Portlet Example</description>
+		</meta-info>
+		<parameter name="sqlparam1" value="1" hidden="false">
+			<meta-info>
+				<title>Coffee Id</title>
+				<description>Only coffee with the id specified will be displayed</description>
+			</meta-info>
+		</parameter>
+		<parameter name="sql" value="select * from coffees where coffee_id=?" type="style" hidden="false">
+			<security-ref parent="admin-only"/>
+			<meta-info>
+				<title>SQL Query</title>
+			</meta-info>
+		</parameter>
+		<parameter name="sql.style" value="TextArea" hidden="true"/>
+		<parameter name="windowSize" value="5" hidden="false">
+			<meta-info>
+				<title>Window Size</title>
+				<description>Number of rows per page to display</description>
+			</meta-info>
+		</parameter>
+		<media-type ref="html"/>
+		<category group="Jetspeed">database</category>
+	</portlet-entry>
+	<portlet-entry name="InstanceExample" hidden="false" type="instance" application="false">
+		<classname>org.apache.jetspeed.portal.portlets.BogusPortlet</classname>
+		<media-type ref="html"/>
+		<meta-info>
+			<title>Instance Attribute Example</title>
+		</meta-info>
+		<category>persistence</category>
+	</portlet-entry>
+	<portlet-entry name="SecurityExample" hidden="false" type="ref" parent="Velocity" application="false">
+		<security-ref parent="user-view_admin-all"/>
+		<meta-info>
+			<title>SecurityExample</title>
+			<description>Simple Security Example</description>
+		</meta-info>
+		<parameter name="template" value="SecurityExample" hidden="true"/>
+		<media-type ref="html"/>
+		<category>demo</category>
+		<category>velocity.demo</category>
+	</portlet-entry>
+	<portlet-entry name="BloomingtonWeather" hidden="false" type="ref" parent="WeatherPortlet" application="false">
+		<meta-info>
+			<title>Weather - Bloomington,IN</title>
+			<description>Current weather conditions</description>
+		</meta-info>
+		<parameter name="weather_city" value="Bloomington" type="invisible" hidden="false"/>
+		<parameter name="weather_state" value="IN" type="invisible" hidden="false"/>
+		<parameter name="weather_style" value="infobox" type="style" hidden="false">
+			<meta-info>
+				<title>Style</title>
+			</meta-info>
+		</parameter>
+		<media-type ref="html"/>
+		<category>weather</category>
+	</portlet-entry>
+	<portlet-entry name="IstanbulWeather" hidden="false" type="ref" parent="WeatherPortlet" application="false">
+		<meta-info>
+			<title>Weather - Istanbul,Turkey</title>
+			<description>Current weather conditions</description>
+		</meta-info>
+		<parameter name="weather_station" value="17060" type="invisible" hidden="false"/>
+		<parameter name="weather_style" value="infobox" type="style" hidden="false">
+			<meta-info>
+				<title>Style</title>
+			</meta-info>
+		</parameter>
+		<parameter name="_showtitlebar" value="false" hidden="true"/>
+		<media-type ref="html"/>
+		<category>weather</category>
+	</portlet-entry>
+	<portlet-entry name="parameter_demo" hidden="false" type="ref" parent="JSP" application="false">
+		<meta-info>
+			<title>Parameter Styles Demo</title>
+			<description>Examples of defining parameter styles</description>
+		</meta-info>
+		<parameter name="template" value="parameter-demo-portlet.jsp" hidden="true" cachedOnName="true" cachedOnValue="true"/>
+		<parameter name="link" value="http://www.yahoo.com" type="style" hidden="false" cachedOnName="true" cachedOnValue="true">
+			<meta-info>
+				<title>Link</title>
+				<description>Example of link style. Note that we simply specified the template name as style name. It will default to VelocityParameterPresentationStyle because of its extension (.vm).</description>
+			</meta-info>
+			<parameter-style name="Link.vm">
+				<style-option name="label" value="Link to yahoo.com"/>
+			</parameter-style>
+		</parameter>
+		<parameter name="sort" value="Symbol" type="style" hidden="false" cachedOnName="true" cachedOnValue="true">
+			<meta-info>
+				<title>Sort</title>
+				<description>Column to sort by</description>
+			</meta-info>
+			<parameter-style name="ListBox">
+				<style-option name="items" value="Symbol,Volume,PChange"/>
+			</parameter-style>
+		</parameter>
+		<parameter name="columns" value="Symbol,Quote,Date,Time,Change,PChange,Open,High,Low,Volume" type="style" hidden="false" cachedOnName="true" cachedOnValue="true">
+			<meta-info>
+				<title>Columns</title>
+				<description>Columns to display</description>
+			</meta-info>
+			<parameter-style name="CheckBoxGroup">
+				<style-option name="items" value="Symbol,Quote,Date,Time,Change,PChange,Open,High,Low,Volume"/>
+				<style-option name="layout" value="$eastwest"/>
+			</parameter-style>
+		</parameter>
+		<parameter name="symbols" value="MSFT,ORCL,SUNW,EMC,INTU" type="style" hidden="false" cachedOnName="true" cachedOnValue="true">
+			<meta-info>
+				<title>Symbols</title>
+				<description>List of comma-separated stock symbols</description>
+			</meta-info>
+			<parameter-style name="TextArea"/>
+		</parameter>
+		<parameter name="date1" value="Jul-14-1789" type="style" hidden="false" cachedOnName="true" cachedOnValue="true">
+			<meta-info>
+				<title>Bastille Day</title>
+				<description>Date with popup calendar. Format pattern: mmm-dd-yyyy</description>
+			</meta-info>
+			<parameter-style name="PopupCalendar">
+				<style-option name="format" value="mmm-d-yyyy"/>
+			</parameter-style>
+		</parameter>
+		<parameter name="date2" value="06/18/1812" type="style" hidden="false" cachedOnName="true" cachedOnValue="true">
+			<meta-info>
+				<title>Battle of Waterloo</title>
+				<description>Date with popup calendar. Format pattern: mm/dd/yyyy</description>
+			</meta-info>
+			<parameter-style name="PopupCalendar">
+				<style-option name="format" value="mm/dd/yyyy"/>
+			</parameter-style>
+		</parameter>
+		<parameter name="password" value="secret" type="style" hidden="false" cachedOnName="true" cachedOnValue="true">
+			<meta-info>
+				<title>Velocity Password</title>
+				<description>Velocity based password presentation style. Note that this presentation style does not require any custom objects in the context and therefore we can use VelocityParameterPresentationStyle. If custom objects were required, you would extend VelocityParameterPresentationStyle and override buildContext method.</description>
+			</meta-info>
+			<parameter-style name="VelocityParameterPresentationStyle" template="Password.vm"/>
+		</parameter>
+		<parameter name="password1" value="secret" type="style" hidden="false" cachedOnName="true" cachedOnValue="true">
+			<meta-info>
+				<title>JSP Password</title>
+				<description>JSP based password presentation style. Note that this presentation style does not require any custom objects in the context and therefore we can use JspParameterPresentationStyle. If custom objects were required, you would extend JspParameterPresentationStyle and override buildContext method.</description>
+			</meta-info>
+			<parameter-style name="JspParameterPresentationStyle" template="Password.jsp"/>			
+		</parameter>
+		<parameter name="multiple" value="item1" type="style" hidden="false" cachedOnName="true" cachedOnValue="true">
+			<meta-info>
+				<title>List box</title>
+				<description>List with multiple select on</description>
+			</meta-info>
+			<parameter-style name="ListBox">
+				<style-option name="items" value="item1,item2,item3"/>
+				<style-option name="multiplechoice" value="true"/>
+				<style-option name="layout" value="list"/>				
+			</parameter-style>
+		</parameter>
+		<media-type ref="html"/>
+		<url cachedOnURL="true"/>
+		<category group="Jetspeed">demo</category>
+		<category group="Jetspeed">jsp.demo</category>
+	</portlet-entry>
+	<portlet-entry name="BBCFrontPage" hidden="false" type="ref" parent="RSS" application="false">
+		<meta-info>
+			<title>BBC Front Page News</title>
+		</meta-info>
+		<url>http://www.bbc.co.uk/syndication/feeds/news/ukfs_news/front_page/rss091.xml</url>
+		<category>news</category>
+		<category>news.frontpage</category>
+		<category>news.headlines</category>
+	</portlet-entry>
+	<portlet-entry name="BBCTechnology" hidden="false" type="ref" parent="RSS" application="false">
+		<meta-info>
+			<title>BBC Technology News</title>
+		</meta-info>
+		<url>http://www.bbc.co.uk/syndication/feeds/news/ukfs_news/technology/rss091.xml</url>
+		<category>news</category>
+		<category>news.technology</category>
+	</portlet-entry>
+	<portlet-entry name="BBCUK" hidden="false" type="ref" parent="RSS" application="false">
+		<meta-info>
+			<title>BBC UK News</title>
+		</meta-info>
+		<url>http://www.bbc.co.uk/syndication/feeds/news/ukfs_news/uk/rss091.xml</url>
+		<category>news</category>
+		<category>news.uk</category>
+	</portlet-entry>
+	<portlet-entry name="BBCWorld" hidden="false" type="ref" parent="RSS" application="false">
+		<meta-info>
+			<title>BBC World News</title>
+		</meta-info>
+		<url>http://www.bbc.co.uk/syndication/feeds/news/ukfs_news/world/rss091.xml</url>
+		<category>news</category>
+		<category>news.world</category>
+	</portlet-entry>
+	<portlet-entry name="JakartaWeb" hidden="false" type="ref" parent="WebPagePortlet2" application="false">
+		<meta-info>
+			<title>JakartaWeb</title>
+			<description>Jakarta Home Page</description>
+		</meta-info>
+		<url>http://jakarta.apache.org/</url>
+		<category>sites</category>
+	</portlet-entry>
+	<portlet-entry name="XSLTDemo" hidden="false" type="ref" parent="XSL" application="false">
+		<meta-info>
+			<title>XSLT Demo</title>
+			<description>Example of using XSLT Portlet</description>
+		</meta-info>
+		<url>/xml/footballers.xml</url>
+		<media-type ref="html"/>
+		<parameter name="stylesheet.text/html" value="/xml/footballers.xsl" hidden="false"/>
+		<category>xslt</category>
+	</portlet-entry>
+	<portlet-entry name="JspStockQuote" hidden="false" type="ref" parent="JSP" application="false">
+		<meta-info>
+			<title>Jsp Stock Portfolio</title>
+			<description>Stock Portfolio Portlet using JSP with simple action events (refresh and sort)</description>
+		</meta-info>
+		<parameter name="template" value="StockQuotes.jsp" hidden="true"/>
+		<parameter name="action" value="portlets.JspStockQuoteAction" hidden="true"/>
+		<parameter name="sort" value="Symbol" type="style" hidden="false">
+			<meta-info>
+				<title>Sort</title>
+				<description>Column to sort by. Only sorts in ascending order.</description>
+			</meta-info>
+			<parameter-style name="ListBox">
+				<style-option name="items" value="Symbol,Price,Change,Volume"/>
+			</parameter-style>
+		</parameter>
+		<parameter name="columns" value="Symbols,Price,Change,Volume" type="style" hidden="false">
+			<meta-info>
+				<title>Columns</title>
+				<description>Columns to display</description>
+			</meta-info>
+			<parameter-style name="CheckBoxGroup">
+				<style-option name="items" value="Symbol,Price,Change,Volume"/>
+				<style-option name="layout" value="$eastwest"/>
+			</parameter-style>
+		</parameter>
+		<parameter name="symbols" value="MSFT,IBM,ORCL,SUNW" type="style" hidden="false">
+			<meta-info>
+				<title>Symbols</title>
+				<description>List of comma-separated stock symbols. You may also enter symbols in the input field provided in body of portlet. These symbols will remain active until you hit "Get Quotes" with no symbols OR your session expires OR you log off and log back in. At that time, the portlet will display quotes for default symbols specified in the portlet customizer. </description>
+			</meta-info>
+			<parameter-style name="TextArea"/>
+		</parameter>
+		<media-type ref="html"/>
+		<media-type ref="wml"/>
+		<url cachedOnURL="true"/>
+		<category group="Jetspeed">web services</category>
+		<category group="Jetspeed">finance.stocks</category>
+		<category group="Jetspeed">jsp</category>
+	</portlet-entry>
+	<portlet-entry name="JetspeedQuestionnairePortlet" hidden="false" type="ref" parent="JSP" application="false">
+		<security-ref parent="user-only"/>
+		<meta-info>
+			<title>Jetspeed Questionnaire</title>
+			<description>Polls the Jetspeed community for information
+                about their Jetspeed-powered sites</description>
+		</meta-info>
+		<parameter name="template" value="JetspeedQuestionnaire.jsp" hidden="true" cachedOnName="true" cachedOnValue="true"/>
+		<parameter name="confirm.template" value="JetspeedQuestionnaireConfirmation.jsp" hidden="true"/>
+		<parameter name="action" value="portlets.QuestionnaireAction" hidden="true" cachedOnName="true" cachedOnValue="true"/>
+		<parameter name="q1" value="" type="style" hidden="false" cachedOnName="true" cachedOnValue="true">
+			<meta-info>
+				<title>Site Name and Brief Description of How It Is Used</title>
+				<description>For example: Allows employees and customer
+                    to manage order, catalogs, documentation, etc</description>
+			</meta-info>
+			<parameter-style name="TextArea"/>
+		</parameter>
+		<parameter name="q2" value="Internet" type="style" hidden="false" cachedOnName="true" cachedOnValue="true">
+			<meta-info>
+				<title>Site Type</title>
+				<description>Please e-mail a sample snapshot of your
+                    portal if it&apos;s an Intranet or not yet available
+                    via Internet</description>
+			</meta-info>
+			<parameter-style name="ListBox">
+				<style-option name="items" value="Internet,Intranet"/>
+			</parameter-style>
+		</parameter>
+		<parameter name="q3" value="Prototype" type="style" hidden="false" cachedOnName="true" cachedOnValue="true">
+			<meta-info>
+				<title>Implementation Stage</title>
+			</meta-info>
+			<parameter-style name="ListBox">
+				<style-option name="items" value="Prototype,Beta,Production"/>
+			</parameter-style>
+		</parameter>
+		<parameter name="q4" value="" type="" hidden="false" cachedOnName="true" cachedOnValue="true">
+			<meta-info>
+				<title>Site URL (if internet site)</title>
+			</meta-info>
+		</parameter>
+		<parameter name="q5" value="1.4 Beta 3" type="style" hidden="false" cachedOnName="true" cachedOnValue="true">
+			<meta-info>
+				<title>Version of Jetspeed Used</title>
+			</meta-info>
+			<parameter-style name="ListBox">
+				<style-option name="items" value="1.3x,1.4 Beta 1, 1.4 Beta 2, 1.4 Beta 3, 1.4, 1.5, 1.6, CVS"/>
+			</parameter-style>
+		</parameter>
+		<parameter name="q6" value="" type="" hidden="false" cachedOnName="true" cachedOnValue="true">
+			<meta-info>
+				<title>Operating System Platform</title>
+			</meta-info>
+		</parameter>
+		<parameter name="q7" value="Tomcat" type="style" hidden="false" cachedOnName="true" cachedOnValue="true">
+			<meta-info>
+				<title>Servlet Container Used</title>
+			</meta-info>
+			<parameter-style name="ListBox">
+				<style-option name="items" value="Tomcat,WebSphere,WebLogic,Other"/>
+			</parameter-style>
+		</parameter>
+		<parameter name="q8" value="" type="style" hidden="false" cachedOnName="true" cachedOnValue="true">
+			<meta-info>
+				<title>Hardware Configuration Used</title>
+			</meta-info>
+			<parameter-style name="TextArea"/>
+		</parameter>
+		<parameter name="q9" value="" type="" hidden="false" cachedOnName="true" cachedOnValue="true">
+			<meta-info>
+				<title>Number of Users</title>
+			</meta-info>
+		</parameter>
+		<parameter name="q10" value="" type="" hidden="false" cachedOnName="true" cachedOnValue="true">
+			<meta-info>
+				<title>Number of Nodes Running Replicated Jetspeed</title>
+			</meta-info>
+		</parameter>
+		<parameter name="q11" value="Velocity" type="style" hidden="false" cachedOnName="true" cachedOnValue="true">
+			<meta-info>
+				<title>Default Template Engine</title>
+			</meta-info>
+			<parameter-style name="ListBox">
+				<style-option name="items" value="Velocity,JSP"/>
+			</parameter-style>
+		</parameter>
+		<parameter name="q12" value="Turbine" type="style" hidden="false" cachedOnName="true" cachedOnValue="true">
+			<meta-info>
+				<title>Security Type Used</title>
+			</meta-info>
+			<parameter-style name="ListBox">
+				<style-option name="items" value="Turbine,LDAP,Custom,None"/>
+			</parameter-style>
+		</parameter>
+		<parameter name="q13" value="Hypersonic" type="style" hidden="false" cachedOnName="true" cachedOnValue="true">
+			<meta-info>
+				<title>Default Database</title>
+			</meta-info>
+			<parameter-style name="ListBox">
+				<style-option name="items" value="Hypersonic,mySQL,Oracle,SQLServer,Sybase,DB/2,Other"/>
+			</parameter-style>
+		</parameter>
+		<parameter name="q14" value="Disk" type="style" hidden="false" cachedOnName="true" cachedOnValue="true">
+			<meta-info>
+				<title>PSML Persistence Mechanism</title>
+			</meta-info>
+			<parameter-style name="ListBox">
+				<style-option name="items" value="Disk,Database"/>
+			</parameter-style>
+		</parameter>
+		<parameter name="q15" value="" type="style" hidden="false" cachedOnName="true" cachedOnValue="true">
+			<meta-info>
+				<title>Jetspeed Features Used</title>
+				<description>For example: WebPagePortlet, RSS Portlet,
+                    PSML, Reference Links, Registry security, etc.</description>
+			</meta-info>
+			<parameter-style name="TextArea"/>
+		</parameter>
+		<parameter name="q16" value="" type="style" hidden="false" cachedOnName="true" cachedOnValue="true">
+			<meta-info>
+				<title>Customization to Base Jetspeed</title>
+				<description>For example: portlets added, custom
+                    security, integration with CMS, etc.</description>
+			</meta-info>
+			<parameter-style name="TextArea"/>
+		</parameter>
+		<parameter name="q17" value="" type="" hidden="false" cachedOnName="true" cachedOnValue="true">
+			<meta-info>
+				<title>Contact E-Mail Address</title>
+				<description>Optional, if you don&apos;t want people to
+                    e-mail you questions about your site</description>
+			</meta-info>
+		</parameter>
+		<parameter name="q18" value="" type="style" hidden="false" cachedOnName="true" cachedOnValue="true">
+			<meta-info>
+				<title>Check here if we have the permission to publish
+                    snapshot and/or link to your site</title>
+			</meta-info>
+			<parameter-style name="CheckBox"/>
+		</parameter>
+		<media-type ref="html"/>
+		<url cachedOnURL="true"/>
+		<category group="Jetspeed">jsp</category>
+		<category group="Jetspeed">questionnaire</category>
+	</portlet-entry>
+	<portlet-entry name="ForwardDemo" hidden="false" type="ref" parent="CustomizerVelocity" application="false">
+		<meta-info>
+			<title>ForwardDemo</title>
+			<description>Demo of Forward Feature</description>
+		</meta-info>
+		<parameter name="template" value="forward-demo" hidden="true"/>
+		<parameter name="action" value="portlets.ForwardDemoAction" hidden="true"/>
+		<parameter name="fda_next" value="CurrentPage" hidden="false"/>
+		<parameter name="fda_target" value="Validate" hidden="false"/>
+		<media-type ref="html"/>
+		<category>demo</category>
+		<category>forward</category>
+	</portlet-entry>
+	<portlet-entry name="JspForwardDemo" hidden="false" type="ref" parent="JSP" application="false">
+		<meta-info>
+			<title>JSP ForwardDemo</title>
+			<description>Demo of Forward Feature using JSP</description>
+		</meta-info>
+		<parameter name="template" value="forward-demo.jsp" hidden="true"/>
+		<media-type ref="html"/>
+		<category>demo</category>
+		<category>forward</category>
+	</portlet-entry>
+	<portlet-entry name="PortalSearch" hidden="false" type="ref" application="false" parent="GenericMVCPortlet">
+		<meta-info>
+			<title>Search Portlet</title>
+			<description>Sample Search Portlet to index and search web sites</description>
+		</meta-info>
+		<parameter name="template" value="search" hidden="true"/>
+		<parameter name="viewtype" value="Velocity" hidden="true"/>
+		<parameter name="action" value="portlets.SearchAction" hidden="true"/>
+		<media-type ref="html"/>
+		<category>search</category>
+	</portlet-entry>
+	<portlet-entry name="Nested example" hidden="false" type="ref" parent="WebClippingPortlet" application="false">
+		<meta-info>
+			<title>Nested example</title>
+			<description>Example of nested tags</description>
+		</meta-info>
+		<parameter name="startTag1" value="table" hidden="false"/>
+		<parameter name="stopTag1" value="table" hidden="false"/>
+		<parameter name="startTagNumber1" value="1" hidden="false"/>
+		<url>/examples/nested.html</url>
+		<category>sites</category>
+	</portlet-entry>
+	<portlet-entry name="StartTagNumber example" hidden="false" type="ref" parent="WebClippingPortlet" application="false">
+		<meta-info>
+			<title>StartTagNumber example</title>
+			<description>Example of startTagNumber parameter</description>
+		</meta-info>
+		<parameter name="startTag1" value="p align" hidden="false"/>
+		<parameter name="stopTag1" value="p" hidden="false"/>
+		<parameter name="startTagNumber1" value="2" hidden="false"/>
+		<url>/examples/startTagNumber.html</url>
+		<category>sites</category>
+	</portlet-entry>
+	<portlet-entry name="JetspeedClipped" hidden="false" type="ref" parent="WebClippingPortlet" application="false">
+		<meta-info>
+			<title>Jetspeed Clipped</title>
+			<description>Jetspeed homepage clipped</description>
+		</meta-info>
+		<parameter name="startTag1" value="ul" hidden="false"/>
+		<parameter name="stopTag1" value="ul" hidden="false"/>
+		<parameter name="startTag2" value="table cellpadding=2" hidden="false"/>
+		<parameter name="stopTag2" value="table" hidden="false"/>
+		<url>http://portals.apache.org/jetspeed-1/</url>
+		<category>sites</category>
+	</portlet-entry>
+	<portlet-entry name="Java.Sun Clipped" hidden="false" type="ref" parent="WebClippingPortlet" application="false">
+		<meta-info>
+			<title>Java.Sun Clipped</title>
+			<description>Java homepage clipped</description>
+		</meta-info>
+		<parameter name="startTag1" value="table" hidden="false"/>
+		<parameter name="stopTag1" value="table" hidden="false"/>
+		<parameter name="startTag2" value="center" hidden="false"/>
+		<parameter name="stopTag2" value="center" hidden="false"/>
+		<parameter name="startTag3" value="table" hidden="false"/>
+		<parameter name="stopTag3" value="table" hidden="false"/>
+		<parameter name="startTagNumber3" value="18" hidden="false"/>
+		<url>http://java.sun.com/</url>
+		<category>sites</category>
+	</portlet-entry>
+	<portlet-entry name="Mozilla Clipped" hidden="false" type="ref" parent="WebClippingPortlet" application="false">
+		<meta-info>
+			<title>Mozilla Clipped</title>
+			<description>Mozilla homepage clipped</description>
+		</meta-info>
+		<parameter name="Tag1" value="img" hidden="false"/>
+		<parameter name="startTag1" value="td" hidden="false"/>
+		<parameter name="stopTag1" value="td" hidden="false"/>
+		<parameter name="startTag2" value="div id=foundationBox" hidden="false"/>
+		<parameter name="stopTag2" value="div" hidden="false"/>
+		<parameter name="startTag3" value="td id=mozillaQuoteCell" hidden="false"/>
+		<parameter name="stopTag3" value="td" hidden="false"/>
+		<parameter name="startTagNumber3" value="4" hidden="false"/>
+		<url>http://www.mozilla.org/</url>
+		<category>sites</category>
+	</portlet-entry>
+	<portlet-entry name="Search example" hidden="false" type="ref" parent="WebClippingPortlet" application="false">
+		<meta-info>
+			<title>Search example</title>
+			<description>Searching and showing results from Yahoo</description>
+		</meta-info>
+		<parameter name="startTag1" value="ol" hidden="false"/>
+		<parameter name="stopTag1" value="ol" hidden="false"/>
+		<url>http://search.yahoo.com/search?p=jetspeed&amp;n=10</url>
+		<category>sites</category>
+	</portlet-entry>
+	<portlet-entry name="Different URLs example" hidden="false" type="ref" parent="WebClippingPortlet" application="false">
+		<meta-info>
+			<title>Different URLs example</title>
+			<description>Example of clipping from different URLs</description>
+		</meta-info>
+		<parameter name="startTag1" value="p" hidden="false"/>
+		<parameter name="stopTag1" value="p" hidden="false"/>
+		<parameter name="Tag2" value="img" hidden="false"/>
+		<parameter name="url2" value="http://jakarta.apache.org/" hidden="false"/>
+		<parameter name="startTag3" value="p" hidden="false"/>
+		<parameter name="stopTag3" value="p" hidden="false"/>
+		<parameter name="startTagNumber3" value="2" hidden="false"/>
+		<parameter name="startTag4" value="table" hidden="false"/>
+		<parameter name="stopTag4" value="table" hidden="false"/>
+		<parameter name="startTagNumber4" value="3" hidden="false"/>
+		<parameter name="url4" value="http://jakarta.apache.org/tomcat/" hidden="false"/>
+		<url>/examples/local-content.html</url>
+		<category>sites</category>
+	</portlet-entry>
+	<portlet-entry name="Organized content example" hidden="false" type="ref" parent="WebClippingPortlet" application="false">
+		<meta-info>
+			<title>Organized content example</title>
+			<description>Example of organizing clipped contents</description>
+		</meta-info>
+		<parameter name="startTag1" value="p" hidden="false"/>
+		<parameter name="stopTag1" value="p" hidden="false"/>
+		<parameter name="Tag2" value="table" hidden="false"/>
+		<parameter name="Tag3" value="tr" hidden="false"/>
+		<parameter name="Tag4" value="td" hidden="false"/>
+		<parameter name="Tag5" value="img" hidden="false"/>
+		<parameter name="url5" value="http://www.altavista.com" hidden="false"/>
+		<parameter name="Tag6" value="td" hidden="false"/>
+		<parameter name="startTagNumber6" value="2" hidden="false"/>
+		<parameter name="Tag7" value="td" hidden="false"/>
+		<parameter name="startTagNumber7" value="3" hidden="false"/>
+		<parameter name="startTag8" value="table bgcolor=#93B2DD" hidden="false"/>
+		<parameter name="stopTag8" value="table" hidden="false"/>
+		<parameter name="url8" value="http://www.altavista.com" hidden="false"/>
+		<parameter name="Tag9" value="td" hidden="false"/>
+		<parameter name="startTagNumber9" value="4" hidden="false"/>
+		<parameter name="Tag10" value="tr" hidden="false"/>
+		<parameter name="startTagNumber10" value="2" hidden="false"/>
+		<parameter name="Tag11" value="table" hidden="false"/>
+		<parameter name="startTagNumber11" value="2" hidden="false"/>
+		<url>/examples/organized.html</url>
+		<category>sites</category>
+	</portlet-entry>
+	<portlet-entry name="DelayRenderedStockQuote" hidden="false" type="ref" parent="StockQuote" application="false">
+		<meta-info>
+			<title>Delay-rendered Stock Portfolio</title>
+			<description>Delay-rendered Stock Portfolio Portlet</description>
+		</meta-info>
+		<parameter name="renderingDelayed" value="true" hidden="false" cachedOnName="true" cachedOnValue="true"/>
+		<parameter name="simulateDelay" value="2" hidden="false" cachedOnName="true" cachedOnValue="true"/>
+		<category group="Jetspeed">finance.stocks</category>
+	</portlet-entry>
+	<portlet-entry name="RedirectToJetspeed" hidden="false" type="ref" parent="RedirectPortlet" application="false">
+		<meta-info>
+			<title>Redirect to Jetspeed</title>
+			<description>From a menu option (pane), redirect to a URL outside the portal</description>
+		</meta-info>
+		<parameter name="url" value="http://portals.apache.org/jetspeed-1" hidden="false"/>
+		<security-ref parent="default"/>
+		<category>demo</category>
+	</portlet-entry>
+	<portlet-entry name="RedirectToApache" hidden="false" type="ref" parent="RedirectPortlet" application="false">
+		<meta-info>
+			<title>Redirect to Apache</title>
+			<description>From a menu option (pane), redirect to a URL outside the portal</description>
+		</meta-info>
+		<parameter name="url" value="http://www.apache.org" hidden="false"/>
+		<security-ref parent="default"/>
+		<category>demo</category>
+	</portlet-entry>
+</registry>

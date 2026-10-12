@@ -1,0 +1,146 @@
+#*
+Copyright 2004 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*#
+
+#**
+
+Display the details of a user.
+
+@author <a href="mailto:taylor@apache.org">David Sean Taylor</a>
+@author <a href="mailto:paulsp@apache.org">Paul Spencer</a>
+@version $Id: user-form.vm,v 1.11 2005/05/23 19:53:38 taylor Exp $
+*#
+
+<form method="post" action="$jslink.getPaneByName("UserBrowser").addPathInfo($jslink.ActionKey,"portlets.security.UserUpdateAction")">
+  <div align="left">
+    <table bgcolor="#ffffff" cellpadding="5">
+
+      #if ($errorTemplate)
+      <tr>
+        <td colspan="2">
+          <table bgcolor="#ffffff">
+            <tr>
+              <td>
+                #parse ($errorTemplate)
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      #end
+
+      <tr>
+        #if (!$user)
+          #set ($name = "")
+          #set ($pw = "")
+          #set ($fname = "")
+          #set ($lname = "")
+          #set ($email = "")
+        #else
+          #set ($name = $user.UserName)
+          #set ($pw = $user.Password)
+          #set ($fname = $user.FirstName)
+          #set ($lname = $user.LastName)
+          #set ($email = $user.Email)
+          #set ($disabled = $user.Disabled)
+        #end 
+        #if (($mode == "delete") || ($mode=="update"))
+          #formReadOnlyCell ("Username" "username" $name)
+        #else
+          #formCell ("Username" "username" $name)
+        #end
+      </tr>
+      <tr>        
+        #formPasswordCell ("Password" "password" $pw)
+      </tr>
+      <tr>
+        #formCell ("First Name" "firstname" $fname)
+      </tr>
+      <tr>
+        #formCell ("Last Name" "lastname" $lname)
+      </tr>
+      <tr>
+        #formCell ("Email" "email" $email)
+      </tr>
+      <tr>
+        #formCheckBox2 ("Disabled" "disabled" $disabled)
+      </tr>
+#if ($user.Confirmed != "PENDING")
+      <tr>
+        <td><b>${l10n.USER_FORM_LAST_LOGIN_VM}</b></td>
+#if ($user.Confirmed == "REJECTED")
+        <td>${l10n.USER_FORM_ACCOUNT_CREATION_VM}<b>${l10n.USER_FORM_REJECTED_VM}</b></td>
+#else
+        <td>$user.LastLogin</td>
+#end
+      </tr>
+#end
+#if (($mode == "delete") || ($mode=="update"))
+      <tr>
+        <td><b>${l10n.USER_FORM_PASSWORD_LAST_CHANGE_VM}</b></td>      
+        <td>$!user.PasswordChanged</td>
+      </tr>
+#end      
+  </table>
+
+ #if ( $config.getBoolean("newuser.approval.enable") == true )
+ #if ($user.Confirmed == "PENDING")
+    <table bgcolor="#ffffff" cellpadding="5" width="100%">
+       <tr>
+         <td colspan=2>
+             &nbsp;
+         </td>
+       </tr>
+       <tr>
+         <td align="center" bgcolor="$!{skin.TitleBackgroundColor}">
+             <input type="submit" name="eventSubmit_doReject" value="${l10n.USER_FORM_REJECT_USER_VM}"/>
+         </td>
+         <td align="center" bgcolor="$!{skin.TitleBackgroundColor}">
+             <input type="submit" name="eventSubmit_doAccept" value="${l10n.USER_FORM_ACCEPT_USER_VM}"/>
+         </td>
+       </tr>
+       <tr>
+         <td colspan=2>
+             &nbsp;
+         </td>
+       </tr>
+  </table>
+ #end
+ #end
+    <table bgcolor="#ffffff" cellpadding="5" width="100%">
+      <tr>
+        <td align="$ui.buttonAlignment" bgcolor="$!{skin.TitleBackgroundColor}">
+          #*
+            Check for a mode, the update and delete buttons
+            shouldn't appear when inserting a new user.
+          *#            
+
+          #if ($mode == "update")
+            <input type="submit" name="eventSubmit_doUpdate" value="${l10n.USER_FORM_UPDATE_USER_VM}"/>
+          #elseif ($mode == "delete")
+            <input type="submit" name="eventSubmit_doDelete" value="${l10n.USER_FORM_CONFIRM_DELETION_VM}"/>
+          #else
+            <input type="submit" name="eventSubmit_doInsert" value="${l10n.USER_FORM_ADD_USER_VM}"/>
+          #end
+      </td>
+      <td>
+         $!msg         
+      </td>
+    </tr>
+  </table>
+    
+  <input type="hidden" name="entityid" value="$!user.UserName"/>
+</div>
+</form>

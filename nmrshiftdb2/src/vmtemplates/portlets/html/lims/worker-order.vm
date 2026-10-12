@@ -1,0 +1,684 @@
+#macro(time $name $dayofweek $machine $daynight)
+	<select name="${name}_${dayofweek}_hour" size="1">
+		#foreach ( $item in [0..23] )
+			#if($daynight=="day")
+      			<option #if($machine.getHourDay($dayofweek)==$item) selected #end>$item</option>
+      		#else
+      			<option #if($machine.getHourNight($dayofweek)==$item) selected #end>$item</option>
+      		#end 
+      	#end
+    </select>
+	<select name="${name}_${dayofweek}_minute" size="1">
+		#if($daynight=="day")
+	      <option #if($machine.getMinuteDay($dayofweek)==0) selected #end>0</option>
+	      <option #if($machine.getMinuteDay($dayofweek)==10) selected #end>10</option>
+	      <option #if($machine.getMinuteDay($dayofweek)==20) selected #end>20</option>
+	      <option #if($machine.getMinuteDay($dayofweek)==30) selected #end>30</option>
+	      <option #if($machine.getMinuteDay($dayofweek)==40) selected #end>40</option>
+	      <option #if($machine.getMinuteDay($dayofweek)==50) selected #end>50</option>
+	    #else
+	      <option #if($machine.getMinuteNight($dayofweek)==0) selected #end>0</option>
+	      <option #if($machine.getMinuteNight($dayofweek)==10) selected #end>10</option>
+	      <option #if($machine.getMinuteNight($dayofweek)==20) selected #end>20</option>
+	      <option #if($machine.getMinuteNight($dayofweek)==30) selected #end>30</option>
+	      <option #if($machine.getMinuteNight($dayofweek)==40) selected #end>40</option>
+	      <option #if($machine.getMinuteNight($dayofweek)==50) selected #end>50</option>
+	    #end
+    </select>
+#end
+
+<script LANGUAGE="JavaScript1.1">
+    function emailFunction(emailorclipboard){
+		var ctrl=document.getElementsByName('emailcheckbox');
+		var i=0;
+		var mailto='';
+		if(emailorclipboard)
+		    mailto='mailto:';
+		while(c=ctrl[i++]){
+		    if(c.id.startsWith('email:') && c.checked){
+    		    singleemails=c.id.substring(6).split(',');
+	       	    for(var email in singleemails){
+    		       if(mailto.indexOf(singleemails[email].trim())==-1){
+        	           mailto=mailto.concat(singleemails[email].trim()).concat(',');
+        	       }
+        	    }
+        	}
+    	}
+    	if(emailorclipboard)
+        	window.location.href = mailto;
+        else
+            window.prompt("Copy to clipboard: Ctrl+C, Enter", mailto);
+    }
+    function checkAll(checkOrUncheck){
+    	var ctrl=document.getElementsByName('emailcheckbox');
+    	for (var i =0; i < ctrl.length; i++) 
+    	{
+    	    if(ctrl[i].type == 'checkbox' && ctrl[i].id.startsWith('email:')) {
+		      ctrl[i].checked = checkOrUncheck;
+    		}
+  		}
+  	}
+</script>
+
+#if($fstrengths)
+    $fstrengths.get(0).getOnChangeCode($solventsNumber, $urltool.getTurbineUser($data), $data)
+#end
+
+#if($urltool.getTurbineUser($data).isLabgroupWorker($data,$portlet))
+	#if($error)
+		$error
+	#else
+	  <table>
+	  	<tr><td><a href="$jslink.getPaneById("P-Help").addQueryData("URL","using.html#labadmin")" style="color:white"><img src="images/help.png"></a></td></tr>
+	    <tr>
+	      <td>
+	        #if($samplesdone.size()==0)
+	          None
+	        #else
+	          The following orders for your labgroup wait to be fullfilled:
+	          <form  name="forceweekendform" method="post" action="$jslink.getPaneById("P-NMR+lab+administration")">
+	          <table border="3" rules="cols"><tr>
+	          #foreach($machine in $machines)
+		          <td align="left" valign="top">
+		          <table>
+		          	<tr><th>$machine.getName() ($machine.getDBCondition().getValue() Mhz)</th></tr>
+		          	<tr><td>Force weekend <input type="checkbox" name="fw$machine.getMachineId()" value="true" #if($machine.getForceWeekend().equals("true"))checked#end ></td></tr>
+		            #foreach($sample in $openorders.get($machine.getMachineId()))
+		              #set($greyorwhite=$velocityCount%2)
+		              <tr 
+		              #if($greyorwhite==0)
+		                bgcolor="#D3D3D3" 
+		              #end
+		              ><td><a href="$jslink.getPaneById("P-NMR+lab+administration").addQueryData("submitorshow","show").addQueryData("id",$sample.getSampleId())">$sample.getUsersId()</a></td></tr>
+		            #end
+		          </table></td>
+	          #end
+			  </tr></table>
+	          <input type="submit" name="eventSubmit_doForceweekend" value="Change force weekend settings"/>
+			  </form>
+	        #end
+	        <br><br>
+	        View orders:
+	        <form name="overviewform" method="post" action="$jslink.getPaneById("P-NMR+lab+administration")">
+	            <input type="radio" name="method" value="self" #if(!$selection)checked#end> Self measurements <input type="radio" name="method" value="robot" #if($selection)checked#end> Sample changer <input type="radio" name="method" value="barcode" #if(!$selection)checked#end> Barcode <input type="radio" name="method" value="worker" #if(!$selection)checked#end> Operator measurement<br>
+		        From: <select name="fromday" size="1">
+	  	          #foreach($day in $days)
+	    	        <option value="$day" #if($day==$start.getTime().getDate()) selected #end>$day</option>
+	        	  #end
+	          	</select>
+	        	<select name="frommonth" size="1">
+	  	          #foreach($day in $months)
+	    	        <option value="$day" #if($day==$start.getTime().getMonth()+1) selected #end>$day</option>
+	        	  #end
+	          	</select>
+	        	<select name="fromyear" size="1">
+	  	          #foreach($day in $years)
+	    	        <option value="$day" #if($day==$start.getTime().getYear()+1900) selected #end>$day</option>
+	        	  #end
+	          	</select>
+	        	to:	<select name="today" size="1">
+	  	          #foreach($day in $daysend)
+	    	        <option value="$day" #if($day==$end.getTime().getDate()) selected #end>$day</option>
+	        	  #end
+	          	</select>
+	        	<select name="tomonth" size="1">
+	  	          #foreach($day in $monthsend)
+	    	        <option value="$day" #if($day==$end.getTime().getMonth()+1) selected #end>$day</option>
+	        	  #end
+	          	</select>
+	        	<select name="toyear" size="1">
+	  	          #foreach($day in $yearsend)
+	    	        <option value="$day" #if($day==$end.getTime().getYear()+1900) selected #end>$day</option>
+	        	  #end
+	          	</select>
+	          	<input type="submit" name="eventSubmit_doShowoverview" value="Show orders overview"/>
+	        </form>
+	        <table border="3" rules="rows">
+	        #foreach($machine in $overviewresults.keySet())
+	        	<tr><td>$machine</td><td>
+	        	#foreach($sample in $overviewresults.get($machine))
+		        	<a href="$jslink.getPaneById("P-NMR+lab+administration").addQueryData("submitorshow","showshort").addQueryData("id",$sample.getSampleId())">$sample.getUsersId() ($sample.getNmrshiftdbUser().getFirstName() $sample.getNmrshiftdbUser().getLastName())</a><br>
+		        #end
+		        </td></tr>
+	        #end
+	        </table>
+	      </td>
+	      <td width="50"></td>
+	      <td>
+	        #if($submitorshow=="showshort")
+		        <table border="3" rules="none">
+		        	<tr>
+		        		<td>
+					          <b>Order $sample.getUsersId()</b><br>
+					          Name: $sample.getNmrshiftdbUser().getFirstName() $sample.getNmrshiftdbUser().getLastName()<br>
+					          Institute/Workgroup: $sample.getNmrshiftdbUser().getAffiliation1()/$sample.getNmrshiftdbUser().getAffiliation2()<br>
+					          Sample I. D.: $sample.getUsersId()<br>
+					          Date: $date<br>
+					          Solvent: $sample.getDBCondition().getValue()<br>
+					          #if($sample.getHolderNo()!=0)Holder No: $sample.getHolderNo()<br>#end
+					          #if($data.getSession().getAttribute("applet")=="applet")
+					        	<a href="$data.getRequest().getRequestURI()?$data.getRequest().getQueryString()&applet=noapplet" title="Switch off Java applets" style="color:white"><img src="images/nojava.png"></a><br>
+				                <script LANGUAGE="JavaScript1.1" SRC="nmrshiftdbhtml/marvin.js"></script>
+				                <script LANGUAGE="JavaScript1.1">
+				                    mview_mayscript = true;
+				                    mview_name = "JcpViewer";
+				                    mview_begin("$baseurl/../nmrshiftdbhtml", 300, 300);
+				                    mview_param("load","$baseurl/../$molfile");
+				                    mview_param("atomNumbersVisible","true");
+				                    mview_param("background","12632256");
+				                    mview_param("detachable","true");
+				                    mview_end();
+				                 </script>
+				              #else
+	        			    	  <a href="$data.getRequest().getRequestURI()?$data.getRequest().getQueryString()&applet=applet" title="Switch on Java-Applets" style="color:white"><img src="images/java.png"></a><br><br>
+						          #if($image)
+						            <img src="$image"><br>
+                                    <a href="#" onClick="window.open('download/NmrshiftdbServlet/$sample.getProbableStructure().jpg;jsessionid=$data.getSession().getId()?nmrshiftdbaction=exportmol&moleculeid=$sample.getProbableStructure()&format=jpeg&size=800x600&backcolor=12632256&shownumbers=false','pagename','resizable,height=500,width=700'); return false;">Show large structure</a> #if($sample.getDBMolecule())<br>Show prediction: <a href="$jslink.getPaneById("P-Predict")?eventSubmit_doPredictfromdb=doPredictFromDb&molid=$sample.getDBMolecule().getMoleculeId()&spectrumType=1"><sup>13</sup>C</a> <a href="$jslink.getPaneById("P-Predict")?eventSubmit_doPredictfromdb=doPredictFromDb&molid=$sample.getDBMolecule().getMoleculeId()&spectrumType=2"><sup>1</sup>H</a>#end<br>
+						          #end
+					          #end
+					          Spectrometer: $sample.getDBMachine().getName() ($sample.getDBMachine().getDBCondition().getValue() Mhz)<br>
+					          <table><tr>
+						          #foreach($category in $experiments)
+						            <td>
+								    #foreach($type in $category)
+									    #if($type.isSelectedInSample($sample))
+										  #if($type.getMaxNumber()==1)
+									  	    <input type="checkbox" name="experiment$type.getExperimentId()" value="experiment$type.getExperimentId()" #if($presets.get($type.getExperimentId())>0) checked #end DISABLED>
+										  #else
+									  		<input name="experiment$type.getExperimentId()" type="text" size="1" value="$presets.get($type.getExperimentId())" readonly>
+										  #end
+										  $type.getName()<br>
+										#end
+						            #end
+						            </td>
+								  #end
+					          </tr></table>
+					          $sample.getOtherWishedSpectrum()<br>
+					          Special care for sample: $sample.getSpecialCare()<br>
+					          #if($sample.getAttachmentIsSet()) <a href="download/NmrshiftdbServlet/$sample.getAttachmentName()?sampleid=$sample.getSampleId()&nmrshiftdbaction=getattachment">The user attached a file to the order</a> #end<br>
+				              #if($sample.isDeletableWorker())
+								<form name="orderform" method="post" action="$jslink.getPaneById("P-NMR+lab+administration")"><input type="hidden" name="id" value="$sample.getSampleId()"><input type="submit" name="eventSubmit_doDeleteorder" value="Delete order"/> Confirm deletion by checking <input type="checkbox" name="confirm" value="confirm"></form>
+						      #end
+							<form name="orderform" method="post" action="$jslink.getPaneById("P-NMR+lab+administration")"><input type="hidden" name="id" value="$sample.getSampleId()"><input type="submit" name="eventSubmit_doChangetosubmit" value="Change to Operator Processing"/> Confirm change by checking <input type="checkbox" name="confirm" value="confirm"></form>
+				        </td>
+			        	<td>
+					          The following files are already attached: $oldfiles
+				        </td>
+			        </tr>
+		      </table>
+		    #end
+	        #if($submitorshow=="show")
+	        <table border="3" rules="none"><tr><td>
+	          <b>Order $sample.getUsersId()</b><br>
+	          Name: $sample.getNmrshiftdbUser().getFirstName() $sample.getNmrshiftdbUser().getLastName()<br>
+	          Institute/Workgroup: $sample.getNmrshiftdbUser().getAffiliation1()/$sample.getNmrshiftdbUser().getAffiliation2()<br>
+	          Sample I. D.: $sample.getUsersId()<br>
+	          Date: $date<br>
+	          Solvent: $sample.getDBCondition().getValue()<br>
+	          #if($sample.getHolderNo()!=0)Holder No: $sample.getHolderNo()<br>#end
+	          #if($data.getSession().getAttribute("applet")=="applet")
+	        	<a href="$data.getRequest().getRequestURI()?$data.getRequest().getQueryString()&applet=noapplet" title="Switch off Java applets" style="color:white"><img src="images/nojava.png"></a><br>
+                <script LANGUAGE="JavaScript1.1" SRC="nmrshiftdbhtml/marvin.js"></script>
+                <script LANGUAGE="JavaScript1.1">
+                    mview_mayscript = true;
+                    mview_name = "JcpViewer";
+                    mview_begin("$baseurl/../nmrshiftdbhtml", 300, 300);
+                    mview_param("load","$baseurl/../$molfile");
+                    mview_param("atomNumbersVisible","true");
+                    mview_param("background","12632256");
+                    mview_param("detachable","true");
+                    mview_end();
+                 </script>
+              #else
+		    	  <a href="$data.getRequest().getRequestURI()?$data.getRequest().getQueryString()&applet=applet" title="Switch on Java-Applets" style="color:white"><img src="images/java.png"></a><br><br>
+		          #if($image)
+		            <img src="$image"><br>
+                    <a href="#" onClick="window.open('download/NmrshiftdbServlet/$sample.getProbableStructure().jpg;jsessionid=$data.getSession().getId()?nmrshiftdbaction=exportmol&moleculeid=$sample.getProbableStructure()&format=jpeg&size=800x600&backcolor=12632256&shownumbers=false','pagename','resizable,height=500,width=700'); return false;">Show large structure</a> #if($sample.getDBMolecule())<br>Show prediction: <a href="$jslink.getPaneById("P-Predict")?eventSubmit_doPredictfromdb=doPredictFromDb&molid=$sample.getDBMolecule().getMoleculeId()&spectrumType=1"><sup>13</sup>C</a> <a href="$jslink.getPaneById("P-Predict")?eventSubmit_doPredictfromdb=doPredictFromDb&molid=$sample.getDBMolecule().getMoleculeId()&spectrumType=2"><sup>1</sup>H</a>#end<br>
+		          #end
+	          #end
+	          Spectrometer: $sample.getDBMachine().getName() ($sample.getDBMachine().getDBCondition().getValue() Mhz)<br>
+              <form name="reassignform" method="post" action="$jslink.getPaneById("P-NMR+lab+administration")">
+	              Change spectrometer 
+                  : <select id="fstrengths" name="fstrengths" size="1" onchange="hideorshow();">
+                  #foreach($existingcondition in $fstrengths)
+                    <option value="$existingcondition.getMachineId()" #if($sample.getDBMachine().getMachineId()==$existingcondition.getMachineId()) selected #end>$existingcondition.getName() ($existingcondition.getDBCondition().getValue() Mhz)</option>
+                  #end
+                  </select>
+                  <br>
+                  Process by <div id="changer" #if($sample.getDBMachine().getMeasureChanger()=="false") style="visibility:hidden"#end><input type="radio" name="process" #if($ordertype=="robot") checked #end value="robot"> automation</div> <div id="barcode" #if($sample.getDBMachine().getMeasureBarcode()=="false") style="visibility:hidden"#end><input type="radio" name="process" #if($ordertype=="barcode") checked #end value="barcode"> barcode</div> <div id="operator" #if($sample.getDBMachine().getMeasureOperator()=="false") style="visibility:hidden"#end><input type="radio" name="process" #if($ordertype=="worker") checked #end value="worker"> lab operator</div> <div id="self" #if($sample.getDBMachine().getMeasureSelf()=="false") style="visibility:hidden"#end><input type="radio" name="process" #if($ordertype=="self") checked #end value="self"> myself</div>.
+                  <input type="hidden" name="sampleid" value="$sample.getSampleId()">
+                  <input type="submit" name="eventSubmit_doReassignorder" value="Reassign this order"/>
+              </form>
+              <br>
+		          #foreach($category in $experiments)
+				    #foreach($type in $category)
+					  #if($presets.get($type.getExperimentId())>0)
+						  #if($type.getMaxNumber()==1)
+					  	    <input type="checkbox" name="experiment$type.getExperimentId()" value="experiment$type.getExperimentId()" #if($presets.get($type.getExperimentId())>0) checked #end DISABLED>
+						  #else
+					  		<input name="experiment$type.getExperimentId()" type="text" size="1" value="$presets.get($type.getExperimentId())" readonly>
+						  #end
+						  $type.getName()<br>
+					  #end
+					#end
+				  #end
+	          $sample.getOtherWishedSpectrum()<br><br>
+	          Special care for sample: $sample.getSpecialCare()<br>
+	          #if($sample.getAttachmentIsSet()) <a href="download/NmrshiftdbServlet/$sample.getAttachmentName()?sampleid=$sample.getSampleId()&nmrshiftdbaction=getattachment">The user attached a file to the order</a> #end<br>
+              #if($sample.isDeletableWorker())
+				<form name="orderform" method="post" action="$jslink.getPaneById("P-NMR+lab+administration")"><input type="hidden" name="id" value="$sample.getSampleId()"><input type="submit" name="eventSubmit_doDeleteorder" value="Delete order"/> Confirm deletion by checking <input type="checkbox" name="confirm" value="confirm"></form>
+		      #end
+	        </td>
+	           #set( $worker = "true" )
+	           #parse("portlets/html/lims/browse.vm")
+	        #end
+	      </td>
+	    </tr>
+	  </table>
+	  <br>
+	  <a target="_blank" href="http://faces.ccrc.uga.edu/ccrcfaces/login.php4?account=CGN-NMR&user=$urltool.getTurbineUser($data).getLoginName()&pwd=$data.getSession().getAttribute("pwd")"><img src="http://faces.ccrc.uga.edu/ccrcfaces/images/name2.gif"></a> (username/password must be the same as on nmrshiftdb2 for this to work)
+	  <br><br>
+	  	<br><br>
+	  	Users in your labgroup<br>
+	  	<a href="$jslink.getPaneById("P-NMR+lab+administration")" id="emailLink" onclick="emailFunction(true)">Send email to checked users</a>
+        <a href="$jslink.getPaneById("P-NMR+lab+administration")" id="emailLink" onclick="emailFunction(false)">Copy emails of checked user to clipboard</a>
+        <input type="button" onclick="checkAll(true)" value="Check all">
+        <input type="button" onclick="checkAll(false)" value="Uncheck all">
+	  	<div class="emails">
+	  	<table>
+	  	<tr><th>
+	  	</th><th>Username</th><th>First name</th><th>Last name</th><th>Email</th><th>Affiliation</th><th>Since</th><th colspan="">Check and click to delete user from labgroup</th><th>Is member accepted?</tr>
+	  	
+	  	#foreach($group in $groups.keySet())
+	  		<tr><td colspan="9"><input name="emailcheckbox" type="checkbox" id="email:$groups.get($group)">All users in $group &nbsp;</td></tr>
+	  	#end
+	  	
+	  	#foreach($member in $urltool.getTurbineUser($data).getDBLabGroup().getMembers())
+	  		<tr><td><input name="emailcheckbox" type="checkbox" id="email:$member.getEmail()"></td><td>$member.getLoginName()</td><td>$member.getFirstName()</td><td>$member.getLastName()</td><td><a href="mailto:$member.getEmail()">$member.getEmail()</a></td><td>$member.getAffiliation1()/$member.getAffiliation2()</td><td>$member.getCurrentUserHistory().getJoinDate()</td><td>
+	  			<form name="deleteform$member.getLoginName()" method="post" action="$jslink.getPaneById("P-NMR+lab+administration")">
+	  				<input type="checkbox" name="deleteconfirm" value="true">
+	  				<input type="hidden" name="username" value="$member.getLoginName()">
+	  				<input type="submit" name="eventSubmit_doSubmitdelete" value="Delete this user"/>
+	  			</form>
+	  		</td>
+      		<td>
+	  			#if($member.isLabgroupMember($data,$portlet))
+                    <form name="inactivateform$member.getLoginName()" method="post" action="$jslink.getPaneById("P-NMR+lab+administration")">
+                        <input type="checkbox" name="inactivateconfirm" value="true">
+                        <input type="hidden" name="username" value="$member.getLoginName()">
+                        <input type="submit" name="eventSubmit_doSubmitinactivate" value="Inactivate this user"/>
+                    </form>
+	  			#else
+		  			<form name="makememberform$member.getLoginName()" method="post" action="$jslink.getPaneById("P-NMR+lab+administration")">
+		  				<input type="hidden" name="username" value="$member.getLoginName()">
+		  				<input type="submit" name="eventSubmit_doMakemember" value="Make a labgroup member"/>
+		  			</form>
+		  		#end
+	  		</td>
+      		<td>
+	  			#if($member.HostId)
+                    <form name="mnovaform$member.getLoginName()" method="post" action="$jslink.getPaneById("P-NMR+lab+administration")">
+                        <input type="checkbox" name="mnovaconfirm" value="true">
+                        <input type="hidden" name="username" value="$member.getLoginName()">
+                        <input type="submit" name="eventSubmit_doSubmitmnova" value="Remove MNova Host ID"/>
+                    </form>
+                    MNova Host ID since $member.getHostIdTime()
+                #else
+                    No MNova Host ID
+                #end
+	  		</td></tr>
+	  	#end
+	  	</table>
+	  	</div>
+              #if($urltool.getTurbineUser($data).isLabgroupLeader())
+	  	<br><br>
+	  	<a name="machines"></a>
+	  	<div style="color:red">$!message</div><br>
+	  	Spectrometres in administration:
+	  	<form name="adminmachines" method="post" action="$jslink.getPaneById("P-NMR+lab+administration")#machines">
+                <table border="3" rules="all">
+                   <tr><th colspan="4"></th><th colspan="3">Sample Changer</th><th colspan="3">Barcode</th><th colspan="3">Operator Order</th><th colspan="3">Self Order</th><th colspan="5"></th></tr> 
+		  	       <tr><th>Machine name</th><th>Frequency</th><th>Check twice and click<br>to delete this machine</th><th>Default<br>Machine</th><th>Day<br>shift</th><th>Night<br>shift</th><th>Structure input<br>compulsory?</th><th>Day<br>shift</th><th>Night<br>shift</th><th>Structure input<br>compulsory?</th><th>Day<br>shift</th><th>Night<br>shift</th><th>Structure input<br>compulsory?</th><th>Day<br>shift</th><th>Night<br>shift</th><th>Structure input<br>compulsory?</th><th>IconNMR integration?</th><th>Shift operation (Monday-Sunday, times)<br>if off, time is for busy until</th><th>Time for sample change<br>(minutes:seconds)</th><th>Default Mode Day</th><th>Default Mode Night</th><th>Force weekend mode</th><th>Number of<br>holders</th></tr>
+		  	#foreach($member in $urltool.getTurbineUser($data).getDBLabGroup().getDBMachinesValid())
+		  		<tr><td>$member.getName()</td><td>$member.getDBCondition().getValue()</td>
+			  		<td>
+			  			<input type="checkbox" name="$member.getMachineId()_deleteconfirm1" value="true"><input type="checkbox" name="$member.getMachineId()_deleteconfirm2" value="true">
+			  		</td><td>
+				  		<select name="$member.getMachineId()_defaultmachine" size="1">
+			              <option value="1" #if($member.getDefaultMachine()==1) selected #end>Primary</option>
+			              <option value="2" #if($member.getDefaultMachine()==2) selected #end>Secondary</option>
+			              <option value="0" #if($member.getDefaultMachine()==0) selected #end>None</option>
+			            </select>
+			  			<input type="radio" name="defaultmachine" value="$member.getMachineId()_defaultmachine" #if($member.getDefaultMachine()=="true") checked #end >
+			  		</td>
+			  		<td>
+						<input type="checkbox" name="$member.getMachineId()_changer" value="$member.getMachineId()_changer" #if($member.getMeasureChanger()=="true") checked #end >
+				    </td>
+                    <td>
+                        <input type="checkbox" name="$member.getMachineId()_changer_night" value="$member.getMachineId()_changer_night" #if($member.getMeasureChangerNight()=="true") checked #end >
+                    </td>
+                    <td>
+						<input type="checkbox" name="$member.getMachineId()_changer_structureinput" value="$member.getMachineId()_changer_structureinput" #if($member.isProableStructureMandatory("robot")) checked #end >
+			  		</td>
+                    <td>
+                        <input type="checkbox" name="$member.getMachineId()_barcode" value="$member.getMachineId()_barcode" #if($member.getMeasureBarcode()=="true") checked #end >
+                    </td>
+                    <td>
+                        <input type="checkbox" name="$member.getMachineId()_barcode_night" value="$member.getMachineId()_barcode_night" #if($member.getMeasureBarcodeNight()=="true") checked #end >
+                    </td>
+                    <td>
+                        <input type="checkbox" name="$member.getMachineId()_barcode_structureinput" value="$member.getMachineId()_barcode_structureinput" #if($member.isProableStructureMandatory("barcode")) checked #end >
+                    </td>
+			  		<td>
+				  		<input type="checkbox" name="$member.getMachineId()_operator" value="$member.getMachineId()_operator" #if($member.getMeasureOperator()=="true") checked #end>
+				  	</td>
+                    <td>
+                        <input type="checkbox" name="$member.getMachineId()_operator_night" value="$member.getMachineId()_operator_night" #if($member.getMeasureOperatorNight()=="true") checked #end>
+                    </td>
+                    <td>
+				  		<input type="checkbox" name="$member.getMachineId()_operator_structureinput" value="$member.getMachineId()_operator_structureinput" #if($member.isProableStructureMandatory("worker")) checked #end>
+			  		</td>
+			  		<td>
+				  		<input type="checkbox" name="$member.getMachineId()_self" value="$member.getMachineId()_self" #if($member.getMeasureSelf()=="true") checked #end>
+				    </td>
+                    <td>
+                        <input type="checkbox" name="$member.getMachineId()_self_night" value="$member.getMachineId()_self_night" #if($member.getMeasureSelfNight()=="true") checked #end>
+                    </td>
+                    <td>
+				  		<input type="checkbox" name="$member.getMachineId()_self_structureinput" value="$member.getMachineId()_self_structureinput" #if($member.isProableStructureMandatory("self")) checked #end>
+			  		</td>
+			  		<td>
+				  		<input type="checkbox" name="$member.getMachineId()_iconnmr" value="$member.getMachineId()_iconnmr" #if($member.getIconnmrIntegration()=="true") checked #end><br>Machine name for scp: <input type="text" name="$member.getMachineId()_scphost" value="$member.getScpMachineName()" size="30" maxlength="30"><br>Directory path for scp: <input type="text" name="$member.getMachineId()_scppath" value="$member.getScpPath()" size="30" maxlength="30">
+			  		</td>
+			  		<td>
+			  		    #foreach($dayofweek in $daysofweek)
+       			  			$dayofweek: <input type="checkbox" name="$member.getMachineId()_shift_$dayofweek" id="$member.getMachineId()_shift_$dayofweek" value="$member.getMachineId()_shift_$dayofweek" #if($member.getShiftOperation($dayofweek)) checked #end onclick="if(document.getElementById('$member.getMachineId()_shift_$dayofweek').checked){document.getElementById('$member.getMachineId()_timespan1_$dayofweek').style.visibility='visible';document.getElementById('$member.getMachineId()_timespan2_$dayofweek').style.visibility='visible';}else{document.getElementById('$member.getMachineId()_timespan1_$dayofweek').style.visibility='hidden';document.getElementById('$member.getMachineId()_timespan2_$dayofweek').style.visibility='hidden';}">
+   	    		  			<span id="$member.getMachineId()_timespan1_$dayofweek" style="visibility:#if($member.getShiftOperation($dayofweek)) visible #else hidden #end">Night</span> #time("$member.getMachineId()_daytime" $dayofweek $member "day") <span id="$member.getMachineId()_timespan2_$dayofweek" style="visibility:#if($member.getShiftOperation($dayofweek)) visible #else hidden #end"> Day #time("$member.getMachineId()_nighttime" $dayofweek $member "night") Night</span><br>
+                        #end
+			  		</td>
+			  		<td>
+						<input type="text" name="$member.getMachineId()_changetime" value="$member.getChangeTimeString()" size="5" maxlength="5">
+			  		</td>
+			  		<td>
+				  		<select style="width:100px" name="$member.getMachineId()_defaultmode" size="1">
+			              <option value="self" #if($member.getDefaultMode()=="self") selected #end>Self</option>
+			              <option value="robot" #if($member.getDefaultMode()=="robot") selected #end>Sample Changer</option>
+                          <option value="barcode" #if($member.getDefaultMode()=="barcode") selected #end>Barcode</option>
+			              <option value="worker" #if($member.getDefaultMode()=="worker") selected #end>Operator</option>
+			            </select>
+			  		</td>
+                    <td>
+                        <select style="width:100px" name="$member.getMachineId()_defaultmode_night" size="1">
+                          <option value="self" #if($member.getDefaultModeNight()=="self") selected #end>Self</option>
+                          <option value="robot" #if($member.getDefaultModeNight()=="robot") selected #end>Sample Changer</option>
+                          <option value="barcode" #if($member.getDefaultModeNight()=="barcode") selected #end>Barcode</option>
+                          <option value="worker" #if($member.getDefaultModeNight()=="worker") selected #end>Operator</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="checkbox" name="$member.getMachineId()_forceweekend" id="$member.getMachineId()_forceweekend" value="$member.getMachineId()_forceweekend" #if($member.getForceWeekend()=="true") checked #end>
+                    </td>
+                    <td>
+                        <input type="text" name="$member.getMachineId()_numberofholders" id="$member.getMachineId()_numberofholders" value="$member.getNumberOfHolders()" size="5" maxlength="5">
+                    </td>
+		  		</tr>
+		  	#end
+		  	</table>
+		  	<input type="submit" name="eventSubmit_doAdminmachines" value="Submit Changes"/>
+	  	</form>
+		<br><br>
+	  	Add a new one:
+	  	<form name="addmachine" method="post" action="$jslink.getPaneById("P-NMR+lab+administration")#machines">
+	  		Name: <input type="text" name="name">
+	  		Frequency: <input type="text" name="frequency" size="15">
+	  		<select style="width:200px" name="existingfrequency" size="1" onChange="document.addmachine.elements['frequency'].value=''">
+            #foreach($frequency in $frequencies)
+              <option value="$frequency.getConditionId()">$frequency.getValue()</option>
+            #end
+            </select>
+            <input type="submit" name="eventSubmit_doSubmitaddmachine" value="Add this machine"/>
+	  	</form>
+	  	<br><br>
+	  	<a name="experiments"></a>
+	  	Experiments possible:
+	  	<form name="adminexperiments" method="post" action="$jslink.getPaneById("P-NMR+lab+administration")#experiments">
+                <table border="3" rules="all">
+		  	<tr><th>Experiment Name</th><th>Check twice and click<br>to delete this experiment</th><th>Max. Number</th><th>Subexperiments (if composite)</th><th>Identical with</th><th>Report category</th><th>Form tab</th><th>Text before</th><th>Automation order</th><th>Order on screen</th></tr>
+		  	#foreach($experiment in $urltool.getTurbineUser($data).getDBLabGroup().getDBExperimentsValid())
+		  		<tr><td>$experiment.getName()</td>
+			  		<td>
+			  			<input type="checkbox" name="$experiment.getExperimentId()_deleteconfirm1" value="true"><input type="checkbox" name="$experiment.getExperimentId()_deleteconfirm2" value="true">
+			  		</td>
+			  		<td>
+				  		<select style="width:100px" name="$experiment.getExperimentId()_maxnumber" size="1">
+			              <option value="1" #if($experiment.getMaxNumber()==1) selected #end>1</option>
+			              <option value="2" #if($experiment.getMaxNumber()==2) selected #end>2</option>
+			              <option value="3" #if($experiment.getMaxNumber()==3) selected #end>3</option>
+			            </select>
+			  		</td>
+			  		<td>
+			  		    <select style="width:200px" name="$experiment.getExperimentId()_subexp1" size="1">
+			  		    <option value="none" #if($experiment.getSubExperiment1Id()==0) selected #end>none</option>
+                        #foreach($subexperiment in $experimentssimple)
+                            <option value="$subexperiment.getExperimentId()" #if($experiment.getSubExperiment1Id()==$subexperiment.getExperimentId()) selected #end>$subexperiment.getName()</option>
+                        #end
+                        </select>
+                        <select style="width:200px" name="$experiment.getExperimentId()_subexp2" size="1">
+                        <option value="none" #if($experiment.getSubExperiment2Id()==0) selected #end>none</option>
+                        #foreach($subexperiment in $experimentssimple)
+                            <option value="$subexperiment.getExperimentId()" #if($experiment.getSubExperiment2Id()==$subexperiment.getExperimentId()) selected #end>$subexperiment.getName()</option>
+                        #end
+                        </select>
+                        <select style="width:200px" name="$experiment.getExperimentId()_subexp3" size="1">
+                        <option value="none" #if($experiment.getSubExperiment3Id()==0) selected #end>none</option>
+                        #foreach($subexperiment in $experimentssimple)
+                            <option value="$subexperiment.getExperimentId()" #if($experiment.getSubExperiment3Id()==$subexperiment.getExperimentId()) selected #end>$subexperiment.getName()</option>
+                        #end
+                        </select>
+			  		</td>
+			  		<td>
+                        <select style="width:200px" name="$experiment.getExperimentId()_identical" size="1">
+                        <option value="none" #if($experiment.getIdenticalWith()==0) selected #end>none</option>
+                        #foreach($subexperiment in $experimentssimple)
+                            <option value="$subexperiment.getExperimentId()" #if($experiment.getIdenticalWith()==$subexperiment.getExperimentId()) selected #end>$subexperiment.getName()</option>
+                        #end
+                        </select>
+			  		</td>
+			  		<td>
+			  			<select style="width:200px" name="$experiment.getExperimentId()_reportcategories" size="1">
+			  			#foreach($reportcategory in $reportcategories)
+			  				<option value="$reportcategory.getExperimentReportCategoryId()" #if($experiment.getExperimentReportCategoryId()==$reportcategory.getExperimentReportCategoryId()) selected #end>$reportcategory.getName()</option>
+			  			#end
+			  			</select>
+			  		</td>
+			  		<td>
+			  			<select style="width:200px" name="$experiment.getExperimentId()_categories" size="1">
+			  			#foreach($category in $categories)
+			  				<option value="$category.getExperimentCategoryId()" #if($experiment.getExperimentCategoryId()==$category.getExperimentCategoryId()) selected #end>$category.getName()</option>
+			  			#end
+			  			</select>
+			  		</td>
+			  		<td><input type="text" name="$experiment.getExperimentId()_linebefore" value="$experiment.getLineBefore()"></td>
+			  		<td><input type="text" name="$experiment.getExperimentId()_automationorder" value="$experiment.getAutomationOrder()"></td>
+			  		<td><input type="text" name="$experiment.getExperimentId()_screenorder" value="$experiment.getOrderPosition()"></td>
+		  		</tr>
+		  	#end
+		  	</table>
+		  	<input type="submit" name="eventSubmit_doAdminexperiments" value="Submit Changes"/>
+	  	</form>
+	  	<br><br>
+	  	Add a new one:
+	  	<form name="addexperiment" method="post" action="$jslink.getPaneById("P-NMR+lab+administration")#experiments">
+	  		Name: <input type="text" name="name">
+            <input type="submit" name="eventSubmit_doSubmitaddexperiment" value="Add this experiment"/>
+	  	</form>
+	  	<br><br>
+	  	<a name="experimentsmachinesassignments"></a>
+	  	<div style="color:red">$!message_experimentsmachinesassignments</div><br>
+	  	Machine/Experiment combinations:
+	  	<form name="adminexperiments" method="post" action="$jslink.getPaneById("P-NMR+lab+administration")#experimentsmachinesassignments">
+		<table border="3" rules="all">
+                	<tr><th>Experiment possible on machine</th>
+		  	#foreach($member in $urltool.getTurbineUser($data).getDBLabGroup().getDBMachinesValid())
+		  		<th colspan="4">$member.getName()</th>
+		  	#end
+		  	</tr>
+		  	<tr><th></th>
+            #foreach($member in $urltool.getTurbineUser($data).getDBLabGroup().getDBMachinesValid())
+                <th>Possible?</th><th>Name in IconNMR files<br>(write a;b for composite experiments)</th><th>Add expt time (minutes:seconds)$member.getName()</th><th>Compulsory?</th>
+            #end
+		  	</tr>
+		  	#foreach($experiment in $urltool.getTurbineUser($data).getDBLabGroup().getDBExperimentsValid())
+		  		<tr><td>$experiment.getName()</td>
+				  	#foreach($member in $urltool.getTurbineUser($data).getDBLabGroup().getDBMachinesValid())
+				  		<td>
+				  			#if($member.getAnyShiftOperation())
+				  				Night: <input type="checkbox" name="$member.getMachineId()_$experiment.getExperimentId()_ispossible_night" value="$member.getMachineId()_$experiment.getExperimentId()_ispossible_night" #if($member.isExperimentPossibleNight($experiment.getExperimentId())) checked #end>
+				  				Day: <input type="checkbox" name="$member.getMachineId()_$experiment.getExperimentId()_ispossible_day" value="$member.getMachineId()_$experiment.getExperimentId()_ispossible_day" #if($member.isExperimentPossibleDay($experiment.getExperimentId())) checked #end>
+				  			#else
+				  				<input type="checkbox" name="$member.getMachineId()_$experiment.getExperimentId()_ispossible_day" value="$member.getMachineId()_$experiment.getExperimentId()_ispossible_day" #if($member.isExperimentPossibleDay($experiment.getExperimentId())) checked #end>
+				  			#end
+				  	    </td>
+				  	    <td>
+				  			<input type="text" name="$member.getMachineId()_$experiment.getExperimentId()_name" value="$member.getExperimentName($experiment.getExperimentId())">
+				  	    </td>
+				  	    <td>
+				  			<input type="text" name="$member.getMachineId()_$experiment.getExperimentId()_duration" value="$member.getExperimentDuration($experiment.getExperimentId())" size="5" maxlength="5">
+			  			</td>
+                        <td>
+                            <input type="checkbox" name="$member.getMachineId()_$experiment.getExperimentId()_compulsory" value="$member.getMachineId()_$experiment.getExperimentId()_compulsory" #if($member.isExperimentCompulsory($experiment.getExperimentId())) checked #end>
+                        </td>
+				  	#end
+		  		</tr>
+		  	#end
+		  	</table>
+		  	<input type="submit" name="eventSubmit_doAdminexperimentmachineassignments" value="Submit Changes"/>
+	  	</form>
+	  	<br><br>
+	  	<a name="solvents"></a>
+	  	Solvents for orders
+	  	<table border="3" rules="all">
+	  		<tr>
+	  		<th>All machines (check twice to remove solvent)</th>
+		  	#foreach($machine in $urltool.getTurbineUser($data).getDBLabGroup().getDBMachinesValid())
+				<th>$machine.getName() (check twice to remove solvent)</th>
+			#end
+			</tr>
+	  		<tr>
+				<td>
+				  	<form name="solventsformold0" method="post" action="$jslink.getPaneById("P-NMR+lab+administration")#solvents">
+						#foreach($machinecondition in $urltool.getTurbineUser($data).getDBLabGroup().getDBMachinesValid().get(0).getDBMachineConditionsOrderedAllMachines())
+							<input type="checkbox" name="$machinecondition.getConditionId()_deleteconfirm1" value="true"><input type="checkbox" name="$machinecondition.getConditionId()_deleteconfirm2" value="true">
+							$machinecondition.getNameIconnmr()
+							<select name="$machinecondition.getConditionId()_orderposition" size="1">
+							#foreach($machinecondition2 in $urltool.getTurbineUser($data).getDBLabGroup().getDBMachinesValid().get(0).getDBMachineConditionsOrderedAllMachines())
+								<option value="$velocityCount" #if($velocityCount==$machinecondition.getOrderPosition())selected#end >$velocityCount</option>
+							#end
+							</select>
+							<br>
+						#end
+						<input type="submit" name="eventSubmit_doDeleteconditionsfrommachine" value="Remove/order solvents"/>
+						<input type="hidden" name="machineid" value="0">
+		  			</form>
+				</td>	
+		  	#foreach($machine in $urltool.getTurbineUser($data).getDBLabGroup().getDBMachinesValid())
+				<td>
+				  	<form name="solventsformold$machine.getMachineId()" method="post" action="$jslink.getPaneById("P-NMR+lab+administration")#solvents">
+						#foreach($machinecondition in $machine.getDBMachineConditionsOrdered())
+							<input type="checkbox" name="$machinecondition.getConditionId()_deleteconfirm1" value="true"><input type="checkbox" name="$machinecondition.getConditionId()_deleteconfirm2" value="true">
+							$machinecondition.getNameIconnmr()
+							<select name="$machinecondition.getConditionId()_orderposition" size="1">
+							#foreach($machinecondition2 in $machine.getDBMachineConditions())
+								<option value="$velocityCount" #if($velocityCount==$machinecondition.getOrderPosition())selected#end >$velocityCount</option>
+							#end
+							</select>
+							<br>
+						#end
+						<input type="submit" name="eventSubmit_doDeleteconditionsfrommachine" value="Remove/order solvents"/>
+						<input type="hidden" name="machineid" value="$machine.getMachineId()">
+		  			</form>
+				</td>	
+			#end
+			</tr>
+	  		<tr>
+				<td>
+				Add solvent
+			  	<form name="solventsform0" method="post" action="$jslink.getPaneById("P-NMR+lab+administration")#solvents">
+	  				<select name="solventtoadd" size="1">
+				  	#foreach($solvent in $solvents)
+	  					<option value="$solvent.getConditionId()">$solvent.getValue()</option>
+			  		#end
+			  		</select>
+			  		<input type="text" size="10" name="iconnmrname">
+					<input type="submit" name="eventSubmit_doMakecondition" value="Add solvent"/>
+					<input type="hidden" name="machineid" value="0">
+				</form>
+				</td>	
+		  	#foreach($machine in $urltool.getTurbineUser($data).getDBLabGroup().getDBMachinesValid())
+				<td>
+				Add solvent
+			  	<form name="solventsform$machine.getMachineId()" method="post" action="$jslink.getPaneById("P-NMR+lab+administration")#solvents">
+	  				<select name="solventtoadd" size="1">
+				  	#foreach($solvent in $solvents)
+	  					<option value="$solvent.getConditionId()">$solvent.getValue()</option>
+			  		#end
+			  		</select>
+			  		<input type="text" size="10" name="iconnmrname">
+					<input type="submit" name="eventSubmit_doMakecondition" value="Add solvent"/>
+					<input type="hidden" name="machineid" value="$machine.getMachineId()">
+				</form>
+				</td>	
+			#end
+			</tr>
+	  	</table>
+	  	<br><br>
+	 #end
+  	 Statistics:
+  	 <table  border="3" rules="cols">
+  		<tr><th>Yearly:</th><th>Monthly:</th></tr>
+	  	<tr><td><form name="yearlyform" method="post" action="download/NmrshiftdbServlet/yearlyreport.pdf?nmrshiftdbaction=createreport&style=yearly">From:<select name="yearstart" size="1">
+  	          #foreach($day in $years)
+    	        <option value="$day">$day</option>
+        	  #end
+          	</select>
+          	 to: <select name="yearend" size="1">
+  	          #foreach($day in $years)
+    	        <option value="$day">$day</option>
+        	  #end
+          	</select>
+           	</select> Type of report: <select name="type" size="1">
+  	          #foreach($day in $types)
+    	        <option value="$day">$day</option>
+        	  #end
+          	</select>
+          	<br><input type="submit" name="submityearly" value="Do statistics"/></form>
+        </td>
+        <td><form name="monthlyform" method="post" action="download/NmrshiftdbServlet/monthlyreport.pdf?nmrshiftdbaction=createreport&style=monthly">From:<select name="monthstart" size="1">
+  	          #foreach($day in $months)
+    	        <option value="$day">$day</option>
+        	  #end
+          	</select>/<select name="yearstart" size="1">
+  	          #foreach($day in $years)
+    	        <option value="$day">$day</option>
+        	  #end
+          	</select>
+          	 to: <select name="monthend" size="1">
+  	          #foreach($day in $months)
+    	        <option value="$day">$day</option>
+        	  #end
+          	</select>/<select name="yearend" size="1">
+  	          #foreach($day in $years)
+    	        <option value="$day">$day</option>
+        	  #end
+          	</select>
+          	</select> Type of report: <select name="type" size="1">
+  	          #foreach($day in $types)
+    	        <option value="$day">$day</option>
+        	  #end
+          	</select>
+          	<br><input type="submit" name="eventSubmit_doMonthlystatistcs" value="Do statistics"/></form></td></tr>
+	 </table>  	
+	#end
+#else
+  You are not an operator in any labgroup or not yet approved!
+#end

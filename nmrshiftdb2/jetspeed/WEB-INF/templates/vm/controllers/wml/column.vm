@@ -1,0 +1,60 @@
+#*
+Copyright 2004 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*#
+
+##modified: Andreas Kempf, 12/10/01
+## added support for LinkPortlet
+##---------------------------------
+<card title="User Home">
+  #parse("welcome.vm")
+  <p><br/>
+
+#foreach ( $portlet in $portlets )
+
+  ## Search for image
+  #set ($img="")
+  #set ($img=$!portlet.getPortletConfig().getInitParameter("imagewml"))
+  #if ((!$img) || ($img==""))
+    #set ($img="bullet.wbmp")
+  #end
+
+  ## Check and retrieve link
+  #set ($newlink="*")
+  #set ($newlink=$!portlet.getPortletConfig().getInitParameter("link"))
+
+  ## Insert deck (local) link
+  #if ($!newlink=="*")
+    <img src="$clink.getExternal()images/wml/$img" alt=""/><a href="#_$!portlet.Name">$!portlet.Title</a><br/>
+  ## Insert link
+  #else
+    #set ($newtitle="*")
+    #set ($newtitle=$!portlet.getPortletConfig().getInitParameter("anchor"))
+    ## Display link anchor or title
+    #if ($!newtitle=="*")
+      #set ($newtitle=$!portlet.Title)
+    #end
+    <img src="$clink.getExternal()images/wml/$img" alt=""/><a href="$!newlink">$!newtitle</a><br/>
+  #end
+#end
+
+## add Logout link
+  <br/><img src="$clink.getExternal()images/wml/exit.wbmp" alt=""/><b><a href="$link.setAction("LogoutUser")">${l10n.COLUMN_LOGOUT_VM}</a></b><br/>
+  </p>
+</card>
+  #foreach ( $portlet in $portlets )
+      $!portlet.getContent($data)
+  #end
+
+

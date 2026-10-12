@@ -1,0 +1,44 @@
+#*
+Copyright 2004 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*#
+
+#set ( $portlet = $parms.get("portlet"))
+
+##set ( $weather_style = "infobox" )
+#set ( $weather_style = $portlet.getPortletConfig().getInitParameter("weather_style") )
+
+#set ( $weather_city_info = "US/IN/Bloomington" )
+##set ( $weather_city_info = $portlet.getPortletConfig().getInitParameter("weather_city_info") )
+
+#set ($img_base = "http://banners.wunderground.com/banner")
+
+<table>
+<!--tr><td valign="center"><input type="radio" name="weather_style" value="bigwx_both_cond" #if($weather_style == "bigwx_both_cond") checked #end >
+<img src="$img_base/bigwx_both_cond/language/www/${weather_city_info}.gif" align="middle"></td></tr>
+<tr><td  valign="center"><input type="radio" name="weather_style" value="default_both" #if($weather_style == "default_both") checked #end>
+<img src="$img_base/default_both/language/www/${weather_city_info}.gif" align="middle"></td></tr-->
+<tr><td valign="center"><input type="radio" name="weather_style" value="infobox" #if($weather_style == "infobox") checked #end>
+<img src="$img_base/infobox/language/www/${weather_city_info}.gif" align="middle"></td></tr>
+<tr><td  valign="center"><input type="radio" name="weather_style" value="bigtemp" #if($weather_style == "bigtemp") checked #end>
+<img src="$img_base/bigtemp/language/www/${weather_city_info}.gif" align="middle"></td></tr>
+<tr><td  valign="center"><input type="radio" name="weather_style" value="sunandmoon" #if($weather_style == "sunandmoon") checked #end>
+<img src="$img_base/sunandmoon/language/www/${weather_city_info}.gif" align="middle"></td></tr>
+<tr><td valign="center"><input type="radio" name="weather_style" value="bigwx_cond" #if($weather_style == "bigwx_cond") checked #end >
+<img src="$img_base/bigwx_cond/language/www/${weather_city_info}.gif" align="middle"></td></tr>
+<tr><td  valign="center"><input type="radio" name="weather_style" value="default" #if($weather_style == "default") checked #end>
+<img src="$img_base/default/language/www/${weather_city_info}.gif" align="middle"></td></tr>
+<tr><td  valign="center"><input type="radio" name="weather_style" value="gizmotimetempbig" #if($weather_style == "gizmotimetempbig") checked #end>
+<img src="$img_base/gizmotimetempbig/language/www/${weather_city_info}.gif" align="middle"></td></tr>
+</table>

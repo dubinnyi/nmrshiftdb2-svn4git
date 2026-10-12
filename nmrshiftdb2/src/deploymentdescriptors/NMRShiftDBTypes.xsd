@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns:cml="http://www.xml-cml.org/schema" xmlns:nsdt="http://www.nmrshiftdb.org/schemas/2006/10/NMRShiftDBTypes" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.nmrshiftdb.org/schemas/2006/10/NMRShiftDBTypes">
+  <xsd:import namespace="http://www.xml-cml.org/schema" schemaLocation="http://www.nmrshiftdb.org/nmrshiftdbhtml/schema.xsd"/>
+  <!-- Elements -->
+  <xsd:element name="doPredictionParameters" type="nsdt:DoPredictionParameters"/>
+  <xsd:element name="doSubmitParameters" type="nsdt:DoSubmitParameters"/>
+  <xsd:element name="doAssignmentParameters" type="nsdt:DoAssignmentParameters"/>
+  <xsd:element name="getSpectrumTypesParameters" type="nsdt:GetSpectrumTypesParameters"/>
+  <xsd:element name="getUserNumberParameters" type="nsdt:GetUserNumberParameters"/>
+  <xsd:element name="doElucidateParameters" type="nsdt:DoElucidateParameters"/>
+  <xsd:element name="doSearchParameters" type="nsdt:DoSearchParameters"/>
+  <!-- Types -->
+  <xsd:complexType name="DoPredictionParameters">
+    <xsd:sequence>
+      <xsd:element maxOccurs="1" minOccurs="1" ref="cml:molecule"/>
+      <xsd:element maxOccurs="1" minOccurs="1" name="spectrumTypeName" type="xsd:string"/>
+      <xsd:element maxOccurs="1" minOccurs="1" name="useCalculated" type="xsd:boolean"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="DoSubmitParameters">
+    <xsd:sequence>
+      <xsd:element maxOccurs="1" minOccurs="1" ref="cml:cml"/>
+      <xsd:element maxOccurs="1" minOccurs="1" name="username" type="xsd:string"/>
+      <xsd:element maxOccurs="1" minOccurs="1" name="password" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="DoAssignmentParameters">
+    <xsd:sequence>
+      <xsd:element maxOccurs="1" minOccurs="1" ref="cml:cml"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetSpectrumTypesParameters">
+    <xsd:sequence>
+      <xsd:element maxOccurs="0" minOccurs="0" name="dummy" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetUserNumberParameters">
+    <xsd:sequence>
+      <xsd:element maxOccurs="0" minOccurs="0" name="dummy" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="DoElucidateParameters">
+    <xsd:sequence>
+      <xsd:element maxOccurs="1" minOccurs="1" ref="cml:spectrum"/>
+      <xsd:element name="suborwhole" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="DoSearchParameters">
+    <xsd:sequence>
+      <xsd:element maxOccurs="1" minOccurs="1" name="searchstring" type="xsd:string"/>
+      <xsd:element maxOccurs="1" minOccurs="1" name="searchtype" type="xsd:string"/>
+      <xsd:element maxOccurs="1" minOccurs="1" name="searchfield" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="PublishParameters">
+    <xsd:sequence>
+      <xsd:element maxOccurs="1" minOccurs="1" name="username" type="xsd:string"/>
+      <xsd:element maxOccurs="1" minOccurs="1" name="password" type="xsd:string"/>
+      <xsd:element maxOccurs="1" minOccurs="1" name="base64" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="spectrumtype">
+    <xsd:sequence>
+      <xsd:element ref="cml:spectrum"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="cmltype">
+    <xsd:sequence>
+      <xsd:element ref="cml:cml"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="moleculelisttype">
+    <xsd:sequence>
+      <xsd:element ref="cml:moleculeList"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

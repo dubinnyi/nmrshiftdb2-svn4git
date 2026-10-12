@@ -1,0 +1,151 @@
+#*
+Copyright 2004 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*#
+
+<!--Add a new action entry-->
+<form action="$jslink">
+
+<table>
+	<tr>
+		<td>$l10n.PORTLET_BROWSER_CATEGORY</td>
+		<td>
+			<input type="hidden" name="filter_field" value="category"/>
+			<select name="category:filter_value">
+				<option value="">${l10n.BROWSER_PORTLET_ALL_PORTLETS_VM}</option>
+				#foreach($category in $categories)
+					<option value="$category.name" #if($category_filter_value == $category.name) selected="true" #end)>$category.name</option>
+				#end
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td>$l10n.PORTLET_BROWSER_PARENT</td>
+		<td>
+			<input type="hidden" name="filter_field" value="parent"/>
+			<select name="parent:filter_value">
+				<option value="">${l10n.BROWSER_PORTLET_ALL_PARENTS_VM}</option>
+				#foreach($parent in $parents)
+					#if(($parent.Title) && ($parent.Title.length() > 0))
+						<option value="$parent.name" #if($parent_filter_value == $parent.name) selected="true" #end>$parent.Title</option>
+					#else
+						<option value="$parent.name" #if($parent_filter_value == $parent.name) selected="true" #end>$parent.name</option>
+					#end
+				#end
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td>$l10n.PORTLET_BROWSER_MEDIATYPE</td>
+		<td>
+			<input type="hidden" name="filter_field" value="media_type"/>
+			<select name="media_type:filter_value">
+				<option value="">${l10n.BROWSER_PORTLET_ALL_MEDIA_TYPES_VM}</option>
+				#foreach($mediaType in $media_types)
+					<option value="$mediaType" #if($media_type_filter_value == $mediaType) selected="true" #end>$mediaType</option>
+				#end
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td>$l10n.PORTLET_BROWSER_TYPE</td>
+		<td>
+			<input type="hidden" name="filter_field" value="type"/>
+			<select name="type:filter_value">
+				<option value="">${l10n.BROWSER_PORTLET_ALL_TYPES_VM}</option>
+				<option value="abstract" #if($type_filter_value == "abstract") selected="true" #end>${l10n.BROWSER_PORTLET_ABSTRACT_VM}</option>
+				<option value="ref" #if($type_filter_value == "ref") selected="true" #end>${l10n.BROWSER_PORTLET_REF_VM}</option>
+				<option value="instance" #if($type_filter_value == "instance") selected="true" #end>${l10n.BROWSER_PORTLET_INSTANCE_VM}</option>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td><input type="submit" name="eventSubmit_doFilter" value="$l10n.PORTLET_BROWSER_FILTER"/>
+	</tr>
+</table>
+</form>
+
+<table width="100%" cellpadding="3" cellspacing="1" BORDER="1">
+  <tr>
+    <th>$l10n.PORTLET_BROWSER_NAME</th>
+    <th>$l10n.PORTLET_BROWSER_PARENT</th>
+    <th>$l10n.PORTLET_BROWSER_TITLE</th>    
+    <th>$l10n.PORTLET_BROWSER_DESCRIPTION</th>
+    <th>$l10n.PORTLET_BROWSER_MEDIATYPE</th>
+    <th colspan="2">$l10n.PORTLET_BROWSER_ACTIONS</th>
+  </tr>
+#foreach ( $entry in $registry )
+#set ( $old = "" )
+  <tr>
+    <td>
+          #if ($config.getBoolean("customizer.preview.enable", false) == true && $entry.Type != "abstract")
+            <a target="_blank" TITLE="Preview" href="$jslink.setTemplate("preview").addQueryData("p",$entry.Name).addQueryData("c","ClearPortletControl")">$entry.Name</a>
+          #else
+            $entry.Name
+          #end
+    </TD>    
+    <td>$!entry.Parent&nbsp;</td>    
+    <td>$!entry.Title&nbsp;</td>
+    <td>$!entry.Description&nbsp;</td>
+    <td>
+#if ($entry.listMediaTypes().hasNext() == false) &nbsp; #end        
+#foreach ( $type in $entry.listMediaTypes() )
+      #if ($old != "") , #end $!type
+      #set ( $old = $type )
+#end
+    </td>
+    <td>
+      <a style="font-size:10" href="$jslink.setPaneByName("PortletForm").addQueryData("mode","update").addQueryData("portlet_name", $!entry.Name)">$l10n.PORTLET_BROWSER_EDIT</a>&nbsp;
+    </td>
+    <td>
+      <a style="font-size:10" href="$jslink.setPaneByName("PortletForm").addQueryData("mode","delete").addQueryData("portlet_name", $!entry.Name)">$l10n.PORTLET_BROWSER_DELETE</a>&nbsp;
+    </td>
+  </tr>
+#end
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr>
+    <td align="right" width="50%">
+#if ($prev)
+<form action="$jslink" method="post">
+       <input type="submit" value="&lt; &lt; $l10n.PORTLET_BROWSER_PREVIOUS">
+      <input type="hidden" name="start" value="$prev">
+</form>
+#end
+    </td>
+    <td align="left" width="50%">
+#if ($next)
+<form action="$jslink" method="post">
+       <input type="submit" value="$l10n.PORTLET_BROWSER_NEXT &gt; &gt;">
+      <input type="hidden" name="start" value="$next">
+</form>
+#end
+   </td>
+  </tr>
+  <tr>
+    <td colspan=6 align="left">
+     <a style="font-size:10" href="$jslink.setPaneByName("PortletForm").addQueryData("mode","insert")">$l10n.PORTLET_BROWSER_ADD_PORTLET</a>&nbsp;
+    </td>
+  </tr>
+</table>
+
+<center>
+  <table>
+    <tr>
+      <td>
+        #registry_alpha_nav($jslink $filtered_entries 0 "" "")
+      </td>
+    </tr>
+  </table>
+</center>

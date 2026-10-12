@@ -1,0 +1,202 @@
+#*
+Copyright 2004 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*#
+
+#* ------------------------------------------------------------------
+#
+# Macros that are used for displaying input forms.
+#
+*# ------------------------------------------------------------------
+
+#macro (text $text)
+  <font face="$ui.sansSerifFonts">
+    $text
+  </font>
+#end
+
+#macro (formLabel $label)
+  <td bgcolor="$!{skin.TitleBackgroundColor}">
+    <b>
+      <font face="$ui.sansSerifFonts">
+        $label
+      </font>
+    </b>
+  </td>
+#end
+
+#macro (formTextField $name $value)
+  <td bgcolor="$!{skin.TitleBackgroundColor}">
+    <font face="$ui.sansSerifFonts">
+      <input type="text" size="30" name="$name" value="$value">
+    </font>
+  </td>
+#end
+
+#macro (textField $name $value $size)
+  <font face="$ui.sansSerifFonts">
+    <input type="text" size="$size" name="$name" value="$value">
+  </font>
+#end
+
+#macro (listBox $list)
+  <font face="$ui.sansSerifFonts">
+    $list
+  </font>
+#end
+
+#macro (formPasswordCell $label $name $value)
+  #formLabel("$label")
+  <td bgcolor="$!{skin.TitleBackgroundColor}">
+    <font face="$ui.sansSerifFonts">
+      <input type="password" size="30" name="$name" value="$value">
+    </font>
+  </td>
+#end
+
+#macro (formReadOnlyCell $label $name $value)
+  #formLabel("$label")
+  <td bgcolor="$!{skin.TitleBackgroundColor}">
+    <font face="$ui.sansSerifFonts">
+      <input type="hidden" size="30" name="$name" value="$value">
+      $value
+    </font>
+  </td>
+#end
+
+#macro (formCell $label $name $value)
+  #formLabel("$label")
+  #formTextField("$name" "$value")
+#end
+
+#macro (fileUploadField $name)
+  <td bgcolor="$!{skin.TitleBackgroundColor}">
+    <font face="$ui.sansSerifFonts">
+      <input type="file" size="30" name="$name">
+    </font>
+  </td>
+#end
+
+#macro (fileUpload $label $name)
+  #formLabel($label)
+  #fileUploadField($name)
+#end
+
+#macro (formCheckBox $name $checked)
+  <td bgcolor="$!{skin.TitleBackgroundColor}">
+    <input type="checkbox" name="box_$name" #if($checked)checked=1#end/>
+  </td>
+#end
+
+#macro (formCheckBox2 $label $name $checked)
+  #formLabel("$label")
+  <td bgcolor="$!{skin.TitleBackgroundColor}">
+    <input type="checkbox" name="$name" #if($checked)checked=1#end/>
+  </td>
+#end
+
+#macro (formListBox $label $list)
+  <td bgcolor="$!{skin.TitleBackgroundColor}">
+    <b>
+      <font face="$ui.sansSerifFonts">
+        $label
+      </font>
+    </b>
+  </td>
+  <td bgcolor="$!{skin.TitleBackgroundColor}">
+    $list
+  </td>
+#end
+
+#* ------------------------------------------------------------------
+#
+# Macros that are used for displaying information in tables.
+#
+*# ------------------------------------------------------------------
+
+#macro (headerCell $body)
+  <td>
+    <b>     
+        $body
+    </b>
+  </td>
+#end
+
+#macro (entryCell $body)
+  <td>    
+      $body &nbsp;    
+  </td>
+#end
+
+#macro(psmlLink $baseLink)#set ($theLink = $baseLink)#set ($mtype = $!data.Parameters.getString("mtype"))#if($!mtype)#set ($theLink = $theLink.addQueryData("mtype", $mtype))#end$theLink#end
+
+
+#* ------------------------------------------------------------------
+#
+# Macros that are used for portal page construction.
+#
+*# ------------------------------------------------------------------
+
+## place all scripts that should go into the html head in this macro.
+## append another version of this macro with your site's content (the second one wins), or edit this one.
+## this is referenced in the templates/vm/layouts/html files.
+#macro ( headScripts ) #end
+
+## to have onload in the <body> tag of portal pages, fill out this macro with something like this:
+##  #macro (bodyOnLoad) onload="loadscript();" #end
+#macro ( bodyOnLoad ) #end
+
+#macro (previewLink $portletName)
+  $jslink.setTemplate("preview").addQueryData("p",$portletName).addQueryData("c","ClearPortletControl")
+#end
+
+## macro that generates an alphabetic navigation for the registry browsers
+#macro (registry_alpha_nav $duri $entries $useTitle $prefix $suffix)
+	#set($lastChar = "0")
+	#set($tempStart = 0)
+	#foreach($entry  in $entries)
+	
+	  #set($title = $entry.name)
+	  #if($useTitle == 1)
+	  	#if($entry.title)
+	  	  #set($title = $entry.title)
+	  	#end
+	  #end
+	
+	  #if($title && $title.length() > 0)
+      	#set($temp1 = $lastChar.charAt(0).toString())
+      	#set($temp2 = $title.charAt(0).toString())
+    	      
+    	#set($temp1 = $temp1.toLowerCase())
+		#set($temp2 = $temp2.toLowerCase())
+    	      
+    	#if($temp1 != $temp2)
+    	  $prefix <a href="$duri.addPathInfo("start",$tempStart)">$temp2.toUpperCase()</a>&nbsp; $suffix
+    	#end
+    	
+    	#set($lastChar = $temp2.toString())
+    	
+    	#set($tempStart = $tempStart + 1)
+     #end
+	#end
+#end
+
+#macro (formHeader $image $title)
+<table>
+	<tr>
+		<td><img src="$image"></td>
+		<td valign="center"><big>$title</big></td>
+	</tr>
+</table>
+#end

@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<dictionaryMapping xmlns:bc="http://www.bioclipse.net/" prefix="bc" label="Bioclipse Metadata Entries" id="Bioclipse">
+	<section name="conditionList" label="Condition List" />
+	<section name="substanceList" label="Substance List"/>
+	<section name="metadataList" label="Metadata List" />
+</dictionaryMapping>

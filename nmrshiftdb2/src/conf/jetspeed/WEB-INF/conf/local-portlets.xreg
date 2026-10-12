@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<registry>
+    <portlet-entry name="Details" hidden="false" type="ref"
+        parent="Velocity" application="false">
+        <meta-info>
+            <title>Details</title>
+            <description>The details of a molecule</description>
+        </meta-info>
+        <classname>org.apache.jetspeed.portal.portlets.VelocityPortlet</classname>
+        <parameter name="template" value="result/details/details"
+            hidden="true" cachedOnName="true" cachedOnValue="true"/>
+        <parameter name="action"
+            value="portlets.result.DetailsAction" hidden="true"
+            cachedOnName="true" cachedOnValue="true"/>
+        <media-type ref="html"/>
+        <url cachedOnURL="true"/>
+    </portlet-entry>
+    <portlet-entry name="Bookmarks" hidden="false" type="ref"
+        parent="Velocity" application="false">
+        <meta-info>
+            <title>Bookmarks</title>
+            <description>Shows bookmarks for structures</description>
+        </meta-info>
+        <classname>org.apache.jetspeed.portal.portlets.VelocityPortlet</classname>
+        <parameter name="template" value="result/bookmarks"
+            hidden="true" cachedOnName="true" cachedOnValue="true"/>
+        <parameter name="action"
+            value="portlets.result.BookmarkAction" hidden="true"
+            cachedOnName="true" cachedOnValue="true"/>
+        <media-type ref="html"/>
+        <url cachedOnURL="true"/>
+    </portlet-entry>
+    <portlet-entry name="Results" hidden="false" type="ref"
+        parent="Velocity" application="false">
+        <meta-info>
+            <title>Search Results</title>
+            <description>The results</description>
+        </meta-info>
+        <classname>org.apache.jetspeed.portal.portlets.VelocityPortlet</classname>
+        <parameter name="template" value="result/results"
+            hidden="true" cachedOnName="true" cachedOnValue="true"/>
+        <parameter name="action"
+            value="portlets.result.ResultAction" hidden="true"
+            cachedOnName="true" cachedOnValue="true"/>
+        <media-type ref="html"/>
+        <url cachedOnURL="true"/>
+    </portlet-entry>
+    <portlet-entry name="Keywords" hidden="false" type="ref"
+        parent="Velocity" application="false">
+        <meta-info>
+            <title>Search by Keyword/Category</title>
+            <description>Limit search to keywords</description>
+        </meta-info>
+        <classname>org.apache.jetspeed.portal.portlets.VelocityPortlet</classname>
+        <parameter name="template" value="search/keyword"
+            hidden="true" cachedOnName="true" cachedOnValue="true"/>
+        <parameter name="action"
+            value="portlets.search.SearchKeywordsAction" hidden="true"
+            cachedOnName="true" cachedOnValue="true"/>
+        <media-type ref="html"/>
+        <url cachedOnURL="true"/>
+    </portlet-entry>
+    <portlet-entry name="SearchHistory" hidden="false" type="ref"
+        parent="Velocity" application="false">
+        <meta-info>
+            <title>Search History</title>
+            <description>This shows searches you did till now</description>
+        </meta-info>
+        <classname>org.apache.jetspeed.portal.portlets.VelocityPortlet</classname>
+        <parameter name="template" value="search/searchhistory"
+            hidden="true" cachedOnName="true" cachedOnValue="true"/>
+        <parameter name="action"
+            value="portlets.search.SearchHistoryAction" hidden="true"
+            cachedOnName="true" cachedOnValue="true"/>
+        <media-type ref="html"/>
+        <url cachedOnURL="true"/>
+    </portlet-entry>
+    <portlet-entry name="measuredornot" hidden="false" type="ref"
+        parent="Velocity" application="false">
+        <meta-info>
+            <title>Search Measured or Calculated Spectra</title>
+            <description>Search measured or calculated spectra</description>
+        </meta-info>
+        <classname>org.apache.jetspeed.portal.portlets.VelocityPortlet</classname>
+        <parameter name="template" value="search/measuredorcalculated"
+            hidden="true" cachedOnName="true" cachedOnValue="true"/>
+        <parameter name="action"
+            value="portlets.search.SearchMeasuredOrCalculatedAction" hidden="true"
+            cachedOnName="true" cachedOnValue="true"/>
+        <media-type ref="html"/>
+        <url cachedOnURL="true"/>
+    </portlet-entry>
+    <portlet-entry name="Review" hidden="false" type="ref"
+        parent="Velocity" application="false">
+        <meta-info>
+            <title>Review Submitted Data</title>
+            <description>For review</description>
+        </meta-info>
+        <classname>org.apache.jetspeed.portal.portlets.VelocityPortlet</classname>
+        <parameter name="template" value="review"
+            hidden="true" cachedOnName="true" cachedOnValue="true"/>
+        <parameter name="action"
+            value="portlets.ReviewAction" hidden="true"
+            cachedOnName="true" cachedOnValue="true"/>
+        <media-type ref="html"/>
+        <url cachedOnURL="true"/>
+    </portlet-entry>
+    <portlet-entry name="Review_organometals" hidden="false" type="ref"
+        parent="Velocity" application="false">
+        <meta-info>
+            <title>Review Organometals</title>
+            <description>For review</description>
+        </meta-info>
+        <classname>org.apache.jetspeed.portal.portlets.VelocityPortlet</classname>
+        <parameter name="template" value="review-organometals"
+            hidden="true" cachedOnName="true" cachedOnValue="true"/>
+        <parameter name="action"
+            value="portlets.ReviewOrganometalsAction" hidden="true"
+            cachedOnName="true" cachedOnValue="true"/>
+        <media-type ref="html"/>
+        <url cachedOnURL="true"/>
+    </portlet-entry>
+    <portlet-entry name="RestoreSubmittingData" hidden="false" type="ref"
+        parent="Velocity" application="false">
+        <meta-info>
+            <title>Save Pending Submits</title>
+            <description>Data which failed to write to DB</description>
+        </meta-info>
+        <classname>org.apache.jetspeed.portal.portlets.VelocityPortlet</classname>
+        <parameter name="template" value="admin/restorependingsubmits"
+            hidden="true" cachedOnName="true" cachedOnValue="true"/>
+        <parameter name="action"
+            value="portlets.admin.SavePendingSubmitsAction" hidden="true"
+            cachedOnName="true" cachedOnValue="true"/>
+        <media-type ref="html"/>
+        <url cachedOnURL="true"/>
+    </portlet-entry>
+    <portlet-entry name="SearchBySpectrum" hidden="false" type="ref"
+        parent="Velocity" application="false">
+        <meta-info>
+            <title>Search by Spectrum</title>
+            <description>Search by NMR</description>
+        </meta-info>
+        <classname>org.apache.jetspeed.portal.portlets.VelocityPortlet</classname>
+        <parameter name="template" value="search/spectrum"
+            hidden="true" cachedOnName="true" cachedOnValue="true"/>
+        <parameter name="action"
+            value="portlets.search.SearchBySpectrumAction" hidden="true"
+            cachedOnName="true" cachedOnValue="true"/>
+        <media-type ref="html"/>
+        <url cachedOnURL="true"/>
+    </portlet-entry>
+    <portlet-entry name="Predict" hidden="false" type="ref"
+        parent="Velocity" application="false">
+        <meta-info>
+            <title>Predict an NMR Spectrum</title>
+            <description>Here you can predict a spectrum</description>
+        </meta-info>
+        <classname>org.apache.jetspeed.portal.portlets.VelocityPortlet</classname>
+        <parameter name="template" value="predict"
+            hidden="true" cachedOnName="true" cachedOnValue="true"/>
+        <parameter name="action"
+            value="portlets.PredictAction" hidden="true"
+            cachedOnName="true" cachedOnValue="true"/>
+        <media-type ref="html"/>
+        <url cachedOnURL="true"/>
+    </portlet-entry>
+    <portlet-entry name="Submit" hidden="false" type="ref"
+        parent="Velocity" application="false">
+        <meta-info>
+            <title>Submit Data</title>
+            <description>Here contributors submit data</description>
+        </meta-info>
+        <classname>org.apache.jetspeed.portal.portlets.VelocityPortlet</classname>
+        <parameter name="template" value="submit"
+            hidden="true" cachedOnName="true" cachedOnValue="true"/>
+        <parameter name="action"
+            value="portlets.SubmitAction" hidden="true"
+            cachedOnName="true" cachedOnValue="true"/>
+        <media-type ref="html"/>
+        <url cachedOnURL="true"/>
+    </portlet-entry>
+    <portlet-entry name="SearchByName" hidden="false" type="ref"
+        parent="Velocity" application="false">
+        <meta-info>
+            <title>Search by Molecule/Spectrum Properties</title>
+            <description>Search by molecule/spectrum properties</description>
+        </meta-info>
+        <classname>org.apache.jetspeed.portal.portlets.VelocityPortlet</classname>
+        <parameter name="template" value="search/general"
+            hidden="true" cachedOnName="true" cachedOnValue="true"/>
+        <parameter name="action"
+            value="portlets.search.SearchGeneralAction" hidden="true"
+            cachedOnName="true" cachedOnValue="true"/>
+        <media-type ref="html"/>
+        <url cachedOnURL="true"/>
+    </portlet-entry>
+    <portlet-entry name="SearchByStructure" hidden="false" type="ref"
+        parent="Velocity" application="false">
+        <meta-info>
+            <title>Search by Structure</title>
+            <description>Search by structure</description>
+        </meta-info>
+        <classname>org.apache.jetspeed.portal.portlets.VelocityPortlet</classname>
+        <parameter name="template" value="search/structure"
+            hidden="true" cachedOnName="true" cachedOnValue="true"/>
+        <parameter name="action"
+            value="portlets.search.SearchStructureAction" hidden="true"
+            cachedOnName="true" cachedOnValue="true"/>
+        <media-type ref="html"/>
+        <url cachedOnURL="true"/>
+    </portlet-entry>
+    <portlet-entry name="CheckReviews" hidden="false" type="instance" application="false">
+        <meta-info>
+            <title>Check Reviews</title>
+            <description>Check reviews</description>
+        </meta-info>
+        <classname>org.apache.jetspeed.portal.portlets.VelocityPortlet</classname>
+        <parameter name="template" value="admin/checkreviews"
+            hidden="true" cachedOnName="true" cachedOnValue="true"/>
+        <parameter name="action"
+            value="portlets.admin.CheckReviewsAction" hidden="true"
+            cachedOnName="true" cachedOnValue="true"/>
+        <media-type ref="html"/>
+        <url cachedOnURL="true"/>
+	<security role="admin"/>
+    </portlet-entry>
+    <portlet-entry name="ReviewGroupsBrowser" hidden="false" type="ref"
+        parent="CustomizerVelocity" application="false">
+        <security role="admin"/>
+        <meta-info>
+            <title>Review Groups Browser</title>
+            <description>Review Groups Browser for nmrshiftdb2 reviews</description>
+        </meta-info>
+        <parameter name="template" value="security/reviewgroups-browser" hidden="false"/>
+        <parameter name="action"
+            value="portlets.security.ReviewGroupsBrowserAction" hidden="false"/>
+        <media-type ref="html"/>
+    </portlet-entry>
+    <portlet-entry name="UserReviewgroupForm" hidden="false" type="ref"
+        parent="CustomizerVelocity" application="false">
+        <security role="admin"/>
+        <meta-info>
+            <title>User Reviewgroups</title>
+            <description>User Reviewgroup form for nmrshiftdb2 review management</description>
+        </meta-info>
+        <parameter name="template" value="security/user-reviewgroup-form" hidden="false"/>
+        <parameter name="action"
+            value="portlets.security.UserReviewgroupUpdateAction" hidden="false"/>
+        <media-type ref="html"/>
+    </portlet-entry>
+    <portlet-entry name="Home" hidden="false" type="ref"
+        parent="Velocity" application="false">
+        <meta-info>
+            <title>Frontpage</title>
+            <description>Infos about nmrshiftdb2</description>
+        </meta-info>
+        <classname>org.apache.jetspeed.portal.portlets.VelocityPortlet</classname>
+        <parameter name="template" value="myhome" hidden="true"
+            cachedOnName="true" cachedOnValue="true"/>
+        <parameter name="action"
+            value="portlets.security.UserReviewgroupUpdateAction" hidden="false"/>
+        <media-type ref="html"/>
+        <url cachedOnURL="true"/>
+    </portlet-entry>
+    <portlet-entry name="WebPagePortletWithURLFromRequest" hidden="false" type="instance" application="false">
+        <meta-info>
+            <title>nmrshiftdb2 Help</title>
+            <description>Displays the help</description>
+        </meta-info>
+        <classname>org.openscience.nmrshiftdb.portlets.WebPagePortletWithURLFromRequest</classname>
+        <media-type ref="html"/>
+    </portlet-entry>
+    <portlet-entry name="Help index" hidden="false" type="ref"
+        parent="Velocity" application="false">
+        <meta-info>
+             <title>nmrshiftdb2 Help Index</title>
+             <description>The help index</description>
+        </meta-info>
+        <classname>org.apache.jetspeed.portal.portlets.VelocityPortlet</classname>
+        <parameter name="template" value="leftcolumn"
+            hidden="true" cachedOnName="true" cachedOnValue="true"/>
+        <parameter name="action" value="portlets.LeftColumnAction"
+            hidden="true" cachedOnName="true" cachedOnValue="true"/>
+        <media-type ref="html"/>
+        <url cachedOnURL="true"/>
+    </portlet-entry>
+    <portlet-entry name="SearchByCondition" hidden="false" type="ref"
+        parent="Velocity" application="false">
+        <meta-info>
+            <title>Search by Condition</title>
+            <description>Search by condition</description>
+        </meta-info>
+        <classname>org.apache.jetspeed.portal.portlets.VelocityPortlet</classname>
+        <parameter name="template" value="search/conditions" hidden="true"
+            cachedOnName="true" cachedOnValue="true"/>
+        <parameter name="action" value="portlets.search.SearchConditionAction"
+            hidden="true" cachedOnName="true" cachedOnValue="true"/>
+        <media-type ref="html"/>
+        <url cachedOnURL="true"/>
+    </portlet-entry>
+    <portlet-entry name="Wishlist" hidden="false" type="ref"
+        parent="Velocity" application="false">
+        <meta-info>
+            <title>Wishlist</title>
+            <description>You can wish spectra here</description>
+        </meta-info>
+        <classname>org.apache.jetspeed.portal.portlets.VelocityPortlet</classname>
+        <parameter name="template" value="wishlist"
+            hidden="true" cachedOnName="true" cachedOnValue="true"/>
+        <parameter name="action"
+            value="portlets.WishlistPortletAction" hidden="true"
+            cachedOnName="true" cachedOnValue="true"/>
+        <media-type ref="html"/>
+        <url cachedOnURL="true"/>
+    </portlet-entry>
+    <portlet-entry name="Order handling" hidden="false" type="ref"
+        parent="Velocity" application="false">
+        <meta-info>
+            <title>Order handling</title>
+            <description>NMR lab users can enter orders here</description>
+        </meta-info>
+        <classname>org.apache.jetspeed.portal.portlets.VelocityPortlet</classname>
+        <parameter name="template" value="lims/user-order"
+            hidden="true" cachedOnName="true" cachedOnValue="true"/>
+        <parameter name="action"
+            value="portlets.lims.OrderAction" hidden="true"
+            cachedOnName="true" cachedOnValue="true"/>
+        <media-type ref="html"/>
+        <url cachedOnURL="true"/>
+    </portlet-entry>
+    <portlet-entry name="SearchBySampleProperties" hidden="false" type="ref"
+        parent="Velocity" application="false">
+        <meta-info>
+            <title>Search by sample properties</title>
+            <description>Search by sample properties</description>
+        </meta-info>
+        <classname>org.apache.jetspeed.portal.portlets.VelocityPortlet</classname>
+        <parameter name="template" value="search/sampleproperties"
+            hidden="true" cachedOnName="true" cachedOnValue="true"/>
+        <parameter name="action"
+            value="portlets.search.SearchSamplePropertiesAction" hidden="true"
+            cachedOnName="true" cachedOnValue="true"/>
+        <media-type ref="html"/>
+        <url cachedOnURL="true"/>
+    </portlet-entry>
+    <portlet-entry name="Order fullfillment" hidden="false" type="ref"
+        parent="Velocity" application="false">
+        <meta-info>
+            <title>Order fulfillment</title>
+            <description>NMR lab workers work with orders here</description>
+        </meta-info>
+        <classname>org.apache.jetspeed.portal.portlets.VelocityPortlet</classname>
+        <parameter name="template" value="lims/worker-order"
+            hidden="true" cachedOnName="true" cachedOnValue="true"/>
+        <parameter name="action"
+            value="portlets.lims.OrderFullfillAction" hidden="true"
+            cachedOnName="true" cachedOnValue="true"/>
+        <media-type ref="html"/>
+        <url cachedOnURL="true"/>
+    </portlet-entry>
+    <portlet-entry name="Spectrum type selection" hidden="false" type="ref"
+        parent="Velocity" application="false">
+        <meta-info>
+            <title>Spectrum type selection/Other settings</title>
+            <description>Restrict searches to certain spectrum types</description>
+        </meta-info>
+        <classname>org.apache.jetspeed.portal.portlets.VelocityPortlet</classname>
+        <parameter name="template" value="search/choose-types"
+            hidden="true" cachedOnName="true" cachedOnValue="true"/>
+        <parameter name="action"
+            value="portlets.search.ChooseSpectrumTypeAction" hidden="true"
+            cachedOnName="true" cachedOnValue="true"/>
+        <media-type ref="html"/>
+        <url cachedOnURL="true"/>
+    </portlet-entry>
+    <portlet-entry name="UserOverview" hidden="false" type="ref"
+        parent="Velocity" application="false">
+        <meta-info>
+            <title>User Overview</title>
+            <description>Shows all currently logged in users</description>
+        </meta-info>
+        <classname>org.apache.jetspeed.portal.portlets.VelocityPortlet</classname>
+        <parameter name="template" value="security/loggedinusers"
+            hidden="true" cachedOnName="true" cachedOnValue="true"/>
+        <media-type ref="html"/>
+        <url cachedOnURL="true"/>
+    </portlet-entry>
+    <portlet-entry name="Assignment Tool" hidden="false" type="ref"
+        parent="Velocity" application="false">
+        <meta-info>
+            <title>Assignment tool</title>
+            <description>Does an automatic spectrum assignment</description>
+        </meta-info>
+        <classname>org.apache.jetspeed.portal.portlets.VelocityPortlet</classname>
+        <parameter name="template" value="predict"
+            hidden="true" cachedOnName="true" cachedOnValue="true"/>
+        <parameter name="action"
+            value="portlets.AssignmentToolAction" hidden="true"
+            cachedOnName="true" cachedOnValue="true"/>
+        <media-type ref="html"/>
+        <url cachedOnURL="true"/>
+    </portlet-entry>
+    <portlet-entry name="Quickcheck" hidden="false" type="ref"
+        parent="Velocity" application="false">
+        <meta-info>
+            <title>Quick Check</title>
+            <description>Does a Quick Check</description>
+        </meta-info>
+        <classname>org.apache.jetspeed.portal.portlets.VelocityPortlet</classname>
+        <parameter name="template" value="quickcheck"
+            hidden="true" cachedOnName="true" cachedOnValue="true"/>
+        <parameter name="action"
+            value="portlets.QuickCheckAction" hidden="true"
+            cachedOnName="true" cachedOnValue="true"/>
+        <media-type ref="html"/>
+        <url cachedOnURL="true"/>
+    </portlet-entry>
+</registry>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

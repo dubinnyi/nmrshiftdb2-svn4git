@@ -1,0 +1,410 @@
+#*
+Copyright 2004 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*#
+
+<SCRIPT LANGUAGE="Javascript" SRC="$clink.setURI("javascript/ColorPicker.js")"></SCRIPT>
+<SCRIPT LANGUAGE="Javascript" SRC="$clink.setURI("javascript/ColorSwatch.js")"></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+var cp = new ColorPicker('window');
+//var cp2 = new ColorPicker();
+// Runs when a color is clicked
+function pickColor(color) {
+	field.value = color;
+}
+
+var field;
+function showColorChooser(anchorname, anchorid) {
+	field = document.forms["SkinForm"][anchorname];
+	cp.show(anchorid);
+}
+-->
+</SCRIPT>
+<form name="SkinForm" method="post" action="$jslink.getPaneByName("SkinBrowser").setAction("portlets.SkinUpdateAction")">
+
+<table bgcolor="#ffffff" cellpadding="5">
+      #if ($msg)
+      <tr>
+        <td colspan="2">
+          <table bgcolor="#ffffff">
+            <tr>
+              <td>
+                $msg
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      #end
+      #if($reason)
+      <tr>
+        <td colspan="2">
+          <table bgcolor="#ffffff">
+            <tr>
+              <td>
+                $reason
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      #end
+
+      #if (($mode == "delete"))
+      	<tr>
+      		<td colspan="2">$l10n.REGISTRY_EDITOR_SKIN_CONFIRM_DELETE</td>
+      	</tr>
+        <tr>
+            #formReadOnlyCell ($l10n.REGISTRY_EDITOR_SKIN_NAME "Name" $!entry.Name)
+            <input type="hidden" name="skinname" value="$!entry.Name"/>
+        </tr>
+      #elseif ($mode == "insert")
+      
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_SKIN_NAME</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+              <input type="text" size="30" name="skinname" value="$!data.user.getTemp("skinname")"/>
+            </font>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_SKIN_TEXT_COLOR</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+              <input type="text" name="parameter.text-color" size="20" value="$!data.user.getTemp("parameter.text-color")"/> 
+              <a href="#" onClick="showColorChooser('parameter.text-color', 'text_color'); return false;" id="text_color">$l10n.REGISTRY_EDITOR_SKIN_PICK</a>
+            </font>
+          </td>
+        </tr>
+        
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_SKIN_BACKGROUND_COLOR</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+              <input type="text" name="parameter.background-color" size="20" value="$!data.user.getTemp("parameter.background-color")"/> 
+              <a href="#" onClick="showColorChooser('parameter.background-color', 'background_color'); return false;" id="background_color">$l10n.REGISTRY_EDITOR_SKIN_PICK</a>
+            </font>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_SKIN_TITLE_TEXT_COLOR</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+              <input type="text" name="parameter.title-text-color" size="20" value="$!data.user.getTemp("parameter.title-text-color")"/>
+              <a href="#" onClick="showColorChooser('parameter.title-text-color', 'title_text_color'); return false;" id="title_text_color">$l10n.REGISTRY_EDITOR_SKIN_PICK</a>
+            </font>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_SKIN_TITLE_BACKGROUND_COLOR</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+              <input type="text" name="parameter.title-background-color" size="20" value="$!data.user.getTemp("parameter.title-background-color")"/>
+              <a href="#" onClick="showColorChooser('parameter.title-background-color','title_background_color'); return false;" id="title_background_color">$l10n.REGISTRY_EDITOR_SKIN_PICK</a>
+            </font>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_SKIN_HIGHLIGHT_TEXT_COLOR</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+              <input type="text" name="parameter.highlight-text-color" size="20" value="$!data.user.getTemp("parameter.highlight-text-color")"/>
+              <a href="#" onClick="showColorChooser('parameter.highlight-text-color','highlight_text_color'); return false;" id="highlight_text_color">$l10n.REGISTRY_EDITOR_SKIN_PICK</a>
+            </font>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_SKIN_HIGHLIGHT_BACKGROUND_COLOR</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+              <input type="text" name="parameter.highlight-background-color" size="20" value="$!data.user.getTemp("parameter.highlight-background-color")"/>
+              <a href="#" onClick="showColorChooser('parameter.highlight-background-color','highlight_background_color'); return false;" id="highlight_background_color">$l10n.REGISTRY_EDITOR_SKIN_PICK</a>
+            </font>
+          </td>
+        </tr>
+        
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_SKIN_PORTLET_STYLE_CLASS</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+              <input type="text" name="parameter.portlet-style-class" size="20" value="$!data.user.getTemp("parameter.portlet-style-class")"/>
+            </font>
+          </td>
+        </tr>  
+        
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_SKIN_TITLE_STYLE_CLASS</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+              <input type="text" name="parameter.title-style-class" size="20" value="$!data.user.getTemp("parameter.title-style-class")"/>
+            </font>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_SKIN_CONTENT_STYLE_CLASS</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+              <input type="text" name="parameter.content-style-class" size="20" value="$!data.user.getTemp("parameter.content-style-class")"/>
+            </font>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_SKIN_HIGHLIGHT_TITLE_STYLE_CLASS</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+              <input type="text" name="parameter.highlight-title-style-class" size="20" value="$!data.user.getTemp("parameter.highlight-title-style-class")"/>
+            </font>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_SKIN_TAB_STYLE_CLASS</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+              <input type="text" name="parameter.tab-style-class" size="20" value="$!data.user.getTemp("parameter.tab-style-class")"/>
+            </font>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_SKIN_TAB_TITLE_STYLE_CLASS</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+              <input type="text" name="parameter.tab-title-style-class" size="20" value="$!data.user.getTemp("parameter.tab-title-style-class")"/>
+            </font>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_SKIN_TAB_CONTENT_STYLE_CLASS</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+              <input type="text" name="parameter.tab-content-style-class" size="20" value="$!data.user.getTemp("parameter.tab-content-style-class")"/>
+            </font>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_SKIN_PORTLET_SKIN_CLASS</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+              <input type="text" name="parameter.portlet-skin-class" size="20" value="$!data.user.getTemp("parameter.portlet-skin-class")"/>
+            </font>
+          </td>
+        </tr>
+	#elseif($mode == "update")
+      	<tr>
+            #formReadOnlyCell ($l10n.REGISTRY_EDITOR_SKIN_NAME "Name" $!entry.Name)
+            <input type="hidden" name="skinname" value="$!entry.Name"/>
+        </tr>
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_SKIN_TEXT_COLOR</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+              <input type="text" name="parameter.text-color" size="20" value="$!entry.getParameter("text-color").value"/>
+              <a href="#" onClick="showColorChooser('parameter.text-color', 'text_color'); return false;" id="text_color">$l10n.REGISTRY_EDITOR_SKIN_PICK</a>
+            </font>
+          </td>
+        </tr>
+        
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_SKIN_BACKGROUND_COLOR</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+              <input type="text" name="parameter.background-color" size="20" value="$!entry.getParameter("background-color").value"/>
+              <a href="#" onClick="showColorChooser('parameter.background-color', 'background_color'); return false;" id="background_color">$l10n.REGISTRY_EDITOR_SKIN_PICK</a>
+            </font>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_SKIN_TITLE_TEXT_COLOR</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+              <input type="text" name="parameter.title-text-color" size="20" value="$!entry.getParameter("title-text-color").value"/>
+              <a href="#" onClick="showColorChooser('parameter.title-text-color', 'title_text_color'); return false;" id="title_text_color">$l10n.REGISTRY_EDITOR_SKIN_PICK</a>
+            </font>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_SKIN_TITLE_BACKGROUND_COLOR</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+              <input type="text" name="parameter.title-background-color" size="20" value="$!entry.getParameter("title-background-color").value"/>
+              <a href="#" onClick="showColorChooser('parameter.title-background-color','title_background_color'); return false;" id="title_background_color">$l10n.REGISTRY_EDITOR_SKIN_PICK</a>
+            </font>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_SKIN_HIGHLIGHT_TEXT_COLOR</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+              <input type="text" name="parameter.highlight-text-color" size="20" value="$!entry.getParameter("highlight-text-color").value"/>
+              <a href="#" onClick="showColorChooser('parameter.highlight-text-color','highlight_text_color'); return false;" id="highlight_text_color">$l10n.REGISTRY_EDITOR_SKIN_PICK</a>
+            </font>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_SKIN_HIGHLIGHT_BACKGROUND_COLOR</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+              <input type="text" name="parameter.highlight-background-color" size="20" value="$!entry.getParameter("highlight-background-color").value"/>
+              <a href="#" onClick="showColorChooser('parameter.highlight-background-color','highlight_background_color'); return false;" id="highlight_background_color">$l10n.REGISTRY_EDITOR_SKIN_PICK</a>
+            </font>
+          </td>
+        </tr>
+        
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_SKIN_PORTLET_STYLE_CLASS</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+              <input type="text" name="parameter.portlet-style-class" size="20" value="$!entry.getParameter("portlet-style-class").value"/>
+            </font>
+          </td>
+        </tr>  
+        
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_SKIN_TITLE_STYLE_CLASS</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+              <input type="text" name="parameter.title-style-class" size="20" value="$!entry.getParameter("title-style-class").value"/>
+            </font>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_SKIN_CONTENT_STYLE_CLASS</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+              <input type="text" name="parameter.content-style-class" size="20" value="$!entry.getParameter("content-style-class").value"/>
+            </font>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_SKIN_HIGHLIGHT_TITLE_STYLE_CLASS</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+              <input type="text" name="parameter.highlight-title-style-class" size="20" value="$!entry.getParameter("highlight-title-style-class").value"/>
+            </font>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_SKIN_TAB_STYLE_CLASS</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+              <input type="text" name="parameter.tab-style-class" size="20" value="$!entry.getParameter("tab-style-class").value"/>
+            </font>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_SKIN_TAB_TITLE_STYLE_CLASS</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+              <input type="text" name="parameter.tab-title-style-class" size="20" value="$!entry.getParameter("tab-title-style-class").value"/>
+            </font>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_SKIN_TAB_CONTENT_STYLE_CLASS</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+              <input type="text" name="parameter.tab-content-style-class" size="20" value="$!entry.getParameter("tab-content-style-class").value"/>
+            </font>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_SKIN_PORTLET_SKIN_CLASS</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+              <input type="text" name="parameter.portlet-skin-class" size="20" value="$!entry.getParameter("portlet-skin-class").value"/>
+            </font>
+          </td>
+        </tr>
+	
+	
+      #end
+</table>
+<table border="0"  cellspacing="0" cellpadding="5" width="30%">
+      <tr>
+        <td>
+          #if ($mode == "insert")
+          <input type="submit" name="eventSubmit_doInsert" value="$l10n.REGISTRY_EDITOR_SKIN_INSERT"/>
+          #elseif ($mode == "delete")
+          <input type="submit" name="eventSubmit_doDelete" value="$l10n.REGISTRY_EDITOR_SKIN_DELETE"/>
+          #elseif ($mode == "update")
+          <input type="submit" name="eventSubmit_doUpdate" value="$l10n.REGISTRY_EDITOR_SKIN_UPDATE"/>
+          #end
+        </td>
+        <td>
+          <input type="submit" name="eventSubmit_doCancel" value="$l10n.REGISTRY_EDITOR_SKIN_CANCEL"/>
+        </td>
+      </tr>
+</table>
+</form>
+
+<SCRIPT LANGUAGE="JavaScript">cp.writeDiv()</SCRIPT>

@@ -1,0 +1,1189 @@
+##Only contributors and reviewers may see that page
+#if(!$accesscontroller.checkPermission($data.getUserFromSession(), $portlet, "submit") && !$login)
+    You are not a contributor or not logged in! You are welcome to <a href="portal/template/NewAccount;jsessionid=$session.getId()">register yourself</a>.
+#elseif($error)
+    $error
+#elseif($otherquickcheck=="true")
+    Your spectrum has been submitted#if($reviewflag=="private")!#else and will be reviewed shortly!#end Thanks for your contribution! If you want to submit the other spectrum from your Quick Check <a href="$link.getPaneById("P-Submit")?eventSubmit_doOtherquickcheck=eventSubmit_doOtherquickcheck">click here</a>!
+#elseif($finished=="true")
+    Your spectrum has been submitted#if($reviewflag=="private")!#else and will be reviewed shortly!#end For a new submit <a href="$link.getPaneById("P-Submit")">click here</a>!
+#elseif($reload=="true")
+    Please wait while login is performed!
+    <script>
+        window.location.href = 'portal/js_pane/P-Submit;jsessionid=$session.getId()?eventSubmit_doChangelevel=changelevel&newlevel=$submitlevel';
+    </script>
+#elseif($login=="true")
+    $message
+    <form method="POST" action="$link.getPaneById("P-Submit")?nextaction=$nextaction&submitlevel=$submitlevel" enctype="application/x-www-form-urlencoded">
+        <input type="hidden" name="spectrum" value="$spectrum">
+        <input name="molecule" type="hidden" value="$molecule">
+        <input name="type" type="hidden" value="$type">
+        <table border="0" cellspacing="2" cellpadding="1">
+        <tr>
+        <td>Username</td><td><input size="10" name="username" maxlength="25" type="text" tabindex="1"/></td>
+        <td rowspan=2 align=center><small><input name="eventSubmit_doLoginafteraddspectrum" type="submit" value="Login" tabindex="3"/></td>
+        </tr>
+        <tr>
+        <td>Password</small></td><td><input size="10" name="password" maxlength="25" type="password" tabindex="2"/></td>
+        </tr>
+        </table>
+    </form>
+#elseif($editdatasetliterature)
+    <br>
+    <form name="literatureformedit" action="$link.getPaneById("P-Submit")" method="post">
+	    <table rules="rows" bgcolor="#0000AA">
+	        <tr>
+	            <td bgcolor="#C0C0C0" colspan="3">This journal article will become the literature reference for all spectra in the $datasetname datase for $molecule.getMoleculeId() (*=mandatory)</td>
+	        </tr>
+	        #parse("portlets/html/journalform.vm")
+	    </table>
+	    <input type="hidden" name="spectrumid" value="$spectrumid">
+	    <input type="hidden" name="datasetname" value="$datasetname">
+	    <input type="hidden" name="literatureid" value="1">
+		<input type="submit" name="eventSubmit_doSubmitliteratureedit" style="background-color:#0000AA; color:white" value="Submit literature">
+    </form> 
+#else
+    #if($brokensubmitfile)
+    <br>
+    <table align="center" bgcolor="#0000AA">
+    		<td><div style="color:white">It seems there is an unfinished submit. Do you want to continue this ?</div></td>
+    	</tr>
+    	<tr>
+    		<td align="center"><a style="color:white" href="$link.getPaneById("P-Submit")?eventSubmit_doNocontinue=nocontinue">No</a> <a style="color:white" href="$link.getPaneById("P-Submit")?eventSubmit_doContinue=continue">Yes</a></td>
+    	</tr>
+    </table><br>
+    #end
+    #if($brokeneditfile)
+    <br>
+    <table align="center" bgcolor="#0000AA">
+    	<tr>
+    		<td><div style="color:white">It seems there is an unfinished edit. Do you want to continue this ?</div></td>
+    	</tr>
+    	<tr>
+    		<td align="center"><a style="color:white" href="$link.getPaneById("P-Submit")?eventSubmit_doNocontinueedit=nocontinueedit">No</a> <a style="color:white" href="$link.getPaneById("P-Submit")?eventSubmit_doContinueedit=continueedit">Yes</a></td>
+    	</tr>
+    </table><br>
+    #end
+    <br>
+    <p style="color:red">
+      $!messages
+    </p>
+      <p style="color:#0000AA">
+        #if($subdata.getLevel()==1)
+          #if($editspectrum=="true")
+            Edit the molecule or submit it unchanged! 
+          #else
+            #if($subdata.getDoubleBondConfiguration())
+              Specify the double bond orientations
+            #else
+              #if($structureeditor=="JCP")
+    	          #if($session.getAttribute("applet")=="applet")
+    		        Draw a molecule and submit it!
+    		      #else
+    		        Upload a molecule and submit it or <a href="$request.getRequestURI();jsessionid=$session.getId()?$request.getQueryString()&eventSubmit_doApplet=applet">switch to Java mode!</a>
+    		      #end
+    		  #else
+    		  	Draw a molecule and submit it!
+    		  #end
+            #end
+          #end
+          <a href="portal/js_pane/P-Help;jsessionid=$data.getSession().getId()?URL=using.html#submit" title="Help for submit"><img src="images/help.png" style="color:white"></a><br>
+        #elseif($subdata.getLevel()==2)
+          #if($editspectrum=="true")
+            Add additional shifts or submit unchanged! 
+          #else
+            #if(!$subdata.getChoosenSpectrumType() || $subdata.getChoosenSpectrumType().getDimensionality()==1)
+	            Enter your spectral data, one shift per line, the intensity (optional, maximum is one) seperated by ; or : like <br>56.2;.2<br>64.1;.6<br>and submit the spectrum !<br>
+	            If you add a multiplicity (S/D/T/Q) at the end, it will be used for the automatic assignment.
+	        #else
+	            Enter your spectral data, the format per line is: first dimension shift, second dimension shift, coupling constant (optiona). E. g.<br>2.8; 29.0<br>for a shift in a H-C spectrum. 
+	        #end
+          #end
+          <a href="portal/js_pane/P-Help;jsessionid=$data.getSession().getId()?URL=using.html#submit" title="Help for submit"><img src="images/help.png" style="color:white"></a><br>
+        #elseif($subdata.getLevel()==3)
+          Choose the shift an atom is assigned to in the dropdown-boxes and submit the assignment! <a href="portal/js_pane/P-Help;jsessionid=$data.getSession().getId()?URL=using.html#submit" title="Help for submit"><img src="images/help.png" style="color:white"></a><br>
+        #elseif($subdata.getLevel()==4)
+          Enter the additional data and write everything to the database! <a href="portal/js_pane/P-Help;jsessionid=$data.getSession().getId()?URL=using.html#submit" title="Help for submit"><img src="images/help.png" style="color:white"></a><br>
+        #elseif($subdata.getLevel()==6)
+          Choose your spectrum type! <a href="portal/js_pane/P-Help;jsessionid=$data.getSession().getId()?URL=using.html#submit" title="Help for submit"><img src="images/help.png" style="color:white"></a><br>
+        #elseif($subdata.getLevel()==0)
+          Enter literature items. If none exist, choose the next item in the timeline! <a href="portal/js_pane/P-Help;jsessionid=$data.getSession().getId()?URL=using.html#submit" title="Help for submit"><img src="images/help.png" style="color:white"></a><br>
+        #elseif($subdata.getLevel()==5)
+          Attach a JCAMP-DX, PDF, image or raw data file. If none, choose the next item in the timeline! <a href="portal/js_pane/P-Help;jsessionid=$data.getSession().getId()?URL=using.html#submit" title="Help for submit"><img src="images/help.png" style="color:white"></a><br>
+        #elseif($subdata.getLevel()==7)
+          Submit your input. To change data, choose the appropriate item in the timeline! <a href="portal/js_pane/P-Help;jsessionid=$data.getSession().getId()?URL=using.html#submit" title="Help for submit"><img src="images/help.png" style="color:white"></a><br>
+        #elseif($subdata.getLevel()==8)
+          Choose an experiment for which you want to do the assignment (optional)! <a href="portal/js_pane/P-Help;jsessionid=$data.getSession().getId()?URL=using.html#submit" title="Help for submit"><img src="images/help.png" style="color:white"></a><br>
+        #end
+      </p>
+      <table><tr><td>
+      #if($subdata.getMolOriginal())
+        #if($session.getAttribute("applet")=="applet")
+              <a href="$data.getRequest().getRequestURI();jsessionid=$data.getSession().getId()?$data.getRequest().getQueryString()&eventSubmit_doNoapplet=noapplet" title="Switch off Java applets" style="color:white"><img src="images/nojava.png"></a><span style="color:#0000AA">Double click to get resizeable window!</span><br>
+              <script LANGUAGE="JavaScript1.1" SRC="nmrshiftdbhtml/marvin.js"></script>
+              <script LANGUAGE="JavaScript1.1">
+              <!--
+              var currentlyworking=-1;
+              function exportMol() {
+                if(document.JcpEditor != null) {
+                  var s = document.JcpEditor.getMolFile();
+                  s = unix2local(s);
+                  document.MolForm.MolTxt.value=s;
+                } else {
+                  alert("Cannot import molecule: no JavaScript to Java communication in your browser.");
+                }
+              }
+              function openStructureHistory(){
+                mywindow=window.open("nmrshiftdbhtml/importfromstructureshistory.jsp;jsessionid=$session.getId()","molimport","height=200,width=900");
+                mywindow.focus();
+              }
+              function exchangeSpectrumType(){
+                uploadform2.spectrumType=spectrumForm.spectrumType.value;
+              }
+              function unselectandselect(b){
+                if(currentlyworking==1){
+                  return;
+                }else{
+                  currentlyworking=1;
+                  document.JcpViewer.selectAtom(parseInt(b));
+                  currentlyworking=0;
+                }
+              }
+    	        mview_name = "JcpViewer";
+    	        mview_begin("$baseurl/../nmrshiftdbhtml", 300, 300);
+    	        mview_param("load","$baseurl/../$molfile");
+    	        mview_param("atomNumbersVisible","true");
+    	        mview_param("background","12632256");
+    	        mview_param("detachable","true");
+                mview_param("tooltips","$subdata.getTooltipString()");
+    	        mview_end();
+    	        //-->
+    	        </script>
+        #else	
+      		  <a href="$request.getRequestURI();jsessionid=$session.getId()?$request.getQueryString()&eventSubmit_doApplet=applet" title="Switch on Java-Applets" style="color:white"><img src="images/java.png"></a><br>
+              <img src="$image">
+        #end
+        #if($identifiersets)
+            <form action="$link.getPaneById("P-Submit")" method="post" NAME="chooseidentifiers">
+                <select name="identifierset">
+                    <option value="-1">Standard</option>
+                    #foreach ($identifierset in $identifiersets.keySet())
+                        <option value="$identifierset">$identifiersets.get($identifierset)</option>
+                    #end
+                </select>
+                <input name="eventSubmit_doChooseidentifiers" TYPE="submit" VALUE="Choose identifiers">
+            </form>
+        #end
+      #else
+        No structure entered
+      #end
+      </td>
+          <td>
+      		Spectrum type: $!choosenspectrumtype.getName()<br>
+            #if($subdata.getSignalstable().getPeakElements().size()>0)
+          		#if($subdata.isAssignmentGuessed())Suggested assignment, <a href="$link.getPaneById("P-Submit")?eventSubmit_doChangelevel=changelevel&newlevel=3">change if wrong</a> #end<br>
+          		<br>
+          		<table border="0" rules="none">
+          		    #if($subdata.getChoosenSpectrumType().getDimensionality()==1)
+	    				<tr bgcolor="#0000AA"><th><a href="$link.getPaneById("P-Submit")?eventSubmit_doSortcolumn=sortcolumn&updown=$updownstring&ordercolumn=-3"><div style="color:#FFFFFF">Atom No. 
+	                                    #if(-3==$ordercolumn)
+	                                        #if($updown)
+	                                            &uArr;
+	                                        #else
+	                                            &dArr;
+	                                        #end
+	                                    #end
+	    					</div></a></th><th><a href="$link.getPaneById("P-Submit")?eventSubmit_doSortcolumn=sortcolumn&updown=$updownstring&ordercolumn=1"><div style="color:#FFFFFF">Shift 
+	                                    #if(1==$ordercolumn)
+	                                        #if($updown)
+	                                            &uArr;
+	                                        #else
+	                                            &dArr;
+	                                        #end
+	                                    #end
+	    				</div></a></th><th><div style="color:#FFFFFF">Mult.<br>(coupling const.)</div></th></tr>
+	    				#foreach($atom in $subdata.getConfirmShifts($ordercolumn,$updown))
+	    		          #set($greyorwhite=$velocityCount%2)
+	            		  <tr id="tableid$option.getValue().intValue()"
+	    					#if($greyorwhite==0)
+	    						bgcolor="#D3D3D3" 
+	    					#end
+	    		          #if($data.getSession().getAttribute("applet")=="applet")
+	            		    onMouseover="unselectandselect($atom.getValue().intValue());style.backgroundColor='#FF6600';" onmouseout="style.backgroundColor='#if($greyorwhite==0) #D3D3D3 #else white #end';"
+	    		          #end
+	            		  ><td>$atom.getDisplayText()</td><td>$atom.getRange()</td><td>$atom.getMultiplicity()</td></tr>
+	    				#end
+	    			#else
+	    				<tr bgcolor="#0000AA"><th><div style="color:#FFFFFF">First axis</div></th><th><div style="color:#FFFFFF">Second axis</div></th></tr>
+	    				#foreach($peak in $subdata.getSignalstable().getPeakElements().getList())
+	    					#set($greyorwhite=$velocityCount%2)
+	    					<tr id="tableid$velocityCount"
+	    					#if($greyorwhite==0)
+	    						bgcolor="#D3D3D3" 
+	    					#end
+	    		          	><td>$peak.getXValue()</td><td>$peak.getYValue()</td></tr>
+	    				#end
+	    			#end
+    			</table>
+    	      	$subdata.getUnassignedSignals()
+             #end
+           </td>
+          <td>
+              Chemical name(s): <strong>$subdata.getChemNameWithSemicolon()</strong><br>
+              Double Bond Specification: $subdata.getConfigurationString()<br>
+              CAS number: $subdata.getCasNumber()<br>
+              Conditions:<br>
+              #if($subdata.getConditions().size()>0)
+                  #if($subdata.getConditions().get(0).getCurrentSelectedCondition() || $subdata.getConditions().get(0).getCurrentValue($subdata.getChoosenSpectrumType())!="")
+                      #foreach ($cond in $subdata.getConditions())
+                        - $cond.getConditionName(): 
+                        #if($cond.getCurrentValue()!="")
+                          $cond.getCurrentValue()
+                        #else
+                          $cond.getCurrentSelectedCondition().getValue()
+                        #end       
+                        <br>
+                      #end
+                  #end
+              #end
+              #if($subdata.getLiterature().size()>0)
+                Literature: 
+                #foreach($literature in $subdata.getLiterature())
+                  $literature.toString()<br>
+                #end
+              #end
+              Additional comments: $subdata.getComment()<br>
+              Additional spectrum information: $subdata.getSpectrumLinksAsLinks()<br>
+              Spectrum keywords: $subdata.getSpectrumKeywords()<br>
+              #if(!$subdata.getJcamp() || $subdata.getJcamp()=="")
+                No JCAMP-DX file attached!
+              #else
+                A <a href="download/NmrshiftdbServlet/spectrum.jdx;jsessionid=$data.getSession().getId()?spectrumid=subdata&nmrshiftdbaction=exportspec&format=jcamp">JCAMP-DX file</a> has been attached! <form action="$link.getPaneById("P-Submit")" method="post" NAME="RemoveJcampForm">
+                    <input type="hidden" id="type" name="type" value="jcamp"><input name="eventSubmit_doRemovefile" style="font-size:smaller" TYPE="submit" VALUE="Remove JCAMP-DX file">
+                </form>
+              #end
+              <br>
+              #if(!$subdata.getPdf())
+                No PDF file attached!
+              #else
+                A <a href="download/NmrshiftdbServlet/spectrum.pdf;jsessionid=$data.getSession().getId()?spectrumid=subdata&nmrshiftdbaction=exportspec&format=pdforig">PDF file</a> has been attached! <form action="$link.getPaneById("P-Submit")" method="post" NAME="RemovePdfForm">
+                    <input type="hidden" id="type" name="type" value="pdf"><input name="eventSubmit_doRemovefile" style="font-size:smaller" TYPE="submit" VALUE="Remove PDF file">
+                </form>
+              #end
+              <br>
+              #if(!$subdata.getRawData())
+                No raw data file attached!
+              #else
+                A <a href="download/NmrshiftdbServlet/spectrum.$subdata.getRawdataFormat();jsessionid=$data.getSession().getId()?spectrumid=subdata&nmrshiftdbaction=exportspec&format=rawdata">raw data file</a> has been attached! <form action="$link.getPaneById("P-Submit")" method="post" NAME="RemoveRawForm">
+                    <input type="hidden" id="type" name="type" value="rawdata"><input name="eventSubmit_doRemovefile" style="font-size:smaller" TYPE="submit" VALUE="Remove raw data file">
+                </form>
+              #end
+              <br>
+              #if(!$subdata.getImage())
+                No image file attached!
+              #else
+                An <a href="download/NmrshiftdbServlet/spectrum.$subdata.getImageFormat();jsessionid=$data.getSession().getId()?spectrumid=subdata&nmrshiftdbaction=exportspec&format=originalimage">image file</a> has been attached! <form action="$link.getPaneById("P-Submit")" method="post" NAME="RemoveImageForm">
+                    <input type="hidden" id="type" name="type" value="image"><input name="eventSubmit_doRemovefile" style="font-size:smaller" TYPE="submit" VALUE="Remove image file">
+                </form>
+              #end
+              <br>
+              #if(!$subdata.getOtherFiles())
+                No other files attached!
+              #else
+                An <a href="download/NmrshiftdbServlet/spectrum.zip;jsessionid=$data.getSession().getId()?spectrumid=subdata&nmrshiftdbaction=exportspec&format=otherfiles">other files zip</a> has been attached! <form action="$link.getPaneById("P-Submit")" method="post" NAME="RemoveOtherFilesForm">
+                    <input type="hidden" id="type" name="type" value="otherfiles"><input name="eventSubmit_doRemovefile" style="font-size:smaller" TYPE="submit" VALUE="Remove other file">
+                </form>
+              #end
+              #if($subdata.getCmcseFile())
+                <br>
+                An <a href="download/NmrshiftdbServlet/spectrum.zip;jsessionid=$data.getSession().getId()?spectrumid=subdata&nmrshiftdbaction=exportspec&format=cmcse">CMC-SE files zip</a> has been attached! <form action="$link.getPaneById("P-Submit")" method="post" NAME="RemoveCmcseFileForm">
+                    <input type="hidden" id="type" name="type" value="cmcsefile"><input name="eventSubmit_doRemovefile" style="font-size:smaller" TYPE="submit" VALUE="Remove CMC-SE file">
+                </form>
+              #end              
+            <br>
+          </td>
+           <td>
+             #parse("exportformsubdata.vm")
+           </td>
+           #if($equivalenceimage)
+           	<td><img src="$equivalenceimage"></td>
+           #end
+      </tr></table>
+        <br>
+        #macro(displayexistingspectra $spectra $text)
+          #if($spectra.size()>0)
+            $text:<br><br>
+            <table><tr>
+            #foreach($spectrum in $spectra)
+              <td>
+              <b>$spectrum.getDBSpectrumType().getName()</b> spectrum:<br>
+              #if($session.getAttribute("applet")=="applet")
+    	          <script LANGUAGE="JavaScript1.1">
+    	            spectrumapplet_name = "Spectrum";
+    	            spectrumapplet_begin("$baseurl/../nmrshiftdbhtml", 250, 150);
+    	            spectrumapplet_param("spectrum","$spectrum.getSpecfile()");
+    	            spectrumapplet_param("hideNavigation","true");
+    	            spectrumapplet_param("frequency", $spectrum.getFrequency());
+    	            spectrumapplet_end();
+    	          </script>
+    	      #else
+    	        #if($spectrum.getImage())
+    	           <img src="download/NmrshiftdbServlet/${spectrum.getSpectrumId()}.${spectrum.getImageFormat()}?spectrumid=${spectrum.getSpectrumId()}&nmrshiftdbaction=exportspec&format=originalimage" height="150">
+    	        #else
+    	      	    <img src="download/NmrshiftdbServlet/${spectrum.getSpectrumId()}.jpg;jsessionid=$data.getSession().getId()?nmrshiftdbaction=exportspec&spectrumid=${spectrum.getSpectrumId()}&format=jpeg&size=small&backcolor=14737632">
+    	      	#end
+    	      #end
+              </td><td>
+              <table>
+                <tr><th bgcolor="#0000AA"><p style="color:#FFFFFF">Signal</p></th></tr>
+                #foreach($signal in $spectrum.getDBSignals())
+                  #set($test=$velocityCount%2)
+                  <tr
+                  #if($test==0)
+                    bgcolor="#D3D3D3" 
+                  #end
+                  ><td>
+                  $signal.getFirstShift().getValue()</td></tr>
+                #end
+              </table>
+              </td>
+            #end
+            </tr></table>
+            <br><br><br>
+          #end
+        #end
+    	  <table><tr>
+    	  #if($isinlabgroup=="true")	  
+    		  <td bgcolor="#if($subdata.getLevel()==8) yellow #else green #end">#if($subdata.getLevel()==8) Choosing your experiment #else <a href="$link.getPaneById("P-Submit")?eventSubmit_doChangelevel=changelevel&newlevel=8">Choose experiment</a>#end </td><td> #if($subdata.getLevel()==8) <img src="nmrshiftdbhtml/arrow-yellow.gif"> #else <img src="nmrshiftdbhtml/arrow-green.gif"> #end</td>
+    	  #end
+    	  <td bgcolor="#if($subdata.getLevel()==1) yellow #elseif($subdata.getMolOriginal()) green #else red #end">#if($subdata.getLevel()==1) Entering molecule #else <a href="$link.getPaneById("P-Submit")?eventSubmit_doChangelevel=changelevel&newlevel=1">Enter molecule</a>#end </td><td> #if($subdata.getLevel()==1) <img src="nmrshiftdbhtml/arrow-yellow.gif"> #elseif($subdata.getMolOriginal()) <img src="nmrshiftdbhtml/arrow-green.gif"> #else <img src="nmrshiftdbhtml/arrow-red.gif"> #end</td>
+    	  <td bgcolor="#if($subdata.getLevel()==6) yellow #elseif($subdata.getChoosenSpectrumType()) green #else red #end">#if($subdata.getLevel()==6) Setting spectrum type #else <a href="$link.getPaneById("P-Submit")?eventSubmit_doChangelevel=changelevel&newlevel=6">Set spectrum type</a>#end </td><td> #if($subdata.getLevel()==6) <img src="nmrshiftdbhtml/arrow-yellow.gif"> #elseif($subdata.getChoosenSpectrumType()) <img src="nmrshiftdbhtml/arrow-green.gif"> #else <img src="nmrshiftdbhtml/arrow-red.gif"> #end </td>
+       	  #if($subdata.getChoosenSpectrumType().getDimensionality()==1)
+	       	  <td bgcolor="#if($subdata.getLevel()==2) yellow #elseif(($subdata.getChoosenSpectrumType() && !$subdata.getChoosenSpectrumType().requiresPeaks()) || $subdata.getSignalstable().getPeakElements().size()>0) green #else red #end">#if($subdata.getLevel()==2) Adding shifts #else <a href="$link.getPaneById("P-Submit")?eventSubmit_doChangelevel=changelevel&newlevel=2">Add shifts</a>#end </td><td> #if($subdata.getLevel()==2) <img src="nmrshiftdbhtml/arrow-yellow.gif"> #elseif(($subdata.getChoosenSpectrumType() && !$subdata.getChoosenSpectrumType().requiresPeaks()) || $subdata.getSignalstable().getPeakElements().size()>0) <img src="nmrshiftdbhtml/arrow-green.gif"> #else <img src="nmrshiftdbhtml/arrow-red.gif"> #end </td>
+	      #end
+          #if(!$subdata.getChoosenSpectrumType() || $subdata.getChoosenSpectrumType().requiresPeaks())
+        	  <td bgcolor="#if($subdata.getLevel()==3) yellow #elseif($subdata.getSignalstable().getPeakElements().size()>0) green #else red #end">#if($subdata.getLevel()==3) Doing assignment #else <a href="$link.getPaneById("P-Submit")?eventSubmit_doChangelevel=changelevel&newlevel=3">Do assignment</a>#end </td><td> #if($subdata.getLevel()==3) <img src="nmrshiftdbhtml/arrow-yellow.gif"> #elseif($subdata.getSignalstable().getPeakElements().size()>0) <img src="nmrshiftdbhtml/arrow-green.gif"> #else <img src="nmrshiftdbhtml/arrow-red.gif" #end </td>
+          #end
+    	  <td bgcolor="#if($subdata.getLevel()==4) yellow #elseif($subdata.allConditionsHaveValues()) green #else red #end">#if($subdata.getLevel()==4) Adding miscellaneous data #else <a href="$link.getPaneById("P-Submit")?eventSubmit_doChangelevel=changelevel&newlevel=4">Add miscellaneous data</a>#end </td><td> #if($subdata.getLevel()==4) <img src="nmrshiftdbhtml/arrow-yellow.gif"> #elseif($subdata.allConditionsHaveValues()) <img src="nmrshiftdbhtml/arrow-green.gif"> #else <img src="nmrshiftdbhtml/arrow-red.gif"> #end </td>
+    	  <td bgcolor="#if($subdata.getLevel()==0) yellow #else green #end">#if($subdata.getLevel()==0) Adding literature items #else <a href="$link.getPaneById("P-Submit")?eventSubmit_doChangelevel=changelevel&newlevel=0">Add literature items</a>#end </td><td> #if($subdata.getLevel()==0) <img src="nmrshiftdbhtml/arrow-yellow.gif"> #else <img src="nmrshiftdbhtml/arrow-green.gif"> #end </td>
+    	  <td bgcolor="#if($subdata.getLevel()==5) yellow #elseif(($subdata.getChoosenSpectrumType() && $subdata.getChoosenSpectrumType().requiresPeaks()) || $subdata.getImage()) green #else red #end">#if($subdata.getLevel()==5) Attaching files #else <a href="$link.getPaneById("P-Submit")?eventSubmit_doChangelevel=changelevel&newlevel=5">Attach files</a>#end </td><td> #if($subdata.getLevel()==5) <img src="nmrshiftdbhtml/arrow-yellow.gif"> #elseif(($subdata.getChoosenSpectrumType() && $subdata.getChoosenSpectrumType().requiresPeaks()) || $subdata.getImage()) <img src="nmrshiftdbhtml/arrow-green.gif"> #else <img src="nmrshiftdbhtml/arrow-red.gif"> #end </td>
+    	  <td bgcolor="#if($subdata.getLevel()==7) yellow #else red #end">#if($subdata.getLevel()==7) Submitting finally #else <a href="$link.getPaneById("P-Submit")?eventSubmit_doChangelevel=changelevel&newlevel=7">Final submit</a>#end</td>
+     	  </tr></table>
+      #if($subdata.getLevel()==0)
+          <script LANGUAGE="JavaScript1.1">
+              <!--
+              function fillfromdoi(litnumber) {
+                if(document.getElementById('doi'+litnumber).value != "") {
+                  document.getElementById('literatureid').value=litnumber;
+                } else {
+                  alert("You did not fill in a DOI!");
+                }
+              }
+    	      //-->
+    	  </script>
+          <form name="literatureform" action="$link.getPaneById("P-Submit")" method="post">
+    	      <br><br>
+    	      <table rules="rows" bgcolor="#0000AA">
+    	        <tr>
+    	          <td bgcolor="#0000AA" colspan="3"><div style="color:white">Literature</div></td>
+    	        </tr>
+    	        <tr>
+    	          <td bgcolor="#C0C0C0" colspan="3">Fill in journal articles where spectrum is published (if any, *=mandatory)</td>
+    	        </tr>
+    	        <input type="hidden" id="literatureid" name="literatureid" value="">
+                #parse("portlets/html/journalform.vm")
+    	        <td bgcolor="#C0C0C0" colspan="3"></td>
+    	        #if($literaturecomplete=="true")
+                    <tr>
+                      <td bgcolor="#C0C0C0">DOI<br>Example: 10.1002/jlac.18611180314</td><td bgcolor="#C0C0C0"><input id="doi2" type="text" size="20" name="doijournal2" value="$journalarticle2.getDoi()"><input type="submit" name="eventSubmit_doResolvedoi" onclick="fillfromdoi(2)" value="Fill from DOI"></td>
+                    </tr>
+                    <tr>
+                      <td bgcolor="#C0C0C0">Author(s) separated with , or ; (names separated with blanks)*<br>Example: Gustav Kirchoff, Robert Bunsen</td><td bgcolor="#C0C0C0"><input type="text" size="100" name="authorjournal2" value="$journalarticle2.getAuthor()"></td>
+                    </tr>
+                    <tr>
+                      <td bgcolor="#C0C0C0">Title of Publication<br>Example: Chemische Analyse durch Spectralbeobachtungen</td><td bgcolor="#C0C0C0"><input type="text" size="100" name="titlejournal2" value="$journalarticle2.getTitleForHtml()" onChange="literatureform.id1.checked=true"></td>
+                    </tr>
+                    <tr>
+                      <td bgcolor="#C0C0C0">Subtitle of Publication (if any)</td><td bgcolor="#C0C0C0"><input type="text" size="100" name="subtitlejournal2" value="$journalarticle2.getSubtitleForHtml()"></td>
+                    </tr>
+                            <tr>
+                      <td bgcolor="#C0C0C0">Journal title, Subtitle (if any), abbreviation (if known)<br>Example: "Justus Liebigs Annalen der Chemie" as title, no subititle, "Liebigs Ann. Chem." as abbreviation</td>
+                      <td bgcolor="#C0C0C0"><input type="text" size="25" name="journaltitlejournal2" value="$journalarticle2.getJournaltitle()">, <input type="text" size="25" name="journalsubtitlejournal2" value="$journalarticle2.getJournalsubtitle()">, <input type="text" size="5" name="itajournal2" value="$journalarticle2.getIta()"> </td>
+                    </tr>
+                    <tr>
+                      <td bgcolor="#C0C0C0">Or choose journal from box:</td>
+                      <td bgcolor="#C0C0C0" colspan="1">
+                        <select name="choosejournal2" size="1" style="width:500px" onChange="document.restform.elements['journaltitlejournal2'].value='';document.restform.elements['journalsubtitlejournal2'].value='';">
+                          #foreach($existingjournal in $existingjournals)
+                            <option value="$existingjournal.getJournalId()">$existingjournal.getNiceTitle()</option>
+                          #end
+                        </select>
+                      </td>
+                    <tr>
+                    <tr>
+                      <td bgcolor="#C0C0C0">Year*, Volume, Issue<br>Example: 1861, 118</td>
+                      <td bgcolor="#C0C0C0"><input type="text" size="4" maxlength="4" name="yearjournal2" value="$journalarticle2.getYear()">, <input type="text" size="4" maxlength="4" name="volumejournal2" value="$journalarticle2.getVolume()">, <input type="text" size="4" maxlength="4" name="issuejournal2" value="$journalarticle2.getIssue()"></td>
+                    </tr>
+                    <tr>
+                      <td bgcolor="#C0C0C0">Pages</td>
+                      <td bgcolor="#C0C0C0"><input type="text" size="6" maxlength="6" name="fromjournal2" value="$journalarticle2.getFrom()"> - <input type="text" size="6" maxlength="6" name="tojournal2" value="$journalarticle2.getTo()"></td>
+                    </tr>
+                    <tr>
+                      <td bgcolor="#C0C0C0">Link (if no DOI exists)</td>
+                      <td bgcolor="#C0C0C0"><input type="text" size="20" name="linkjournal2" value="$journalarticle2.getUrl()"></td>
+                    </tr>
+    	          <tr>
+    	            <td bgcolor="#0000AA" colspan="6"></td>
+    	          </tr>
+    	          <tr>
+    	            <td bgcolor="#C0C0C0" colspan="6">Fill in monographs where spectrum is published (if any)</td>
+    	          </tr>
+    	          <tr>
+    	            <td bgcolor="#C0C0C0">Author(s) separated with ; like S. Mueller; B. Schneider (names/surnames separated with blanks) or choose from box*<br>(check et al. if unnamed authors)</td><td bgcolor="#C0C0C0">Title. Subtitle or choose from box</td><td bgcolor="#C0C0C0">Publishing place (or choose from box)</td><td bgcolor="#C0C0C0">Publisher (or choose from box)</td><td bgcolor="#C0C0C0">Year of publishing</td>
+    	          </tr>
+    	          <tr>
+    	            <td bgcolor="#C0C0C0"><input type="text" size="20" name="authormonographie1" value="$monograph1.getAuthor()"><input type="checkbox" name="etalmonographie1" value="true" #if($monograph1.getEtalprov()) checked #end >et al.:</td><td bgcolor="#C0C0C0"><input type="text" size="20" name="titlemonographie1" value="$monograph1.getTitleForHtml()" onChange="literatureform.id3.checked=true">.<input type="text" size="20" name="subtitlemonographie1" value="$monograph1.getSubtitleForHtml()">,</td><td bgcolor="#C0C0C0"><input type="text" size="15" name="placemonographie1" value="$monograph1.getPlace()">: </td><td bgcolor="#C0C0C0"><input type="text" size="20" name="publishermonographie1" value="$monograph1.getPublisher()"></td><td bgcolor="#C0C0C0"><input type="text" size="4" maxlength="4" name="yearmonographie1" value="$monograph1.getYear()"></td>
+    	          </tr>
+    	          <tr>
+    	            <td bgcolor="#C0C0C0">
+    	              <select name="chooseauthormonographie1" size="1" style="width:150px" onChange="document.restform.elements['authormonographie1'].value='';">
+    	                #foreach($existingbookauthor in $existingbookauthors)
+    	                  <option value="$existingbookauthor">$existingbookauthor</option>
+    	                #end
+    	              </select>
+    	            </td>
+    	            <td bgcolor="#C0C0C0">
+    	              <select name="choosetitlemonographie1" size="1" style="width:150px" onChange="document.restform.elements['titlemonographie1'].value='';">
+    	                <option value=""></option>
+    	                #foreach($existingbooktitle in $existingbooktitles)
+    	                  <option value="${existingbooktitle.getValue(1).asString()}.${existingbooktitle.getValue(2).asString()}">${existingbooktitle.getValue(1).asString()}.${existingbooktitle.getValue(2).asString()}</option>
+    	                #end
+    	              </select>
+    	            </td>
+    	            <td bgcolor="#C0C0C0" colspan="2">
+    	              <select name="placepublishermonographie1" size="1" style="width:150px" onChange="document.restform.elements['placemonographie1'].value='';document.restform.elements['publishermonographie1'].value='';">
+    	                #foreach($existingplacepublisher in $existingplacepublishers)
+    	                  <option value="$existingplacepublisher.getPublisherId()">$existingplacepublisher.getNicePublisher()</option>
+    	                #end
+    	              </select>
+    	              DOI:<input type="text" size="20" name="doimonographie1" value="$monograph1.getDoi()">
+    	            </td>
+    	            <td bgcolor="#C0C0C0">Enter link to publication<input type="text" size="20" name="linkmonographie1" value="$monograph1.getUrl()"></td>
+    	          </tr>
+    	          <td bgcolor="#C0C0C0" colspan="6"></td>
+    	          <tr>
+    	            <td bgcolor="#C0C0C0"><input type="text" size="20" name="authormonographie2" value="$monograph2.getAuthor()"><input type="checkbox" name="etalmonographie2" value="true" #if($monograph2.getEtalprov()==true) checked #end >et al.:</td><td bgcolor="#C0C0C0"><input type="text" size="20" name="titlemonographie2" value="$monograph2.getTitleForHtml()" onChange="literatureform.id4.checked=true">.<input type="text" size="20" name="subtitlemonographie2" value="$monograph2.getSubtitleForHtml()">,</td><td bgcolor="#C0C0C0"><input type="text" size="15" name="placemonographie2" value="$monograph2.getPlace()">: </td><td bgcolor="#C0C0C0"><input type="text" size="20" name="publishermonographie2" value="$monograph2.getPublisher()"></td><td bgcolor="#C0C0C0"><input type="text" size="4" maxlength="4" name="yearmonographie2" value="$monograph2.getYear()"></td>
+    	          </tr>
+    	          <tr>
+    	            <td bgcolor="#C0C0C0">
+    	              <select name="chooseauthormonographie2" size="1" style="width:150px" onChange="document.restform.elements['authormonographie1'].value='';">
+    	                #foreach($existingbookauthor in $existingbookauthors)
+    	                  <option value="$existingbookauthor">$existingbookauthor</option>
+    	                #end
+    	              </select>
+    	            </td>
+    	            <td bgcolor="#C0C0C0">
+    	              <select name="choosetitlemonographie2" size="1" style="width:150px" onChange="document.restform.elements['titlemonographie1'].value='';document.restform.elements['subtitlemonographie1'].value='';">
+    	                <option value=""></option>
+    	                #foreach($existingbooktitle in $existingbooktitles)
+    	                  <option value="${existingbooktitle.getValue(1).asString()}.${existingbooktitle.getValue(2).asString()}">${existingbooktitle.getValue(1).asString()}.${existingbooktitle.getValue(2).asString()}</option>
+    	                #end
+    	              </select>
+    	            </td>
+    	            <td bgcolor="#C0C0C0" colspan="2">
+    	              <select name="placepublishermonographie2" size="1" style="width:150px" onChange="document.restform.elements['placemonographie1'].value='';document.restform.elements['publishermonographie1'].value='';document.restform.elements['placemonographie1'].value='';document.restform.elements['publishermonographie2'].value='';">
+    	                #foreach($existingplacepublisher in $existingplacepublishers)
+    	                  <option value="$existingplacepublisher.getPublisherId()">$existingplacepublisher.getNicePublisher()</option>
+    	                #end
+    	              </select>
+    	              DOI:<input type="text" size="20" name="doimonographie2" value="$monograph2.getDoi()">
+    	            </td>
+    	            <td bgcolor="#C0C0C0">Enter link to publication<input type="text" size="20" name="linkmonographie2" value="$monograph2.getUrl()"></td>
+    	          </tr>
+    	          <tr>
+    	            <td bgcolor="#0000AA" colspan="6"></td>
+    	          </tr>
+    	          <tr>
+    	            <td bgcolor="#C0C0C0" colspan="6">Fill in articles in books where spectrum is published (if any)</td>
+    	          </tr>
+    	          <tr>
+    	            <td bgcolor="#C0C0C0">Author(s) of article separated with ; like S. Mueller; B. Schneider (names separated with blanks)*<br>(check et al. if unnamed authors)</td><td bgcolor="#C0C0C0" colspan="2">Title. Subtitle of article</td><td bgcolor="#C0C0C0"></td><td bgcolor="#C0C0C0"></td>
+    	          </tr>
+    	          <tr>
+    	            <td bgcolor="#C0C0C0"><input type="text" size="20" name="authorarticle1" value="$otherarticle1.getAuthor()"><input type="checkbox" name="etalarticle1" value="true" #if($otherarticle1.getEtalprov()) checked #end>et al.:</td><td bgcolor="#C0C0C0" colspan="2"><input type="text" size="20" name="titlearticle1" value="$otherarticle1.getTitleForHtml()" onChange="literatureform.id5.checked=true">.<input type="text" size="20" name="subtitlearticle1" value="$otherarticle1.getSubtitleForHtml()">, in: </td><td bgcolor="#C0C0C0"></td><td bgcolor="#C0C0C0"></td>
+    	          </tr>
+    	          <tr>
+    	            <td bgcolor="#C0C0C0">Editor(s) of book separated with ; like S. Mueller; B. Schneider (names separated with blanks)<br>(check et al. if unnamed authors)</td><td bgcolor="#C0C0C0">Title. Subtitle of book</td><td bgcolor="#C0C0C0">Publishing place (or choose from box)</td><td bgcolor="#C0C0C0">Publisher (or choose from box)</td><td bgcolor="#C0C0C0">Year of publishing</td>
+    	          </tr>
+    	          <tr>
+    	            <td bgcolor="#C0C0C0"><input type="text" size="20" name="authorarticlebook1" value="$otherarticle1.getAuthorbook()"><input type="checkbox" name="etalarticlebook1" value="true" #if($otherarticle1.getEtalbook()) checked #end >et al.:</td><td bgcolor="#C0C0C0"><input type="text" size="20" name="titlearticlebook1" value="$otherarticle1.getTitlebookForHtml()">.<input type="text" size="20" name="subtitlearticlebook1" value="$otherarticle1.getSubtitlebookForHtml()">,</td><td bgcolor="#C0C0C0"><input type="text" size="15" name="placearticle1" value="$otherarticle1.getPlace()">: </td><td bgcolor="#C0C0C0"><input type="text" size="20" name="publisherarticle1" value="$otherarticle1.getPublisher()"></td><td bgcolor="#C0C0C0"><input type="text" size="4" maxlength="4" name="yeararticle1" value="$otherarticle1.getYear()"></td>
+    	          </tr>
+    	          <tr>
+    	            <td bgcolor="#C0C0C0" colspan="2">Enter link to publication<input type="text" size="20" name="linkarticle1" value="$otherarticle1.getUrl()"></td>
+    	            <td bgcolor="#C0C0C0" colspan="2">
+    	              <select name="placepublisherarticle1" size="1" style="width:150px" onChange="document.restform.elements['placearticle1'].value='';document.restform.elements['publisherarticle1'].value='';">
+    	                #foreach($existingplacepublisher in $existingplacepublishers)
+    	                  <option value="$existingplacepublisher.getPublisherId()">$existingplacepublisher.getNicePublisher()</option>
+    	                #end
+    	              </select>
+    	              From page <input type="text" size="4" maxlength="6" name="fromarticle1" value="$otherarticle1.getFrom()"> to page <input type="text" size="4" maxlength="6" name="toarticle1" value="$otherarticle1.getTo()">
+    	            </td>
+    	            <td bgcolor="#C0C0C0" colspan="2">DOI:<input type="text" size="20" name="doiarticle1" value="$otherarticle1.getDoi()"></td>
+    	          </tr>
+    	          <td bgcolor="#C0C0C0" colspan="6"></td>
+    	          <tr>
+    	            <td bgcolor="#C0C0C0"><input type="text" size="20" name="authorarticle2" value="$otherarticle2.getAuthor()"><input type="checkbox" name="etalarticle2" value="true" #if($otherarticle2.getEtalprov()) checked #end>et al.:</td><td bgcolor="#C0C0C0" colspan="2"><input type="text" size="20" name="titlearticle2" value="$otherarticle2.getTitleForHtml()">.<input type="text" size="20" name="subtitlearticle2" value="$otherarticle2.getSubtitleForHtml()">, in: </td><td bgcolor="#C0C0C0"></td><td bgcolor="#C0C0C0"></td>
+    	          </tr>
+    	          <tr>
+    	            <td bgcolor="#C0C0C0"><input type="text" size="20" name="authorarticlebook2" value="$otherarticle2.getAuthorbook()"><input type="checkbox" name="etalarticlebook2" value="true" #if($otherarticle2.getEtalbook()==true) checked #end >et al.:</td><td bgcolor="#C0C0C0"><input type="text" size="20" name="titlearticlebook2" value="$otherarticle2.getTitlebookForHtml()" onChange="literatureform.id6.checked=true">.<input type="text" size="20" name="subtitlearticlebook2" value="$otherarticle2.getSubtitlebookForHtml()">,</td><td bgcolor="#C0C0C0"><input type="text" size="15" name="placearticle2" value="$otherarticle2.getPlace()">: </td><td bgcolor="#C0C0C0"><input type="text" size="20" name="publisherarticle2" value="$otherarticle2.getPublisher()"></td><td bgcolor="#C0C0C0"><input type="text" size="4" maxlength="4" name="yeararticle2" value="$otherarticle2.getYear()"></td>
+    	          </tr>
+    	          <tr>
+    	            <td bgcolor="#C0C0C0" colspan="2">Enter link to publication<input type="text" size="20" name="linkarticle2" value="$otherarticle2.getUrl()"></td>
+    	            <td bgcolor="#C0C0C0" colspan="2">
+    	              <select name="placepublisherarticle2" size="1" style="width:150px" onChange="document.restform.elements['placearticle2'].value='';document.restform.elements['publisherarticle2'].value='';">
+    	                #foreach($existingplacepublisher in $existingplacepublishers)
+    	                  <option value="$existingplacepublisher.getPublisherId()">$existingplacepublisher.getNicePublisher()</option>
+    	                #end
+    	              </select>
+    	              From page <input type="text" size="4" maxlength="6" name="fromarticle2" value="$otherarticle2.getFrom()"> to page <input type="text" size="4" maxlength="6" name="toarticle2" value="$otherarticle2.getTo()">
+    	            </td>
+    	            <td bgcolor="#C0C0C0" colspan="2">DOI:<input type="text" size="20" name="doiarticle2" value="$otherarticle2.getDoi()"></td>
+    	          </tr>
+    	        #end
+    	      </table>
+    	      <input type="submit" name="eventSubmit_doSubmitliterature" style="background-color:#0000AA; color:white" value="Submit literatures">
+    	    </form>  	
+    	    <form action="$link.getPaneById("P-Submit")" name="spectrumForm" method="post">
+               <input TYPE="submit" name="eventSubmit_doLiteraturecomplete" style="font-size:smaller" VALUE="Show more literature types"><br>
+            </form>
+      #end
+    #if($subdata.getLevel()==1)
+      <table bgcolor="#FFFFFF">
+        <tr>
+          <th bgcolor="#0000AA"><div style="color:#FFFFFF">
+          #if($subdata.getDoubleBondConfiguration())
+            Check boxes for orientation
+          #else
+          	#if($structureeditor=="JCP")
+    	    	#if($session.getAttribute("applet")=="applet")
+        	    	Draw your structure!
+        		#else
+        			Upload your structure or <a style="color:white"  href="$request.getRequestURI();jsessionid=$session.getId()?$request.getQueryString()&eventSubmit_doApplet=applet">switch to Java mode!</a>
+        		#end
+        	#else
+        		Draw your structure!
+        	#end
+          #end
+          </div></th>
+        </tr>
+        <tr>
+          <td rowspan="$tablesize" bgcolor="#C0C0C0">
+    	    #parse("structureinput/jsfunctions.vm")
+            #if($subdata.getDoubleBondConfiguration())
+    	        #if($session.getAttribute("applet")=="applet")
+    	          <a href="$request.getRequestURI();jsessionid=$session.getId()?$request.getQueryString()&applet=noapplet" title="Switch off Java applets" style="color:white"><img src="images/nojava.png"></a><br>
+    	          <script LANGUAGE="JavaScript1.1">
+    	          <!--
+    	          var currentlyworking=-1;
+    	          function exchangeSpectrumType(){
+    	            uploadform2.spectrumType=spectrumForm.spectrumType.value;
+    	          }
+    	          function unselectandselect(b){
+    	            if(currentlyworking==1){
+    	              return;
+    	            }else{
+    	              currentlyworking=1;
+    	              document.JcpViewer.selectAtom(parseInt(b));
+    	              currentlyworking=0;
+    	            }
+    	          }
+    	          mview_name = "JcpViewer";
+    	          mview_begin("$baseurl/../nmrshiftdbhtml", 300, 300);
+    	          mview_param("load","$baseurl/../$molfile");
+    	          mview_param("atomNumbersVisible","true");
+    	          mview_param("background","12632256");
+    	          mview_param("detachable","true");
+    	          mview_end();
+    	          //-->
+    	          </script>
+    	        #else
+    	          #if($showoldinput=="true")
+    	            <img src="$image">
+    	          #end
+    	          <br>
+    	          <a href="$request.getRequestURI();jsessionid=$session.getId()?eventSubmit_doApplet=applet" title="Switch on Java-Applets" style="color:white"><img src="images/java.png"></a>
+    	        #end
+    	    #end
+            #parse("structureinput/display.vm")
+              #if($structureeditor!="JCP" || $session.getAttribute("applet")=="applet" || $showoldinput=="true")
+                <form action="$link.getPaneById("P-Submit")" method="post" NAME="MolForm" enctype="application/x-www-form-urlencoded">
+                  #if($subdata.getDoubleBondConfiguration())
+                    #if($configs.size()==0)
+                      <br>There are no valid double bond configurations in this molecule!<br>
+                    #else
+                      <br>Choose which double bond configuration is specified<br>
+                      #foreach($config in $configs)
+                        $config.getString() <input type="checkbox" name="doublebond$config.getInt()" value="true" 
+                        #if($config.getBoolean()==true)
+                          checked
+                        #end
+                        ><br>
+                      #end
+                    #end
+                  #else
+                    Are any double bond configurations specified ?
+                    <input type="radio" name="doublebond" value="0" 
+                    #if(!$subdata.getDoubleBondConfiguration())
+                      checked
+                    #end
+                    >No
+                    <input type="radio" name="doublebond" value="1" 
+                    #if($subdata.getDoubleBondConfiguration())
+                      checked
+                    #end
+                    >Yes<br>
+                  #end
+                  <input type="hidden" name="MolTxt" value="">
+                  #if($saltconfirm=="true")
+                  	Is this a salt?
+                    <input type="radio" name="saltconfirm" value="0">No
+                    <input type="radio" name="saltconfirm" value="1" checked>Yes<br>
+                  #end
+                  #if($subdata.getDoubleBondConfiguration())
+                    #if($structureeditor=="GGAKETCHER")
+                      <input type="hidden" name="eventSubmit_doSubmitdoublebondspecifications" value="doSubmitdoublebondspecifications">
+                      <input TYPE="button" name="eventSubmit_doSubmitdoublebondspecifications" style="background-color:#0000AA; color:white" VALUE="#if($configs.size()==0) Proceed #else Submit double bonds #end ">
+                    #else
+                      <input TYPE="submit" name="eventSubmit_doSubmitdoublebondspecifications" style="background-color:#0000AA; color:white" VALUE="#if($configs.size()==0) Proceed #else Submit double bonds #end ">
+                    #end
+                  #else
+                    #if($structureeditor=="GGAKETCHER")
+                      <input type="hidden" name="eventSubmit_dosubmitmolecule" value="dosubmitmolecule">
+                      <input TYPE="button" name="eventSubmit_dosubmitmolecule" #if($subdata.getLevel()==1) style="background-color:#0000AA; color:white" #else style="font-size:smaller" #end VALUE="Submit molecule" onClick="exportMol()">
+                    #else
+                      <input TYPE="submit" name="eventSubmit_dosubmitmolecule" #if($subdata.getLevel()==1) style="background-color:#0000AA; color:white" #else style="font-size:smaller" #end VALUE="Submit molecule" onClick="exportMol()">
+                    #end
+                  #end
+                </form>
+              #end
+          </td>
+        </tr>
+      </table>
+        <form method="post" NAME="MnovaForm" enctype="multipart/form-data" action="NmrshiftdbServlet;jsessionid=$data.getSession().getId()">
+            Choose an MNova mol or sd file (MNova 11 or newer) or ChemDraw mol file with labels:
+            <input type="hidden" name="nmrshiftdbaction" value="submitmnova">
+            <input name="uploadmnova" id="uploadmnova" style="font-size:smaller" type="file" size="25" accept=".mol,.sd,.sdf"><br>
+            <input TYPE="submit" name="eventSubmit_doSubmitmnova" id="eventSubmit_doSubmitmnova" style="background-color:#0000AA; color:white" VALUE="Upload">
+        </form>                
+        <form method="post" NAME="TopspinForm" enctype="multipart/form-data" action="NmrshiftdbServlet;jsessionid=$data.getSession().getId()">
+            Choose a Topspin zip file including a CMC-SE result:
+            <input type="hidden" name="nmrshiftdbaction" value="submittopspin">
+            <input name="uploadtopspin" id="uploadtopspin" style="font-size:smaller" type="file" size="25" accept=".zip"><br>
+            <input TYPE="submit" name="eventSubmit_doSubmittopspin" id="eventSubmit_doSubmittopspin" style="background-color:#0000AA; color:white" VALUE="Upload">
+        </form>
+        <form method="post" NAME="NmredataForm" enctype="multipart/form-data" action="NmrshiftdbServlet;jsessionid=$data.getSession().getId()">
+            Choose an NMReDATA file:
+            <input type="hidden" name="nmrshiftdbaction" value="submitnmredata">
+            <input name="uploadnmredata" id="uploadnmredata" style="font-size:smaller" type="file" size="25" accept=".sd,.sdf"><br>
+            <input TYPE="submit" name="eventSubmit_doSubmitnmredata" id="eventSubmit_doSubmitquickcheck" style="background-color:#0000AA; color:white" VALUE="Upload"">
+        </form>                
+    #end
+      #if($subdata.getLevel()==2)
+              <form action="$link.getPaneById("P-Submit")" name="spectrumForm" method="post">
+                #if($subdata.showpeakpicker)
+                	  Choose an area by dragging the mouse with left button clicked. The average of peaks in the area will form a new peak.<br>
+    		          <script LANGUAGE="JavaScript1.1" SRC="nmrshiftdbhtml/marvin.js"></script>
+                	  <script LANGUAGE="JavaScript1.1">
+    		            spectrumapplet_name = "Peakpicker";
+    		            spectrumapplet_begin("$baseurl/../nmrshiftdbhtml", 900, 300);
+    		            spectrumapplet_param("spectrum","$subdata.getSpectrumForApplet()");
+    		            spectrumapplet_param("hideNavigation","true");
+    		            spectrumapplet_param("realisticLines","true");
+    		            spectrumapplet_param("jModulation","true");
+    		            spectrumapplet_param("showCoupling","false");
+    		            spectrumapplet_param("peakpicker","true");
+    		            spectrumapplet_param("frequency", "$subdata.getFrequency()");
+    		            spectrumapplet_end();
+                        function exportPeaks() {
+    			            if(document.Peakpicker != null) {
+    			              var s = document.Peakpicker.getPickedPeaks();
+    			              s = unix2local(s);
+    			              document.spectrumForm.pickedpeaks.value=s;
+    			            } else {
+    			              alert("Cannot import spectrum: no JavaScript to Java communication in your browser.");
+    			            }
+    		            }
+    		          </script><br><br>
+    		          <input type="hidden" name="pickedpeaks">
+    	              <input type="submit" name="eventSubmit_doSubmitfrompeakpicker" style="background-color:#0000AA; color:white" value="Submit selected peaks" onClick="exportPeaks()">
+                #else
+    	            #if($shiftlist=="0")
+                          Shift list: <a href="JavaScript:newPopup('nmrshiftdbhtml/hints/formathint.html');">Input format</a><br>
+                          #if(!$subdata.getChoosenSpectrumType() || $subdata.getChoosenSpectrumType().getDimensionality()==1)
+                            #set($format="56.2;.2S\r\n64.1;.6Q\r\nIntensity and\r\nmultiplicity optional")
+                          #else
+                            #set($format="8.2;53.4;7.7\r\n3.4;23.6;6.6\r\nCoupling constant\r\noptional")
+                          #end
+    	              <textarea wrap="off" name="spectrum" cols="20" rows="10" onBlur="if (this.value == '') this.value = 'Format like:\r\n$format'" onFocus="if (this.value.indexOf('Format like:')>-1) this.value = '';">$!subdata.getKeepAssignmentEntries()</textarea><br>
+    	            #end
+    	            <input name="eventSubmit_doSubmitspectrum" type="submit" #if($subdata.getLevel()==2) style="background-color:#0000AA; color:white" #else style="font-size:smaller" #end value="Submit signals">
+    	        #end
+              </form>
+                    <script LANGUAGE="JavaScript1.1">
+                         document.spectrumForm.spectrum.focus();
+                         document.spectrumForm.spectrum.blur();
+    
+    			          function exchangeSpectrumType(){
+    			            uploadform2.spectrumType.value=spectrumForm.spectrumType.value;
+    			          }
+    
+                          function newPopup(url) {
+                            popupWindow = window.open(
+                                url,'popUpWindow','height=400,width=300,left=10,top=10,resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no,directories=no,status=no')
+                          }
+                    </script>
+              #if($shiftlist=="0")
+              	#if($subdata.showpeakpicker)
+              	#else
+    	            <form action="NmrshiftdbServlet;jsessionid=$session.getId()" enctype="multipart/form-data" name="uploadform2" method="post">
+    	              #parse("jcamp-settings.vm")
+    	              Jcamp-dx file:
+    	              <input type="hidden" name="spectrumType" value="">
+    	              <input type="hidden" name="nmrshiftdbaction" value="uploadjcampsubmit">
+    	              <input name="uploadjcamp" style="font-size:smaller" type="file" size="25" maxlength="100000" accept=".dx,.jdx">
+    	              <input TYPE="submit" style="font-size:smaller" VALUE="Import file" onClick="exchangeSpectrumType()"><br>
+    	            </form>
+    	        #end
+              #end
+      #end
+      #if($subdata.getLevel()==3)
+        <script LANGUAGE="JavaScript1.1">
+     (function(window, document, undefined){
+    var XBTooltip = function( element, userConf, tooltip) {
+    var config = {
+    id: userConf.id|| undefined,
+    className: userConf.className || undefined,
+    x: userConf.x || 20,
+    y: userConf.y || 20,
+    text: userConf.text || undefined
+    };
+    var over = function(event) {
+    tooltip.style.display = "block";
+    },
+    out = function(event) {
+    tooltip.style.display = "none";
+    },
+    move = function(event) {
+    event = event ? event : window.event;
+    if ( event.pageX == null && event.clientX != null ) {
+    var doc = document.documentElement, body = document.body;
+    event.pageX = event.clientX + (doc && doc.scrollLeft || body && body.scrollLeft || 0) - (doc && doc.clientLeft || body && body.clientLeft || 0);
+    event.pageY = event.clientY + (doc && doc.scrollTop || body && body.scrollTop || 0) - (doc && doc.clientTop || body && body.clientTop || 0);
+    }
+    tooltip.style.top = (event.pageY+config.y) + "px";
+    tooltip.style.left = (event.pageX+config.x) + "px";
+    }
+    if (tooltip === undefined && config.id) {
+    tooltip = document.getElementById(config.id);
+    if (tooltip) tooltip = tooltip.parentNode.removeChild(tooltip)
+    }
+    if (tooltip === undefined && config.text) {
+    tooltip = document.createElement("div");
+    if (config.id) tooltip.id= config.id;
+    tooltip.innerHTML = config.text;
+    }
+    if (config.className) tooltip.className = config.className;
+    tooltip = document.body.appendChild(tooltip);
+    tooltip.style.position = "absolute";
+    element.onmouseover = over;
+    element.onmouseout = out;
+    element.onmousemove = move;
+    over();
+    };
+    window.XBTooltip = window.XBT = XBTooltip;
+    })(this, this.document);
+    
+          function checkShift(id, lower, upper, selected){
+            var shifts=new Array($jsarraylength);
+              #foreach($signal in $subdata.getSignalstable().getPeakChildren())
+                shifts[$velocityCount]=$signal.getXValue();
+              #end
+            if(shifts[selected]<lower||shifts[selected]>upper)
+              document.getElementById(id).style.color="red";
+            else
+              document.getElementById(id).style.color="#0000AA";
+    
+            #foreach($element in $elements)
+              var newShift=shifts[document.assignmentsForm.atomSelect${element.getNameForElements()}.value];
+              var doubleassignmentwarningElement = document.getElementById("doubleassignmentwarningrange$element.getNameForElements()");
+              while(doubleassignmentwarningElement.childNodes.length >= 1) {
+                doubleassignmentwarningElement.removeChild(doubleassignmentwarningElement.firstChild);
+              }
+              #foreach($innerelement in $elements)
+                #if($element.getNameForElements()==$innerelement.getNameForElements())
+                #else
+                  if(document.getElementsByName("atomSelect${innerelement.getNameForElements()}").length>0 && shifts[document.assignmentsForm.atomSelect${innerelement.getNameForElements()}.value]==newShift && range$element.getNameForElements()!='range$innerelement.getNameForElements()' && document.assignmentsForm.atomSelect${innerelement.getNameForElements()}.value!=32767){
+                    doubleassignmentwarningElement.appendChild(doubleassignmentwarningElement.ownerDocument.createTextNode('Also assigned to: $innerelement.getDisplayTextNoFormatting() '));
+                  }
+                #end
+              #end
+            #end
+          }
+          
+          function newPopup(url) {
+            popupWindow = window.open(
+                url,'popUpWindow','height=400,width=300,left=10,top=10,resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no,directories=no,status=no')
+          }
+        </script>
+        <form action="$link.getPaneById("P-Submit")" method="post" name="assignmentsForm">
+          <input type="hidden" name="eventSubmit_doSubmitassignment" value="eventSubmit_doSubmitassignment">
+          <input type="hidden" name="couplings" value="false">
+    	  <table bgcolor="#FFFFFF">
+            <tr><th colspan="$size" bgcolor="#0000AA"><div style="color:#FFFFFF">Assign shifts to atoms</div></th></tr>
+            <tr><td bgcolor="#C0C0C0" height="20">Atom No.</td>
+            <td bgcolor="#C0C0C0">Atom identifier<a href="JavaScript:newPopup('nmrshiftdbhtml/hints/identifier.html');"><img src="images/help.png"></a></td>  
+            <td bgcolor="#C0C0C0">Shift</td>
+            #if($shiftlist=="1")
+              <td bgcolor="#C0C0C0">Intensity</td>
+            #end
+            <td bgcolor="#C0C0C0">Predicted shift</td><td bgcolor="#C0C0C0">Mult.<a href="JavaScript:newPopup('nmrshiftdbhtml/hints/multiplicities.html');"><img src="images/help.png"></a></td>#if($shiftlist=="0")<td bgcolor="#C0C0C0">&#160;</td>#end
+            #if($entercouplings=="true")
+              <td bgcolor="#C0C0C0" colspan="$couplingssize">Coupling constants</td>
+            #end
+            </tr>
+            #if($entercouplings=="true")
+              <tr><td bgcolor="#C0C0C0">&#160;</td><td bgcolor="#C0C0C0">&#160;</td><td bgcolor="#C0C0C0">&#160;</td><td bgcolor="#C0C0C0">&#160;</td><td bgcolor="#C0C0C0">&#160;</td><td bgcolor="#C0C0C0">&#160;</td> 
+              #foreach($element in $elements)
+                <td bgcolor="#C0C0C0">$element.getDisplayText()</td>
+              #end
+              </tr>
+            #end
+            #foreach($element in $elements)
+              #set($evenorodd=$velocityCount % 2)
+              #set($velocityCountMinus1=$velocityCount - 1)
+              <tr bgcolor=
+              #if($evenorodd==1)
+                "#D3D3D3"
+              #else
+                "#C0C0C0"
+              #end
+               nowrap 
+              #if($session.getAttribute("applet")=="applet")
+               onMouseover="unselectandselect($element.getValue())"
+              #end
+              ><td>$element.getDisplayText()</td>
+              <td>
+              #if($element.getIsInRange())
+                  <input type="text" size="4" name="identifier$element.getNameForElements()">
+              #end
+              </td>
+              #if($element.getRange()=="")
+                <td>&#160;</td><td>&#160;</td><td>&#160;</td><td>&#160;</td> #if($entercouplings=="true") <td>&#160;</td><td colspan="$couplingssize">&#160;</td> #end
+              #else
+                <td>
+                  #if($shiftlist=="0")
+                    <select name="atomSelect$element.getNameForElements()" size="1" onChange="checkShift('range$element.getNameForElements()',$element.getLower(),$element.getUpper(), document.assignmentsForm.atomSelect${element.getNameForElements()}.value)">
+                      #foreach($signal in $shifts)
+                        <option 
+                        #if($subdata.isAssignedToAtom($signal,$element.getAtom()))
+                          selected 
+                        #end
+                        value="$signal.getTitle()">$signal.getXValue()</option>
+                      #end
+                      <option value="32767"
+                      #if($subdata.isAssignedToNone($element.getAtom()))
+                         selected
+                      #end
+                      >None</option>
+                    </select>
+                  #else
+                    <input type="text" name="atomSelect$element.getNameForElements()" value="" size="5"></td><td><input type="text" name="intensity$element.getNameForElements()" value="" size="5">
+                  #end
+                </td>
+                <td nowrap><div id="range$element.getNameForElements()">$element.getRange()</div><div style="color:blue" id="doubleassignmentwarningrange$element.getNameForElements()"></div></td><td>
+                #if($element.getMultiplicity()=="")
+                  ---
+                #else            
+                  <input type="text" name="multi$element.getMultiplicity()" value="$subdata.getMultiplicity($element.getMultiplicity())" size="3">
+                #end  
+                </td>#if($shiftlist=="0")<td>&#160;</td>#end
+                #if($entercouplings=="true")
+                  #if($element.getMultiplicity()=="")
+                    <td bgcolor="#C0C0C0">&#160;</td><td colspan="$couplingssize"></td>
+                  #else
+                    #foreach($constant in $element.getCouplings())
+                      <td>  
+                      #if($constant.getString1()=="-")
+                        ---
+                      #else
+                        <input type="text" name="$constant.getString1()" value="$subdata.getCoupling($constant.getString2())" size="5">
+                      #end
+                      </td>
+                    #end
+                  #end
+                #end
+              #end
+              </tr>
+            #end
+            #if($shiftlist=="0")
+                #foreach($element in $elements)
+                  <script LANGUAGE="JavaScript1.1">
+                    checkShift("range$element.getNameForElements()",$element.getLower(),$element.getUpper(), document.assignmentsForm.atomSelect${element.getNameForElements()}.value);
+                  </script>
+                #end
+            #end
+            <tr>
+              <td bgcolor="#C0C0C0" colspan="$size" valign="bottom">
+                <input type="submit" name="eventSubmit_doSubmitassignment" #if($subdata.getLevel()==3) style="background-color:#0000AA; color:white" #else style="font-size:smaller" #end value="Submit assignments">
+                #if($entercouplings=="false")
+    	            <a href="javascript:assignmentsForm.couplings.value='true';assignmentsForm.submit()">I want to enter coupling constants</a>
+    	        #end
+              </td>
+            </tr>
+          </table>
+        </form>
+      #end
+      #if($subdata.getLevel()==4)
+        <sup>*</sup>=required
+        <form name="restform" action="$link.getPaneById("P-Submit")" method="post">
+          <table rules="rows" bgcolor="#0000AA">
+            <tr>
+              <th colspan="6" align="center"><div style="color:white">Spectrum metadata</div></th>
+            </tr>
+            <tr>
+              <td bgcolor="#C0C0C0" colspan="5">
+                This spectrum is<br>
+                <input type="radio" name="radiomeasured" value="measured" onclick="document.restform.submit();"
+                #if($subdata.isMeasured())
+                    checked
+                #end
+                >measured</input> <br>
+                <input type="radio" name="radiomeasured" value="calculated" onclick="document.restform.submit();"
+                #if($subdata.isCalculated())
+                    checked
+                #end      
+                >calculated</input>
+              </td>
+            </tr>            
+            <tr>
+              <td bgcolor="#C0C0C0" rowspan="3" valign="center">Conditions (Choose one or enter a new one,<br>if nothing is entered the currently selected one is taken):</td>
+              #foreach($condition in $subdata.getConditions())
+                #set($evenorodd=$velocityCount % 2)
+                #if($evenorodd==1)
+                  <td bgcolor="#D3D3D3">
+                #else
+                  <td bgcolor="#C0C0C0">
+                #end
+                #if($condition.getConditionNameInput())
+    	            $condition.getConditionNameInput()
+    	        #else
+    	        	$condition.getConditionName()
+    	        #end
+                #if($condition.getRequired()=="true")
+                <sup>*</sup>
+                #end
+                :</td>
+              #end
+            </tr>
+            <tr>
+              #foreach($condition in $subdata.getConditions())
+                #set($evenorodd=$velocityCount % 2)
+                #if($evenorodd==1)
+                  <td bgcolor="#D3D3D3">
+                #else
+                  <td bgcolor="#C0C0C=">
+                #end
+                <input type="text" name="$condition.getConditionName()" value="$condition.getCurrentValue($subdata.getChoosenSpectrumType())" size="15"></td>
+              #end
+            </tr>
+            <tr>
+              #foreach($condition in $subdata.getConditions())
+                    #set($evenorodd=$velocityCount % 2)
+                    #if($evenorodd==1)
+                      <td bgcolor="#D3D3D3">
+                    #else
+                      <td bgcolor="#C0C0C0">
+                    #end
+                  ##Assignment method requires special handling
+                  #if($condition.getConditionName()=="Assignment Method" && $isinlabgroup=="true")
+                      <table><tr>
+                      #foreach($category in $experiments)
+                        <td>
+                        #foreach($type in $category)
+                          $type.getLineBefore()
+                          <input type="checkbox" name="experiment$type.getExperimentId()" value="experiment$type.getExperimentId()" #if($presets.get($type.getExperimentId())>0) checked #end onChange="document.restform.elements['${condition.getConditionName()}'].value=''">
+                          $type.getName()<br>
+                        #end
+                        </td>
+                      #end
+                      </tr></table>
+                  #else
+                    <select style="width:200px" name="existing${condition.getConditionName()}conditions" size="1" onChange="document.restform.elements['${condition.getConditionName()}'].value=''">
+                    #foreach($existingcondition in $condition.getExistingConditions())
+                      <option value="$existingcondition.getConditionId()"
+                      #if($existingcondition.getValue()==$condition.getCurrentValue($subdata.getChoosenSpectrumType()))
+                        selected
+                      #end
+                      >$existingcondition.getValue()</option>
+                    #end
+                    </select>
+                  #end
+                  </td>
+              #end
+            </tr>
+            #if($isinlabgroup=="false")
+    	        <tr>
+    	          <td bgcolor="#C0C0C0" colspan="1">Enter additional comments here:</td>
+    	          <td bgcolor="#C0C0C0" colspan="2"><textarea wrap="soft" name="comment" cols="50" rows="5">$subdata.getComment()</textarea></td>
+    	          <td bgcolor="#C0C0C0">Websources for the spectrum:<br>Format as for the molecule links</td>
+    	          <td bgcolor="#C0C0C0"><textarea wrap="soft" name="spectrumlinks" cols="40" rows="5">$subdata.getSpectrumLinks()</textarea></td>
+    	        </tr>
+    	    #end
+            <tr>
+              <td bgcolor="#C0C0C0" colspan="1">Enter categories for your spectrum here (one per line) or choose some:<br>(to choose multiple categories, hold ctrl) </td>
+              <td bgcolor="#C0C0C0" colspan="2"><textarea wrap="off" name="textspectrumkeywords" rows="5" cols="30">$subdata.getSpectrumKeywords()</textarea></td>
+              <td bgcolor="#C0C0C0" colspan="2">
+              <select name="spectrumkeywords" style="width:450px" size="5" multiple>
+                <option value="none">-- none --</option>
+                #foreach($existingkeyword in $existingSpectrumKeywords)
+                  <option value="$existingkeyword.getKeyword()">$existingkeyword.getKeyword()</option>
+                #end
+              </select>
+              </td>
+            </tr>
+          </table>
+          <br><br><br><br><br>
+          <table rules="rows" bgcolor="#0000AA">
+            <tr>
+              <th colspan="7" align="center"><div style="color:white">Molecule metadata</div></th>
+            </tr>
+            <tr>
+              <td bgcolor="#C0C0C0">Chemical name(s):<br>One per line</td>
+              <td bgcolor="#C0C0C0"><textarea wrap="off" name="chemName" rows="5">$subdata.getChemName()</textarea></td>
+              <td bgcolor="#C0C0C0" width="20"></td>
+                    #if($subdata.getExistingMoleculeId()==0 || $editspectrum=="true" || $existingcanname=="false" || $existingcas=="false")
+                      <td bgcolor="#C0C0C0">CAS Number:<br><input type="text" name="casnumber" value="$subdata.getCasNumber()" size="30"></td>
+                    #else
+                      <td bgcolor="#C0C0C0">CAS Number:<br>$subdata.getCasNumber()</td>
+                    #end
+              </td>
+            </tr>
+          </table>
+          <br>
+          <div style="color:red">If you submitted a spectrum for the same structure within the last hour and already entered molcule metadata there, you do not need to re-enter them, even if they are not visible.</div><br>
+          <input type="hidden" name="eventSubmit_doSubmitmiscdata" value="eventSubmit_doSubmitmiscdata">
+          <input name="eventSubmit_doSubmitmiscdata" type="submit" #if($subdata.getLevel()==4) style="background-color:#0000AA; color:white" #else style="font-size:smaller" #end value="Submit data">
+        </form>
+      #end
+      #if($subdata.getLevel()==5)
+    	<br>
+        <form action="NmrshiftdbServlet;jsessionid=$session.getId()" enctype="multipart/form-data" name="uploadform2" method="post">
+          <input type="hidden" name="nmrshiftdbaction" value="doAttachfiles">
+          Upload files you want to attach to your submit (leave empty if none, check to remove existing file)<br>
+    	  Orignal JCAMP-DX:<input type="file" name="attachjcamp" size="40" accept=".dx,.jdx"> #if($subdata.getJcamp()) File currently attached <input type="checkbox" name="removejcamp" value="removejcamp"> check to remove#end<br>
+          PDF:<input type="file" name="attachpdf" size="40" accept=".pdf"> #if($subdata.getPdf()) File currently attached <input type="checkbox" name="removepdf" value="removepdf"> check to remove#end<br>
+          Raw data (as zip file):<input type="file" name="attachraw" size="40" accept=".zip,.tar.gz"> #if($subdata.getRawData()) File currently attached <input type="checkbox" name="removeraw" value="removeraw"> check to remove#end<br>
+          Image in JPEG, GIF, PNG or BMP format#if($subdata.getChoosenSpectrumType().getDimensionality()==2) (mandatory)#end:<input type="file" name="attachimage" size="40" accept=".jpg,.jpeg,.gif,.png,.bmp"> #if($subdata.getImage()) File currently attached <input type="checkbox" name="removeimage" value="removeimage"> check to remov #end<br>
+          Other files (as one zip files):<input type="file" name="attachotherfiles" size="40" accept=".zip,.tar.gz"> #if($subdata.getOtherFiles()) File currently attached <input type="checkbox" name="removeotherfiles" value="removeotherfiles"> check to remove#end<br>
+          <input type="hidden" name="eventSubmit_doAttachfiles" value="eventSubmit_doAttachfiles">
+          <input TYPE="submit" name="eventSubmit_doAttachfiles" style="background-color:#0000AA; color:white" VALUE="Attach/remove files"><br>
+        </form>
+      #end
+      #if($subdata.getLevel()==6)
+    	  <form action="$link.getPaneById("P-Submit")" name="spectrumForm" method="post">
+    	    #if($chosemnova)
+    	       Your Mnova or Topspin file contains the spectrum types given below. Choose which one you want to submit now. You submit the other spectrum by uploading the file again, if you have not yet done both!
+    	    #end
+    	    Spectrum type:<br>
+            <select size="1" name="spectrumType">
+    	      #foreach($spectrumtype in $spectrumtypes)
+    	        #if($choosenspectrumtype.getSpectrumTypeId() == $spectrumtype.getSpectrumTypeId())
+    	          <option selected value="$spectrumtype.getSpectrumTypeId()">$spectrumtype.getName()</option>
+    	        #else
+    	          <option value="$spectrumtype.getSpectrumTypeId()">$spectrumtype.getName()</option>$choosenspectrumtype.getSpectrumTypeId() | $spectrumtype.getSpectrumTypeId()
+    	        #end
+    	      #end
+    	    </select>
+            <input type="submit" name="eventSubmit_doSubmitspectrumtype" #if($subdata.getLevel()==6) style="background-color:#0000AA; color:white" #else style="font-size:smaller" #end value="Submit spectrum type">
+    	  </form>
+      #end
+      #if($subdata.getLevel()==7 && "$!messages" == "")
+      <script LANGUAGE="JavaScript1.1">
+      <!--
+      function privateSelected(){
+        if(document.finalform.privatesubmit.checked)
+    	    document.getElementById('csearch').style.visibility='visible';
+        else 
+    	    document.getElementById('csearch').style.visibility='hidden';
+      }
+      //-->
+      </script>
+        <form action="portal/js_pane/P-Submit;jsessionid=$data.getSession().getId()" method="post" name="finalform">
+    	  Please note that submissions to nmrshiftdb2 (except private submissions) will be publicy available, as stated in the <a href="nmrshiftdbhtml/t1.html#opencontent" target="_blank" title="Help for submit" style="color:white"><img src="images/help.png"></a>.<br>
+          #if($unassigned=="true" && $subdata.getChoosenSpectrumType().requiresPeaks())
+            There are unassigned shifts. Check the box if you want to have these in your spectrum as unassigned shifts! <input type="checkbox" name="deleteunassigned" value="deleteunassigned"><br>
+          #end
+          #if(!$editspectrum || (!$subdata.getEditSpectrum()==0 && !$subdata.getEditSpectrumFlag()=="true"))
+            ##I want to keep this submission private <input type="checkbox" name="privatesubmit" value="true" onClick="privateSelected()"> #if($subdata.getChoosenSpectrumType().getName().equals("13C"))<div id="csearch" style="visibility:hidden">I want to use the CSEARCH robot referee for these private data <input type="checkbox" name="userobot" value="true"> (see <a href="http://nmrpredict.orc.univie.ac.at/robothelp.html">for data protection when using</a>)</div>#end
+            I want to keep this submission private <input type="checkbox" name="privatesubmit" value="true"> #if($subdata.getChoosenSpectrumType().getName().equals("13C"))<div id="csearch" style="visibility:hidden">I want to use the CSEARCH robot referee for these private data <input type="checkbox" name="userobot" value="true"> (see <a href="http://nmrpredict.orc.univie.ac.at/robothelp.html">for data protection when using</a>)</div>#end
+          #end
+          I want to submit further spectra for this structure <input type="checkbox" name="morespectra" value="true"><br>
+          <input type="submit" name="eventSubmit_doFinalsubmit" style="background-color:#0000AA; color:white" value="Write to Database">
+        </form>
+      #end
+      #if($subdata.getLevel()==8)
+    	          <table>
+    	            #foreach($sample in $samples)
+    	              #set($greyorwhite=$velocityCount%2)
+    	              <tr 
+    	              #if($greyorwhite==0)
+    	                bgcolor="#D3D3D3" 
+    	              #end
+    	              ><td><a href="$link.getPaneById("P-Submit")?eventSubmit_doAssignrawdata=assignrawdata&id=$sample.getDBRawFiles().get(0).getRawFileId()">$sample.getUsersId() #if($sample.getUsersIdCommentIsSet()) ($sample.getUsersIdComment()) #end</a></td></tr>
+    	            #end
+    	          </table>
+    	        <form name="orderform" method="post" action="$link.getPaneById("P-Submit")">
+    	        	Show orders from
+    	        	<select name="fromday" size="1">
+    	  	          #foreach($day in $days)
+    	    	        <option value="$day" #if($day==$start.getDate()) selected #end>$day</option>
+    	        	  #end
+    	          	</select>
+    	        	<select name="frommonth" size="1">
+    	  	          #foreach($day in $months)
+    	    	        <option value="$day" #if($day==$start.getMonth()+1) selected #end>$day</option>
+    	        	  #end
+    	          	</select>
+    	        	<select name="fromyear" size="1">
+    	  	          #foreach($day in $years)
+    	    	        <option value="$day" #if($day==$start.getYear()+1900) selected #end>$day</option>
+    	        	  #end
+    	          	</select>
+    	        	to 
+    	        	<select name="today" size="1">
+    	  	          #foreach($day in $days)
+    	    	        <option value="$day" #if($day==$end.getDate()) selected #end>$day</option>
+    	        	  #end
+    	          	</select>
+    	        	<select name="tomonth" size="1">
+    	  	          #foreach($day in $months)
+    	    	        <option value="$day" #if($day==$end.getMonth()+1) selected #end>$day</option>
+    	        	  #end
+    	          	</select>
+    	        	<select name="toyear" size="1">
+    	  	          #foreach($day in $years)
+    	    	        <option value="$day" #if($day==$end.getYear()+1900) selected #end>$day</option>
+    	        	  #end
+    	          	</select>
+    		        <input name="eventSubmit_doChangesamples" type="submit" style="background-color:#0000AA; color:white" value="Change dates"/>
+    	        </form>
+      #end
+    <INPUT TYPE="button" style="font-size:75%" onClick="parent.location='$link.getPaneById("P-Home")'" value="Abort this submit">
+    <br><br><br>
+        #set ($text="Existing spectra for your molecule without any chirality")
+        #displayexistingspectra($nochiral $text)
+        #set ($text="Existing  spectra for your molecule with the same chirality as given by you")
+        #displayexistingspectra($thischiral $text)
+        #set ($text="Existing spectra for your molecule with another chiralty than the chirality given by you")
+        #displayexistingspectra($otherchiral $text)
+#end

@@ -1,0 +1,42 @@
+        #if($structureeditor=="JCP")
+            #if($session.getAttribute("applet")=="applet")
+              <script LANGUAGE="JavaScript1.1">
+              <!--
+              msketch_mayscript = true;
+              msketch_name = "JcpEditor";
+              msketch_begin("$baseurl/../nmrshiftdbhtml", 470, 340);
+              #if($showoldinput=="true")
+                msketch_param("load","$baseurl/../$molfile");
+              #end
+              msketch_param("reactions","off");
+              msketch_param("rgroups","off");
+              msketch_end();
+              //-->
+              </script>
+              <input style="font-size:smaller" type="button" value="Clear" onClick="document.JcpEditor.clear();">
+              #if(!$nohistory)
+                <input style="font-size:smaller" type="button" value="Import from structures history" onClick="openStructureHistory()"><br>
+              #end
+            #else
+              #if($showoldinput=="true")
+                <img src="$imagefile">
+              #end
+              <a href="$request.getRequestURI();jsessionid=$session.getId()?$request.getQueryString()&applet=applet" title="Switch on Java-Applets" style="color:white"><img src="images/java.png"></a>
+                <form action="$link.getPaneById($tab)" enctype="multipart/form-data" name="uploadform" method="post">
+                  Structure file:
+                  <input style="font-size:smaller" name="Datei" type="file" size="25" maxlength="100000" accept="text/*">
+                  <input type="hidden" name="nmrshiftdbaction" value="upload">
+                  <input style="font-size:smaller" TYPE="submit" VALUE="Import file"><br>
+                </form>
+            #end
+        #elseif($structureeditor=="MARVINJS")
+            <iframe id="sketch" src="$baseurl/../nmrshiftdbhtml/marvin4js/editorws.html" style="overflow: hidden; min-width: 500px; min-height: 450px; border: 1px solid darkgray;"  ></iframe><br>
+            #if(!$nohistory)
+              <input style="font-size:smaller" type="button" value="Import from structures history" onClick="openStructureHistory()"><br>
+            #end
+        #elseif($structureeditor=="GGAKETCHER")
+            <iframe onload="loadMol()" id="ketcherFrame" name="ketcherFrame" style="overflow: hidden; min-width: 500px; min-height: 450px; border: 1px solid darkgray;" src="$baseurl/../nmrshiftdbhtml/ketcher/ketcher.html"></iframe>
+            #if(!$nohistory)
+              <input style="font-size:smaller" type="button" value="Import from structures history" onClick="openStructureHistory()"><br>
+            #end
+        #end

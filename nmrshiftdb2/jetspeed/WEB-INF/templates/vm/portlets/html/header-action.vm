@@ -1,0 +1,212 @@
+#*
+Copyright 2004 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*#
+
+<script language="JavaScript" src="javascript/ColorPicker.js"></script>
+<SCRIPT language=JavaScript>
+var cp = new ColorPicker('window'); // Popup window
+var cp2 = new ColorPicker(); // DIV style
+
+
+function refreshHeader()
+{
+    window.location.href = unescape(window.location.pathname);
+}
+
+//for setting headers background
+function enableBgImage(val)
+{
+   if (fieldname = "setBgImage")
+   {	
+     if (val == 'true')
+     {
+        document.myForm2.bgImage.disabled = false;
+        document.myForm2.sampleBgImage.disabled = false;
+     }
+     if (val == 'false')
+     {
+        document.myForm2.bgImage.disabled = true;
+        document.myForm2.sampleBgImage.disabled = true;
+     }
+  }
+}
+
+//setting headers' background color
+function enableBgColor(val)
+{
+   if (fieldname = "setBgColor")
+   {
+     if (val == 'true')
+     {
+       document.myForm2.bgColor.disabled = false;
+       document.getElementById('pick4').style.visibility="visible";
+     }
+     if (val == 'false')
+     {
+       document.myForm2.bgColor.disabled = true;
+       document.getElementById('pick4').style.visibility="hidden";	
+     }
+   }
+}
+
+//setting headers' font color
+function enableFontColor(val)
+{
+   if (val == 'true')
+   {
+     document.myForm2.fontColor.disabled = false;
+     document.getElementById('pick5').style.visibility="visible";
+
+   }
+   if (val == 'false')
+   {
+     document.myForm2.fontColor.disabled = true;
+     document.getElementById('pick5').style.visibility="hidden";
+   }
+
+}
+
+
+</SCRIPT>
+<body>
+
+<form name="myForm2" action="$jslink" method="post" ENCTYPE="multipart/form-data">
+#formHeader("images/designer/headerIcon.gif" "Header Designer")
+#if ($settingStatus || $logoStatus || $bgStatus)
+   <table width="100%" cellspacing="2">
+
+     #if($logoStatus || $bgStatus)
+      <tr>
+         <td colspan=2>
+           <b>
+           #if($logoStatus)$logoStatus#end
+           #if($bgStatus)
+	         #if($logoStatus)<br>#end
+	         $bgStatus<br>
+           #end${l10n.HEADER_ACTION_CLICK_BUTTON_TO_GO_VM}</b>
+         </td>
+         <td><br>
+           <input type="button" value="${l10n.HEADER_ACTION_BACK_VM}" onClick="refreshHeader()">
+         </td>
+      <tr>
+     #else
+      <tr>
+         <td>
+           <b>
+           $settingStatus${l10n.HEADER_ACTION_CLICK_BUTTON_TO_APP_VM}</b>
+         </td>
+     </tr>
+     <tr>
+        <td><br>
+           <input type="button" value="${l10n.HEADER_ACTION_APPLY_VM}" onClick="refreshHeader()">
+        </td>
+     </tr>
+    #end
+     <tr>
+        <td>
+           <table width="200"></table>
+        </td>
+     </tr>
+   </table>
+
+#else
+   <table width="100%" cellspacing="2" cellpadding="1">
+     <tr class="rowheader"> 
+        <td colspan=2> 
+           <b>${l10n.HEADER_ACTION_HEADER_SETTINGS_VM}</b>
+        </td>
+     </tr>  
+
+
+     <tr class="evenrow">
+        <td>${l10n.HEADER_ACTION_CHANGE_PORTAL_TITLE_VM}</td>
+        <td>${l10n.HEADER_ACTION_YES_VM}<input type="radio" name="setTitle" value="true" onClick="document.myForm2.portalTitle.disabled=false">${l10n.HEADER_ACTION_NO_VM}<input type="radio" name="setTitle" value="false" onClick="document.myForm2.portalTitle.disabled=true" checked>
+        </td>
+     </tr>
+
+     <tr class="oddrow">
+        <td>${l10n.HEADER_ACTION_NEW_PORTAL_TITLE_VM}</td>
+        <td><input type="text" name="portalTitle" size="30" disabled></td>
+     </tr>
+
+     <tr class="evenrow">
+        <td>${l10n.HEADER_ACTION_CHANGE_CURRENT_LOGO_VM}</td>
+        <td>${l10n.HEADER_ACTION_YES_VM}<input type="radio" name="setLogo" value="true" onClick="document.myForm2.imgLogo.disabled=false">${l10n.HEADER_ACTION_NO_VM}<input type="radio" name="setLogo" value="false" onClick="document.myForm2.imgLogo.disabled=true" checked></td>
+    </tr>
+    <tr class="oddrow">
+        <td>${l10n.HEADER_ACTION_UPLOAD_LOGO_VM}</td>
+        <td><input type="file" size="40" name="imgLogo" disabled></td>
+    </tr>
+    <tr class="evenrow">
+        <td>${l10n.HEADER_ACTION_CHANGE_CURRENT_BACKG_VM}</td>
+        <td>${l10n.HEADER_ACTION_YES_VM}<input type="radio" name="setBgImage" value="true" onClick="enableBgImage('true');">${l10n.HEADER_ACTION_NO_VM}<input type="radio" name="setBgImage" value="false" onClick="enableBgImage('false');" checked>${l10n.HEADER_ACTION_SAMPLE_BACKGROUND_VM}<select name="sampleBgImage" disabled>
+            <option value="" SELECTED>----
+                <option value="BGCheckeredBlue.gif">${l10n.HEADER_ACTION_CHECKERED_BLUE_VM}<option value="BGWhite.gif">${l10n.HEADER_ACTION_WHITE_VM}<option value="BGGrayBanner.gif">${l10n.HEADER_ACTION_GRAY_BANNER_VM}<option value="BGGrayMarble.jpg">${l10n.HEADER_ACTION_GRAY_MARBLE_VM}<option value="BGRedHarmony.jpg">${l10n.HEADER_ACTION_RED_HARMONY_VM}<option value="BGRedScreen.jpg">${l10n.HEADER_ACTION_RED_SCREEN_VM}</select>
+       </td>
+    </tr>
+    <tr class="oddrow" >
+       <td>${l10n.HEADER_ACTION_UPLOAD_BACKGROUND_IM_VM}</td>
+       <td>
+           <input type="file" size="40" name="bgImage" disabled>
+       </td>
+    </tr>
+
+    <tr class="evenrow">
+       <td>${l10n.HEADER_ACTION_CHANGE_CURRENT_BACKG_VM}</td>
+       <td>${l10n.HEADER_ACTION_YES_VM}<input type="radio" name="setBgColor" onClick="enableBgColor('true');" value="true">${l10n.HEADER_ACTION_NO_VM}<input type="radio" name="setBgColor" onClick="enableBgColor('false');" value="false" checked>
+       </td>
+    </tr>
+    <tr class="oddrow">
+       <td>${l10n.HEADER_ACTION_BACKGROUND_COLOR_VM}</td>
+       <td>
+           <input type="text" size="30" name="bgColor" disabled>
+             <A id="pick4" onclick="cp2.select(document.myForm2.bgColor,'pick4');return false;" href="#" name="pick4" style="visibility:hidden">${l10n.HEADER_ACTION_COLOR_PICKER_VM}</a>
+       </td>
+    </tr>
+    <tr class="evenrow">
+       <td>${l10n.HEADER_ACTION_CHANGE_CURRENT_FONT_VM}</td>
+       <td>${l10n.HEADER_ACTION_YES_VM}<input type="radio" name="setFontSize" onClick="document.myForm2.fontSize.disabled=false" value="true">${l10n.HEADER_ACTION_NO_VM}<input type="radio" name="setFontSize" onClick="document.myForm2.fontSize.disabled=true" value="false" checked></td>
+    </tr>
+    <tr class="oddrow">
+       <td>${l10n.HEADER_ACTION_FONT_SIZE_VM}</td>
+       <td><input type="text" size="30" name="fontSize" disabled></td>
+    </tr>
+
+
+    <tr class="evenrow">
+       <td>${l10n.HEADER_ACTION_CHANGE_CURRENT_FONT_VM}</td>
+       <td>${l10n.HEADER_ACTION_YES_VM}<input type="radio" name="setFontColor" onClick="enableFontColor('true');" value="true">${l10n.HEADER_ACTION_NO_VM}<input type="radio" name="setFontColor" onClick="enableFontColor('false'); "value="false" checked></td>
+    </tr>
+    <tr class="oddrow">
+       <td>${l10n.HEADER_ACTION_FONT_COLOR_VM}</td>
+       <td>
+          <input type="text" size="30" name="fontColor" disabled>
+           <A id="pick5" onclick="cp2.select(document.myForm2.fontColor,'pick5');return false;" href="#" name="pick5" style="visibility:hidden">${l10n.HEADER_ACTION_COLOR_PICKER_VM}</a>
+       </td>
+    </tr>
+
+    <tr>
+       <td colspan=2><br>
+          <input type="submit" name="eventSubmit_doUpload"  value="${l10n.HEADER_ACTION_SUBMIT_VM}" >
+          <input type="submit" name="eventSubmit_doDefault"  value="${l10n.HEADER_ACTION_DEFAULT_VM}">
+          <input type="reset" value="${l10n.HEADER_ACTION_RESET_VM}">
+       </td>
+
+    </tr>
+
+   </table>#end<script language="JavaScript">cp.writeDiv()</script>
+</form>
+
+</body>

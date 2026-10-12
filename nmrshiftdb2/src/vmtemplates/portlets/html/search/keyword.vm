@@ -1,0 +1,44 @@
+#if($mode=="expert")
+	<form name="exactnameform" action="portal/js_pane/P-Results;jsessionid=$data.getSession().getId()" method="post">
+		<table>
+			<tr>
+				<td width="20"></td>
+				<th>Spectrum categories:</th>
+				<td width="20"></td>
+				<th>Molecule keywords:</th>
+				<td width="20"></td>
+			</tr>
+			<tr>
+				<td width="20"></td>
+				<td>
+				<select style="width:200px" name="spectrumkeywords" size="6" multiple>
+				#include("spectrumkeywords.vm")
+				</select>
+				</td>
+				<td width="20"></td>
+				<td>
+				<select style="width:200px" name="moleculekeywords" size="6" multiple>
+				#include("moleculekeywords.vm")
+				</select>
+				</td>
+				<td width="20"></td>
+			</tr>
+		</table>
+	  <br>
+	  <input type="radio" value="fragment" name="fragmentortotal" 
+	  #if($frag=="fragment")
+	    checked
+	  #end
+	  > Keyword fragment search<br>
+	  <input type="radio" value="total" name="fragmentortotal" 
+	  #if($frag=="total")
+	    checked
+	  #end
+	  > Total keyword search<br>
+	  <br>
+		<input name="eventSubmit_doKeywordselection" type="submit" style="background-color:#0000AA; color:white" value="Search"> <a href="portal/js_pane/P-Help;jsessionid=$data.getSession().getId()?URL=using.html#skeyw" title="Help for keyword search" style="color:white"><img src="images/help.png"></a>
+	</form>
+#else
+	Only visible in <a href="portal/js_pane/P-Search;jsessionid=$data.getSession().getId()?eventSubmit_doSwitchmode=switchmode">expert mode</a>
+#end
+

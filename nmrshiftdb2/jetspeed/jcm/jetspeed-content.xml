@@ -1,0 +1,182 @@
+<?xml version="1.0"?>
+<!--
+Copyright 2004 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<content version="1.0.0" xmlns="http://jakarta.apache.org/jetspeed/xml/jetspeed-portal-content">
+
+  <!--
+  TODO: break the quote portion out into:
+
+  <quote>
+    <content>
+    <url>
+  </quote>
+    
+  -->
+ 
+    <channel>
+        <title>Jetspeed</title>
+        <link>http://portals.apache.org/jetspeed-1/</link>
+        <description>
+        Jetspeed content
+        </description>
+
+        <topics>
+
+            <entry name="jetspeed">
+                <image>
+                    <title>Jetspeed</title>
+                    <url>images/topics/jetspeed.gif</url>
+                    <link>http://portals.apache.org/jetspeed-1/</link>
+                </image>
+            </entry>
+
+
+            <entry name="apache">
+                <image>
+                    <title>Apache</title>
+                    <url>images/topics/apache.gif</url>
+                    <link>http://www.apache.org</link>
+                </image>
+            </entry>
+
+            <entry name="ibm">
+                <image>
+                    <title>IBM</title>
+                    <url>images/topics/ibm.gif</url>
+                    <link>http://www.ibm.com</link>
+                </image>
+            </entry>
+
+
+            <entry name="internet">
+                <image>
+                    <title>Internet</title>
+                    <url>images/topics/internet.gif</url>
+                    <link>http://www.w3c.org</link>
+                </image>
+            </entry>
+
+            <entry name="java">
+                <image>
+                    <title>Java</title>
+                    <url>images/topics/java.gif</url>
+                    <link>http://java.sun.com</link>
+                </image>
+            </entry>
+            
+            <entry name="linux">
+                <image>
+                    <title>Linux</title>
+                    <url>images/topics/linux.gif</url>
+                    <link>http://www.linux.org</link>
+                </image>
+            </entry>
+
+            <entry name="news">
+                <image>
+                    <title>NEWS</title>
+                    <url>images/topics/news.gif</url>
+                    <link/>
+                </image>
+            </entry>
+            
+            <entry name="programming">
+                <image>
+                    <title>Programming</title>
+                    <url>images/topics/programming.gif</url>
+                    <link/>
+                </image>
+            </entry>
+
+            <entry name="sun">
+                <image>
+                    <title>SUN Microsystems</title>
+                    <url>images/topics/sun.gif</url>
+                    <link/>
+                </image>
+            </entry>
+
+            <entry name="jetspeed-plugin">
+                <image>
+                    <title>Plugin</title>
+                    <url>images/topics/jetspeed-powered.gif</url>
+                    <link/>
+                </image>
+            </entry>
+            
+            <entry name="jetspeed-2">
+                <image>
+                    <title>Jetspeed-2</title>
+                    <url>images/topics/j2.jpg</url>
+                    <link/>
+                </image>
+            </entry>
+            
+        </topics>
+
+
+        <!-- BLANK ENTRY -->
+        <!--
+        <item>
+            <topic>java</topic>
+            <title></title>
+            <link></link>
+            <description>
+            </description>
+        </item>
+        -->
+
+        <item>
+            <topic>jetspeed</topic>
+            <title>It works</title>
+            <link>http://portals.apache.org/jetspeed-1/</link>
+            <description>
+            If you see this item, you've successfully installed and configured
+            your Jetspeed portal. Congratulations
+            </description>
+        </item>
+
+        <item>
+            <topic>jetspeed-2</topic>
+            <title>Jetspeed 2</title>
+            <link>http://portals.apache.org/jetspeed-2/</link>
+            <description>
+            Check out the new technology, Jetspeed 2, based on the Java Portlet Standard
+            </description>
+        </item>
+
+        <item>
+            <topic>jetspeed-plugin</topic>
+            <title>Jetspeed Plugin</title>
+            <link>http://portals.apache.org/jetspeed-1/plugin/</link>
+            <description>
+            Check out the Jetspeed Maven Plugin. Use the plugin to create your own projects based on Jetspeed.
+            </description>
+        </item>
+
+        <item>
+            <topic>news</topic>
+            <title>XML at Jetspeed</title>
+            <link>http://www.xml.com/lpt/a/2000/05/15/jetspeed/index.html</link>
+            <description>
+            XML.com has published an article about the Jetspeed project. Positive press is a good thing :)
+            </description>
+        </item>
+
+    </channel>
+
+</content>

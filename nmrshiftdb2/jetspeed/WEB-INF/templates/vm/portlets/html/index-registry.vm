@@ -1,0 +1,27 @@
+#*
+Copyright 2004 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*#
+
+<form method="post">
+  <br>
+  <p>${l10n.INDEX_REGISTRY_TO_REBUILD_PORTLET_R_VM}<UL>
+        <LI>${l10n.INDEX_REGISTRY_TITLE_VM}</LI>
+        <LI>${l10n.INDEX_REGISTRY_DESCRIPTION_VM}</LI>        
+        <LI>${l10n.INDEX_REGISTRY_CATEGORIES_VM}</LI>        
+     </UL>
+    <br>
+    <input type="submit" name="eventSubmit_doIndex" value="${l10n.INDEX_REGISTRY_INDEX_VM}">
+  </p>
+</form>

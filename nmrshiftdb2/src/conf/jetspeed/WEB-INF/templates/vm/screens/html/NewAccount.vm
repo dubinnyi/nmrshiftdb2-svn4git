@@ -1,0 +1,249 @@
+#*
+Copyright 2004 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*#
+
+<div>
+  <center>
+    <table cellpadding="2" cellspacing="0" border="1" width="50%">
+      <tr>
+        <td align="center" colspan="3" class="INPUTFORMTITLE">
+          $l10n.NEWACCOUNT_TITLE<br>
+          *=Field needs to be filled in
+        </td>
+      </tr>
+      <tr>      
+        <td class="INPUTFORM">
+          <p>$l10n.NEWACCOUNT_NOTICE</p>
+          #if ( $config.getBoolean("newuser.approval.enable") == false )
+            #if ( $config.getBoolean("newuser.confirm.enable") == true )
+              <p>$l10n.NEWACCOUNT_CONFIRMATION</p>
+            #end
+          #else
+            <p>$l10n.NEWACCOUNT_APPROVAL</p>
+          #end
+          #if ($data.Message)
+            ## Message include account creation failure messages.
+            <p><b>$data.Message</b></p>
+          #end
+          <form method="POST" action="$jslink.getTemplate("ConfirmRegistration")" enctype="application/x-www-form-urlencoded">
+            <input name="$jslink.ActionKey" type="hidden" value="CreateNewUserAndConfirm">
+            <center>
+              <table cellpadding="0" cellspacing="1" border="0">
+                <tr>
+                  <td>$l10n.USERFORM_USERNAMEMSG*</td>
+                  <td>&nbsp;</td>
+                  <td align="right">
+                    <input name="username" type="TEXT" value="$!data.Parameters.getString("username")">
+                  </td>
+                </tr>
+                <tr>
+                  <td>$l10n.USERFORM_PASSWORDMSG*</td>
+                  <td>&nbsp;</td>
+                  <td align="right">
+                    <input name="password" type="PASSWORD" value="">
+                  </td>
+                </tr>
+                <tr>
+                  <td>$l10n.USERFORM_PASSWORDCONFIRMMSG*</td>
+                  <td>&nbsp;</td>
+                  <td align="right">
+                    <input name="password_confirm" type="PASSWORD" value="">
+                  </td>
+                </tr>
+                <tr>
+                  <td>$l10n.USERFORM_FIRSTNAMEMSG*</td>
+                  <td>&nbsp;</td>
+                  <td align="right">
+                    <input name="firstname" type="TEXT" value="$!data.Parameters.getString("firstname")">
+                  </td> 
+                </tr>
+                <tr bgcolor="#F8F8F8">
+                  <td>$l10n.USERFORM_LASTNAMEMSG*</td>
+                  <td>&nbsp;</td>
+                  <td align="right">
+                   <input name="lastname" type="TEXT" value="$!data.Parameters.getString("lastname")">
+                  </td>
+                </tr>
+
+            <td> Title: </td>
+            <td>&nbsp;</td>
+            <td align=right><input name="title" type="TEXT" value="$!data.Parameters.getString("title")" /> </td>
+          </tr>
+            #if(!$urltool.useFixedAffiliations())
+	  <tr bgcolor="#F8F8F8">
+                <td> Affiliation/Institute (enter or choose one)*: </td>
+                #if(!$urltool.isLabserver())
+    	            <td>&nbsp;</td>
+                #end
+                <td align=right> #if($urltool.getAff1NotSet()) <input name="affiliation1" type="TEXT" value="$!data.Parameters.getString("affiliation1")" /> #end </td>
+                #if($urltool.isLabserver())
+    	            <td>
+    	            	</select><select name="aff1" size="1">
+    		  	          #foreach($day in $urltool.getAff1())
+    	    		        <option value="$day">$day</option>
+    	        		  #end
+    	          		</select>
+    	            </td>
+    	        #end
+          </tr>
+    	    #end
+	  <tr bgcolor="#F8F8F8">
+            #if($urltool.useFixedAffiliations())
+               <td> Affiliation/Workgroup (choose one)*: </td>
+                #if(!$urltool.isLabserver())
+                    <td>&nbsp;</td>
+                #end
+                <td>&nbsp;</td>
+                #if($urltool.isLabserver())
+                    <td>
+                        </select><select name="aff2" size="1">
+                          #foreach($day in $urltool.getAff2())
+                            <option value="$day" #if($!data.Parameters.getString("affiliation2")==$day) selected #end >$day</option>
+                          #end
+                        </select>
+                    </td>
+                #end
+            #else
+                <td> Affiliation/Workgroup (enter or choose one)*: </td>
+                #if(!$urltool.isLabserver())
+    	            <td>&nbsp;</td>
+                #end
+                <td align=right> #if($urltool.getAff2NotSet()) <input name="affiliation2" type="TEXT" value="$!data.Parameters.getString("affiliation2")" /> #end </td>
+                #if($urltool.isLabserver())
+    	            <td>
+    	            	</select><select name="aff2" size="1">
+    		  	          #foreach($day in $urltool.getAff2())
+    	    		        <option value="$day">$day</option>
+    	        		  #end
+    	          		</select>
+    	            </td>
+                #end
+   	        #end 
+          </tr>
+	  <tr>
+            <td> Address: </td>
+            <td>&nbsp;</td>
+            <td align=right><input name="address" type="TEXT" value="$!data.Parameters.getString("address")" /> </td>
+          </tr>
+	  <tr bgcolor="#F8F8F8">
+            <td> ZIP Code: </td>
+            <td>&nbsp;</td>
+            <td align=right><input name="zipcode" type="TEXT" value="$!data.Parameters.getString("zipcode")" /> </td>
+          </tr>
+          <tr>
+            <td> City: </td>
+            <td>&nbsp;</td>
+            <td align=right><input name="city" type="TEXT" value="$!data.Parameters.getString("city")" /> </td>
+          </tr>
+	  <tr bgcolor="#F8F8F8">
+            <td> State/Province/Land etc.: </td>
+            <td>&nbsp;</td>
+            <td align=right><input name="state" type="TEXT" value="$!data.Parameters.getString("state")" /> </td>
+          </tr>
+	  <tr>
+            <td> Country: </td>
+            <td>&nbsp;</td>
+            <td align=right><input name="country" type="TEXT" value="$!data.Parameters.getString("country")" /> </td>
+          </tr>
+          <tr bgcolor="#F8F8F8">
+            <td> $l10n.USERFORM_EMAILMSG*</td>
+            <td>&nbsp;</td>
+            <td align=right><input name="email" type="TEXT" value="$!data.Parameters.getString("email")" /> </td>
+          </tr>
+	  <tr>
+          <tr bgcolor="#F8F8F8">
+            <td>MNova Host ID: </td>
+            <td>&nbsp;</td>
+            <td align=right><input name="hostid" type="TEXT" value="$!data.Parameters.getString("hostid")" /> </td>
+          </tr>
+          <tr bgcolor="#F8F8F8">
+            <td> Web Page: </td>
+            <td>&nbsp;</td>
+            <td align=right><input name="webpage" type="TEXT" value="$!data.Parameters.getString("webpage")" /> </td>
+          </tr>
+	  <tr bgcolor="#F8F8F8">
+            <td> I want to become a contributor </td>
+            <td>&nbsp;</td>
+            <td align=right><input name="contributor" type="checkbox" value="contributor" checked> </td>
+          </tr>
+	  <tr>
+            <td> I want my real name to appear on the Credits page </td>
+            <td>&nbsp;</td>
+            <td align=right><input name="realname" type="checkbox" value="realname" checked> </td>
+          </tr>
+          #if($urltool.isLabserver())
+	          <tr bgcolor="#F8F8F8">
+	            <td colspan="2"> I want to become a member of the following lab group, meaning I am either working there or want my compounds<br>
+	            to be measured there (use this only if you have spoken to a group leader of an actual nmrshiftdb2 lab group,<br>
+	            he will admit you and you will get an email if this is done. Please make sure the affiliations are correct!):</td>
+	            <td align=right> <select name="labgroup">
+	            <option value="-1">---none---</option>
+	            #foreach($group in $urltool.getLabGroups())
+	              <option value="$group.getLabgroupId()">$group.getLabgroupName()</option>
+	            #end
+	            </select> </td>
+	          </tr>
+	          <tr bgcolor="#F8F8F8">
+	            <td colspan=3> I am an <input type="radio" name="groupmember" value="coworker">operator in this lab group or <input type="radio" name="groupmember" value="user" checked>want to get my compounds measured there.</td>
+	          </tr>          
+	      #end
+          <tr>
+            <td colspan=3>&nbsp;</td>
+          </tr> 
+          <tr>
+            <td>I comply with nmrshiftdb2's <a href="nmrshiftdbhtml/using.html#privacy" target="_blank">privacy policy</a>*.</td>
+            <td>&nbsp;</td>
+            <td align=right><input name="policy" type="checkbox" value="policy"> </td>
+          </tr>
+          #if($urltool.showCaptcha())
+	          <tr>
+	           	<td colspan="2">&nbsp;</td>
+	          	<td><img src="$clink.setURI("img.captcha");jsessionid=$data.getSession().getId()"></td>
+	          </tr>
+	          <tr>
+	            <td>Enter the code shown above here:*</td>
+	            <td>&nbsp;</td>
+	            <td align=right><input name="captcha" type="TEXT"> </td>
+	          </tr>
+          #end
+                <tr>
+                  <td colspan="3">$l10n.NEWACCOUNT_INFOEMAILMSG</td>
+                </tr> 
+                <tr>
+                  <td colspan="3">&nbsp;</td>
+                </tr> 
+                <tr>
+                  <td colspan="3">
+                    <table width="100%">
+                      <tr>
+                        <td align="right" width="40%">
+                          <input name="submit1" type="reset" value="$l10n.USERFORM_RESET">
+                        </td>
+                        <td width="10%">&nbsp;</td>
+                        <td align="left" width="40%">
+                          <input name="submit2" type="submit" value="$l10n.USERFORM_CREATE">
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </center>
+          </form>
+        </td>
+      </tr>
+    </table>
+  </center>
+</div>

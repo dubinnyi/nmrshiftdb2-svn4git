@@ -1,0 +1,59 @@
+#*
+Copyright 2004 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*#
+
+<!-- WEB-INF\templates\vm\portlets\html\customizer-portletset-general.vm -->
+<br>
+#set ($mtype = $!data.Parameters.getString("mtype"))
+#if ($!mtype) 
+    <form action="$jslink.Template.addQueryData('mtype', $mtype)" method="post">
+#else
+    <form action="$jslink.Template" method="post">
+#end
+  #if ($action) <input name="$jslink.ActionKey" type="hidden" value="$action"> #end
+  <table cellspacing="2" cellpadding="0">
+    <tr>
+      <td>
+        $l10n.CUSTOMIZER_TITLE :
+      </td>
+      <td>
+        <input type="text" name="title" value="$!set.Title" >
+      </td>
+    </tr>
+    <tr>
+      <td>
+        $l10n.CUSTOMIZER_DESCRIPTION :
+      </td>
+      <td>
+        <input type="text" name="description" value="$!set.Description" SIZE="64" >
+      </td>
+    </tr>
+  </table>
+  <center>
+    <table cellspacing="2">
+      <tr>
+        <td>
+          <input type="submit" name="eventSubmit_doMetainfo" value="$l10n.CUSTOMIZER_APPLY">
+        </td>
+        <td>
+          <input type="reset" value="$l10n.USERFORM_RESET">
+        </td>
+        <td>
+          <input type="submit" name="eventSubmit_doCancel" value="$l10n.CUSTOMIZER_CANCEL">
+        </td>
+      </tr>
+    </table>
+  </center>
+</form>

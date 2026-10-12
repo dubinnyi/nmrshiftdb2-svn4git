@@ -1,0 +1,88 @@
+              <tr>
+                <td>
+		          #if($spectrum.getImage())
+		              #if($urltool.doImageCache() && $spectrum.getReviewFlag()!="private")
+                        <a href="images/spectra/original/${spectrum.getSpectrumId()}.$spectrum.getImageFormat()" target="_blank">Show spectrum in full size</a><br>
+                        <img src="images/spectra/original/${spectrum.getSpectrumId()}.$spectrum.getImageFormat()" height="250">
+		              #else
+                        <a href="download/NmrshiftdbServlet/${spectrum.getSpectrumId()}.$spectrum.getImageFormat()#if($spectrum.getReviewFlag()=="private");jsessionid=${sessionidext}#end?spectrumid=${spectrum.getSpectrumId()}&nmrshiftdbaction=exportspec&format=originalimage#if($spectrum.getReviewKey()==$reviewkey)&viewkey=$reviewkey#end" target="_blank">Show spectrum in full size</a><br>
+                        <img src="download/NmrshiftdbServlet/${spectrum.getSpectrumId()}.$spectrum.getImageFormat()#if($spectrum.getReviewFlag()=="private");jsessionid=${sessionidext}#end?spectrumid=${spectrum.getSpectrumId()}&nmrshiftdbaction=exportspec&format=originalimage#if($spectrum.getReviewKey()==$reviewkey)&viewkey=$reviewkey#end" height="250">
+	       	          #end
+                  #elseif($spectrum.getDBSignals().size()>0)
+    		          #if($data.getSession().getAttribute("applet")=="applet")
+    		          	<a href="$urltool.removesessionid($data.getRequest().getRequestURI());jsessionid=${sessionidext}?$data.getRequest().getQueryString()&applet=noapplet" title="Switch off Java applets" style="color:white"><img src="images/nojava.png"></a>
+    		          	#if($spectrum.getDBSpectrumType().getDimensionality()==2)
+    		          		<br>
+    		          		<applet code="graph/Spectrum2DApplet.class" width=400 height=400 archive="nmrshiftdbhtml/Applet2D.jar">
+    							<param name="spectrum" value="$spectrum.getSpectrumForApplet()">
+    							#if($searchspectrum)
+    								<param name="searchspectrum" value="$searchspectrum">
+    							#end
+    						</applet>
+    		          	#else
+    			            <span style="color:#0000AA">Double click upper part to get resizeable window!</span><br>
+    			            <script LANGUAGE="JavaScript1.1">
+    			              spectrumapplet_name = "Spectrum$velocityCount";
+    			              spectrumapplet_begin("$baseurl/../nmrshiftdbhtml", 350, 250);
+    			              spectrumapplet_param("structureRenderer","JcpViewer$velocityCount");
+    			              spectrumapplet_param("spectrum","$spectrum.getSpectrumForAppletNewFormat()");
+    			              spectrumapplet_param("spectrumTyp","$spectrum.getDBSpectrumType().getNameAsString()");
+    			              spectrumapplet_param("highlightTable","true");
+    			              #if($spectrum.getConditionType()=="m" && !$spectrum.getMeasurementConditionWithName($constants.getFREQUENCY()).getValue().equals("unknown") && !$spectrum.getMeasurementConditionWithName($constants.getFREQUENCY()).getValue().equals("Unreported"))
+    			                spectrumapplet_param("frequency","$spectrum.getMeasurementConditionWithName($constants.getFREQUENCY()).getValue()");
+    			              #end
+    			              #if ($viewingaction=="searchbyspectrum")
+    			                #if($spectrum.isSimilarityNot0())
+    			                  spectrumapplet_param("shiftstomark","$searchSpectrumForApplet");
+    			                #end
+    			              #end
+    			              spectrumapplet_end();
+    			            </script>
+    			        #end
+    		          #else
+    		            <a href="$urltool.removesessionid($data.getRequest().getRequestURI());jsessionid=${sessionidext}?$data.getRequest().getQueryString()&applet=applet" title="Switch on Java-Applets" style="color:white"><img src="images/java.png"></a><br>
+                            #if($urltool.doImageCache() && !$reviewkey && $spectrum.getDBMolecule().isPublic() && !$spectrum.getReviewFlag().equals("private"))
+                              <img src="images/spectra/large/${spectrum.getSpectrumId()}.jpeg">
+                            #else
+                              <img src="download/NmrshiftdbServlet/${spectrum.getSpectrumId()}.jpg;jsessionid=${data.getSession().getId()}?nmrshiftdbaction=exportspec&spectrumid=${spectrum.getSpectrumId()}&format=jpeg&size=large&backcolor=#if($spectrum.getNmrshiftdbUser().getLabgroupId() && $spectrum.getNmrshiftdbUser().getLabgroupId()>0)$LABGROUP_BACKGROUND_COLOR#else$STANDARD_BACKGROUND_COLOR#end#if($spectrum.getReviewKey()==$reviewkey)&viewkey=$reviewkey#end"> 
+                            #end
+    		          #end
+    		          <br><span style="color:#0000AA">
+    		          </span></br>
+                  #end
+                </td>
+              </tr>
+		      #if ($spectrum.getJcamp())
+		      <tr>
+		        <td>
+				<script language="JavaScript" type="text/javascript" src="nmrshiftdbhtml/JSVfunctions.js">
+				</script>
+		        <script language="javascript" type="text/javascript">
+				//<![CDATA[
+				  jsvls="load $baseurl/../download/NmrshiftdbServlet/${spectrum.getSpectrumId()}.dx?nmrshiftdbaction=exportspec&spectrumid=$spectrum.getSpectrumId()&format=jcamp";
+				  insertJSVObject("$baseurl/../nmrshiftdbhtml/jspecview.jar","JSVApplet","350","250",jsvls);
+				//]]>
+				</script>
+		        </td>
+		      </tr>
+		      #end
+		      #if ($spectrum.getPdf())
+		      <tr>
+                <td>
+                  #if($urltool.doImageCache() && $spectrum.getReviewFlag()!="private")
+                    <object data="images/spectra/pdf/${spectrum.getSpectrumId()}.pdf" type="application/pdf" width="350" height="250">
+                  #else
+                    <object data="$baseurl/../download/NmrshiftdbServlet/${spectrum.getSpectrumId()}.pdf;jsessionid=${sessionidext}?spectrumid=${spectrum.getSpectrumId()}&nmrshiftdbaction=exportspec&format=pdforig" type="application/pdf" width="350" height="250">
+                  #end
+				  <p>It appears you don't have a PDF plugin for this browser.
+  				  No problem... you can 
+  				  #if($urltool.doImageCache() && $spectrum.getReviewFlag()!="private")
+                      <a href="images/spectra/pdf/${spectrum.getSpectrumId()}.pdf">
+  				  #else
+  				      <a href="$baseurl/../download/NmrshiftdbServlet/${spectrum.getSpectrumId()}.pdf#if($spectrum.getReviewFlag()=="private");jsessionid=${sessionidext}#end?spectrumid=${spectrum.getSpectrumId()}&nmrshiftdbaction=exportspec&format=pdforig">
+  				  #end
+                  click here to download the PDF file.</a></p>
+				</object>
+                        </td>
+                      </tr>
+		      #end

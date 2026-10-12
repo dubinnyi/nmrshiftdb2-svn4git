@@ -1,0 +1,12 @@
+#if($coords=="3d")
+  <br><script>		
+	jsmol=Jmol.getApplet("myJmol", Info);
+  </script>
+#else
+    <br>
+    #if($image)
+      <img src="$image">
+    #else
+      <img src="$spectrum.getMolImage()">
+    #end
+#end

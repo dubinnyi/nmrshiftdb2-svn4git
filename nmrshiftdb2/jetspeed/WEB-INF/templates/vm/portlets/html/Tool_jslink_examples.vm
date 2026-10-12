@@ -1,0 +1,280 @@
+#*
+Copyright 2004 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*#
+
+<div>
+<center>
+  <table cellpadding="2" cellspacing="0" border="1" width="600">
+    <tr>
+      <td>${l10n.TOOL_JSLINK_EXAMPLES_BELOW_ARE_EXAMPLES_VM}$jslink${l10n.TOOL_JSLINK_EXAMPLES_WITH_VELOCITY_ONLY_VM}</td>
+    </tr>
+  </table>
+</center>
+<br>
+  <table cellpadding="2" cellspacing="0" border="1" width="100%">
+    <tr>
+      <th>${l10n.TOOL_JSLINK_EXAMPLES_VARIABLE_VM}</th>
+      <th>${l10n.TOOL_JSLINK_EXAMPLES_VALUE_VM}</th>
+    </tr>
+    <tr>
+      <th colspan="2"><center>${l10n.TOOL_JSLINK_EXAMPLES_GENERAL_URL_VM}</center></th>
+    </tr>
+    <tr>
+      <td>${l10n.TOOL_JSLINK_EXAMPLES_JSLINK_VM}</td>
+      <td>$jslink</td>
+    </tr>
+    <tr>
+      <td>${l10n.TOOL_JSLINK_EXAMPLES_JSLINK_HOMEPAGE_VM}</td>
+      <td>$jslink.HomePage</td>
+    </tr>
+    <tr>
+      <th colspan="2"><center>${l10n.TOOL_JSLINK_EXAMPLES_TEMPLATES_IN_THE_URL_VM}</center></th>
+    </tr>
+    <tr>
+      <td>${l10n.TOOL_JSLINK_EXAMPLES_JSLINK_TEMPLATE_VM}</td>
+      <td>$jslink.Template</td>
+    </tr>
+    <tr>
+      <td>${l10n.TOOL_JSLINK_EXAMPLES_JSLINK_GETTEMPLATE_VM}</td>
+      <td>$jslink.getTemplate("myScreen")</td>
+    </tr>
+    <tr>
+      <th colspan="2"><center>${l10n.TOOL_JSLINK_EXAMPLES_PATH_AND_QUERY_ITEM_VM}</center></th>
+    </tr>
+    <tr>
+      <td>${l10n.TOOL_JSLINK_EXAMPLES_JSLINK_ADDPATHINFO_VM}</td>
+      <td>$jslink.addPathInfo("pathItem","Item_value")</td>
+    </tr>
+    <tr>
+      <td>${l10n.TOOL_JSLINK_EXAMPLES_JSLINK_ADDQUERYDATA_VM}</td>
+      <td>$jslink.addQueryData("QueryData","Data_value")</td>
+    </tr>
+    <tr>
+      <td>${l10n.TOOL_JSLINK_EXAMPLES_JSLINK_GETACTION_MY_VM}</td>
+      <td>$jslink.getAction("myAction").addQueryData("QueryData","Data_value")</td>
+    </tr>
+    <tr>
+      <th colspan="2"><center>${l10n.TOOL_JSLINK_EXAMPLES_ACTIONS_ITEMS_IN_THE_VM}</center></th>
+    </tr>
+    <tr>
+      <td>${l10n.TOOL_JSLINK_EXAMPLES_JSLINK_ACTIONKEY_VM}</td>
+      <td>$jslink.ActionKey</td>
+    </tr>
+    <tr>
+      <td>${l10n.TOOL_JSLINK_EXAMPLES_JSLINK_GETACTION_SA_VM}</td>
+      <td>$jslink.getAction("save")</td>
+    </tr>
+    <tr>
+      <td>${l10n.TOOL_JSLINK_EXAMPLES_JSLINK_GETACTION_UP_VM}</td>
+      <td>$jslink.getAction("update","p12345")</td>
+    </tr>
+    <tr>
+      <td>${l10n.TOOL_JSLINK_EXAMPLES_JSLINK_GETACTION_UP_VM}$portlet)</td>
+      <td>$jslink.getAction("update",$portlet)</td>
+    </tr>
+    <tr>
+      <th colspan="2"><center>${l10n.TOOL_JSLINK_EXAMPLES_GROUP_ROLE_USER_PAGE_VM}</center></th>
+    </tr>
+
+    <tr>
+      <td>${l10n.TOOL_JSLINK_EXAMPLES_JSLINK_GETGROUP_WAR_VM}</td>
+      <td>$jslink.getGroup("Warehouse")</td>
+    </tr>
+    <tr>
+      <td>${l10n.TOOL_JSLINK_EXAMPLES_JSLINK_GETGROUP_LAB_VM}</td>
+      <td>$jslink.getGroup("lab","LabHome")</td>
+    </tr>
+    <tr>
+      <td>${l10n.TOOL_JSLINK_EXAMPLES_JSLINK_GETROLE_MANA_VM}</td>
+      <td>$jslink.getRole("manager")</td>
+    </tr>
+    <tr>
+      <td>${l10n.TOOL_JSLINK_EXAMPLES_JSLINK_GETROLE_CLER_VM}</td>
+      <td>$jslink.getRole("clerk","ClerkHome")</td>
+    </tr>
+    <tr>
+      <td>${l10n.TOOL_JSLINK_EXAMPLES_JSLINK_GETUSER_JOE_VM}</td>
+      <td>$jslink.getUser("joe")</td>
+    </tr>
+    <tr>
+      <td>${l10n.TOOL_JSLINK_EXAMPLES_JSLINK_GETUSER_SAM_VM}</td>
+      <td>$jslink.getUser("sam","sam_home")</td>
+    </tr>
+    <tr>
+      <td>${l10n.TOOL_JSLINK_EXAMPLES_JSLINK_PAGE_VM}</td>
+      <td>$jslink.Page</td>
+    </tr>
+    <tr>
+      <td>${l10n.TOOL_JSLINK_EXAMPLES_JSLINK_GETPAGE_MYPA_VM}</td>
+      <td>$jslink.getPage("myPage")</td>
+    </tr>
+    <tr>
+      <th colspan="2"><center>${l10n.TOOL_JSLINK_EXAMPLES_PANE_ITEMS_IN_THE_UR_VM}</center></th>
+    </tr>
+    <tr>
+      <td>${l10n.TOOL_JSLINK_EXAMPLES_JSLINK_GETPANEBYID_VM}</td>
+      <td>$jslink.getPaneById("P_12345")</td>
+    </tr>
+    <tr>
+      <td>${l10n.TOOL_JSLINK_EXAMPLES_JSLINK_GETPANEBYID_VM}</td>
+      <td>$jslink.getPaneById("Pane_3,SubPane_17")</td>
+    </tr>
+    <tr>
+      <td>${l10n.TOOL_JSLINK_EXAMPLES_JSLINK_GETPANEBYNAME_VM}</td>
+      <td>$jslink.getPaneByName("pane_1")</td>
+    </tr>
+    <tr>
+      <th colspan="2"><center>${l10n.TOOL_JSLINK_EXAMPLES_PORTLET_ITEMS_IN_THE_VM}</center></th>
+    </tr>
+    <tr>
+      <td>${l10n.TOOL_JSLINK_EXAMPLES_JSLINK_GETPORTLETBYI_VM}</td>
+      <td>$jslink.getPortletById("P_56789_1234")</td>
+    </tr>
+    <tr>
+      <td>${l10n.TOOL_JSLINK_EXAMPLES_JSLINK_GETPORTLETBYN_VM}</td>
+      <td>$jslink.getPortletByName("portlet_2")</td>
+    </tr>
+    <tr>
+      <th colspan="2"><center>${l10n.TOOL_JSLINK_EXAMPLES_INFORMATION_ABOUT_TH_VM}</center></th>
+    </tr>
+    <tr>
+      <td>${l10n.TOOL_JSLINK_EXAMPLES_JSLINK_ANONYMOUS_VM}</td>
+      <td>$jslink.Anonymous</td>
+    </tr>
+    <tr>
+      <td>${l10n.TOOL_JSLINK_EXAMPLES_JSLINK_GROUPNAME_VM}</td>
+      <td>$jslink.GroupName</td>
+    </tr>
+    <tr>
+      <td>${l10n.TOOL_JSLINK_EXAMPLES_JSLINK_ROLENAME_VM}</td>
+      <td>$jslink.RoleName</td>
+    </tr>
+    <tr>
+      <td>${l10n.TOOL_JSLINK_EXAMPLES_JSLINK_USERNAME_VM}</td>
+      <td>$jslink.UserName</td>
+    </tr>
+    <tr>
+      <td>${l10n.TOOL_JSLINK_EXAMPLES_JSLINK_PAGENAME_VM}</td>
+      <td>$jslink.PageName</td>
+    </tr>
+    <tr>
+      <td>${l10n.TOOL_JSLINK_EXAMPLES_JSLINK_MEDIATYPE_VM}</td>
+      <td>$jslink.MediaType</td>
+    </tr>
+    <tr>
+      <td>${l10n.TOOL_JSLINK_EXAMPLES_JSLINK_COUNTRY_VM}</td>
+      <td>$jslink.Country</td>
+    </tr>
+    <tr>
+      <td>${l10n.TOOL_JSLINK_EXAMPLES_JSLINK_LANGUAGE_VM}</td>
+      <td>$jslink.Language</td>
+    </tr>
+  </table>
+  <br>
+  <table cellpadding="2" cellspacing="0" border="1" width="100%">
+    <tr>
+      <th colspan="2"><center>${l10n.TOOL_JSLINK_EXAMPLES_SETLINK_VM}</center></th>
+    </tr>
+    <tr>
+      <th colspan="2"align="left">${l10n.TOOL_JSLINK_EXAMPLES_VARIABLE_VM}</th>
+    <tr>
+    </tr>
+      <td width="10%">&nbsp;</td>
+      <th align="left">${l10n.TOOL_JSLINK_EXAMPLES_VALUE_VM}</th>
+    </tr>
+
+    <tr>
+      <td colspan="2">\$jslink.getLink(\$jslink.CURRENT,"abc", \$jslink.PageName, \$jslink.PANE_ID,"123","myAction","myTemplate","html","en","US")</td>
+    </tr>
+    <tr>
+      <td width="10%">&nbsp;</td>
+      <td>$jslink.getLink($jslink.CURRENT,"abc", $jslink.PageName, $jslink.PANE_ID,"123","myAction","myTemplate","html","en","US")</td>
+    </tr>
+
+    <tr>
+      <td colspan="2">\$jslink.getLink(\$jslink.CURRENT,"abc","", \$jslink.PANE_ID,"123","myAction","myTemplate","html","en","US")</td>
+    </tr>
+    <tr>
+      <td width="10%">&nbsp;</td>
+      <td>$jslink.getLink($jslink.CURRENT,"abc","", $jslink.PANE_ID,"123","myAction","myTemplate","html","en","US")</td>
+    </tr>
+
+    <tr>
+      <td colspan="2">\$jslink.getLink(\$jslink.DEFAULT,"def", \$jslink.DEFAULT_PAGE, \$jslink.PANE_NAME,"456","myAction","myTemplate","html","en","US")</td>
+    </tr>
+    <tr>
+      <td width="10%">&nbsp;</td>
+      <td>$jslink.getLink($jslink.DEFAULT,"def", $jslink.DEFAULT_PAGE, $jslink.PANE_NAME,"456","myAction","myTemplate","html","en","US")</td>
+    </tr>
+
+    <tr>
+      <td colspan="2">\$jslink.getLink(\$jslink.GROUP,"apache","news", \$jslink.PORTLET_ID,"789","myAction","myTemplate","html","en","US")</td>
+    </tr>
+    <tr>
+      <td width="10%">&nbsp;</td>
+      <td>$jslink.getLink($jslink.GROUP,"apache","news", $jslink.PORTLET_ID,"789","myAction","myTemplate","html","en","US")</td>
+    </tr>
+
+    <tr>
+      <td colspan="2">\$jslink.getLink(\$jslink.ROLE,"manager","status", \$jslink.PORTLET_NAME,"abc","myAction","myTemplate","html","en","US")</td>
+    </tr>
+    <tr>
+      <td width="10%">&nbsp;</td>
+      <td>$jslink.getLink($jslink.ROLE,"manager","status", $jslink.PORTLET_NAME,"abc","myAction","myTemplate","html","en","US")</td>
+    </tr>
+
+    <tr>
+      <td colspan="2">\$jslink.getLink(\$jslink.USER,"joe","birthdays",\$jslink.CURRENT,"def","Template","Action","html","en","US")</td>
+    </tr>
+    <tr>
+      <td width="10%">&nbsp;</td>
+      <td>$jslink.getLink($jslink.USER,"joe","birthdays",$jslink.CURRENT,"def","Template","Action","html","en","US")</td>
+    </tr>
+
+    <tr>
+      <td colspan="2">\$jslink.getLink(\$jslink.USER,"joe","birthdays",\$jslink.DEFAULT,"ghi","Template","Action","html","en","US")</td>
+    </tr>
+    <tr>
+      <td width="10%">&nbsp;</td>
+      <td>$jslink.getLink($jslink.USER,"joe","birthdays",$jslink.DEFAULT,"ghi","Template","Action","html","en","US")</td>
+    </tr>
+
+    <tr>
+      <td colspan="2">\$jslink.getLink(\$jslink.GROUP,"apache","news",301,"1234","Template","Action")</td>
+    </tr>
+    <tr>
+      <td width="5%"></td>
+      <td>$jslink.getLink($jslink.GROUP,"apache","news",301,"1234","Template","Action")</td>
+    </tr>
+
+    <tr>
+      <td colspan="2">\$jslink.getLink(\$jslink.USER,"turbine","default.psml",305,"HelloVelocity","controls.Maximize","","html")</td>
+    </tr>
+    <tr>
+      <td width="5%"></td>
+      <td>$jslink.getLink($jslink.USER,"turbine","default.psml",305,"HelloVelocity","controls.Maximize","","html")</td>
+    </tr>
+
+    <tr>
+      <td colspan="2">\$jslink.getLink(\$jslink.CURRENT,"","default.psml",305,"DatabaseBrowserTest","controls.Print","","html")</td>
+    </tr>
+    <tr>
+      <td width="5%"></td>
+      <td>$jslink.getLink($jslink.CURRENT,"","default.psml",305,"DatabaseBrowserTest","controls.Print","","html")</td>
+    </tr>
+    
+  </table>
+
+</div>

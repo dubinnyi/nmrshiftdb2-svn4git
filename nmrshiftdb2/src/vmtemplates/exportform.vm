@@ -1,0 +1,70 @@
+#parse("exportform_mol.vm")
+#set( $mol = $spectrum.getDBMolecule() )
+#parse("exportform_spec.vm")
+#set( $myrandom=$random.nextInt(100) )
+<script LANGUAGE="JavaScript1.1">
+<!--
+  ##For usage of session tracking via url appending, we need the sessionid in url, which is ugly. So we do this only for private spectra
+  #if($spectrum.getReviewFlag()=="private")
+	  function exportBoth${myrandom}() {
+	    if(document.exportboth${myrandom}.format.value=="pdf"){
+	      document.exportboth${myrandom}.action="download/NmrshiftdbServlet/${spectrum.getDBMolecule().getMoleculeId()}.pdf?spectrumid=${spectrum.getSpectrumId()}&nmrshiftdbaction=exportspec&format="+document.exportboth${myrandom}.format.value;
+	    }else{
+	      if(document.exportboth${myrandom}.format.value=="simplehtml")
+	        document.exportboth${myrandom}.action="download/NmrshiftdbServlet/${spectrum.getDBMolecule().getMoleculeId()}.html?spectrumid=${spectrum.getSpectrumId()}&nmrshiftdbaction=exportspec&format="+document.exportboth${myrandom}.format.value;
+	      else if(document.exportboth${myrandom}.format.value=="cmlboth")
+	        document.exportboth${myrandom}.action="download/NmrshiftdbServlet/${spectrum.getDBMolecule().getMoleculeId()}.cml?spectrumid=${spectrum.getSpectrumId()}&nmrshiftdbaction=exportspec&format="+document.exportboth${myrandom}.format.value;
+	      else if(document.exportboth${myrandom}.format.value=="docbook")
+	        document.exportboth${myrandom}.action="download/NmrshiftdbServlet/${spectrum.getDBMolecule().getMoleculeId()}.zip?spectrumid=${spectrum.getSpectrumId()}&nmrshiftdbaction=exportspec&format="+document.exportboth${myrandom}.format.value;
+	      else if(document.exportboth${myrandom}.format.value=="rtf")
+	        document.exportboth${myrandom}.action="download/NmrshiftdbServlet/${spectrum.getDBMolecule().getMoleculeId()}.rtf?spectrumid=${spectrum.getSpectrumId()}&nmrshiftdbaction=exportspec&format="+document.exportboth${myrandom}.format.value;
+	      else if(document.exportboth${myrandom}.format.value=="nmredata.sd")
+	        document.exportboth${myrandom}.action="download/NmrshiftdbServlet/${spectrum.getDBMolecule().getMoleculeId()}.nmredata.sd?spectrumid=${spectrum.getSpectrumId()}&nmrshiftdbaction=exportspec&format="+document.exportboth${myrandom}.format.value;
+	      else if(document.exportboth${myrandom}.format.value=="nmredata.zip")
+	        document.exportboth${myrandom}.action="download/NmrshiftdbServlet/${spectrum.getDBMolecule().getMoleculeId()}.nmredata.zip?spectrumid=${spectrum.getSpectrumId()}&nmrshiftdbaction=exportspec&format="+document.exportboth${myrandom}.format.value;
+	      else
+	        document.exportboth${myrandom}.action="download/NmrshiftdbServlet/${spectrum.getDBMolecule().getMoleculeId()}.txt?spectrumid=${spectrum.getSpectrumId()}&nmrshiftdbaction=exportspec&format="+document.exportboth${myrandom}.format.value;
+	    }
+	  }
+  #else
+	  function exportBoth${myrandom}() {
+	    if(document.exportboth${myrandom}.format.value=="pdf"){
+	      document.exportboth${myrandom}.action="download/NmrshiftdbServlet/${spectrum.getDBMolecule().getMoleculeId()}.pdf?spectrumid=${spectrum.getSpectrumId()}&nmrshiftdbaction=exportspec&format="+document.exportboth${myrandom}.format.value;
+	    }else{
+	      if(document.exportboth${myrandom}.format.value=="simplehtml")
+	        document.exportboth${myrandom}.action="download/NmrshiftdbServlet/${spectrum.getDBMolecule().getMoleculeId()}.html?spectrumid=${spectrum.getSpectrumId()}&nmrshiftdbaction=exportspec&format="+document.exportboth${myrandom}.format.value;
+	      else if(document.exportboth${myrandom}.format.value=="cmlboth")
+	        document.exportboth${myrandom}.action="download/NmrshiftdbServlet/${spectrum.getDBMolecule().getMoleculeId()}.cml?spectrumid=${spectrum.getSpectrumId()}&nmrshiftdbaction=exportspec&format="+document.exportboth${myrandom}.format.value;
+	      else if(document.exportboth${myrandom}.format.value=="docbook")
+	        document.exportboth${myrandom}.action="download/NmrshiftdbServlet/${spectrum.getDBMolecule().getMoleculeId()}.zip?spectrumid=${spectrum.getSpectrumId()}&nmrshiftdbaction=exportspec&format="+document.exportboth${myrandom}.format.value;
+	      else if(document.exportboth${myrandom}.format.value=="rtf")
+	        document.exportboth${myrandom}.action="download/NmrshiftdbServlet/${spectrum.getDBMolecule().getMoleculeId()}.rtf?spectrumid=${spectrum.getSpectrumId()}&nmrshiftdbaction=exportspec&format="+document.exportboth${myrandom}.format.value;
+	      else if(document.exportboth${myrandom}.format.value=="nmredata.sd")
+	        document.exportboth${myrandom}.action="download/NmrshiftdbServlet/${spectrum.getDBMolecule().getMoleculeId()}.nmredata.sd?spectrumid=${spectrum.getSpectrumId()}&nmrshiftdbaction=exportspec&format="+document.exportboth${myrandom}.format.value;
+	      else if(document.exportboth${myrandom}.format.value=="nmredata.zip")
+	        document.exportboth${myrandom}.action="download/NmrshiftdbServlet/${spectrum.getDBMolecule().getMoleculeId()}.nmredata.zip?spectrumid=${spectrum.getSpectrumId()}&nmrshiftdbaction=exportspec&format="+document.exportboth${myrandom}.format.value;
+	      else
+	        document.exportboth${myrandom}.action="download/NmrshiftdbServlet/${spectrum.getDBMolecule().getMoleculeId()}.txt?spectrumid=${spectrum.getSpectrumId()}&nmrshiftdbaction=exportspec&format="+document.exportboth${myrandom}.format.value;
+	    }
+	  }
+  #end
+//-->
+</script>
+<form action="" method="post" target="_new" name="exportboth$myrandom">
+	Get this spectrum and its molecule as 
+	<select name="format" size="1">
+    	<option value="simplehtml">simple html</option>
+		<option value="pdf">pdf</option>
+		<option value="docbook">docbook (zip file)</option>
+		<option value="rtf">rtf</option>
+		#foreach($template in $templates)
+			<option value="exsection-$template.getName()">experimental section (format: $template.getName())</option>
+		#end
+    	<option value="cmlboth">cml</option>
+    	<option value="nmredata.sd">NMReDATA</option>
+    	<option value="nmredata.zip">NMR Record</option>
+	</select>
+	 file 
+	<input type="submit" value="Request" onClick="exportBoth${myrandom}()">
+</form>
+

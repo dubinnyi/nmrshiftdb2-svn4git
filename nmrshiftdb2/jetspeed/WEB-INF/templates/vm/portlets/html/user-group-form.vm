@@ -1,0 +1,59 @@
+#*
+Copyright 2004 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*#
+
+#**
+
+@author <a href="mailto:sweaver@rippe.com">Scott Weaver</a>
+
+*#
+
+<h3>${l10n.USER_GROUP_FORM_GROUPS_FOR_VM}$user.FirstName $user.LastName<h3>
+#set ( $headings = ["Group Name", "Assign"] )
+
+<form method="post" action="$jslink.getPaneByName("UserBrowser").addPathInfo($jslink.ActionKey,"portlets.security.UserGroupUpdateAction")">
+
+<table>
+
+  <tr>
+    <td>
+      <table border="true" cellspacing="1" cellpadding="3">
+        <tr>
+          #foreach ($heading in $headings)
+          #headerCell ($heading)
+          #end
+        </tr>
+        #foreach ($group in $groups)
+        <tr>
+          #entryCell ($group.Name)
+          #formCheckBox ($group.Name $selected.get($velocityCount).booleanValue())
+		  
+        </tr>
+        #end
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td>
+       <input type="submit" name="eventSubmit_doUpdate" value="${l10n.USER_GROUP_FORM_UPDATE_VM}"/> 
+	   <input type="button" name="Done" Value="Done" onClick="location.href='$jslink.getPaneByName("UserBrowser")'">
+    <td>
+      <td>
+         $!msg         
+      </td>
+  </tr>
+</table>
+<input type="hidden" name="entityid" value="$!user.UserName"/>
+</form>

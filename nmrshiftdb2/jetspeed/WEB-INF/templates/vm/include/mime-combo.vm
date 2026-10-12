@@ -1,0 +1,71 @@
+#*
+Copyright 2004 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*#
+
+#parse("include/mimes.vm")
+
+<script>
+var mimeTypes = new Object;
+var populatedMimes = false;
+
+function populateMimes()
+{
+    #foreach($type in $types)
+        var $type.get(0)Var = new Array;
+        #foreach($subType in $type.get(1))
+            #set($varCount = $velocityCount - 1)
+            var option$varCount = new Option;
+            option${varCount}.value = "$subType";
+            option${varCount}.text = "$subType";
+            $type.get(0)Var[$varCount] = option${varCount};
+        #end
+        mimeTypes["$type.get(0)"] = $type.get(0)Var;
+    #end
+    
+    populatedMimes = true;
+}
+
+function changeMimeList(theForm)
+{
+    if(!populatedMimes)
+    {
+        populateMimes();
+    }
+    
+    var type = theForm.type.options[theForm.type.selectedIndex].value;
+    var optionsList = mimeTypes[type];
+    
+    var subTypeElement = theForm.subtype;
+    for(var i=0; i<optionsList.length; i++)
+    {
+        subTypeElement.options[i] = optionsList[i];
+    }
+    
+    for(var j=optionsList.length; j<subTypeElement.options.length; j++)
+    {
+        subTypeElement.options[j] = null;
+    }
+}
+
+function updateMimeType(theForm)
+{
+    var type = theForm.type.options[theForm.type.selectedIndex].value;
+    var subtype = theForm.subtype.options[theForm.subtype.selectedIndex].value;
+    
+    theForm.mime_type.value = type + "/" + subtype;
+}
+
+</script>
+

@@ -1,0 +1,9 @@
+<table>
+  #foreach($cell in $results)
+    <tr>
+      <td>
+		$cell
+      </td>
+    </tr>
+    #end
+</table>

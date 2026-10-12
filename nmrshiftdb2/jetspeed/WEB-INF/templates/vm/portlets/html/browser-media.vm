@@ -1,0 +1,70 @@
+#*
+Copyright 2004 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*#
+
+<table width="100%" cellpadding="3" cellspacing="1" BORDER="1">
+  <tr>
+    <th>${l10n.BROWSER_MEDIA_NAME_VM}</th>
+    <th>${l10n.BROWSER_MEDIA_TITLE_VM}</th>
+    <th>${l10n.BROWSER_MEDIA_DESCRIPTION_VM}</th>
+    <th>${l10n.BROWSER_MEDIA_MIME_TYPE_VM}</th>
+    <th colspan="2">${l10n.BROWSER_MEDIA_ACTIONS_VM}</th>
+  </tr>
+#foreach ( $entry in $registry )
+  <tr>
+    <td>$entry.Name</td>
+    <td>$!entry.Title</td>
+    <td>$!entry.Description</td>
+    <td>$entry.MimeType</td>
+    <td align="center"><a style="font-size:10" href="$jslink.setPaneByName("MediaForm").addQueryData("mode","update").addQueryData("media_type_name", $!entry.Name)">${l10n.BROWSER_MEDIA_EDIT_VM}</a>&nbsp;</td>
+    <td align="center"><a style="font-size:10" href="$jslink.setPaneByName("MediaForm").addQueryData("mode","delete").addQueryData("media_type_name", $!entry.Name)">${l10n.BROWSER_MEDIA_DELETE_VM}</a>&nbsp;</td>
+  </tr>
+#end
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr>
+    <td align="right" width="50%">
+#if ($prev)
+<form action="$jslink" method="post">
+	<input type="hidden" name="start" value="$prev"/>
+    <input type="submit" value="${l10n.BROWSER_MEDIA_LT_LT_PREVIOUS_VM}">
+</form>
+#end
+    </td>
+    <td align="left" width="50%">
+#if ($next)
+<form action="$jslink" method="post">
+    <input type="hidden" name="start" value="$next"/>
+    <input type="submit" value="${l10n.BROWSER_MEDIA_NEXT_GT_GT_VM}">
+</form>
+#end
+    </td>
+  </tr>
+  <tr>
+    <td colspan=6 align="left">
+        <a style="font-size:10" href="$jslink.setPaneByName("MediaForm").addQueryData("mode","insert")">${l10n.BROWSER_MEDIA_ADD_MEDIA_VM}</a>&nbsp;
+    </td>
+  </tr>
+</table>
+
+<center>
+  <table>
+    <tr>
+      <td>
+        #registry_alpha_nav($jslink $filtered_entries 0 "" "")
+      </td>
+    </tr>
+  </table>
+</center>

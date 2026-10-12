@@ -1,0 +1,287 @@
+<?xml version="1.0"?>
+<!--
+Copyright 2004 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<mapping>
+  <class name="org.apache.jetspeed.om.profile.psml.PsmlPortlets">
+    <map-to xml="portlets"/>
+
+    <field name="id" type="java.lang.String">
+      <bind-xml name="id" node="attribute"/>
+    </field>
+
+    <field name="name" type="java.lang.String">
+      <bind-xml name="name" node="attribute"/>
+    </field>
+
+    <field name="metaInfo"
+           type="org.apache.jetspeed.om.profile.psml.PsmlMetaInfo">
+      <bind-xml name="metainfo"/>
+    </field>
+
+    <field name="security"
+           type="org.apache.jetspeed.om.profile.psml.PsmlSecurity">
+      <bind-xml name="security"/>
+    </field>
+
+    <field name="securityRef" type="org.apache.jetspeed.om.BaseSecurityReference">
+      <bind-xml name="security-ref"/>
+    </field>
+
+    <field name="skin"
+           type="org.apache.jetspeed.om.profile.psml.PsmlSkin">
+      <bind-xml name="skin"/>
+    </field>
+
+    <field name="layout"
+           type="org.apache.jetspeed.om.profile.psml.PsmlLayout">
+      <bind-xml name="layout"/>
+    </field>
+
+    <field name="control"
+           type="org.apache.jetspeed.om.profile.psml.PsmlControl">
+      <bind-xml name="control"/>
+    </field>
+
+    <field name="controller"
+           type="org.apache.jetspeed.om.profile.psml.PsmlController">
+      <bind-xml name="controller"/>
+    </field>
+
+    <field name="parameters"
+           type="org.apache.jetspeed.om.profile.psml.PsmlParameter" 
+			  collection="vector">
+      <bind-xml name="parameter"/>
+    </field>
+
+    <field name="entries"
+           type="org.apache.jetspeed.om.profile.psml.PsmlEntry" 
+			  collection="vector">
+      <bind-xml name="entry"/>
+    </field>
+
+    <field name="portlets"
+           type="org.apache.jetspeed.om.profile.psml.PsmlPortlets" 
+           set-method="addPortlets"
+           get-method="getPortlets"
+			  collection="vector">
+      <bind-xml name="portlets"/>
+    </field>
+
+  <field name="references"
+         type="org.apache.jetspeed.om.profile.psml.PsmlReference"
+         set-method="addReference"
+         get-method="getReferences"
+         collection="vector">
+         <bind-xml name="reference"/>
+  </field>
+                                   
+  </class>
+
+
+  <class name="org.apache.jetspeed.om.profile.psml.PsmlEntry">
+    <map-to xml="entry"/>
+
+    <field name="id" type="java.lang.String">
+      <bind-xml name="id" node="attribute"/>
+    </field>
+
+    <field name="name" type="java.lang.String">
+      <bind-xml name="name" node="attribute"/>
+    </field>
+
+    <field name="parent" type="java.lang.String">
+      <bind-xml name="parent" node="attribute"/>
+    </field>
+
+    <field name="metaInfo"
+           type="org.apache.jetspeed.om.profile.psml.PsmlMetaInfo">
+      <bind-xml name="metainfo"/>
+    </field>
+
+    <field name="securityRef" type="org.apache.jetspeed.om.BaseSecurityReference">
+      <bind-xml name="security-ref"/>
+    </field>
+    
+    <field name="skin"
+           type="org.apache.jetspeed.om.profile.psml.PsmlSkin">
+      <bind-xml name="skin"/>
+    </field>
+
+    <field name="layout"
+           type="org.apache.jetspeed.om.profile.psml.PsmlLayout">
+      <bind-xml name="layout"/>
+    </field>
+
+    <field name="control"
+           type="org.apache.jetspeed.om.profile.psml.PsmlControl">
+      <bind-xml name="control"/>
+    </field>
+
+    <field name="parameters"
+           type="org.apache.jetspeed.om.profile.psml.PsmlParameter" 
+			  collection="vector">
+      <bind-xml name="parameter"/>
+    </field>
+                                   
+  </class>
+
+  <class name="org.apache.jetspeed.om.profile.psml.PsmlSecurity">
+    <map-to xml="security"/>
+
+    <field name="id" type="java.lang.String">
+      <bind-xml name="id" node="attribute"/>
+    </field>
+
+ </class>
+
+  <class name="org.apache.jetspeed.om.profile.psml.PsmlParameter">
+    <map-to xml="parameter"/>
+
+    <field name="name" type="java.lang.String">
+      <bind-xml name="name" node="attribute"/>
+    </field>
+
+    <field name="value" type="java.lang.String">
+      <bind-xml name="value" node="attribute"/>
+    </field>
+    <field name="securityRef" type="org.apache.jetspeed.om.BaseSecurityReference">
+      <bind-xml name="security-ref"/>
+    </field>
+    
+ </class>
+
+  <class name="org.apache.jetspeed.om.profile.psml.PsmlSkin">
+    <map-to xml="skin"/>
+
+    <field name="name" type="java.lang.String">
+      <bind-xml name="name" node="attribute"/>
+    </field>
+
+    <field name="state" type="java.lang.String">
+      <bind-xml name="state" node="attribute"/>
+    </field>
+
+    <field name="parameters"
+           type="org.apache.jetspeed.om.profile.psml.PsmlParameter" 
+			  collection="vector">
+      <bind-xml name="property"/>
+    </field>
+
+ </class>
+
+  <class name="org.apache.jetspeed.om.profile.psml.PsmlLayout">
+    <map-to xml="layout"/>
+
+    <field name="name" type="java.lang.String">
+      <bind-xml name="name" node="attribute"/>
+    </field>
+
+    <field name="position" type="long">
+      <bind-xml name="position" node="attribute"/>
+    </field>
+
+    <field name="size" type="long">
+      <bind-xml name="size" node="attribute"/>
+    </field>
+
+    <field name="parameters"
+           type="org.apache.jetspeed.om.profile.psml.PsmlParameter" 
+			  collection="vector">
+      <bind-xml name="property"/>
+    </field>
+
+ </class>
+
+  <class name="org.apache.jetspeed.om.profile.psml.PsmlControl">
+    <map-to xml="control"/>
+
+    <field name="name" type="java.lang.String">
+      <bind-xml name="name" node="attribute"/>
+    </field>
+
+    <field name="parameters"
+           type="org.apache.jetspeed.om.profile.psml.PsmlParameter" 
+			  collection="vector">
+      <bind-xml name="property"/>
+    </field>
+
+ </class>
+
+  <class name="org.apache.jetspeed.om.profile.psml.PsmlController">
+    <map-to xml="controller"/>
+
+    <field name="name" type="java.lang.String">
+      <bind-xml name="name" node="attribute"/>
+    </field>
+
+    <field name="parameters"
+           type="org.apache.jetspeed.om.profile.psml.PsmlParameter" 
+			  collection="vector">
+      <bind-xml name="property"/>
+    </field>
+
+ </class>
+
+  <class name="org.apache.jetspeed.om.profile.psml.PsmlReference">
+    <map-to xml="reference"/>
+
+    <field name="id" type="java.lang.String">
+      <bind-xml name="id" node="attribute"/>
+    </field>
+
+    <field name="name" type="java.lang.String">
+      <bind-xml name="name" node="attribute"/>
+    </field>
+
+    <field name="path" type="java.lang.String">
+      <bind-xml name="path" node="attribute"/>
+    </field>                                   
+
+    <field name="skin"
+           type="org.apache.jetspeed.om.profile.psml.PsmlSkin">
+      <bind-xml name="skin"/>
+    </field>
+
+    <field name="layout"
+           type="org.apache.jetspeed.om.profile.psml.PsmlLayout">
+      <bind-xml name="layout"/>
+    </field>
+
+    <field name="metaInfo"
+           type="org.apache.jetspeed.om.profile.psml.PsmlMetaInfo">
+      <bind-xml name="metainfo"/>
+    </field>
+
+    <field name="securityRef" type="org.apache.jetspeed.om.BaseSecurityReference">
+      <bind-xml name="security-ref"/>
+    </field>
+
+    <field name="security"
+           type="org.apache.jetspeed.om.profile.psml.PsmlSecurity">
+      <bind-xml name="security"/>
+    </field>
+	</class>
+
+  <class name="org.apache.jetspeed.om.BaseSecurityReference">
+    <map-to xml="security-ref"/>
+
+    <field name="parent" type="java.lang.String">
+      <bind-xml name="parent" node="attribute"/>
+    </field>
+  
+  </class>
+
+</mapping>

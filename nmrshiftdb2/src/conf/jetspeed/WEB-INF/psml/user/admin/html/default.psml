@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright 2004 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<portlets id="300" xmlns="http://www.apache.org/2000/02/CVS">
+    <security-ref parent="admin-only"/>
+    <metainfo>
+      <title>Admin Home</title>
+    </metainfo>
+    <controller name="CardPortletController"/>
+    <control name="TabControl"/>
+    <skin name="nmrshiftdb"/>
+    <portlets id="301">
+       <security-ref parent="admin-only"/>
+        <controller name="ColumnController"/>
+        <metainfo>
+            <title>Content</title>
+        </metainfo>
+        <entry id="321" parent="AdminInfo"/>
+        <entry id="322" parent="Search"/>
+    </portlets>
+    <portlets id="302">
+        <security-ref parent="admin-only"/>
+        <controller name="CardPortletController">
+            <parameter name="parameter" value="select-panel"/>
+        </controller>
+        <control name="MenuControl"/>
+        <metainfo>
+            <title>Security</title>
+        </metainfo>
+        <entry id="323" parent="UserBrowser" />
+        <entry id="324" parent="RoleBrowser"/>
+        <entry id="325" parent="PermissionBrowser"/>
+        <entry id="326" parent="GroupBrowser"/>
+        <entry id="345" parent="SecurityBrowser"/>
+        <entry id="371" parent="ReviewGroupsBrowser"/>
+        <entry id="327" parent="UserForm">
+            <parameter name="_menustate" value="closed"/>
+        </entry>
+        <entry id="328" parent="RoleForm">
+            <parameter name="_menustate" value="closed"/>
+        </entry>
+        <entry id="888" parent="UserGroupRoleForm">
+            <parameter name="_menustate" value="closed"/>
+        </entry>        
+        <entry id="329" parent="PermissionForm">
+            <parameter name="_menustate" value="closed"/>
+        </entry>
+        <entry id="330" parent="UserRoleForm">
+            <parameter name="_menustate" value="closed"/>
+        </entry>
+        <entry id="999" parent="UserGroupForm"> 
+              <parameter name="_menustate" value="closed"/> 
+        </entry>
+        <entry id="331" parent="RolePermissionForm">
+            <parameter name="_menustate" value="closed"/>
+        </entry>
+        <entry id="332" parent="GroupForm">
+            <parameter name="_menustate" value="closed"/>
+        </entry>
+        <entry id="350" parent="SecurityForm">
+            <parameter name="_menustate" value="closed"/>
+        </entry>
+        <entry id="361" parent="GroupForm">
+            <parameter name="_menustate" value="closed"/>
+        </entry>
+        <entry id="372" parent="UserReviewgroupForm">
+            <parameter name="_menustate" value="closed"/>
+        </entry>
+    </portlets>
+    <portlets id="303">
+        <security-ref parent="admin-only"/>
+        <controller name="CardPortletController">
+            <parameter name="parameter" value="select-panel"/>
+        </controller>
+        <control name="MenuControl"/>
+        <metainfo>
+            <title>Admin</title>
+        </metainfo>
+        <entry id="333" parent="GlobalAdminPortlet"/>
+        <entry id="334" parent="PortletBrowser"/>
+        <entry id="335" parent="ControllerBrowser"/>
+        <entry id="336" parent="ControlBrowser"/>
+        <entry id="337" parent="MediaBrowser"/>
+        <entry id="347" parent="ClientBrowser"/>
+        <entry id="338" parent="SkinBrowser"/>
+        <entry id="339" parent="JavaRuntimePortlet"/>
+        <entry id="340" parent="ServletContextPortlet"/>
+        <entry id="341" parent="DaemonAdminPortlet"/>
+        <entry id="342" parent="JetspeedContentAdmin"/>
+        <entry id="343" parent="BadURLManagerPortlet"/>
+        <entry id="344" parent="PsmlBrowser"/>
+        <entry id="346" parent="PsmlForm">
+            <parameter name="_menustate" value="closed"/>
+        </entry>
+        <entry id="348" parent="SkinForm">
+            <parameter name="_menustate" value="closed"/>
+        </entry>
+        <entry id="349" parent="PortletForm">
+            <parameter name="_menustate" value="closed"/>
+        </entry>
+        <entry id="351" parent="ClientForm">
+            <parameter name="_menustate" value="closed"/>
+        </entry>
+        <entry id="352" parent="MediaForm">
+            <parameter name="_menustate" value="closed"/>
+        </entry>
+        <entry id="353" parent="ControllerForm">
+            <parameter name="_menustate" value="closed"/>
+        </entry>
+        <entry id="354" parent="ControlForm">
+            <parameter name="_menustate" value="closed"/>
+        </entry>
+        <entry id="355" parent="IndexManager"/>    
+        <entry id="356" parent="LogfileViewer"/>
+        <entry id="357" parent="HeaderDesigner"/>
+	<entry id="359" parent="CheckReviews"/>
+	<entry id="360" parent="RestoreSubmittingData"/>
+	<entry id="370" parent="UserOverview"/>
+    </portlets>
+</portlets>

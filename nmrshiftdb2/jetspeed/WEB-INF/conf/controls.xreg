@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+Copyright 2004 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<registry>
+
+  <portlet-control-entry name="ClearPortletControl" hidden="true">
+    <classname>org.apache.jetspeed.portal.controls.VelocityPortletControl</classname>
+    <parameter name="theme" value="clear.vm"/>
+    <parameter name="simple" value="true" hidden="false"/>    
+    <meta-info>
+      <title>ClearPortletControl</title>
+    </meta-info>
+    <media-type ref="wml"/>
+    <media-type ref="html"/>
+  </portlet-control-entry>
+
+  <portlet-control-entry name="FullScreenControl" hidden="true">
+    <classname>org.apache.jetspeed.portal.controls.VelocityPortletControl</classname>
+    <parameter name="theme" value="jetspeed.vm"/>
+    <meta-info>
+      <title>FullScreenControl</title>
+    </meta-info>  
+    <media-type ref="html"/>
+    <media-type ref="wml"/>
+  </portlet-control-entry>
+
+  <portlet-control-entry name="BoxControl" hidden="true">
+    <classname>org.apache.jetspeed.portal.controls.VelocityPortletControl</classname>
+    <parameter name="theme" value="jetspeed-box.vm"/>
+    <parameter name="thickness" value="2"/>
+    <parameter name="simple" value="true" hidden="false"/>    
+    <meta-info>
+      <title>Boxed titled control</title>
+    </meta-info>
+    <media-type ref="html"/>
+  </portlet-control-entry>
+
+  <portlet-control-entry name="TitlePortletControl">
+    <classname>org.apache.jetspeed.portal.controls.VelocityPortletControl</classname>
+    <parameter name="theme" value="jetspeed.vm"/>
+    <parameter name="simple" value="true" hidden="false"/>    
+    <meta-info>
+      <title>Simple titled control</title>
+    </meta-info>
+    <media-type ref="html"/>
+    <media-type ref="wml"/>
+  </portlet-control-entry>
+  
+  <portlet-control-entry name="BufferredTitlePortletControl" hidden="false">
+    <meta-info>
+        <title>Buffered Simple titled control</title>
+    </meta-info>
+    <classname>org.apache.jetspeed.portal.controls.VelocityPortletControl</classname>
+    <parameter name="theme" value="jetspeed-buffered.vm" hidden="false"/>
+    <parameter name="simple" value="true" hidden="false"/>
+    <media-type ref="html"/>
+    <media-type ref="wml"/>
+  </portlet-control-entry>
+
+  <portlet-control-entry name="PanedPortletControl" hidden="true">
+    <classname>org.apache.jetspeed.portal.controls.VelocityPortletSetControl</classname>
+    <parameter name="theme" value="jetspeed-tab.vm"/>
+    <meta-info>
+      <title>PanedPortletControl</title>
+    </meta-info>
+    <media-type ref="html"/>
+  </portlet-control-entry>
+
+  <portlet-control-entry name="TabControl">
+    <classname>org.apache.jetspeed.portal.controls.VelocityPortletSetControl</classname>
+    <parameter name="theme" value="jetspeed-tab.vm"/>
+    <meta-info>
+      <title>Tab control</title>
+    </meta-info>
+    <media-type ref="html"/>
+  </portlet-control-entry>
+
+  <portlet-control-entry name="MenuControl">
+    <classname>org.apache.jetspeed.portal.controls.VelocityPortletSetControl</classname>
+    <parameter name="tab-width" value="25%"/>
+    <parameter name="theme" value="jetspeed-menu.vm"/>
+    <meta-info>
+      <title>Left menu control</title>
+    </meta-info>
+    <media-type ref="html"/>
+  </portlet-control-entry>
+</registry>

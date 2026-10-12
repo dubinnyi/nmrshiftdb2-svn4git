@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><rdf:RDF
+xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns="http://my.netscape.com/rdf/simple/0.9/">
+	<channel>
+		<title>Slashdot: News for nerds, stuff that matters</title>
+		<link>http://slashdot.org</link>
+		<description>News for nerds, stuff that matters</description>
+	</channel>
+
+	<image>
+		<title>Slashdot</title>
+		<url>http://images.slashdot.org/topics/topicslashdot.gif</url>
+		<link>http://slashdot.org</link>
+	</image>
+
+	<item>
+		<title>Using Distributed Wetware To Analyze Mars Craters</title>
+		<link>http://slashdot.org/article.pl?sid=00/12/16/1844238</link>
+	</item>
+
+	<item>
+		<title>New Nanofab Tech Developed by UMass</title>
+		<link>http://slashdot.org/article.pl?sid=00/12/16/1424223</link>
+	</item>
+
+	<item>
+		<title>AmigaOS 3.9 Released At World of Amiga Show</title>
+		<link>http://slashdot.org/article.pl?sid=00/12/16/1425224</link>
+	</item>
+
+	<item>
+		<title>First Sequencing Of Plant Genome</title>
+		<link>http://slashdot.org/article.pl?sid=00/12/16/1422241</link>
+	</item>
+
+	<item>
+		<title>What Debugger Is Best For Multithreaded Apps?</title>
+		<link>http://slashdot.org/article.pl?sid=00/12/15/1924214</link>
+	</item>
+
+	<item>
+		<title>LED Guru On InGaN-Based LEDs And The Future</title>
+		<link>http://slashdot.org/article.pl?sid=00/12/15/1948213</link>
+	</item>
+
+	<item>
+		<title>What Would Happen To Linux If BeOS Were GPL'd?</title>
+		<link>http://slashdot.org/article.pl?sid=00/12/15/1849233</link>
+	</item>
+
+	<item>
+		<title>Amiga As A Compatibility Tool For Linux</title>
+		<link>http://slashdot.org/article.pl?sid=00/12/15/1918255</link>
+	</item>
+
+	<item>
+		<title>3Dfx No More -- NVidia Purchases Video Card Maker</title>
+		<link>http://slashdot.org/article.pl?sid=00/12/15/2244256</link>
+	</item>
+
+	<item>
+		<title>Hollywood Dealt Setback in California DeCSS Case</title>
+		<link>http://slashdot.org/article.pl?sid=00/12/15/1951246</link>
+	</item>
+
+</rdf:RDF>

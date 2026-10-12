@@ -1,0 +1,2 @@
+$spectrum.getDBSpectrumType().getName()-NMR: ($!spectrum.getFrequency() MHz, $!spectrum.getMeasurementConditionWithName("Solvent").getValue())
+	delta (ppm) = #foreach($signal in $spectrum.getDBSignals())$signal.getFirstShift().getValue() (#if($signal.hasMultiplicity())$signal.getMultiplicity(),#end#foreach($atom in $signal.getAtoms()) #if($atom.getIdentifier($spectrum.getSpectrumId())=="")C-$atom.getMdlNumberPlus1Heavy()#else$atom.getIdentifier($spectrum.getSpectrumId())#end#end#if($atom.hasCouplings($spectrum)) ,J=$atom.getCouplingsString($spectrum) Hz#end), #end

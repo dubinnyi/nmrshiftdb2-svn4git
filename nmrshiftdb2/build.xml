@@ -1,0 +1,197 @@
+<project name="nmrshiftdb" default="compile" basedir=".">
+  <property name="build" value="build" />
+  <property name="src" value="src" />
+  <property name="dist" value="dist" />
+	<property name="lib" value="lib" />
+	<property name="bin" value="bin" />
+	<property name="doc" value="doc" />
+	<property name="jetspeed" value="jetspeed" />
+	<property file="build.properties"/>
+	
+  <path id="project.class.path">
+    <pathelement location="${build}" />
+    <pathelement location="${jetspeed}/WEB-INF/classes" />
+    <pathelement location="${src}/conf/jetspeed/WEB-INF/classes" />
+    <fileset dir="${lib}">
+            <include name="*.jar" />
+    </fileset>
+    <fileset dir="${jetspeed}/WEB-INF/lib">
+            <include name="*.jar" />
+    </fileset>
+		<fileset dir="${tomcat_path}">
+      <include name="*.jar" />
+    </fileset>
+  </path>
+  
+  <taskdef name="jrc" 
+      classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
+  	<classpath refid="project.class.path" />
+  </taskdef>
+
+  <target name="init">
+    <mkdir dir="${build}" />
+    <mkdir dir="${dist}" />
+  </target>
+
+  <target name="compile" depends="init">
+    <javac srcdir="${src}/java" destdir="${build}" optimize="off" debug="on" deprecation="on">
+      <classpath refid="project.class.path" />
+    </javac>
+  </target>
+
+  <target name="clean">
+    <delete>
+      <fileset dir="." includes="**/*~" defaultexcludes="no" />
+    </delete>
+   <delete dir="${build}" />
+   <delete dir="${dist}" />
+   <delete dir="${doc}/api" />
+  </target>
+
+  <target name="dist" depends="compile">
+		<copy todir="${dist}/jetspeed">
+			<fileset dir="${jetspeed}"/>
+		</copy>
+		<jar destfile="${dist}/${jetspeed}/WEB-INF/lib/${ant.project.name}.jar" basedir="${build}" excludes="org/openscience/nmrshiftdb/util/**,org/openscience/nmrshiftdb/om/**,org/apache/torque/**,org/apache/jetspeed/**,com/workingdogs/village/**,**/PredictionTool.class,**/PredictionTool$ValueBean.class"/>
+		<jar destfile="${dist}/${jetspeed}/WEB-INF/lib/${ant.project.name}-lib.jar" basedir="${build}" includes="org/openscience/nmrshiftdb/util/**,org/openscience/nmrshiftdb/om/**,org/apache/torque/**,org/apache/jetspeed/**,com/workingdogs/village/**,org/openscience/nmrshiftdb/PredictionTool.class,org/openscience/nmrshiftdb/PredictionTool$ValueBean.class"/>
+		<copy overwrite="yes" todir="${dist}/${jetspeed}/WEB-INF/lib">
+			<fileset dir="${lib}">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+		<copy overwrite="yes" todir="${dist}/jetspeed">
+			<fileset dir="${src}/conf/jetspeed">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+		<mkdir dir="${dist}/${jetspeed}/${ant.project.name}html" />
+		<copy todir="${dist}/${jetspeed}/${ant.project.name}html">
+			<fileset dir="${src}/html">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+		<copy overwrite="yes" todir="${dist}/${jetspeed}/WEB-INF/templates/vm">
+			<fileset dir="${src}/vmtemplates">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+		<copy overwrite="yes" todir="${dist}/${jetspeed}/WEB-INF/reports">
+			<fileset dir="${src}/reports">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+        <copy overwrite="yes" todir="${dist}/${jetspeed}/api-docs">
+                <fileset dir="api-docs">
+                        <include name="**/*" />
+               </fileset>
+        </copy>
+        <copy todir="${dist}/${jetspeed}/${ant.project.name}html">
+  			<fileset dir="${src}/deploymentdescriptors">
+    			<include name="NMRShiftDBTypes.xsd"/>
+			</fileset>
+  		</copy>
+  		<copy file="License.txt" todir="${dist}/${jetspeed}"/>
+		<war warfile="${dist}/jetspeed.war" webxml="${src}/conf/web.xml">
+			<fileset dir="${dist}/${jetspeed}"/>
+		</war>
+	</target>
+
+	<target name="deploy" depends="dist">
+		<copy overwrite="yes" todir="${tomcat_path}/webapps/jetspeed">
+			<fileset dir="${dist}/jetspeed">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+	</target>
+
+  <target name="testWebServices" depends="compile">
+    <java classname="org.openscience.nmrshiftdb.tests.UserServiceTest" fork="yes">
+      <classpath refid="project.class.path"/>
+    </java>
+    <java classname="org.openscience.nmrshiftdb.tests.MyNmrshiftdbServicesTest" fork="yes">
+      <classpath refid="project.class.path"/>
+    </java>
+  </target>
+
+  <target name="testPredictor" depends="compile">
+    <java classname="org.openscience.nmrshiftdb.PredictionTool" fork="yes" maxmemory="256m">
+      <classpath refid="project.class.path"/>
+      <arg value="/home/shk3/test.mol"/>
+    </java>
+  </target>
+
+	<target name="runNN" depends="compile">
+		<java classname="org.openscience.nmrshiftdb.tests.KohonenTest" fork="false" maxmemory="1024m">
+			<arg value="/tmp"/>
+			<arg value="/home/shk3/development2/nmrshiftdb.jetspeed13/src/java/"/>
+			<arg value="http://www.nmrshiftdb.org"/>
+			<classpath refid="project.class.path">
+			</classpath>
+		</java>
+	</target>
+
+	<target name="runAdminTasks" depends="compile">
+		<java classname="org.openscience.nmrshiftdb.AdminTasks" fork="true" maxmemory="1024m">
+<!--jvmarg value="-Xrunhprof:heap=sites"/-->
+			<arg value="/tmp/mainz"/>
+			<arg value="/usr/local/home/shk12/workspace/nmrshiftdb2/src/java/"/>
+			<arg value="http://nmrshiftdb.chemie.uni-mainz.de"/>
+			<classpath refid="project.class.path">
+			</classpath>
+		</java>
+	</target>
+
+	<target name="javadoc">
+		<mkdir dir="${doc}/api" />
+		<javadoc packagenames="org.openscience.nmrshiftdb.*" sourcepath="${src}/java" destdir="${doc}/api" access="private" windowtitle="nmrshiftdb2 API">
+			<classpath refid="project.class.path" />
+		</javadoc>
+	</target>
+  
+	<target name="deployWebServices" depends="compile">
+		<jar jarfile="${dist}/webservices${ant.project.name}.jar" basedir="${build}" includes="org/openscience/nmrshiftdb/webservices/**/*.class"/>
+		<!--<copy file="${dist}/webservices${ant.project.name}.jar" todir="${tomcat_path}/lib/common"/>-->
+		<java classname="org.apache.axis.client.AdminClient" fork="yes">
+			<arg value="-lhttp://127.0.0.1:8080/axis/services/AdminService"/>
+			<arg value="${src}/deploymentdescriptors/NMRShiftDB.wsdd"/>
+			<classpath refid="project.class.path">
+			</classpath>
+	    </java>
+	</target>
+	
+	<target name="makereports">
+		<jrc srcdir="${src}/reports" destdir="${src}/reports">
+		<classpath refid="project.class.path" />
+	    </jrc>
+  	</target>
+  
+  <target name="makedoc">
+    <exec executable="docbook2html">
+      <arg line="-c ${docbook.catalog} -o src/html/ doc/nmrshiftdbhelp.xml -V %use-id-as-filename%"/>
+    </exec>
+    <exec executable="docbook2tex">
+      <arg line="-c ${docbook.catalog} -o doc doc/nmrshiftdbhelp.xml"/>
+    </exec>
+    <exec executable="pdfjadetex">
+      <arg line="doc/nmrshiftdbhelp.tex"/>
+    </exec>
+    <exec executable="pdfjadetex">
+      <arg line="doc/nmrshiftdbhelp.tex"/>
+    </exec>
+    <exec executable="pdfjadetex">
+      <arg line="doc/nmrshiftdbhelp.tex"/>
+    </exec>
+		<copy overwrite="yes" todir="${doc}">
+			<fileset dir=".">
+				<include name="nmrshiftdbhelp.pdf" />
+			</fileset>
+		</copy>
+    <delete>
+      <fileset dir="${doc}" includes="nmrshiftdbhelp.tex" />
+    </delete>
+    <delete>
+      <fileset dir="." includes="nmrshiftdbhelp.*"/>
+    </delete>
+  </target>
+</project>
+

@@ -1,0 +1,465 @@
+#*
+Copyright 2004 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*#
+
+
+#formHeader("images/email/emailIcon.gif" "Email")
+#if ( $hasLoggedIn == 'no') 
+    
+        <table width=100%>
+            <tr>
+                <td align=center>
+                    <B>${l10n.EMAIL_FORM_PLEASE_MAKE_SURE_THA_VM}</B>
+                </td>
+            </tr>
+            #if($!message_prompt  && $message_prompt !="")
+            <tr>
+                <td align=center>
+                $message_prompt
+                </td>
+            </tr>     
+            #end       
+        </table>
+    
+
+
+#else ## hasLoggedIn
+
+  ##if ( $showFolders == 'yes' )
+    <table width="100%" cellspacing="0" cellpadding="0" border="1">   
+           <tr>
+              <td valign="top" width="20%" class="oddrow">
+             <table width="100%" cellspacing="1" cellpadding="1" border="0">
+               <tr>
+                  <td><img src="images/email/inbox.gif" border="0"></td>
+                  <td #if ( $showInbox == 'yes' || $showContent == 'yes') class="evenrow" #end>
+                             &nbsp;<a href="$jslink.addQueryData("eventSubmit_doInbox", 0)">${l10n.EMAIL_FORM_INBOX_VM}$num_Newmessages)</a>&nbsp;
+                         </td>
+                   </tr>
+                   <tr>
+              <td>
+                <img src="images/email/compose.gif" border="0">
+              </td>
+              <td #if ( $compose == 'yes' ) class="evenrow" #end>
+                         &nbsp;<a href="$jslink.addQueryData("eventSubmit_doCompose", 0)">${l10n.EMAIL_FORM_COMPOSE_VM}</a>&nbsp;
+              </td>
+               </tr>
+              
+              #if($protocol != 'pop3')
+               <tr>
+              <td>
+                <img src="images/email/compose.gif" border="0">
+              </td>
+              <td #if ( $compose == 'yes' ) class="oddrow" #end>
+                         &nbsp;<a href="$jslink.addQueryData("eventSubmit_doCreatenewfolder", 0)">${l10n.EMAIL_FORM_CREATE_FOLDER_VM}</a>&nbsp;
+              </td>
+               </tr>
+              #end
+              
+              #if($protocol != 'pop3')
+                <tr><td colspan="2"><hr></td></tr>
+                <tr class="evenrow">
+                <tr><td colspan="2">${l10n.EMAIL_FORM_MY_FOLDER_S_VM}</td></tr>
+                      
+                         #foreach($folder in $vFolders )
+                          <tr>
+                           <td><img src="images/email/folder.gif" border="0">
+                           <td><a href="$jslink.addQueryData("eventSubmit_doOpenmyfolder", 0)&folder_name=$folder">$folder</a>&nbsp;</td>
+                           <td><a href="$jslink.addQueryData("eventSubmit_doFolderdelete", 0)&folder_name=$folder">${l10n.EMAIL_FORM_DELETE_VM}</a>&nbsp;</td>
+                          </tr> 
+                         #end
+                        </tr>
+              #end
+              <!--
+              <tr>
+                   ##<td>&nbsp;</td>
+                   
+                <td>
+                 <img src="images/email/logout.gif" border="0">
+                </td>
+                      
+                  <td>&nbsp;<a href="$jslink.addQueryData("eventSubmit_doSignout", 0)">SignOut</a></td>
+                  </tr>
+               -->    
+         </table>
+           </td>
+                     
+        <td valign="top">
+  ##end 
+  
+ 
+  #if($createfolder == 'yes')
+  
+           <table width="100%" cellspacing="0" cellpadding="0" border="0">
+             <form action="$jslink" method="post">
+         
+               <tr class="rowheader">
+             <td colspan=2>&nbsp;<B>${l10n.EMAIL_FORM_CREATE_NEW_FOLDER_VM}</B></td>
+           </tr>
+           <tr class="oddrow">
+            <td>${l10n.EMAIL_FORM_FOLDER_NAME_VM}</td>
+            <td><input type="text" name="folder_name"> </td>
+           </tr>
+          <td><br><center><input type="submit" name="eventSubmit_doGetfoldername" value="${l10n.EMAIL_FORM_CREATE_VM}">
+               <input type="submit" name="eventSubmit_doCancel" value="${l10n.EMAIL_FORM_CANCEL_VM}"></td>
+              </form>    
+            </table>
+
+  #end
+ 
+  #if (($showInbox == 'yes' )|| ($showmessagefolder == 'yes'))
+  
+         <form action="$jslink" method="post">
+
+          #if($message_prompt && $message_prompt != "") ## display message prompt
+        <table width="40%" cellspacing="0" cellpadding="0" border="0">
+           <td><b>$message_prompt</b><input type="submit" name="eventSubmit_doInbox" value="${l10n.EMAIL_FORM_OK_VM}"></td>
+            </table>
+           #else
+           
+           #if($protocol != 'pop3')
+            <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                <tr class="rowheader"><td><BIG>$folder_name</BIG></td>
+                 <td align=right>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <select name="foldername">
+                    <option value="default" selected>${l10n.EMAIL_FORM_MOVE_TO_FOLDER_VM}#foreach($folder in $vFolders)
+                          <option value="$folder"> $folder
+                            #end        
+                            </select></td>
+                          <td><input type="submit" name="eventSubmit_doGetfolderdest" value="${l10n.EMAIL_FORM_OK_VM}" ></td>
+                 </tr>
+                </table>
+                #end
+
+               <table width="100%" cellspacing="1" cellpadding="1" border="0">
+                 <tr class="rowheader">
+                  <td width="1" align=center>${l10n.EMAIL_FORM_DELETE_VM}</td>
+                  ##<td>&nbsp;      </td>
+                  <td align=center>${l10n.EMAIL_FORM_FROM_VM}</td>
+                  <td align=center>${l10n.EMAIL_FORM_SUBJECT_VM}</td>
+                
+                  #if($protocol != 'pop3')
+                   <td align=center>${l10n.EMAIL_FORM_DATE_VM}</td>     
+                  #end     
+                  <td align=center>${l10n.EMAIL_FORM_SIZE_VM}</td>          
+                        
+                 </tr>  
+            #set ($count = 0)
+            #set ($varMsge='')
+
+
+            #if($showInbox == 'yes')
+             #set ($varMsge = $inMessages)  ##messages inside INBOX folder
+             #set ($folderMode = "inboxFolder")
+            #else
+              #set ($varMsge = $message_folder)  ##messsages on other folder
+                     #set ($folderMode = "otherFolder")
+             #end
+          
+                  #foreach ( $inMsg in $varMsge )
+                 
+                    #if ($count%2==0)
+                      #set ($class = "evenrow")          
+                    #else
+                      #set ($class = "oddrow")
+                    #end 
+                       
+                   <tr class="$class">
+                        <td align="center"><INPUT TYPE="checkbox" NAME="check" value="$inMsg.get("index")"></td>
+                   
+                       <td>&nbsp;$inMsg.get("From")</td>
+                        #if (($inMsg.get("Subject"))!='')
+                          <td><a #if ($inMsg.get("status")!="new") style="font-weight:normal" #end href="$jslink.addQueryData("eventSubmit_doShow", 0).addQueryData("index",$inMsg.get("index"))&folderMode=$folderMode">#if ($inMsg.get("hasAttachment")=="Attachment")<img src="images/email/clip.gif" border="0">#end $inMsg.get("Subject")</a></td>
+                        #else
+                              <td>&nbsp;<a href="$jslink.addQueryData("eventSubmit_doShow", 0).addQueryData("index",$inMsg.get("index"))">${l10n.EMAIL_FORM_NONE_VM}</a></td>
+                        #end
+                        #if($protocol != 'pop3')
+                           <td>$inMsg.get("ReceivedDate")</td> ## received date will not be displayed when using pop3
+                        #end
+                      <td>$inMsg.get("size")</td>
+                     </tr>
+               #set ($count = $count + 1)
+                 #end 
+           </table>
+           <table width="100%" cellspacing="0" cellpadding="3" border="0">
+             <tr>
+                <td>
+                    <input type="submit" name="eventSubmit_doDelete" value="${l10n.EMAIL_FORM_DELETE_VM}">
+                </td>
+            </tr>  
+         
+        </table>
+     
+    #end ## message prompt
+  </form>
+  #end
+  
+  #if( $showContent == 'yes') 
+        <table width="100%" border="0" cellspacing="1" cellpadding="3">
+            #foreach ( $content in $inContent )
+              <tr class="rowheader"> 
+                <td colspan=2> 
+                    <b>${l10n.EMAIL_FORM_EMAIL_VM}</b>
+                </td>
+              </tr>  
+              <tr class="oddrow">
+                 <td width="70">${l10n.EMAIL_FORM_SUBJECT_VM}</td>
+                 <td>&nbsp;$content.get("Subject")</td>
+              </tr>
+              <tr class="evenrow">
+                 <td>${l10n.EMAIL_FORM_FROM_VM}</td>
+                 <td>&nbsp;$content.get("From")</td>
+              </tr>
+              <tr class="oddrow">
+                <td>${l10n.EMAIL_FORM_TO_VM}</td>
+                <td>
+                    <table>
+                     #foreach ( $con in $vAddr )
+                       <tr class="oddrow">
+                         <td>&nbsp;$con</td>
+                          </tr>
+                     #end
+                     ##  <td>$content.get("To")</td>
+                    </table>
+                 </td>
+              </tr>
+              #if($protocol != 'pop3')
+              <tr>
+                <tr class="evenrow">
+                 <td>${l10n.EMAIL_FORM_DATE_VM}</td>
+                 <td>$content.get("ReceivedDate")</td>
+                   <td>&nbsp;</td>
+                </tr>
+              </tr>
+              #end
+              <tr>
+                #foreach($attachment in $vAttachments)
+                 <tr class="oddrow">
+                  <td>${l10n.EMAIL_FORM_ATTACHMENT_VM}</td>              
+                  ##<td>&nbsp;$attachment</b></td>
+                  ## <td colspan="2">&nbsp;<a href="$jslink.addQueryData("eventSubmit_doDownload", 0).addQueryData("messageid",$content.get("MessageId")).addQueryData("filename",$content.get("AttachmentName"))">$content.get("AttachmentName")</a></td>
+                  
+                  <td colspan="2">&nbsp;<a href="$jslink.addQueryData("eventSubmit_doDownload", 0).addQueryData("messageid",$content.get("MessageId")).addQueryData("filename",$attachment)">$attachment</a></td>
+                 </tr>
+                #end
+              </tr>          
+              <tr class=evenrow>
+                  <td>${l10n.EMAIL_FORM_MESSAGE_VM}</td>
+                  <td>&nbsp;$content.get("message")</td>
+              </tr>
+         #end
+      </table>
+      <table>
+       <form action="$jslink" method="post">
+            <tr>
+                <td><input type="submit" name="eventSubmit_doReply" value="${l10n.EMAIL_FORM_REPLY_VM}" ></td>
+                <td><input type="submit" name="eventSubmit_doForward" value="${l10n.EMAIL_FORM_FORWARD_VM}" ></td>
+                <td><input type="submit" name="eventSubmit_doDelete" value="${l10n.EMAIL_FORM_DELETE_VM}" ></td>
+                <td><input type="submit" name="eventSubmit_doInbox" value="${l10n.EMAIL_FORM_BACK_VM}" ></td>
+                #if($protocol != 'pop3')
+                 <td><select name="foldername">
+                    <option value="default" selected>${l10n.EMAIL_FORM_MOVE_TO_FOLDER_VM}#foreach($folder in $vFolders)
+                          <option value="$folder"> $folder
+                           #end        
+                         </select></td>
+                          <td><input type="submit" name="eventSubmit_doMovesinglemsge" value="${l10n.EMAIL_FORM_OK_VM}" ></td>
+                        #end 
+                       
+            </tr>
+            
+       </form>
+      </table>
+  #end
+ 
+  #if($numNewmessages && $numNewmessages != "" ) ##displays the number of new messages
+    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+       <a href="$jslink.addQueryData("eventSubmit_doInbox", 0)">($numNewmessages${l10n.EMAIL_FORM_NEW_MESSAGE_S_VM}</a>
+    </table>
+  #end
+  
+ 
+  #if ( $compose == 'yes' )
+    #if($message_prompt && $message_prompt != "") ## display message prompt
+    <table width="80%" align="center" cellspacing="0" cellpadding="0" border="0">
+          <form action="$jslink" method="post">
+          <td><b>$message_prompt</b><input type="submit" name="eventSubmit_doInbox" value="${l10n.EMAIL_FORM_OK_VM}"></td>
+          </form>    
+        </table>
+    #else
+    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+          <tr><td><BIG>${l10n.EMAIL_FORM_COMPOSE_VM}</BIG></td></tr>
+        </table>
+    <table width="100%" cellspacing="1" cellpadding="1" border="0">
+           <form action="$jslink" method="post" enctype="multipart/form-data" >
+
+        
+        <tr class="rowheader">
+           <td colspan=2>&nbsp;<B>${l10n.EMAIL_FORM_NEW_EMAIL_VM}</B></td>
+        </tr>
+        <tr class="oddrow">
+           <td>${l10n.EMAIL_FORM_TO_VM}</td>
+           <td><input type="text" name="addressTo"> </td>
+        </tr>
+        <tr class="evenrow">
+           <td>${l10n.EMAIL_FORM_FROM_VM}</td>
+           <td><input type="text" name="addressFrom" value=$emailAdd> </td>
+        </tr>
+        <tr class="oddrow">
+           <td>${l10n.EMAIL_FORM_SUBJECT_VM}</td>
+           <td><input type="text" name="subject"></td>
+        </tr>
+        <tr class="evenrow">
+           <td valign="top">${l10n.EMAIL_FORM_MESSAGE_VM}</td>
+           <td><textarea name="msg" cols="60" rows="10"></textarea></td>
+        </tr>
+        <tr class="oddrow">
+            <td width="1">${l10n.EMAIL_FORM_ATTACHMENT_VM}</td>
+           <td><input type="file" size="50" name="newfile"></td>
+        </tr>
+      </table>
+      <table width="100%" cellspacing="0" cellpadding="3" border="0">
+        <tr>
+               <td><input type="submit" name="eventSubmit_doSend" value="${l10n.EMAIL_FORM_SEND_EMAIL_VM}"></td>
+        </tr>
+    </form>
+       </table>
+    ##</table>
+   #end ## message prompt       
+  #end  ## of action == 'compose'
+  
+  #if($reply== 'yes') 
+   
+   #if($message_prompt && $message_prompt != "") ## display message prompt
+        <table width="80%" align="center" cellspacing="0" cellpadding="0" border="0">
+        <form action="$jslink" method="post">
+            <tr><td> <b>$message_prompt </b><input type="submit" name="eventSubmit_doInbox" value="${l10n.EMAIL_FORM_OK_VM}"></td></tr>
+          </form>    
+        </table>
+   #else 
+   <table width="100%" cellspacing="1" cellpadding="1" border="0">
+    <form action="$jslink" method="post" enctype="multipart/form-data">
+        <tr class="rowheader">
+            <td colspan=2>
+                <B>${l10n.EMAIL_FORM_EMAIL_VM}</B>
+            </td>
+        </tr>
+      #foreach ( $content in $inContent )
+            <tr class="evenrow">
+              <td>${l10n.EMAIL_FORM_TO_VM}</td>
+              <td><input type="text" name="addressTo" value="$content.get("From")"> </td>
+            </tr>
+            <tr class="oddrow">
+              <td>${l10n.EMAIL_FORM_SUBJECT_VM}</td>
+              <td><input type="text" name="subject" value="$rsubject"></td>
+                </tr>
+            <tr class="evenrow">
+              <td valign="top">${l10n.EMAIL_FORM_MESSAGE_VM}</td>
+              <td><textarea name="msg" cols="60" rows="10">$msg</textarea></td>
+            </tr>
+       #end
+       
+        <tr class="oddrow">
+           <td width="1">${l10n.EMAIL_FORM_ATTACHMENT_VM}</td>
+       <td><input type="file" size="38" name="attachmentReply"></td>
+    </tr>
+    <tr>
+        <td colspan=2>
+            <input type="submit" name="eventSubmit_doSendreply" value="${l10n.EMAIL_FORM_SEND_VM}" >
+            <input type="submit" name="eventSubmit_doInbox" value="${l10n.EMAIL_FORM_BACK_VM}" >
+            <input type="hidden" name="addressFrom" value=$emailAdd>
+        </td>
+    </tr>
+    </form>
+   </table>
+   #end ## message prompt
+  #end              
+  
+  #if($forward == 'yes') 
+    #if($message_prompt && $message_prompt != "") ## display message prompt
+    <table width="80%" align="center" cellspacing="0" cellpadding="0" border="0">
+          <form action="$jslink" method="post">
+       <td><b>$message_prompt </b> <input type="submit" name="eventSubmit_doInbox" value="${l10n.EMAIL_FORM_OK_VM}"></td>
+          </form>    
+        </table>
+   #else    
+  
+    <table width="100%" cellspacing="1" cellpadding="1" border="0">
+     <form action="$jslink" method="post">   
+        <tr class="rowheader">
+            <td colspan=2>
+                <B>${l10n.EMAIL_FORM_EMAIL_VM}</B>
+            </td>
+        </tr>
+      #foreach ( $content in $inContent )
+            <tr class="evenrow">
+              <td>${l10n.EMAIL_FORM_TO_VM}</td>
+              <td><input type="text" name="addressTo"> </td>
+            </tr>                
+            <tr class="oddrow">
+              <td>${l10n.EMAIL_FORM_SUBJECT_VM}</td>
+              <td><input type="text" name="subject" value="$rsubject"></td>
+            </tr>       
+            <tr class="evenrow">
+              <td valign="top">${l10n.EMAIL_FORM_MESSAGE_VM}</td>
+              <td><textarea name="msg" cols="60" rows="10" >$msg</textarea></td>
+      #end
+        <tr>
+            <td colspan=2>
+                <input type="submit" name="eventSubmit_doForwardsend" value="${l10n.EMAIL_FORM_SEND_VM}" >
+                <input type="submit" name="eventSubmit_doInbox" value="${l10n.EMAIL_FORM_BACK_VM}" >
+            </td>
+         </tr>
+      </form>
+      </table>
+    #end ##end message prompt
+  #end              
+
+  <table width="100%" cellspacing="0" cellpadding="3" border="0">
+     #set($start_index = $start_index + 1)
+     #set($range_per_page = $range_per_page + 1)
+     ##if(!$message_prompt && $message_prompt !="")    
+        #if (($msgcount > 10 )&&($compose=='no')&&($forward=='no')&&($reply=='no')&&($showContent=='no')&&($showInbox == 'yes'))
+        
+           #if ($cur_page == 1)
+             <tr>
+                 <td align="right">${l10n.EMAIL_FORM_MESSAGES_VM}$start_index${l10n.EMAIL_FORM_TO_VM}$range_per_page${l10n.EMAIL_FORM_OF_VM}$msgcount | <a href="$jslink.addQueryData("eventSubmit_doNext","0")">${l10n.EMAIL_FORM_NEXT_VM}</a>&nbsp;</td>
+             </tr>
+           #elseif (($cur_page > 1)&&($cur_page < $total_no_of_pages))
+              <tr>
+                  <td align="right">${l10n.EMAIL_FORM_MESSAGES_VM}$start_index${l10n.EMAIL_FORM_TO_VM}$range_per_page${l10n.EMAIL_FORM_OF_VM}$msgcount | <a href="$jslink.addQueryData("eventSubmit_doPrevious","0")">${l10n.EMAIL_FORM_PREVIOUS_VM}</a> | <a href="$jslink.addQueryData("eventSubmit_doNext","0")">${l10n.EMAIL_FORM_NEXT_VM}</a>&nbsp;</td>  
+              </tr>
+           #elseif ($cur_page==$total_no_of_pages) 
+                  <tr>
+                        <td align="right">${l10n.EMAIL_FORM_MESSAGES_VM}$start_index${l10n.EMAIL_FORM_TO_VM}$msgcount${l10n.EMAIL_FORM_OF_VM}$msgcount | <a href="$jslink.addQueryData("eventSubmit_doPrevious","0")">${l10n.EMAIL_FORM_PREVIOUS_VM}</a>&nbsp;</td>
+              </tr>
+           #end
+        
+          ##<tr>
+          ##    <td>Page $cur_page </td>
+          ##</tr>
+        #elseif(($msgcount>0)&&($msgcount<=$10)&&($compose=='no')&&($forward=='no')&&($reply=='no')&&($showContent=='no')&&($showInbox=='yes'))
+        
+               <tr>
+                   <td align="right"><B>${l10n.EMAIL_FORM_MESSAGES_VM}$start_index${l10n.EMAIL_FORM_TO_VM}$msgcount${l10n.EMAIL_FORM_OF_VM}$msgcount</B></td>
+             </tr>
+        
+             #end    
+      ##end ## message prompt
+    </table>
+        </td>
+    </tr>
+</table>    
+       
+#end ## of hasLoggedIn 

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright 2004 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<registry>
+    <security-entry name="admin-only">
+        <meta-info>
+            <title>Admin-only</title>
+            <description>Full access to user with the admin role.</description>
+        </meta-info>
+        <access action="*">
+            <allow-if role="admin"/>
+        </access>
+    </security-entry>
+    <security-entry name="user-only">
+        <meta-info>
+            <title>User-only</title>
+            <description>Full access to users with the user role.</description>
+        </meta-info>
+        <access action="*">
+            <allow-if role="user"/>
+        </access>
+    </security-entry>
+    <security-entry name="owner-only">
+        <meta-info>
+            <title>Owner-only</title>
+            <description>Full access to the owner.</description>
+        </meta-info>
+        <access action="*">
+            <allow-if-owner/>
+        </access>
+    </security-entry>
+    <security-entry name="admin_and_owner_only">
+        <meta-info>
+            <title>Admin_and_Owner_Only</title>
+            <description>Full access to the owner and admin.</description>
+        </meta-info>
+        <access action="*">
+            <allow-if-owner/>
+        </access>
+        <access action="*">
+            <allow-if role="admin"/>
+        </access>
+    </security-entry>
+    <security-entry name="default">
+        <meta-info>
+            <title>Default</title>
+            <description>Full access to users with the user role and view access to users with the group role.</description>
+        </meta-info>
+        <access action="*">
+            <allow-if role="user"/>
+        </access>
+        <access action="view">
+            <allow-if role="guest"/>
+        </access>
+    </security-entry>
+    <security-entry name="user-view_admin-all">
+        <meta-info>
+            <title>Users+V and Admin+C</title>
+            <description>Users can view and Admin have full access.</description>
+        </meta-info>
+        <access action="*">
+            <allow-if role="admin"/>
+        </access>
+        <access action="view">
+            <allow-if role="user"/>
+        </access>
+    </security-entry>
+     <security-entry name="anon-view_admin-all">
+         <meta-info>
+             <title>Anon+V and Admin+C</title>
+             <description>Anonymous can view and Admin have full access.</description>
+         </meta-info>
+         <access action="*">
+             <allow-if role="admin"/>
+         </access>
+         <access action="view">
+             <allow-if user="anon"/>
+         </access>
+     </security-entry>    
+    <security-entry name="special">
+        <meta-info>
+            <title>Special for Owner</title>
+            <description>Full access to the admin, view, min,max to the owner.</description>
+        </meta-info>
+        <access action="view">
+            <allow-if-owner/>
+        </access>
+        <access action="maximize">
+            <allow-if-owner/>
+        </access>
+        <access action="minimize">
+            <allow-if-owner/>
+        </access>
+        <access action="*">
+            <allow-if role="admin"/>
+        </access>
+    </security-entry>     
+</registry>

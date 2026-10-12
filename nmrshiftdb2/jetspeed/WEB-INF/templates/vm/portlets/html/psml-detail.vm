@@ -1,0 +1,222 @@
+#*
+Copyright 2004 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*#
+
+#**
+
+Display the details of a psml file.
+
+@author <a href="mailto:taylor@apache.org">David Sean Taylor</a>
+@author <a href="mailto:morciuch@apache.org">Mark Orciuch</a>
+@version $Id: psml-detail.vm,v 1.4 2004/08/29 22:27:27 jford Exp $
+*#
+
+<form method="post" ACTION="$jslink">
+  <INPUT TYPE="HIDDEN" NAME="action" VALUE="portlets.PsmlManagerAction">
+  <INPUT TYPE="HIDDEN" NAME="mode" VALUE="browse">  
+  <table bgcolor="#ffffff" cellpadding="5">
+      #if ($msg)
+      <tr>
+        <td colspan="2">
+          <table bgcolor="#ffffff">
+            <tr>
+              <td>
+                $msg
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      #end
+
+      #if (($mode == "delete"))
+        <tr>
+            #formReadOnlyCell ($l10n.PSML_MANAGER_DETAIL_ID "Id" $profile.Id)
+        </tr>
+        <tr>
+            #formReadOnlyCell ($l10n.PSML_MANAGER_DETAIL_NAME "Name" $profile.Name)
+        </tr>
+      #elseif (($mode == "insert") || ($mode == "import"))
+
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">${l10n.PSML_DETAIL_NAME_VM}</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+              <input type="text" size="30" name="Name" value=$!profile.Name>
+            </font>
+          </td>
+        </tr>
+
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">$l10n.PSML_MANAGER_DETAIL_TITLE</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+              <input type="text" size="30" name="title" value="$!title">
+            </font>
+          </td>
+        </tr>
+
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">$l10n.PSML_MANAGER_DETAIL_MEDIA_TYPE</font></b>
+          </td>
+            <td bgcolor="$!{skin.TitleBackgroundColor}">
+              <select name="MediaType">
+                #set ($flag = 0)
+                #foreach ($type in $mediaTypes)
+                    #if ($type == $profile.MediaType)
+                        <option value="$type" selected>$type</option>
+                        #set ($flag = 1)
+                    #elseif ($type == $defMediaType)
+                        <option value="$type" selected>$type</option>
+                        #set ($flag = 1)    
+                    #else
+                        <option value="$type" >$type</option>
+                    #end
+                #end
+                #if ($flag == 1)
+                    <option value="" >&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                #else
+                    <option value="" selected>&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                #end
+              </select>
+            </td>
+        </tr>
+
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">$l10n.PSML_MANAGER_DETAIL_LANGUAGE</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+              <input type="text" size="30" name="Language" value=$!profile.Language>
+            </font>
+          </td>
+        </tr>
+
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">$l10n.PSML_MANAGER_DETAIL_COUNTRY</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+              <input type="text" size="30" name="Country" value=$!profile.Country>
+            </font>
+          </td>
+        </tr>
+        #if ($can-clone == "true")
+        <tr>
+            <td bgcolor="$!{skin.TitleBackgroundColor}">
+                <b><font face="$ui.sansSerifFonts">$l10n.PSML_MANAGER_DETAIL_CATEGORY_NAME</font></b>
+            </td>
+            <td bgcolor="$!{skin.TitleBackgroundColor}">
+              <select name="CategoryName">
+                  #if ($categoryName == "group")
+                    <option value="group" selected>${l10n.PSML_DETAIL_GROUP_VM}</option>
+                  #else
+                    <option value="group">${l10n.PSML_DETAIL_GROUP_VM}</option>
+                  #end
+
+                  #if ($categoryName == "role")
+                    <option value="role" selected>${l10n.PSML_DETAIL_ROLE_VM}</option>
+                  #else
+                    <option value="role">${l10n.PSML_DETAIL_ROLE_VM}</option>
+                  #end
+
+                  #if ($categoryName == "user")
+                    <option value="user" selected>${l10n.PSML_DETAIL_USER_VM}</option>
+                  #else
+                    <option value="user">${l10n.PSML_DETAIL_USER_VM}</option>
+                  #end
+              </select>
+            </td>
+        </tr>
+        <tr>
+            #formCell ($l10n.PSML_MANAGER_DETAIL_CATEGORY_VALUE "CategoryValue" $categoryValue)
+        </tr>
+        <tr>
+            #formCell ($l10n.PSML_MANAGER_DETAIL_COPY_FROM "CopyFrom" $copyFrom)
+        </tr>
+        #else
+        <INPUT TYPE="HIDDEN" NAME="CategoryName" VALUE="$categoryName">
+        <INPUT TYPE="HIDDEN" NAME="CategoryValue" VALUE="$categoryValue">
+        <INPUT TYPE="HIDDEN" NAME="CopyFrom" VALUE="$copyFrom">
+        #end
+     #end   
+     #if ($mode == "export")     
+        <tr>
+            #formCell ($l10n.PSML_MANAGER_DETAIL_COPY_FROM "CopyFrom" $copyFrom)
+        </tr>
+        <tr>
+            #formCell ($l10n.PSML_MANAGER_DETAIL_COPY_TO "CopyTo" $copyTo)
+        </tr>
+     #end    
+     #if ($mode == "export_all")     
+        <tr>
+            <td colspan="2">
+            $l10n.PSML_MANAGER_EXPORT_ALL_HELP
+            </td>
+        </tr>
+        <tr>
+            #formCell ($l10n.PSML_MANAGER_DETAIL_COPY_TO "CopyTo" $copyTo)
+        </tr>
+     #end    
+     #if ($mode == "import_all")     
+        <tr>
+            <td colspan="2">
+            $l10n.PSML_MANAGER_IMPORT_ALL_HELP
+            <ul>
+                <li>${l10n.PSML_DETAIL_USER_ROLE_GROUP_VM}${entity-name}/${media-type}/${language}/${country}/${page-name}.psml</li>
+                <li>${l10n.PSML_DETAIL_USER_ROLE_GROUP_VM}${entity-name}/${media-type}/${language}/${page-name}.psml</li>
+                <li>${l10n.PSML_DETAIL_USER_ROLE_GROUP_VM}${entity-name}/${media-type}/${page-name}.psml</li>
+                <li>${l10n.PSML_DETAIL_USER_ROLE_GROUP_VM}${entity-name}/${page-name}.psml}</li>                                                
+            </ul>
+            </td>
+        </tr>
+        <tr>
+            #formCell ($l10n.PSML_MANAGER_DETAIL_COPY_FROM "CopyFrom" $copyFrom)
+        </tr>
+     #end    
+  </table>
+  <table border="0"  cellspacing="0" cellpadding="5" width="30%">
+      <tr>
+        <td>
+          #if ($mode == "insert")
+            <input type="submit" name="eventSubmit_doInsert" value="$l10n.PSML_MANAGER_DETAIL_ADD_PSML"/>
+          #elseif ($mode == "delete")
+            <input type="submit" name="eventSubmit_doDelete" value="$l10n.PSML_MANAGER_DETAIL_DELETE"/>
+          #elseif ($mode == "export")
+            <input type="submit" name="eventSubmit_doExport" value="$l10n.PSML_MANAGER_DETAIL_EXPORT_PSML"/>
+          #elseif ($mode == "import")
+            <input type="submit" name="eventSubmit_doImport" value="$l10n.PSML_MANAGER_DETAIL_IMPORT_PSML"/>
+          #elseif ($mode == "export_all")
+            <input type="submit" name="eventSubmit_doExportall" value="$l10n.PSML_MANAGER_DETAIL_EXPORT_ALL"/>
+          #elseif ($mode == "import_all")
+            <input type="submit" name="eventSubmit_doImportall" value="$l10n.PSML_MANAGER_DETAIL_IMPORT_ALL"/>
+          #end
+      </td>
+      </form>
+      <form method="post" ACTION="$jslink">
+      <td>
+          <INPUT TYPE="HIDDEN" NAME="mode" VALUE="browse">  
+          <input type="submit" value="$l10n.PSML_MANAGER_DETAIL_CANCEL">
+      </td>
+    </tr>
+  </table>
+</form>

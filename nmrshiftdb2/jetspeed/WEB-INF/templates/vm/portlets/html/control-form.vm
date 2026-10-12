@@ -1,0 +1,306 @@
+#*
+Copyright 2004 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*#
+
+<table bgcolor="#ffffff" cellpadding="5">
+  #if ($msg)
+    <tr>
+      <td colspan="2">
+        <table bgcolor="#ffffff">
+          <tr>
+            <td>
+              $msg
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  #end
+  #if($reason)
+    <tr>
+      <td colspan="2">
+        <table bgcolor="#ffffff">
+          <tr>
+            <td>
+              $reason
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+ #end
+</table>
+
+#if (($mode == "delete"))
+  <form name="ControlForm" method="post" action="$jslink.getPaneByName("ControlBrowser").setAction("portlets.ControlUpdateAction")">
+    <table>
+      <tr>
+        <td colspan="2">$l10n.REGISTRY_EDITOR_CONTROL_CONFIRM_DELETE</td>
+      </tr>
+      <tr>
+        #formReadOnlyCell ($l10n.REGISTRY_EDITOR_CONTROL_NAME "control_name" $!entry.Name)
+      </tr>
+    </table>
+    <table border="0"  cellspacing="0" cellpadding="5" width="30%">
+      <tr>
+        <td>
+          <input type="submit" name="eventSubmit_doDelete" value="$l10n.REGISTRY_EDITOR_CONTROL_DELETE"/>
+        </td>
+      </tr>
+    </table>
+  </form>
+#elseif ($mode == "insert")
+  <form name="ControlForm" method="post" action="$jslink.getPaneByName("ControlForm").setAction("portlets.ControlUpdateAction")">
+    <table>
+      <input type="hidden" name="mode" value="update"/>
+      <tr>
+        <td bgcolor="$!{skin.TitleBackgroundColor}">
+          <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_CONTROL_NAME</font></b>
+        </td>
+        <td bgcolor="$!{skin.TitleBackgroundColor}">
+          <font face="$ui.sansSerifFonts">
+            <input type="text" size="30" name="control_name" value="$!data.user.getTemp("control_name")"/>
+          </font>
+        </td>
+      </tr>
+      <tr>
+        <td bgcolor="$!{skin.TitleBackgroundColor}">
+          <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_CONTROL_CLASS_NAME</font></b>
+        </td>
+        <td bgcolor="$!{skin.TitleBackgroundColor}">
+          <font face="$ui.sansSerifFonts">
+            <input type="text" size="50" name="class_name" value="$!data.user.getTemp("class_name")"/>
+          </font>
+        </td>
+      </tr>
+      <tr>
+        <td bgcolor="$!{skin.TitleBackgroundColor}">
+          <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_CONTROL_TITLE</font></b>
+        </td>
+        <td bgcolor="$!{skin.TitleBackgroundColor}">
+          <font face="$ui.sansSerifFonts">
+            <input type="text" size="30" name="title" value="$!data.user.getTemp("title")"/>
+          </font>
+        </td>
+      </tr>
+      #*
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">Hidden</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+              <input type="checkbox" size="30" name="hidden" #if($!data.user.getTemp("hidden") == "on") checked="true"#end"/>
+            </font>
+          </td>
+        </tr>
+      *#
+    </table>
+    <table border="0"  cellspacing="0" cellpadding="5" width="30%">
+      <tr>
+        <td>
+          <input type="submit" name="eventSubmit_doInsert" value="$l10n.REGISTRY_EDITOR_CONTROL_INSERT"/>
+        </td>
+      </tr>
+    </table>
+  </form>
+#elseif($mode == "update")
+  <form name="ControlForm method="post" action="$jslink.getPaneByName("ControlForm").setAction("portlets.ControlUpdateAction")">
+    <table>
+      <input type="hidden" name="mode" value="update"/>
+      #formReadOnlyCell($l10n.REGISTRY_EDITOR_CONTROL_NAME "control_name" $!entry.name)
+      <tr>
+        <td bgcolor="$!{skin.TitleBackgroundColor}">
+          <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_CONTROL_CLASS_NAME</font></b>
+        </td>
+        <td bgcolor="$!{skin.TitleBackgroundColor}">
+          <font face="$ui.sansSerifFonts">
+            <input type="text" size="50" name="class_name" value="$!entry.classname"/>
+          </font>
+        </td>
+      </tr>
+      <tr>
+        <td bgcolor="$!{skin.TitleBackgroundColor}">
+          <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_CONTROL_TITLE</font></b>
+        </td>
+        <td bgcolor="$!{skin.TitleBackgroundColor}">
+          <font face="$ui.sansSerifFonts">
+            <input type="text" size="30" name="title" value="$!entry.title"/>
+          </font>
+        </td>
+      </tr>
+        #*
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">Hidden</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+              <input type="checkbox" size="30" name="hidden" #if($!entry.hidden) checked="true"#end/>
+            </font>
+          </td>
+        </tr>
+        *#
+      <tr>
+        <td align="center"><input type="submit" name="eventSubmit_doUpdate" value="$l10n.REGISTRY_EDITOR_CONTROL_UPDATE"/></td>
+      </tr>
+    </table>
+  </form>
+  <hr />
+  <table bgcolor="#ffffff" cellpadding="5">
+    <tr>
+      <td align="center" bgcolor="$!{skin.TitleBackgroundColor}">   
+        #if($entry.getParameterNames().hasNext())
+        <form name="UpdateRemoveParameterForm" method="post" action="$jslink.getPaneByName("ControlForm").setAction("portlets.ControlUpdateAction")">
+          <input type="hidden" name="mode" value="update"/>
+          <input type="hidden" name="control_name" value="$!entry.Name"/>
+          <input type="hidden" name="tab" value="parameters"/>
+          <table bgcolor="#ffffff" cellpadding="5">
+            <th>$l10n.REGISTRY_EDITOR_CONTROL_SELECT</th>
+            <th>$l10n.REGISTRY_EDITOR_CONTROL_PARAMETER_NAME</th>
+            <th>$l10n.REGISTRY_EDITOR_CONTROL_PARAMETER_VALUE</th>
+            #foreach($paramName in $entry.getParameterNames())
+              #set($parameter = $entry.getParameter($paramName))
+              <tr>
+                <td bgcolor="$!{skin.TitleBackgroundColor}" width="5%">
+                  <input type="checkbox" name="parameter_name" value="$!parameter.name"/>
+                </td>
+                <td bgcolor="$!{skin.TitleBackgroundColor}">$!parameter.name</td>
+        
+                <input type="hidden" name="update_parameter_name" value="$!parameter.name"/>
+                <td bgcolor="$!{skin.TitleBackgroundColor}">
+                  <input type="text" name="$!{parameter.name}.parameter_value" value="$!parameter.value"/>
+                </td>
+              </tr>
+            #end
+          </table>
+          
+          <input type="submit" name="eventSubmit_doRemoveparameters" value="$l10n.REGISTRY_EDITOR_CONTROL_DELETE_PARAMETERS"/>
+          <input type="submit" name="eventSubmit_doUpdateparametervalues" value="$l10n.REGISTRY_EDITOR_CONTROL_UPDATE_PARAMETERS"/>
+        </form>
+
+        #end
+     </td>
+   </tr>
+    <tr>
+      <td align="center" bgcolor="$!{skin.TitleBackgroundColor}">
+        <form name="AddParameterForm" method="post" action="$jslink.getPaneByName("ControlForm").setAction("portlets.ControlUpdateAction")">
+          <input type="hidden" name="mode" value="update"/>
+          <input type="hidden" name="control_name" value="$!entry.Name"/>
+          <input type="hidden" name="tab" value="parameters"/>
+          <table bgcolor="#ffffff" cellpadding="5">
+            <tr>
+              <td bgcolor="$!{skin.TitleBackgroundColor}">
+                <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_CONTROL_PARAMETER_NAME</font></b>
+              </td>
+              <td bgcolor="$!{skin.TitleBackgroundColor}">
+                <input type="text" name="parameter_name"/>
+              </td>
+            </tr>
+            <tr>
+              <td bgcolor="$!{skin.TitleBackgroundColor}">
+                <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_CONTROL_PARAMETER_VALUE</font></b>
+              </td>
+              <td bgcolor="$!{skin.TitleBackgroundColor}">
+                <input type="text" name="parameter_value"/>
+              </td>
+            </tr>
+            <tr>
+              <td align="center" colspan="2" bgcolor="$!{skin.TitleBackgroundColor}"><input type="submit" name="eventSubmit_doAddparameter" value="$l10n.REGISTRY_EDITOR_CONTROL_INSERT_PARAMETER"/></td>
+            </tr>
+          </table>
+        </form>
+      </td>
+    </tr>
+  </table>
+
+
+  <hr />
+
+  <table bgcolor="#ffffff" cellpadding="5">
+    <tr>
+      <td align="center" bgcolor="$!{skin.TitleBackgroundColor}">
+        #if($entry.listMediaTypes().hasNext())
+        <form name="RemoveMediaTypesForm" method="post" action="$jslink.getPaneByName("ControlForm").setAction("portlets.ControlUpdateAction")">
+          <input type="hidden" name="mode" value="update"/>
+          <input type="hidden" name="control_name" value="$!entry.Name"/>
+          <input type="hidden" name="tab" value="media_types"/>
+          <table bgcolor="#ffffff" cellpadding="5">
+            <th>$l10n.REGISTRY_EDITOR_CONTROL_SELECT</th>
+            <th>$l10n.REGISTRY_EDITOR_CONTROL_MEDIA_TYPE</th>
+              
+            #foreach($mediaType in $entry.listMediaTypes())
+              <tr>
+                <td bgcolor="$!{skin.TitleBackgroundColor}">
+                  <input type="checkbox" name="media_type" value="$mediaType"/>
+                </td>
+                <td bgcolor="$!{skin.TitleBackgroundColor}">$mediaType</td>                              
+              </tr>
+            #end
+          </table>
+          <input type="submit" name="eventSubmit_doRemovemediatypes" value="$l10n.REGISTRY_EDITOR_CONTROL_DELETE_MEDIA_TYPES"/>
+        </form>
+        #end
+      </td>
+    </tr>
+    <tr>
+      <td align="center" bgcolor="$!{skin.TitleBackgroundColor}">
+        <form name="AddMediaTypesForm" method="post" action="$jslink.getPaneByName("ControlForm").setAction("portlets.ControlUpdateAction")">
+          <input type="hidden" name="mode" value="update"/>
+          <input type="hidden" name="control_name" value="$!entry.Name"/>
+          <input type="hidden" name="tab" value="media_types"/>
+          <table bgcolor="#ffffff" cellpadding="5">
+              #*
+              <tr>
+                  <td bgcolor="$!{skin.TitleBackgroundColor}">
+                      <b><font face="$ui.sansSerifFonts">Media Type</font></b>
+                  </td>
+                  <td bgcolor="$!{skin.TitleBackgroundColor}">
+                      <b><font face="$ui.sansSerifFonts">
+                          <input type="text" name="media_type"/>
+                      </font></b>
+                  </td>
+              </tr>
+              *#
+            <tr>
+              <td bgcolor="$!{skin.TitleBackgroundColor}">
+                <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_CONTROL_MEDIA_TYPE</font></b>
+              </td>
+              <td bgcolor="$!{skin.TitleBackgroundColor}">
+                <select name="media_type">
+                #foreach($mediaType in $media_types)
+                  <option value="$mediaType">$mediaType</option>
+                #end
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td align="center" colspan="2" bgcolor="$!{skin.TitleBackgroundColor}"><input type="submit" name="eventSubmit_doAddmediatype" value="$l10n.REGISTRY_EDITOR_CONTROL_INSERT_MEDIA_TYPE"/></td>
+            </tr>
+          </table>
+        </form>
+      </td>
+    </tr>
+  </table>
+#end
+<table>
+  <tr>
+    <td>
+      <form name="CancelForm" method="post" action="$jslink.getPaneByName("ControlBrowser").setAction("portlets.ControlUpdateAction")">
+        <input type="submit" name="eventSubmit_doCancel" value="$l10n.REGISTRY_EDITOR_CONTROL_CANCEL"/>
+      </form>
+    </td>
+  </tr>
+</table>

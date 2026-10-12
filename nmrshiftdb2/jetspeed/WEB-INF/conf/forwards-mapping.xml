@@ -1,0 +1,151 @@
+<?xml version="1.0"?>
+<!--
+Copyright 2004 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<mapping>
+  <class name="org.apache.jetspeed.services.forward.configuration.impl.ForwardsConfigurationImpl">
+    <map-to xml="forwards-configuration"/>
+                                   
+    <field name="forwards"
+           type="org.apache.jetspeed.services.forward.configuration.impl.ForwardImpl"
+           collection="collection">
+      <bind-xml name="forward"/>
+    </field>
+
+    <field name="portletForwards"
+           type="org.apache.jetspeed.services.forward.configuration.impl.PortletForwardImpl"
+           collection="collection">
+      <bind-xml name="portlet-forward"/>
+    </field>
+
+  </class>
+
+  <class name="org.apache.jetspeed.services.forward.configuration.impl.ForwardImpl">
+    <map-to xml="forward"/>
+                                   
+    <field name="name" type="java.lang.String">
+      <bind-xml name="name" node="attribute"/>
+    </field>
+
+    <field name="page"
+           type="org.apache.jetspeed.services.forward.configuration.impl.PageImpl">
+      <bind-xml name="page"/>
+    </field>
+
+    <field name="pane"
+           type="org.apache.jetspeed.services.forward.configuration.impl.PaneImpl">
+      <bind-xml name="pane"/>
+    </field>
+
+    <field name="portlet"
+           type="org.apache.jetspeed.services.forward.configuration.impl.PortletImpl">
+      <bind-xml name="portlet"/>
+    </field>
+
+    <field name="queryParams"
+           type="org.apache.jetspeed.services.forward.configuration.impl.QueryParamImpl"
+           collection="map">
+      <bind-xml name="qparam"/>
+    </field>
+
+  </class>
+
+  <class name="org.apache.jetspeed.services.forward.configuration.impl.PageImpl">
+    <map-to xml="page"/>
+
+    <field name="name" type="java.lang.String">
+      <bind-xml name="name" node="attribute"/>
+    </field>
+                                   
+    <field name="user" type="java.lang.String">
+      <bind-xml name="user" node="attribute"/>
+    </field>
+
+    <field name="group" type="java.lang.String">
+      <bind-xml name="group" node="attribute"/>
+    </field>
+
+    <field name="role" type="java.lang.String">
+      <bind-xml name="role" node="attribute"/>
+    </field>
+  </class>
+
+  <class name="org.apache.jetspeed.services.forward.configuration.impl.PaneImpl">
+    <map-to xml="pane"/>
+
+    <field name="id" type="java.lang.String">
+      <bind-xml name="id" node="attribute"/>
+    </field>
+
+    <field name="name" type="java.lang.String">
+      <bind-xml name="name" node="attribute"/>
+    </field>
+                                   
+  </class>
+
+  <class name="org.apache.jetspeed.services.forward.configuration.impl.PortletImpl">
+    <map-to xml="portlet"/>
+
+    <field name="id" type="java.lang.String">
+      <bind-xml name="id" node="attribute"/>
+    </field>
+
+    <field name="name" type="java.lang.String">
+      <bind-xml name="name" node="attribute"/>
+    </field>
+
+    <field name="action" type="java.lang.String">
+      <bind-xml name="action" node="attribute"/>
+    </field>
+                                   
+  </class>
+
+  <class name="org.apache.jetspeed.services.forward.configuration.impl.QueryParamImpl">
+    <map-to xml="qparam"/>
+
+    <field name="name" type="java.lang.String">
+      <bind-xml name="name" node="attribute"/>
+    </field>
+
+    <field name="value" type="java.lang.String">
+      <bind-xml name="value" node="attribute"/>
+    </field>
+                                   
+  </class>
+
+  <class name="org.apache.jetspeed.services.forward.configuration.impl.PortletForwardImpl">
+    <map-to xml="portlet-forward"/>
+                                   
+    <field name="portlet" type="java.lang.String">
+      <bind-xml name="portlet" node="attribute"/>
+    </field>
+
+    <field name="forward" type="java.lang.String">
+      <bind-xml name="forward" node="attribute"/>
+    </field>
+
+    <field name="target" type="java.lang.String">
+      <bind-xml name="target" node="attribute"/>
+    </field>
+
+   <field name="queryParams"
+           type="org.apache.jetspeed.services.forward.configuration.impl.QueryParamImpl"
+           collection="map">
+      <bind-xml name="qparam"/>
+    </field>
+
+  </class>
+
+</mapping>

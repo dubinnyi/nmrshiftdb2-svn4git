@@ -1,0 +1,231 @@
+#*
+Copyright 2004 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*#
+
+## $Id: multicolumn-customize.vm,v 1.23 2005/05/12 18:15:59 morciuch Exp $
+<!-- WEB-INF\templates\vm\controllers\html\multicolumn-customize.vm -->
+<br>
+<table border="0" cellpadding="2" cellspacing="0" width="100%">
+<tr>
+#set ($ndx = 0)
+#set ($col = 0)
+#foreach ( $column in $portlets )
+#set ($row = 0)
+#if ($sizes.size() >= $velocityCount)
+ #set ($idx = $velocityCount - 1 )
+ #set ($width = $!sizes.elementAt($idx))
+#end
+#if ($!col_classes.size() >= $velocityCount)
+ #set ($col_class = $!col_classes.elementAt($idx))
+#else
+ #set ($col_class = $!skin.ControllerStyleClass)
+#end
+#if (${skin.TitleBackgroundColor})
+  #set ($portletStyle="border-color: ${skin.TitleBackgroundColor}")
+#end
+  <td valign="top" width="$width">
+    <table width="100%" cellspacing="1" cellpadding="1" border="0">
+#foreach ( $portlet in $column )
+      <tr>
+        <td width="100%">
+      <form action="#psmlLink($jslink.Template)" method="post">
+		  #if ($action) <input type="hidden" name="$jslink.ActionKey" value="$action" /> #end
+          <input type="hidden" name="id" value="$portlet.id" />
+          <input type="hidden" name="col" value="$col" />
+          <input type="hidden" name="row" value="$row" />
+          <table width="100%" cellspacing="0" cellpadding="0" #if( ${skin.PortletStyleClass}) class="${skin.PortletStyleClass}" #end  #if (${portletStyle}) style="${portletStyle}" #end>
+## Portlet Title
+            <tr>
+#if (${skin.PortletSkinClass})
+              <td class="PTitleLeft" style="font-size:1pt;">&nbsp;</td>
+#end
+              <td align="right" valign="top" #if (${skin.TitleStyleClass}) class="${skin.TitleStyleClass}" #else class="PTitle" #end #if(${skin.TitleBackgroundColor}) style="background-color: ${skin.TitleBackgroundColor}" #end>
+                <input type="image" src="images/close.gif" alt="$l10n.CUSTOMIZER_REMOVE" border="0" name="eventSubmit_doDelete">
+                #if ($col == 0)
+                <img src="images/blank.gif" width="14">
+                #else
+                <input type="image" src="images/left.gif" alt="$l10n.CUSTOMIZER_MOVELEFT" border="0" name="eventSubmit_doLeft">
+                #end
+                #if ($row == 0)
+                <img src="images/blank.gif" width="14">
+                #else
+                <input type="image" src="images/up.gif" alt="$l10n.CUSTOMIZER_MOVEUP" border="0" name="eventSubmit_doUp">
+                #end
+                #if ($row == ($column.size() - 1))
+                <img src="images/blank.gif" width="14">
+                #else
+                <input type="image" src="images/down.gif" alt="$l10n.CUSTOMIZER_MOVEDOWN" border="0" name="eventSubmit_doDown">
+                #end
+                #if ($col == ($sizes.size() - 1))
+                <img src="images/blank.gif" width="14">
+                #else
+                <input type="image" src="images/right.gif" alt="$l10n.CUSTOMIZER_MOVERIGHT" border="0" name="eventSubmit_doRight">
+                #end
+              </td>
+#if (${skin.PortletSkinClass})
+              <td class="PTitleRight" style="font-size:1pt;">&nbsp;</td>
+#end
+            </tr>
+            </form>
+## Portlet "content" (properties)
+            <tr>
+              #if (${skin.PortletSkinClass})
+              <td class="PContentLeft" style="font-size:1pt;">&nbsp;</td>
+              #end
+              <td align="center" valign="middle" #if(${skin.ContentStyleClass}) class="${skin.ContentStyleClass}"  #else class="PContent" #end #if(${skin.BackgroundColor}) style="background-color: ${skin.BackgroundColor}" #end>
+		<table width="100%">
+		  <tr>
+		    <td colspan="2" align="center">
+		      <b>$titles.get($portlet.id)</b>
+		    </td>
+		  </tr>
+## Set $portletSkin.  If no skin exists for the portlet, then set to "-- Default --"
+#if ($portlet.Skin)
+  #set ($tempSkin = $portlet.Skin)
+  #if ($tempSkin)
+    #set ($portletSkin = $tempSkin.Name)
+  #else
+    #set ($portletSkin = "-- Default --")
+  #end
+#else
+  #set ($portletSkin = "-- Default --")
+#end
+
+#if ($portlet.Skin) 
+   #set ($psListBox = $jetspeed.getPortletParameter($data, $data.User.getTemp("customizer"), "portletSkin", $portlet.Skin.Name))
+ #else 
+   #set ($psListBox = $jetspeed.getPortletParameter($data, $data.User.getTemp("customizer"), "portletSkin")) 
+#end
+
+## Set $portletSecurityRef.  If no Security Reference exists for the portlet, then set to "-- Default --"
+#set($securityReference = $jetspeed.getSecurityReference($portlet))
+#if ($securityReference)
+  #set ($portletSecurityRef = $securityReference.Parent)
+  ##set ($portletSecurityRef = "")
+  #if($jetspeed.getSecuritySource($portlet) == 1)
+    #set ($portletSecurityRef = "<span style='color:red'><br />$l10n.SECURITY_IS_REGISTRY_LEVEL.</span>")
+  #elseif($jetspeed.getSecuritySource($portlet) == 2)
+    #set ($portletSecurityRef = "<span style='color:red'><br />$l10n.SECURITY_IS_SYSTEM_DEFAULT.</span>")
+  #end
+#else
+  #set ($portletSecurityRef = "-- Default --")
+#end
+
+#if ($securityReference) 
+   #set ($srListBox = $jetspeed.getPortletParameter($data, $data.User.getTemp("customizer"), "portletSecurityRef", $securityReference.Parent))
+ #else 
+   #set ($srListBox = $jetspeed.getPortletParameter($data, $data.User.getTemp("customizer"), "portletSecurityRef")) 
+#end
+
+		  <tr>
+		    <td width="50%">
+				<form name="pskins$ndx" action="#psmlLink($jslink.Template)" method="post">
+				#if ($action) 
+					<input name="$jslink.ActionKey" type="hidden" value="$action"> 
+				#end
+					<input name="js_peid" type="hidden" value="$portlet.id"> 
+					<input type="hidden" name="eventSubmit_doSkin" value="doSkin">        
+					$psListBox
+				</form>		      
+		    </td>
+		    <td width="50%">
+				<form name="pSecs$ndx" action="#psmlLink($jslink.Template)" method="post">
+				#if ($action) 
+					<input name="$jslink.ActionKey" type="hidden" value="$action"> 
+				#end
+					<input name="js_peid" type="hidden" value="$portlet.id"> 
+					<input type="hidden" name="eventSubmit_doSecurity" value="doSecurity">        
+					$srListBox $portletSecurityRef
+				</form>		      
+		    </td>
+		  </tr>
+## Include path for references
+#if ($portlet.Path)
+		  <tr>
+		    <td colspan="2">
+		       $l10n.CUSTOMIZER_REF_PATH : $portlet.Path
+		    </td>
+		  </tr>
+#end
+##</form>
+#if ($portlet.Control.Name) 
+   #set ($controlListBox = $jetspeed.getPortletParameter($data, $data.User.getTemp("customizer"), "control", $portlet.Control.Name))
+ #else 
+   #set ($controlListBox = $jetspeed.getPortletParameter($data, $data.User.getTemp("customizer"), "control")) 
+#end
+
+#if (!$portlet.Path && $controlListBox)
+		  <tr>
+		    <td colspan="2" align="left">
+			<form name="decorations$ndx" action="#psmlLink($jslink.Template)" method="post">
+			#if ($action) 
+				<input name="$jslink.ActionKey" type="hidden" value="$action"> 
+			#end
+				<input name="js_peid" type="hidden" value="$portlet.id"> 
+				<input type="hidden" name="eventSubmit_doControl" value="doControl">        
+				$controlListBox
+			</form>
+			#set ($ndx = $ndx + 1)
+		    </td>
+		  </tr>
+                </table>
+              </td>
+#if (${skin.PortletSkinClass})
+              <td class="PContentRight" style="font-size:1pt;">&nbsp;</td>
+#end
+            </tr>
+#end
+## End of the portlet content preview (properties)
+## Bottom of the portlet preview
+#if (${skin.PortletSkinClass})
+	     <tr>
+	       <td class="PBottomLeft" style="font-size:1pt;">&nbsp;</td>
+	       <td class="PBottom" style="font-size:1pt;">&nbsp;</td>
+	       <td class="PBottomRight" style="font-size:1pt;">&nbsp;</td>
+	     </tr>
+#end
+          </table>
+        </td>
+      </tr>
+#set ($row = $row + 1)
+#end    
+    </table>
+  </td>
+#set ($col = $col + 1)
+#if ($col != $colNum)
+  <td valign="top" width="2">
+  </td>
+#end
+#end
+  </tr>
+</table>
+<br>
+<form action="#psmlLink($jslink.Template)" method="post">
+  #if ($action) <input type="hidden" name="$jslink.ActionKey" value="$action" > #end
+  <center>
+    <table cellspacing="2">
+      <tr>
+#if ($controller.Portlets.allowCustomize($data))
+        <td>
+          <input type="submit" name="eventSubmit_doSave" value="$saveLabel" >
+        </td>
+#end
+        <td>
+          <input type="submit" name="eventSubmit_doCancel" value="$l10n.CUSTOMIZER_CANCEL">
+        </td>
+      </tr>
+    </table>
+  </center>
+</form>

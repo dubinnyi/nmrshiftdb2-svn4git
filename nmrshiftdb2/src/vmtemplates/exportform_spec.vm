@@ -1,0 +1,77 @@
+#set( $myrandom=$random.nextInt(100) )
+<script LANGUAGE="JavaScript1.1">
+<!--
+  function exportSpec${myrandom}() {
+  var filename="${spectrum.getSpectrumId()}_${spectrum.getSpectrumTypeName()}.";
+  if(document.exportspec${myrandom}.format.value=="rawdata"){
+    #if($spectrum.getRawData())
+      #if($spectrum.getRawDataFormat()=="fid" || $spectrum.getRawDataFormat()=="ser")
+        filename="$spectrum.getRawDataFormat()";
+      #else
+        filename=filename+"$spectrum.getRawDataFormat()";
+      #end
+    #else
+      filename=filename+"zip";
+    #end
+  }else if(document.exportspec${myrandom}.format.value=="jcamppeaks"){
+    filename=filename+"jcamp";
+  }else if(document.exportspec${myrandom}.format.value=="originalimage"){
+    filename=filename+"$spectrum.getImageFormat()";
+  }else if(document.exportspec${myrandom}.format.value=="pdforig"){
+  	filename=filename+"pdf";
+  }else if(document.exportspec${myrandom}.format.value=="otherfiles"){
+    filename=filename+"otherfiles.zip";
+  }else{
+    filename=filename+document.exportspec${myrandom}.format.value;
+  }
+  ##For usage of session tracking via url appending, we need the sessionid in url, which is ugly. So we do this only for private spectra
+  #if($spectrum.getReviewFlag()=="private")
+    #if($lastsearch.getDisplayText()=="total similarity spectrum search" || $lastsearch.getDisplayText()=="subspectrum search")
+      document.exportspec${myrandom}.action="download/NmrshiftdbServlet/"+filename+";jsessionid=$data.getSession().getId()?spectrumid=${spectrum.getSpectrumId()}&nmrshiftdbaction=exportspec&lastsearchtype=$lastsearch.getDisplayText()&lastsearchvalues=$lastsearch.getRange()&format="+document.molexport${myrandom}.format.value;
+    #else
+      document.exportspec${myrandom}.action="download/NmrshiftdbServlet/"+filename+";jsessionid=$data.getSession().getId()?spectrumid=${spectrum.getSpectrumId()}&nmrshiftdbaction=exportspec&lastsearchtype=$lastsearch.getDisplayText()&format="+document.exportspec${myrandom}.format.value;
+    #end
+  #else
+    #if($lastsearch.getDisplayText()=="total similarity spectrum search" || $lastsearch.getDisplayText()=="subspectrum search")
+      document.exportspec${myrandom}.action="download/NmrshiftdbServlet/"+filename+"?spectrumid=${spectrum.getSpectrumId()}&nmrshiftdbaction=exportspec&lastsearchtype=$lastsearch.getDisplayText()&lastsearchvalues=$lastsearch.getRange()&format="+document.exportspec${myrandom}.format.value;
+    #else
+      document.exportspec${myrandom}.action="download/NmrshiftdbServlet/"+filename+"?spectrumid=${spectrum.getSpectrumId()}&nmrshiftdbaction=exportspec&lastsearchtype=$lastsearch.getDisplayText()&format="+document.exportspec${myrandom}.format.value;
+    #end
+  #end
+  }
+//-->
+</script>
+<form action="" method="post" target="_new" name="exportspec$myrandom">
+	Get this spectrum as 
+	<select name="format" size="1">
+                #if ($spectrum.getRawData() || $spectrum.hasRawDataInFilesystem())
+                        <option value="rawdata">Raw data</option>
+                #end
+           #if($spectrum.getDBSignals().size()>0)
+		<option value="svg">svg</option>
+		<option value="jpeg">jpeg</option>
+		<option value="png">png</option>
+		<option value="tiff">tiff</option>
+			<option value="jcamppeaks">jcamp-dx (peaks only)</option>
+			<option value="txt">ascii table</option>
+			<option value="cml">cml code</option>
+	#end
+		#if ($spectrum.getJcamp())
+			<option value="jcamp">jcamp-dx (original spectrum)</option>
+		#end
+		#if ($spectrum.getPdf())
+			<option value="pdforig">PDF (original spectrum)</option>
+		#end
+        #if ($spectrum.getImage())
+            <option value="originalimage">image (original spectrum, $spectrum.getImageFormat())</option>
+        #end
+        #if ($spectrum.getOtherFiles())
+            <option value="otherfiles">other files (single zip)</option>
+        #end
+        #if ($spectrum.getCmcseFile())
+            <option value="cmcse">CMC-SE files (single zip)</option>
+        #end
+	</select>
+	 file 
+	<input type="submit" value="Request" onClick="exportSpec${myrandom}()">
+</form>

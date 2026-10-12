@@ -1,0 +1,256 @@
+#*
+Copyright 2004 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*#
+
+<table bgcolor="#ffffff" cellpadding="5">
+      #if ($msg)
+      <tr>
+        <td colspan="2">
+          <table bgcolor="#ffffff">
+            <tr>
+              <td>
+                $msg
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      #end
+      #if($reason)
+      <tr>
+        <td colspan="2">
+          <table bgcolor="#ffffff">
+            <tr>
+              <td>
+                $reason
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      #end
+</table>
+
+      #if (($mode == "delete"))
+          <form name="MediaForm" method="post" action="$jslink.getPaneByName("MediaBrowser").setAction("portlets.MediaUpdateAction")">
+      <table>
+          <tr>
+              <td colspan="2">$l10n.REGISTRY_EDITOR_MEDIA_CONFIRM_DELETE</td>
+          </tr>
+        <tr>
+            #formReadOnlyCell ($l10n.REGISTRY_EDITOR_MEDIA_NAME "media_type_name" $!entry.Name)
+        </tr>
+      </table>
+      <table border="0"  cellspacing="0" cellpadding="5" width="30%">
+      <tr>
+        <td>
+          <input type="submit" name="eventSubmit_doDelete" value="$l10n.REGISTRY_EDITOR_MEDIA_DELETE"/>
+        </td>
+      </tr>
+      </table>
+      </form>
+      #elseif ($mode == "insert")
+      #parse("include/mime-combo.vm")
+      
+      <form name="MediaForm" method="post" action="$jslink.getPaneByName("MediaForm").setAction("portlets.MediaUpdateAction")">
+          <input type="hidden" name="mode" value="update"/>
+    <table>
+        <input type="hidden" name="mode" value="update"/>
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_MEDIA_NAME</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+              <input type="text" size="30" name="media_type_name" value="$!data.user.getTemp("media_type_name")"/>
+            </font>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_MEDIA_CHARSET</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+              <input type="text" size="30" name="charset" value="$!data.user.getTemp("charset")"/>
+            </font>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_MEDIA_TITLE</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+              <input type="text" size="30" name="title" value="$!data.user.getTemp("title")"/>
+            </font>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_MIMETYPE</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+                <input type="text" name="mime_type" value="$!data.user.getTemp("mime_type")"/>              
+            </font>
+          </td>
+         </tr>
+         <tr>
+              <td bgcolor="$!{skin.TitleBackgroundColor}">
+                    <select name="type" onChange="changeMimeList(document.MediaForm); updateMimeType(document.MediaForm); return true;">
+                        <option value="text">${l10n.MEDIA_FORM_TEXT_VM}</option>
+                        <option value="multipart">${l10n.MEDIA_FORM_MULTIPART_VM}</option>
+                        <option value="message">${l10n.MEDIA_FORM_MESSAGE_VM}</option>
+                        <option value="application">${l10n.MEDIA_FORM_APPLICATION_VM}</option>
+                        <option value="image">${l10n.MEDIA_FORM_IMAGE_VM}</option>
+                        <option value="audio">${l10n.MEDIA_FORM_AUDIO_VM}</option>
+                        <option value="video">${l10n.MEDIA_FORM_VIDEO_VM}</option>
+                        <option value="model">${l10n.MEDIA_FORM_MODEL_VM}</option>
+                    </select>
+              </td>
+             <td bgcolor="$!{skin.TitleBackgroundColor}">
+                    <select name="subtype" onChange="updateMimeType(document.MediaForm); return true;"><script>document.MediaForm.type.selectedIndex=0; changeMimeList(document.MediaForm); updateMimeType(document.MediaForm);</script></select>
+               </td>
+         </tr>
+        </table>
+    <table border="0"  cellspacing="0" cellpadding="5" width="30%">
+      <tr>
+        <td>
+          <input type="submit" name="eventSubmit_doInsert" value="$l10n.REGISTRY_EDITOR_MEDIA_INSERT"/>
+        </td>
+            ##<td>
+            ##  <input type="submit" name="eventSubmit_doCancel" value="Cancel"/>
+            ##</td>
+      </tr>
+    </table>
+      </form>
+      #elseif ($mode == "update")
+      
+      #parse("include/capability-combo.vm")
+      #parse("include/mime-combo.vm")
+      
+      <form name="MediaForm" method="post" action="$jslink.getPaneByName("MediaForm").setAction("portlets.MediaUpdateAction")">
+    <table>
+        <input type="hidden" name="mode" value="update"/>
+        #formReadOnlyCell($l10n.REGISTRY_EDITOR_MEDIA_NAME "media_type_name" $!entry.name)
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_MEDIA_CHARSET</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+              <input type="text" size="30" name="charset" value="$!entry.characterSet"/>
+            </font>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_MEDIA_TITLE</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+              <input type="text" size="30" name="title" value="$!entry.title"/>
+            </font>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_MIMETYPE</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+                <input type="text" name="mime_type" value="$!entry.mimeType"/>              
+            </font>
+          </td>
+        </tr>
+        <tr>
+             <td bgcolor="$!{skin.TitleBackgroundColor}">
+                    <select name="type" onChange="changeMimeList(document.MediaForm); updateMimeType(document.MediaForm); return true;">
+                        <option value="text">${l10n.MEDIA_FORM_TEXT_VM}</option>
+                        <option value="multipart">${l10n.MEDIA_FORM_MULTIPART_VM}</option>
+                        <option value="message">${l10n.MEDIA_FORM_MESSAGE_VM}</option>
+                        <option value="application">${l10n.MEDIA_FORM_APPLICATION_VM}</option>
+                        <option value="image">${l10n.MEDIA_FORM_IMAGE_VM}</option>
+                        <option value="audio">${l10n.MEDIA_FORM_AUDIO_VM}</option>
+                        <option value="video">${l10n.MEDIA_FORM_VIDEO_VM}</option>
+                        <option value="model">${l10n.MEDIA_FORM_MODEL_VM}</option>
+                    </select>
+             </td>
+             <td bgcolor="$!{skin.TitleBackgroundColor}">
+                    <select name="subtype" onChange="updateMimeType(document.MediaForm); return true;"><script>document.MediaForm.type.selectedIndex=0; changeMimeList(document.MediaForm);</script></select>
+             </td>
+           </tr>
+    </table>
+    <table border="0"  cellspacing="0" cellpadding="5" width="30%">
+      <tr>
+        <td>
+          <input type="submit" name="eventSubmit_doUpdate" value="$l10n.REGISTRY_EDITOR_MEDIA_UPDATE"/>
+        </td>
+      </tr>
+    </table>
+      </form>
+      
+      <hr />
+      #if($entry.CapabilityMap.Capabilities.hasNext())
+      <form name="RemoveCapability method="post" action="$jslink.getPaneByName("MediaForm").setAction("portlets.MediaUpdateAction")">
+          <input type="hidden" name="media_type_name" value="$!entry.name"/>
+          <input type="hidden" name="mode" value="update"/>
+          <table>
+            #foreach($capability in $entry.CapabilityMap.Capabilities)
+                <tr>
+                    <td><input type="checkbox" name="capability" value="$!capability"/></td>
+                    <td>$!capability</td>
+                </tr>
+            #end
+            <tr>
+                <td>
+                    <td colspan="2" align="center"><input type="submit" name="eventSubmit_doRemovecapability" value="$l10n.REGISTRY_EDITOR_DELETE_CAPABILITIES"/></td>
+                </td>
+            </tr>
+          </table>
+      </form>
+      #end
+      <form name="AddCapability" method="post" action="$jslink.getPaneByName("MediaForm").setAction("portlets.MediaUpdateAction")">
+          <input type="hidden" name="media_type_name" value="$!entry.name"/>
+          <input type="hidden" name="mode" value="update"/>
+          <table>
+            <tr>
+                ##<td><input type="text" name="capability" value="$!data.user.getTemp("capability")"/></td>
+                <td>
+                    <select multiple="true" name="capability">
+                    <option value=""></option>
+                    <script>changeCapList(document.AddCapability); </script>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="submit" name="eventSubmit_doAddcapability" value="$l10n.REGISTRY_EDITOR_INSERT_CAPABILITY"/>
+                </td>
+            </tr>
+          </table>
+      </form>    
+      #end
+<table>
+  <tr>
+    <td>
+      <form name="CancelMediaForm" method="post" action="$jslink.getPaneByName("MediaBrowser").setAction("portlets.MediaUpdateAction")">
+        <input type="submit" name="eventSubmit_doCancel" value="$l10n.REGISTRY_EDITOR_MEDIA_CANCEL"/>
+      </form>
+    </td>
+  </tr>
+</table>
+

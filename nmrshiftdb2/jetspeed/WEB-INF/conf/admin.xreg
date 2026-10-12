@@ -1,0 +1,666 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright 2004 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<registry>
+	<portlet-entry type="instance" name="Applications" hidden="false">
+		<security-ref parent="admin-only"/>
+		<classname>org.apache.jetspeed.portal.portlets.ApplicationsPortlet</classname>
+		<category>admin</category>
+	</portlet-entry>
+	<portlet-entry type="instance" name="PortletCustomizer" hidden="true">
+		<security-ref parent="user-only"/>
+		<meta-info>
+			<title>Customize portlet</title>
+		</meta-info>
+		<classname>org.apache.jetspeed.portal.portlets.VelocityPortlet</classname>
+		<parameter name="template" value="customizer-portlet" hidden="true"/>
+		<parameter name="action" value="portlets.CustomizeAction" hidden="true"/>
+		<parameter name="_security_ref" value="" type="style" hidden="false">
+			<security-ref parent="user-only"/>
+			<meta-info>
+				<title>Security constraint for this resource. Be careful not to pick a constraint such as "Admin-only" which will lock you out of this resource.</title>
+			</meta-info>
+			<parameter-style name="RegistryEntryListBox">
+				<style-option name="registry" value="Security"/>
+			</parameter-style>
+		</parameter>
+		<parameter name="_skin" value="" type="style" hidden="false">
+			<parameter-style name="RegistryEntryListBox">
+				<style-option name="registry" value="Skin"/>
+			</parameter-style>
+		</parameter>
+		<parameter name="_control" value="" type="style" hidden="false">
+			<security-ref parent="user-only"/>
+			<parameter-style name="RegistryEntryListBox">
+				<style-option name="registry" value="PortletControl"/>
+				<style-option name="select-hidden" value="true"/>
+				<style-option name="select-if-simple" value="true"/>
+			</parameter-style>
+		</parameter>
+		<category>admin</category>
+		<category>customize.portlet</category>
+	</portlet-entry>
+	<portlet-entry type="instance" name="PortletSetCustomizer" hidden="true">
+		<security-ref parent="user-only"/>
+		<classname>org.apache.jetspeed.portal.portlets.VelocityPortlet</classname>
+		<parameter name="template" value="customizer-portletset" hidden="true"/>
+		<parameter name="action" value="portlets.CustomizeSetAction" hidden="true"/>
+		<parameter name="securityRef" value="" type="style" hidden="false">
+			<security-ref parent="user-only"/>
+			<parameter-style name="RegistryEntryListBox">
+				<style-option name="registry" value="Security"/>
+				<style-option name="disabled-if-wml" value="true"/>
+				<style-option name="javascript:onchange" value="document.securityRefs.submit()"/>
+			</parameter-style>
+		</parameter>
+		<parameter name="portletSecurityRef" value="" type="style" hidden="false">
+			<security-ref parent="user-only"/>
+			<parameter-style name="RegistryEntryListBox">
+				<style-option name="registry" value="Security"/>
+				<style-option name="disabled-if-wml" value="true"/>
+				<style-option name="javascript:onchange" value="this.form.submit()"/>
+				<style-option name="set-label" value="true"/>				
+			</parameter-style>
+		</parameter>
+		<parameter name="skin" value="" type="style" hidden="false">
+			<parameter-style name="RegistryEntryListBox">
+				<style-option name="registry" value="Skin"/>
+				<style-option name="disabled-if-wml" value="true"/>
+				<style-option name="javascript:onchange" value="document.skins.submit()"/>
+			</parameter-style>
+		</parameter>
+		<parameter name="portletSkin" value="" type="style" hidden="false">
+			<parameter-style name="RegistryEntryListBox">
+				<style-option name="registry" value="Skin"/>
+				<style-option name="disabled-if-wml" value="true"/>
+				<style-option name="javascript:onchange" value="this.form.submit()"/>
+				<style-option name="set-label" value="true"/>				
+			</parameter-style>
+		</parameter>
+		<parameter name="control" value="" type="style" hidden="false">
+			<parameter-style name="RegistryEntryListBox">
+				<style-option name="registry" value="PortletControl"/>
+				<style-option name="disabled-if-wml" value="true"/>
+				<style-option name="javascript:onchange" value="this.form.submit()"/>
+				<style-option name="select-hidden" value="true"/>
+				<style-option name="select-if-simple" value="true"/>
+				<style-option name="set-label" value="true"/>
+			</parameter-style>
+		</parameter>
+		<parameter name="addRef" value="" type="style" hidden="false">
+			<security-ref parent="admin-only"/>
+			<parameter-style name="VelocityParameterPresentationStyle" template="Button.vm">
+				<style-option name="no-access" value="addRefDisabled"/>
+			</parameter-style>
+		</parameter>
+		<parameter name="addRefDisabled" value="" type="style" hidden="false">
+			<parameter-style name="VelocityParameterPresentationStyle" template="Button.vm">
+				<style-option name="disabled" value="true"/>
+				<style-option name="no-access" value="addRefDisabled"/>
+			</parameter-style>
+		</parameter>
+		<meta-info>
+			<title>Customize pane</title>
+		</meta-info>
+		<category>admin</category>
+		<category>customize</category>
+	</portlet-entry>
+	<portlet-entry type="ref" name="ClientBrowser" hidden="false" parent="GenericMVCPortlet">
+		<security-ref parent="admin-only"/>
+		<classname>org.apache.jetspeed.portal.portlets.GenericMVCPortlet</classname>
+		<parameter name="template" value="browser-client" hidden="true"/>
+		<parameter name="registry" value="Client"/>
+		<parameter name="page-size" value="10"/>
+		<parameter name="action" value="portlets.RegistryBrowseAction" hidden="true"/>
+		<parameter name="viewtype" value="Velocity" hidden="true"/>
+		<meta-info>
+			<title>Client browser</title>
+		</meta-info>
+		<media-type ref="html"/>
+		<category>admin</category>
+		<category>browser</category>
+	</portlet-entry>
+	<portlet-entry type="ref" name="PortletBrowser" hidden="false" parent="GenericMVCPortlet">
+		<security-ref parent="admin-only"/>
+		<classname>org.apache.jetspeed.portal.portlets.GenericMVCPortlet</classname>
+		<parameter name="template" value="browser-portlet" hidden="true"/>
+		<parameter name="registry" value="Portlet"/>
+		<parameter name="page-size" value="10"/>
+		<parameter name="action" value="portlets.PortletBrowseAction" hidden="true"/>
+		<parameter name="viewtype" value="Velocity" hidden="true"/>
+		<meta-info>
+			<title>Portlet browser</title>
+		</meta-info>
+		<media-type ref="html"/>
+		<category>admin</category>
+		<category>browser</category>
+	</portlet-entry>
+	<portlet-entry type="ref" name="ControlBrowser" hidden="false" parent="GenericMVCPortlet">
+		<security-ref parent="admin-only"/>
+		<classname>org.apache.jetspeed.portal.portlets.GenericMVCPortlet</classname>
+		<parameter name="template" value="browser-control" hidden="true"/>
+		<parameter name="registry" value="PortletControl"/>
+		<parameter name="page-size" value="10"/>
+		<parameter name="action" value="portlets.RegistryBrowseAction" hidden="true"/>
+		<parameter name="viewtype" value="Velocity" hidden="true"/>
+		<meta-info>
+			<title>Control browser</title>
+		</meta-info>
+		<media-type ref="html"/>
+		<category>admin</category>
+		<category>browser</category>
+	</portlet-entry>
+	<portlet-entry type="ref" name="ControllerBrowser" hidden="false" parent="GenericMVCPortlet">
+		<security-ref parent="admin-only"/>
+		<classname>org.apache.jetspeed.portal.portlets.GenericMVCPortlet</classname>
+		<parameter name="template" value="browser-controller" hidden="true"/>
+		<parameter name="registry" value="PortletController"/>
+		<parameter name="page-size" value="10"/>
+		<parameter name="action" value="portlets.RegistryBrowseAction" hidden="true"/>
+		<parameter name="viewtype" value="Velocity" hidden="true"/>
+		<meta-info>
+			<title>Controller browser</title>
+		</meta-info>
+		<media-type ref="html"/>
+		<category>admin</category>
+		<category>browser</category>
+	</portlet-entry>
+	<portlet-entry type="ref" name="MediaBrowser" hidden="false" parent="GenericMVCPortlet">
+		<security-ref parent="admin-only"/>
+		<classname>org.apache.jetspeed.portal.portlets.GenericMVCPortlet</classname>
+		<parameter name="template" value="browser-media" hidden="true"/>
+		<parameter name="registry" value="MediaType"/>
+		<parameter name="page-size" value="10"/>
+		<parameter name="action" value="portlets.RegistryBrowseAction" hidden="true"/>
+		<parameter name="viewtype" value="Velocity" hidden="true"/>
+		<meta-info>
+			<title>Media Types browser</title>
+		</meta-info>
+		<media-type ref="html"/>
+		<category>admin</category>
+		<category>browser</category>
+	</portlet-entry>
+	<portlet-entry type="ref" name="SkinBrowser" hidden="false" parent="GenericMVCPortlet">
+		<security-ref parent="admin-only"/>
+		<classname>org.apache.jetspeed.portal.portlets.GenericMVCPortlet</classname>
+		<parameter name="template" value="browser-skin" hidden="true"/>
+		<parameter name="registry" value="Skin"/>
+		<parameter name="page-size" value="10"/>
+		<parameter name="action" value="portlets.RegistryBrowseAction" hidden="true"/>
+		<parameter name="viewtype" value="Velocity" hidden="true"/>
+		<meta-info>
+			<title>Skin browser</title>
+		</meta-info>
+		<media-type ref="html"/>
+		<category>admin</category>
+		<category>browser</category>
+	</portlet-entry>
+	<portlet-entry type="ref" name="SecurityBrowser" hidden="false" parent="GenericMVCPortlet">
+		<security-ref parent="admin-only"/>
+		<classname>org.apache.jetspeed.portal.portlets.GenericMVCPortlet</classname>
+		<parameter name="template" value="browser-security" hidden="true"/>
+		<parameter name="registry" value="Security"/>
+		<parameter name="page-size" value="10"/>
+		<parameter name="action" value="portlets.RegistryBrowseAction" hidden="true"/>
+		<parameter name="viewtype" value="Velocity" hidden="true"/>
+		<meta-info>
+			<title>Security browser</title>
+		</meta-info>
+		<media-type ref="html"/>
+		<category>admin</category>
+		<category>browser</category>
+	</portlet-entry>
+	<portlet-entry type="instance" name="PortletInfoPortlet" hidden="true">
+		<security-ref parent="user-only"/>
+		<classname>org.apache.jetspeed.portal.portlets.PortletInfoPortlet</classname>
+		<parameter name="thirdparty.portletrenderer.url" value="http://avantgo.com/mydevice/autoadd.html?max=300&amp;depth=5&amp;images=0&amp;links=0&amp;refresh=always&amp;hours=2&amp;dflags=127&amp;hour=0&amp;quarter=00&amp;s=00"/>
+		<parameter name="thirdparty.portletrenderer.caption" value="Add to Avantgo"/>
+		<meta-info>
+			<title>Portlet Information</title>
+			<description>Provides some information about a portlet</description>
+		</meta-info>
+		<media-type ref="html"/>
+	</portlet-entry>
+	<portlet-entry type="ref" parent="Velocity" name="Login" hidden="true">
+		<parameter name="template" value="login" hidden="true"/>
+		<parameter name="action" value="portlets.Login" hidden="true"/>
+		<meta-info>
+			<title>Login</title>
+			<description>Login portlet</description>
+		</meta-info>
+		<media-type ref="html"/>
+		<category>admin</category>
+	</portlet-entry>
+	<!-- BEGIN ADMIN PORTLETS -->
+	<portlet-entry type="instance" name="GlobalAdminPortlet" hidden="false">
+		<security-ref parent="admin-only"/>
+		<classname>org.apache.jetspeed.portal.portlets.admin.GlobalAdminPortlet</classname>
+		<meta-info>
+			<title>Global Admin Portlet</title>
+		</meta-info>
+		<media-type ref="html"/>
+		<category>admin</category>
+	</portlet-entry>
+	<portlet-entry type="instance" name="JavaRuntimePortlet" hidden="false">
+		<security-ref parent="admin-only"/>
+		<classname>org.apache.jetspeed.portal.portlets.admin.JavaRuntimePortlet</classname>
+		<meta-info>
+			<title>Java Runtime Portlet</title>
+		</meta-info>
+		<media-type ref="html"/>
+		<category>admin</category>
+	</portlet-entry>
+	<portlet-entry type="instance" name="DaemonAdminPortlet" hidden="false">
+		<security-ref parent="admin-only"/>
+		<classname>org.apache.jetspeed.portal.portlets.admin.DaemonAdminPortlet</classname>
+		<meta-info>
+			<title>Daemon Admin Portlet</title>
+		</meta-info>
+		<media-type ref="html"/>
+		<category>admin</category>
+	</portlet-entry>
+	<portlet-entry type="instance" name="JetspeedContentAdmin" hidden="false">
+		<security-ref parent="admin-only"/>
+		<classname>org.apache.jetspeed.portal.portlets.admin.JetspeedContentAdmin</classname>
+		<meta-info>
+			<title>Jetspeed Content Admin</title>
+		</meta-info>
+		<media-type ref="html"/>
+		<category>admin</category>
+	</portlet-entry>
+	<portlet-entry type="instance" name="BadURLManagerPortlet" hidden="false">
+		<security-ref parent="admin-only"/>
+		<classname>org.apache.jetspeed.portal.portlets.admin.BadURLManagerPortlet</classname>
+		<meta-info>
+			<title>Bad URL Manager</title>
+		</meta-info>
+		<media-type ref="html"/>
+		<category>admin</category>
+	</portlet-entry>
+	<!-- BEGIN SECURITY PORTLETS -->
+	<portlet-entry type="ref" parent="CustomizerVelocity" name="UserBrowser">
+		<security-ref parent="admin-only"/>
+		<parameter name="number-per-page" value="25"/>
+		<parameter name="template" value="user-browser" hidden="true"/>
+		<parameter name="action" value="portlets.security.UserBrowserAction" hidden="true"/>
+		<meta-info>
+			<title>User Browser</title>
+			<description>User Browser for Jetspeed Security Management</description>
+		</meta-info>
+		<media-type ref="html"/>
+		<category>admin.security</category>
+		<category>browser</category>
+	</portlet-entry>
+	<portlet-entry type="ref" parent="CustomizerVelocity" name="RoleBrowser">
+		<security-ref parent="admin-only"/>
+		<parameter name="template" value="role-browser" hidden="true"/>
+		<parameter name="action" value="portlets.security.RoleBrowserAction" hidden="true"/>
+		<meta-info>
+			<title>Security Role Browser</title>
+			<description>Security Role Browser for Jetspeed Security Management</description>
+		</meta-info>
+		<media-type ref="html"/>
+		<category>admin.security</category>
+		<category>browser</category>
+	</portlet-entry>
+	<portlet-entry type="ref" parent="CustomizerVelocity" name="GroupBrowser">
+		<security-ref parent="admin-only"/>
+		<parameter name="template" value="group-browser" hidden="true"/>
+		<parameter name="action" value="portlets.security.GroupBrowserAction" hidden="true"/>
+		<meta-info>
+			<title>Group Browser</title>
+			<description>Group Browser for Jetspeed Security Management</description>
+		</meta-info>
+		<media-type ref="html"/>
+		<category>admin.security</category>
+		<category>browser</category>
+	</portlet-entry>
+	<portlet-entry type="ref" parent="CustomizerVelocity" name="PermissionBrowser">
+		<security-ref parent="admin-only"/>
+		<parameter name="template" value="permission-browser" hidden="true"/>
+		<parameter name="action" value="portlets.security.PermissionBrowserAction" hidden="true"/>
+		<meta-info>
+			<title>Permission Browser</title>
+			<description>Permission Browser for Jetspeed Security Management</description>
+		</meta-info>
+		<media-type ref="html"/>
+		<category>admin.security</category>
+		<category>browser</category>
+	</portlet-entry>
+	<portlet-entry type="ref" parent="CustomizerVelocity" name="UserForm">
+		<security-ref parent="admin-only"/>
+		<parameter name="template" value="user-form" hidden="true"/>
+		<parameter name="action" value="portlets.security.UserUpdateAction" hidden="true"/>
+		<meta-info>
+			<title>User</title>
+			<description>User Maintenance for Jetspeed Security Management</description>
+		</meta-info>
+		<media-type ref="html"/>
+		<category>admin.security</category>
+	</portlet-entry>
+	<portlet-entry type="ref" parent="CustomizerVelocity" name="RoleForm">
+		<security-ref parent="admin-only"/>
+		<parameter name="template" value="role-form" hidden="true"/>
+		<parameter name="action" value="portlets.security.RoleUpdateAction" hidden="true"/>
+		<meta-info>
+			<title>Role</title>
+			<description>Security Role Maintenance for Jetspeed Security Management</description>
+		</meta-info>
+		<media-type ref="html"/>
+		<category>admin.security</category>
+	</portlet-entry>
+	<portlet-entry type="ref" parent="CustomizerVelocity" name="GroupForm">
+		<security-ref parent="admin-only"/>
+		<parameter name="template" value="group-form" hidden="true"/>
+		<parameter name="action" value="portlets.security.GroupUpdateAction" hidden="true"/>
+		<meta-info>
+			<title>Group</title>
+			<description>Security Group Maintenance for Jetspeed Security Management</description>
+		</meta-info>
+		<media-type ref="html"/>
+		<category>admin.security</category>
+	</portlet-entry>
+	<portlet-entry type="ref" parent="CustomizerVelocity" name="PermissionForm">
+		<security-ref parent="admin-only"/>
+		<parameter name="template" value="permission-form" hidden="true"/>
+		<parameter name="action" value="portlets.security.PermissionUpdateAction" hidden="true"/>
+		<meta-info>
+			<title>Permission</title>
+			<description>Permission Maintenance for Jetspeed Security Management</description>
+		</meta-info>
+		<media-type ref="html"/>
+		<category>admin.security</category>
+	</portlet-entry>
+	<portlet-entry type="ref" parent="CustomizerVelocity" name="UserRoleForm">
+		<security-ref parent="admin-only"/>
+		<parameter name="template" value="user-role-form" hidden="true"/>
+		<parameter name="action" value="portlets.security.UserRoleUpdateAction" hidden="true"/>
+		<meta-info>
+			<title>User Roles</title>
+			<description>User Role Form for Jetspeed Security Management</description>
+		</meta-info>
+		<media-type ref="html"/>
+		<category>admin.security</category>
+	</portlet-entry>
+	<portlet-entry name="UserGroupForm" hidden="false" type="ref" parent="CustomizerVelocity" application="false">
+		<security-ref parent="admin-only"/>
+		<parameter name="template" value="user-group-form" hidden="true"/>
+		<parameter name="action" value="portlets.security.UserGroupUpdateAction" hidden="true"/>
+		<meta-info>
+			<title>User Groups</title>
+			<description>User Group Form for Jetspeed Security Management</description>
+		</meta-info>
+		<media-type ref="html"/>
+		<category group="Jetspeed">admin.security</category>
+	</portlet-entry>
+	<portlet-entry type="ref" parent="CustomizerVelocity" name="RolePermissionForm">
+		<security-ref parent="admin-only"/>
+		<parameter name="template" value="role-permission-form" hidden="true"/>
+		<parameter name="action" value="portlets.security.RolePermissionUpdateAction" hidden="true"/>
+		<meta-info>
+			<title>Role Permissions</title>
+			<description>Role Permission Form for Jetspeed Security Management</description>
+		</meta-info>
+		<media-type ref="html"/>
+		<category>admin.security</category>
+	</portlet-entry>
+	<portlet-entry type="instance" name="ServletContextPortlet" hidden="true">
+		<security-ref parent="admin-only"/>
+		<classname>org.apache.jetspeed.portal.portlets.admin.ServletContextPortlet</classname>
+		<meta-info>
+			<title>Servlet Context Portlet</title>
+		</meta-info>
+		<media-type ref="html"/>
+		<category>admin</category>
+	</portlet-entry>
+	<portlet-entry type="ref" parent="CustomizerVelocity" name="PsmlBrowser">
+		<security-ref parent="admin-only"/>
+		<parameter name="template" value="browser-psml" hidden="true"/>
+		<parameter name="customize-template" value="browser-psml-customize"/>
+		<parameter name="page-size" value="25"/>
+		<parameter name="action" value="portlets.PsmlBrowseAction" hidden="true"/>
+		<meta-info>
+			<title>PSML Browser</title>
+			<description>Hierarchical tree browser of all PSML resources in the system.</description>
+		</meta-info>
+		<media-type ref="html"/>
+		<category>admin</category>
+		<category>browser</category>
+	</portlet-entry>
+	<portlet-entry type="ref" parent="CustomizerVelocity" name="PsmlForm" hidden="true">
+		<security-ref parent="admin-only"/>
+		<parameter name="template" value="psml-form" hidden="true"/>
+		<parameter name="action" value="portlets.PsmlUpdateAction" hidden="true"/>
+		<meta-info>
+			<title>Psml</title>
+			<description>Security Psml Maintenance for Jetspeed</description>
+		</meta-info>
+		<media-type ref="html"/>
+		<category>admin</category>
+	</portlet-entry>
+	<portlet-entry name="SkinForm" hidden="true" type="ref" parent="Velocity" application="false">
+		<security-ref parent="admin-only"/>
+		<meta-info>
+			<title>Skin</title>
+			<description>Security Skin Maintenance for Jetspeed</description>
+		</meta-info>
+		<classname>org.apache.jetspeed.portal.portlets.VelocityPortlet</classname>
+		<parameter name="template" value="skin-form" hidden="true" cachedOnName="true" cachedOnValue="true"/>
+		<parameter name="action" value="portlets.SkinUpdateAction" hidden="true" cachedOnName="true" cachedOnValue="true"/>
+		<media-type ref="html"/>
+		<url cachedOnURL="true"/>
+		<category group="Jetspeed">admin</category>
+	</portlet-entry>
+	<portlet-entry name="PortletForm" hidden="true" type="ref" parent="Velocity" application="false">
+		<security-ref parent="admin-only"/>
+		<meta-info>
+			<title>Portlet</title>
+			<description>Security Portlet Maintenance for Jetspeed</description>
+		</meta-info>
+		<classname>org.apache.jetspeed.portal.portlets.VelocityPortlet</classname>
+		<parameter name="template" value="portlet-form" hidden="true" cachedOnName="true" cachedOnValue="true"/>
+		<parameter name="action" value="portlets.PortletUpdateAction" hidden="true" cachedOnName="true" cachedOnValue="true"/>
+		<media-type ref="html"/>
+		<url cachedOnURL="true"/>
+		<category group="Jetspeed">admin</category>
+	</portlet-entry>
+	<portlet-entry name="SecurityForm" hidden="true" type="ref" parent="Velocity" application="false">
+		<security-ref parent="admin-only"/>
+		<meta-info>
+			<title>Security</title>
+			<description>Security Portlet Maintenance for Jetspeed</description>
+		</meta-info>
+		<classname>org.apache.jetspeed.portal.portlets.VelocityPortlet</classname>
+		<parameter name="template" value="security-form" hidden="true" cachedOnName="true" cachedOnValue="true"/>
+		<parameter name="action" value="portlets.SecurityUpdateAction" hidden="true" cachedOnName="true" cachedOnValue="true"/>
+		<media-type ref="html"/>
+		<url cachedOnURL="true"/>
+		<category group="Jetspeed">admin</category>
+	</portlet-entry>
+	<portlet-entry name="ClientForm" hidden="true" type="ref" parent="Velocity" application="false">
+		<security-ref parent="admin-only"/>
+		<meta-info>
+			<title>Client</title>
+			<description>Security Client Maintenance for Jetspeed</description>
+		</meta-info>
+		<parameter name="template" value="client-form" hidden="true" cachedOnName="true" cachedOnValue="true"/>
+		<parameter name="action" value="portlets.ClientUpdateAction" hidden="true" cachedOnName="true" cachedOnValue="true"/>
+		<media-type ref="html"/>
+		<url cachedOnURL="true"/>
+		<category group="Jetspeed">admin</category>
+	</portlet-entry>
+	<portlet-entry name="MediaForm" hidden="true" type="ref" parent="Velocity" application="false">
+		<security-ref parent="admin-only"/>
+		<meta-info>
+			<title>Media</title>
+			<description>Security Media Maintenance for Jetspeed</description>
+		</meta-info>
+		<classname>org.apache.jetspeed.portal.portlets.VelocityPortlet</classname>
+		<parameter name="template" value="media-form" hidden="true" cachedOnName="true" cachedOnValue="true"/>
+		<parameter name="action" value="portlets.MediaUpdateAction" hidden="true" cachedOnName="true" cachedOnValue="true"/>
+		<media-type ref="html"/>
+		<url cachedOnURL="true"/>
+		<category group="Jetspeed">admin</category>
+	</portlet-entry>
+	<portlet-entry name="ControllerForm" hidden="true" type="ref" parent="Velocity" application="false">
+		<security-ref parent="admin-only"/>
+		<meta-info>
+			<title>Controller</title>
+			<description>Security Controller Maintenance for Jetspeed</description>
+		</meta-info>
+		<classname>org.apache.jetspeed.portal.portlets.VelocityPortlet</classname>
+		<parameter name="template" value="controller-form" hidden="true" cachedOnName="true" cachedOnValue="true"/>
+		<parameter name="action" value="portlets.ControllerUpdateAction" hidden="true" cachedOnName="true" cachedOnValue="true"/>
+		<media-type ref="html"/>
+		<url cachedOnURL="true"/>
+		<category group="Jetspeed">admin</category>
+	</portlet-entry>
+	<portlet-entry name="ControlForm" hidden="true" type="ref" parent="Velocity" application="false">
+		<security-ref parent="admin-only"/>
+		<meta-info>
+			<title>Control</title>
+			<description>Security Control Maintenance for Jetspeed</description>
+		</meta-info>
+		<classname>org.apache.jetspeed.portal.portlets.VelocityPortlet</classname>
+		<parameter name="template" value="control-form" hidden="true" cachedOnName="true" cachedOnValue="true"/>
+		<parameter name="action" value="portlets.ControlUpdateAction" hidden="true" cachedOnName="true" cachedOnValue="true"/>
+		<media-type ref="html"/>
+		<url cachedOnURL="true"/>
+		<category group="Jetspeed">admin</category>
+	</portlet-entry>
+	<portlet-entry name="PsmlManager" hidden="false" type="ref" parent="GenericMVCPortlet" application="false">
+		<security-ref parent="user-only"/>
+		<meta-info>
+			<title>PSML Page Manager</title>
+			<description>Hierarchical tree browser and manager of PSML resources.</description>
+		</meta-info>
+		<parameter name="viewtype" value="Velocity" hidden="true"/>
+		<parameter name="action" value="portlets.PsmlManagerAction" hidden="true"/>
+		<parameter name="template" value="manager-psml" hidden="true"/>
+		<parameter name="detail-template" value="psml-detail" hidden="true"/>
+		<parameter name="default-search" type="boolean" value="true" hidden="false">
+			<security-ref parent="admin-only"/>
+			<meta-info>
+				<title>Auto-search current user pages</title>
+				<description>Use this parameter to automatically search current user psml</description>
+			</meta-info>
+		</parameter>
+		<parameter name="can-search" value="" hidden="true">
+			<security-ref parent="user-only"/>
+			<meta-info>
+				<description>Adjust the security-ref for this parameter to control who can search psml</description>
+			</meta-info>
+		</parameter>
+		<parameter name="can-export" value="" hidden="true">
+			<security-ref parent="admin-only"/>
+			<meta-info>
+				<description>Adjust the security-ref for this parameter to control who can export psml</description>
+			</meta-info>
+		</parameter>
+		<parameter name="can-export-all" value="" hidden="true">
+			<security-ref parent="admin-only"/>
+			<meta-info>
+				<description>Adjust the security-ref for this parameter to control who can export all psml</description>
+			</meta-info>
+		</parameter>
+		<parameter name="can-import" value="" hidden="true">
+			<security-ref parent="admin-only"/>
+			<meta-info>
+				<description>Adjust the security-ref for this parameter to control who can import psml</description>
+			</meta-info>
+		</parameter>
+		<parameter name="can-import-all" value="" hidden="true">
+			<security-ref parent="admin-only"/>
+			<meta-info>
+				<description>Adjust the security-ref for this parameter to control who can import all psml</description>
+			</meta-info>
+		</parameter>
+		<parameter name="can-clone" value="" hidden="true">
+			<security-ref parent="admin-only"/>
+			<meta-info>
+				<description>Adjust the security-ref for this parameter to control who can clone psml</description>
+			</meta-info>
+		</parameter>
+		<parameter name="can-remove" value="" hidden="true">
+			<security-ref parent="user-only"/>
+			<meta-info>
+				<description>Adjust the security-ref for this parameter to control who can remove psml</description>
+			</meta-info>
+		</parameter>
+		<parameter name="can-add" value="" hidden="true">
+			<security-ref parent="user-only"/>
+			<meta-info>
+				<description>Adjust the security-ref for this parameter to control who can add psml</description>
+			</meta-info>
+		</parameter>
+		<parameter name="page-size" value="25" hidden="false">
+			<meta-info>
+				<title>Page size</title>
+				<description>Maximum number of psml resources to display per page</description>
+			</meta-info>
+		</parameter>
+		<media-type ref="html"/>
+		<category group="Jetspeed">Tools</category>
+	</portlet-entry>
+	<portlet-entry name="IndexManager" hidden="false" type="ref" parent="GenericMVCPortlet" application="false">
+		<security-ref parent="admin-only"/>
+		<meta-info>
+			<title>Portlet Index Manager</title>
+			<description>Utility portlet to rebuild the portlet entry index</description>
+		</meta-info>
+		<parameter name="viewtype" value="Velocity" hidden="true"/>
+		<parameter name="action" value="portlets.IndexPortletRegistry" hidden="true"/>
+		<parameter name="template" value="index-registry" hidden="true"/>
+		<media-type ref="html"/>
+		<category group="Jetspeed">admin</category>
+	</portlet-entry>
+	<portlet-entry name="LogfileViewer" hidden="false" type="ref" parent="GenericMVCPortlet" application="false">
+		<security-ref parent="admin-only"/>
+		<meta-info>
+			<title>Logfile Viewer</title>
+			<description>Utility portlet to view logfiles</description>
+		</meta-info>
+		<parameter name="viewtype" value="Velocity" hidden="true"/>
+		<parameter name="action" value="portlets.LogfileViewerAction" hidden="true"/>
+		<parameter name="template" value="logfileviewer" hidden="true"/>
+		<media-type ref="html"/>
+		<category group="Jetspeed">admin</category>
+	</portlet-entry>
+	<portlet-entry name="UserGroupRoleForm" hidden="false" type="ref" parent="CustomizerVelocity" application="false">
+		<security-ref parent="admin-only"/>
+		<meta-info>
+			<title>User Group Roles</title>
+			<description>User Group Role Form for Jetspeed Security Management</description>
+		</meta-info>
+		<parameter name="template" value="user-group-role-form" hidden="true"/>
+		<parameter name="action" value="portlets.security.UserGroupRoleUpdateAction" hidden="true"/>
+		<media-type ref="html"/>
+		<category group="Jetspeed">admin.security</category>
+	</portlet-entry>
+	<portlet-entry name="HeaderDesigner" hidden="false" type="ref" parent="CustomizerVelocity" application="false">
+		<security-ref parent="admin-only"/>
+		<meta-info>
+			<title>Header Designer</title>
+			<description>Change Topnav Logo</description>
+		</meta-info>
+		<classname>org.apache.jetspeed.portal.portlets.CustomizerVelocityPortlet</classname>
+		<parameter name="template" value="header-action.vm" hidden="false" cachedOnName="true" cachedOnValue="true"/>
+		<parameter name="action" value="portlets.designer.HeaderAction" hidden="false" cachedOnName="true" cachedOnValue="true"/>
+		<media-type ref="html"/>
+		<url cachedOnURL="true"/>
+		<category group="default">system</category>
+	</portlet-entry>
+</registry>

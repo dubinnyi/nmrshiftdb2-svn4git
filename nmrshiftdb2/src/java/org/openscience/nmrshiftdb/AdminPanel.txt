@@ -1,0 +1,2884 @@
+ package org.openscience.nmrshiftdb;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;f
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.StringBufferInputStream;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Properties;
+import java.util.StringTokenizer;
+import java.util.TreeMap;
+import java.util.Vector;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
+import javax.vecmath.Point2d;
+
+import libsvm.svm_predict;
+import libsvm.svm_train;
+import nu.xom.Element;
+import nu.xom.Elements;
+
+import org.apache.jetspeed.om.security.turbine.TurbineUser;
+import org.apache.log4j.Category;
+import org.apache.log4j.FileAppender;
+import org.apache.log4j.SimpleLayout;
+import org.apache.torque.Torque;
+import org.apache.torque.om.NumberKey;
+import org.apache.torque.util.Criteria;
+import org.apache.turbine.util.Log;
+import org.apache.turbine.util.TurbineConfig;
+import org.apache.turbine.util.mail.MailMessage;
+import org.openscience.cdk.CDKConstants;
+import org.openscience.cdk.ChemFile;
+import org.openscience.cdk.DefaultChemObjectBuilder;
+import org.openscience.cdk.aromaticity.CDKHueckelAromaticityDetector;
+import org.openscience.cdk.config.IsotopeFactory;
+import org.openscience.cdk.geometry.BondTools;
+import org.openscience.cdk.graph.invariant.MorganNumbersTools;
+import org.openscience.cdk.interfaces.IAtom;
+import org.openscience.cdk.interfaces.IBond;
+import org.openscience.cdk.interfaces.IChemFile;
+import org.openscience.cdk.interfaces.IIsotope;
+import org.openscience.cdk.interfaces.IMolecularFormula;
+import org.openscience.cdk.interfaces.IMolecule;
+import org.openscience.cdk.interfaces.IRingSet;
+import org.openscience.cdk.io.CMLReader;
+import org.openscience.cdk.io.MDLV2000Reader;
+import org.openscience.cdk.io.MDLWriter;
+import org.openscience.cdk.io.iterator.IteratingMDLReader;
+import org.openscience.cdk.isomorphism.UniversalIsomorphismTester;
+import org.openscience.cdk.isomorphism.mcss.RMap;
+import org.openscience.cdk.ringsearch.AllRingsFinder;
+import org.openscience.cdk.smiles.SmilesGenerator;
+import org.openscience.cdk.tools.HOSECodeGenerator;
+import org.openscience.cdk.tools.SaturationChecker;
+import org.openscience.cdk.tools.manipulator.AtomContainerManipulator;
+import org.openscience.cdk.tools.manipulator.MolecularFormulaManipulator;
+import org.openscience.nmrshiftdb.om.DBAtom;
+import org.openscience.nmrshiftdb.om.DBAtomPeer;
+import org.openscience.nmrshiftdb.om.DBBond;
+import org.openscience.nmrshiftdb.om.DBCanonicalName;
+import org.openscience.nmrshiftdb.om.DBChemicalName;
+import org.openscience.nmrshiftdb.om.DBCondition;
+import org.openscience.nmrshiftdb.om.DBConditionPeer;
+import org.openscience.nmrshiftdb.om.DBConditionType;
+import org.openscience.nmrshiftdb.om.DBCoordinateSet3d;
+import org.openscience.nmrshiftdb.om.DBCoupling;
+import org.openscience.nmrshiftdb.om.DBIsotopePeer;
+import org.openscience.nmrshiftdb.om.DBLiterature;
+import org.openscience.nmrshiftdb.om.DBMolecule;
+import org.openscience.nmrshiftdb.om.DBMoleculeHyperlink;
+import org.openscience.nmrshiftdb.om.DBMoleculePeer;
+import org.openscience.nmrshiftdb.om.DBShift;
+import org.openscience.nmrshiftdb.om.DBSignal;
+import org.openscience.nmrshiftdb.om.DBSignalDBAtom;
+import org.openscience.nmrshiftdb.om.DBSignalDBAtomPeer;
+import org.openscience.nmrshiftdb.om.DBSignalPeer;
+import org.openscience.nmrshiftdb.om.DBSpectrum;
+import org.openscience.nmrshiftdb.om.DBSpectrumPeer;
+import org.openscience.nmrshiftdb.om.DBSpectrumType;
+import org.openscience.nmrshiftdb.om.DBSpectrumTypePeer;
+import org.openscience.nmrshiftdb.om.DBUserDBSpectrumEdit;
+import org.openscience.nmrshiftdb.om.DBWishlist;
+import org.openscience.nmrshiftdb.om.NmrshiftdbUser;
+import org.openscience.nmrshiftdb.om.NmrshiftdbUserPeer;
+import org.openscience.nmrshiftdb.util.AbInitioDataset;
+import org.openscience.nmrshiftdb.util.AtomUtils;
+import org.openscience.nmrshiftdb.util.G98Shifts;
+import org.openscience.nmrshiftdb.util.GeneralUtils;
+import org.openscience.nmrshiftdb.util.NmrshiftdbConstants;
+import org.openscience.nmrshiftdb.util.ParseUtils;
+import org.openscience.nmrshiftdb.util.Soundex;
+import org.openscience.nmrshiftdb.util.StringAndInt;
+import org.openscience.nmrshiftdb.util.SubmittingData;
+import org.openscience.nmrshiftdb.util.ValueTriple;
+import org.openscience.nmrshiftdb.util.exception.NmrshiftdbException;
+import org.xmlcml.cml.base.CMLBuilder;
+import org.xmlcml.cml.base.CMLElements;
+import org.xmlcml.cml.base.CMLUtil;
+import org.xmlcml.cml.element.CMLBond;
+import org.xmlcml.cml.element.CMLCml;
+import org.xmlcml.cml.element.CMLMetadata;
+import org.xmlcml.cml.element.CMLMetadataList;
+import org.xmlcml.cml.element.CMLMolecule;
+import org.xmlcml.cml.element.CMLPeak;
+import org.xmlcml.cml.element.CMLScalar;
+import org.xmlcml.cml.element.CMLSpectrum;
+
+import weka.classifiers.trees.J48;
+import weka.core.Attribute;
+import weka.core.Instance;
+import weka.core.Instances;
+import VisualNumerics.math.Statistics;
+
+import com.workingdogs.village.Record;
+
+/**
+ *This class handels some admin tasks
+ *
+ * @author     shk3
+ * @created    23. Mai 2002
+ */
+public class AdminPanel {
+  /**
+   *The main program for the AdminPanel class.
+   *
+   * @param  args  The directory whre the log files are and the src/java/ directory of nmrshiftdb distribution
+   * @exception  Exception  Description of Exception
+   */
+  public static void main(String[] args) throws Exception{
+    String nmrpropsFile = args[1] + "../conf/jetspeed/WEB-INF/conf/NMRShiftDB.properties";
+    Properties nmrprops = new Properties();
+    nmrprops.load(new FileInputStream(nmrpropsFile));
+    GeneralUtils.nmrprops=nmrprops;
+    if (args.length != 3) {
+      System.out.println("Please give the directory to read from, the src/java directory of nmrshiftdb and the server name as parameters!");
+      System.exit(0);
+    }
+    for (; ; ) {
+      System.err.println("Choose your action:");
+      System.err.println("");
+      System.err.println("Read from [g]aussian log files");
+      System.err.println("Rebuild the [h]ose codes");
+      System.err.println("Check shift [c]onsistancy");
+      System.err.println("Read [d]kfz files");
+      System.err.println("Read files from [U]ni Mainz");
+      System.err.println("Rebuild chiral s[m]iles");
+      System.err.println("C[o]mpare shifts to CDK prediction");
+      System.err.println("Rebuild the [f]ingerprints");
+      System.err.println("Check for double mo[l]ecules");
+      System.err.println("Rebuild [a]romaticity flags");
+      System.err.println("Read names from ACD la[b]s");
+      System.err.println("Check assignment/spectrum type consist[e]ncy");
+      System.err.println("Read corina [3]D coordinates");
+      System.err.println("Analy[z]e sql log file");
+      System.err.println("Make H descri[p]tors");
+      System.err.println("Reads links from [N]CI (now pubchem) file");
+      System.err.println("[1]Make a pubchem file");
+      System.err.println("[2]crossvalidate");
+      System.err.println("[4]create inchis");
+      System.err.println("[5]crossvalidate weka");
+      System.err.println("[6]check validity");
+      System.err.println("[7]crossvalidate hose");
+      System.err.println("[8]read couarines");
+      System.err.println("[9]get cas from NCI");
+      System.err.println("[10]make a revoke file for pubchem");
+      System.err.println("[11]read alk files");
+      System.err.println("[12]crosscheck with hose");
+      System.err.println("[13]make an arff file");
+      System.err.println("[14]read a wageningen file");
+      System.err.println("[15]do a QA");
+      System.err.println("[16]do a chebi mapping");
+      System.err.println("[q]uit");
+      System.err.println("");
+      BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+      String action = null;
+      try {
+        action = br.readLine();
+      } catch (IOException ioe) {
+        System.out.println("IO error trying to read menu choice!");
+        System.exit(1);
+      }
+      if (action.equals("g")) {
+        if (warn("This will start read gaussian log files", new BufferedReader(new InputStreamReader(System.in)))) {
+          executeReadGaussian(args);
+        }
+      } else if (action.equals("q")) {
+        System.exit(0);
+      } else if (action.equals("h")) {
+        try {
+          if (warn("This will rebuild the hose codes", new BufferedReader(new InputStreamReader(System.in)))) {
+            executeBuildHose(args);
+          }
+        } catch (Exception ex) {
+          ex.printStackTrace();
+        }
+      } else if (action.equals("e")) {
+          try {
+            if (warn("This will check the assignments", new BufferedReader(new InputStreamReader(System.in)))) {
+              executeCheckAssignments(args);
+            }
+          } catch (Exception ex) {
+            ex.printStackTrace();
+          }
+      } else if (action.equals("a")) {
+        try {
+          if (warn("This will rebuild the aromaticty flags", new BufferedReader(new InputStreamReader(System.in)))) {
+            executeMakeAromaticity(args);
+          }
+        } catch (Exception ex) {
+          ex.printStackTrace();
+        }
+      } else if (action.equals("b")) {
+        try {
+          if (warn("This will read names from acd labs", new BufferedReader(new InputStreamReader(System.in)))) {
+            executeReadACD(args);
+          }
+        } catch (Exception ex) {
+          ex.printStackTrace();
+        }
+      } else if (action.equals("3")) {
+        try {
+          if (warn("This will read corina coordinates", new BufferedReader(new InputStreamReader(System.in)))) {
+            executeReadCorina(args);
+          }
+        } catch (Exception ex) {
+          ex.printStackTrace();
+        }
+      } else if (action.equals("z")) {
+        try {
+          if (warn("This will analyze sql logs", new BufferedReader(new InputStreamReader(System.in)))) {
+            executeAnalyzeSql(args);
+          }
+        } catch (Exception ex) {
+          ex.printStackTrace();
+        }
+      } else if (action.equals("d")) {
+        try {
+          if (warn("This will read dkfz log files", new BufferedReader(new InputStreamReader(System.in)))) {
+            executeReadDkfz(args);
+          }
+        } catch (Exception ex) {
+          ex.printStackTrace();
+        }
+      } else if (action.equals("m")) {
+        try {
+          if (warn("This will rebuild the chiral smiles", new BufferedReader(new InputStreamReader(System.in)))) {
+            executeMakeSmilesChiral(args);
+          }
+        } catch (Exception ex) {
+          ex.printStackTrace();
+        }
+      } else if (action.equals("n")) {
+        try {
+          if (warn("This reads links to Pubchem from Dunkel file", new BufferedReader(new InputStreamReader(System.in)))) {
+            executeNCI(args);
+          }
+        } catch (Exception ex) {
+          ex.printStackTrace();
+        }
+      } else if (action.equals("c")) {
+        try {
+          if (warn("This will check the shifts", new BufferedReader(new InputStreamReader(System.in)))) {
+            executeCheckShifts(args);
+          }
+        } catch (Exception ex) {
+          ex.printStackTrace();
+        }
+      } else if (action.equals("o")) {
+        try {
+          if (warn("This will compare the shifts to the cdk preciction", new BufferedReader(new InputStreamReader(System.in)))) {
+            executeCompareShifts(args);
+          }
+        } catch (Exception ex) {
+          ex.printStackTrace();
+        }
+      } else if (action.equals("l")) {
+        try {
+          if (warn("This will check for double molecules", new BufferedReader(new InputStreamReader(System.in)))) {
+            executeCheckDoubleMolecules(args);
+          }
+        } catch (Exception ex) {
+          ex.printStackTrace();
+        }
+      } else if (action.equals("p")) {
+        try {
+          if (warn("This will build h descriptors", new BufferedReader(new InputStreamReader(System.in)))) {
+            executeMakeDescriptorsAll(args);
+          }
+        } catch (Exception ex) {
+          ex.printStackTrace();
+        }
+      } else if (action.equals("u")) {
+        try {
+          if (warn("This will read files from Uni Mainz", new BufferedReader(new InputStreamReader(System.in)))) {
+            executeReadMainzC(args);
+          }
+        } catch (Exception ex) {
+          ex.printStackTrace();
+        }
+      } else if (action.equals("f")) {
+        try {
+          if (warn("This will rebuild the fingerprints", new BufferedReader(new InputStreamReader(System.in)))) {
+            executeRebuildFingerprints(args);
+          }
+        } catch (Exception ex) {
+          ex.printStackTrace();
+        }
+      } else if (action.equals("1")) {
+        try {
+          if (warn("This will build pubchem file", new BufferedReader(new InputStreamReader(System.in)))) {
+            executeMakePubchem(args);
+          }
+        } catch (Exception ex) {
+          ex.printStackTrace();
+        }
+      } else if (action.equals("2")) {
+        try {
+          if (warn("This will do a crossvalidation", new BufferedReader(new InputStreamReader(System.in)))) {
+            executeCrossvalidate(args);
+          }
+        } catch (Exception ex) {
+          ex.printStackTrace();
+        }
+      } else if (action.equals("7")) {
+        try {
+          if (warn("This will crossvalidete hose codes", new BufferedReader(new InputStreamReader(System.in)))) {
+            crossvalidateHose(args);
+          }
+        } catch (Exception ex) {
+          ex.printStackTrace();
+        }
+      } else if (action.equals("8")) {
+          try {
+            if (warn("This will read coumarines", new BufferedReader(new InputStreamReader(System.in)))) {
+              readcoumarines(args);
+            }
+          } catch (Exception ex) {
+            ex.printStackTrace();
+          }
+      } else if (action.equals("9")) {
+          try {
+            if (warn("This will read cas numbers from nci file", new BufferedReader(new InputStreamReader(System.in)))) {
+              readcasfromnci(args);
+            }
+          } catch (Exception ex) {
+            ex.printStackTrace();
+          }
+      } else if (action.equals("4")) {
+        try {
+          if (warn("This will create inchis", new BufferedReader(new InputStreamReader(System.in)))) {
+            executeCreateInchis(args);
+          }
+        } catch (Exception ex) {
+          ex.printStackTrace();
+        }
+      } else if (action.equals("5")) {
+          try {
+            if (warn("This will crossvalidate weka stuff", new BufferedReader(new InputStreamReader(System.in)))) {
+              executeCrossvalidateWeka(args);
+            }
+          } catch (Exception ex) {
+            ex.printStackTrace();
+          }
+      } else if (action.equals("10")) {
+          try {
+            if (warn("This will create a pubchem revoke file", new BufferedReader(new InputStreamReader(System.in)))) {
+            	executeDeletePubchem(args);
+            }
+          } catch (Exception ex) {
+            ex.printStackTrace();
+          }
+      } else if (action.equals("11")) {
+          try {
+            if (warn("This will read alk files", new BufferedReader(new InputStreamReader(System.in)))) {
+            	executeReadAlk(args);
+            }
+          } catch (Exception ex) {
+            ex.printStackTrace();
+          }
+      } else if (action.equals("12")) {
+          try {
+            if (warn("This will crosschkeck with hose codes", new BufferedReader(new InputStreamReader(System.in)))) {
+            	executeCrosscheckHose(args);
+            }
+          } catch (Exception ex) {
+            ex.printStackTrace();
+          }
+      } else if (action.equals("13")) {
+          try {
+            if (warn("This will make an arff file", new BufferedReader(new InputStreamReader(System.in)))) {
+            	makeArff(args);
+            }
+          } catch (Exception ex) {
+            ex.printStackTrace();
+          }
+      } else if (action.equals("14")) {
+          try {
+            if (warn("This will read a wageningen file", new BufferedReader(new InputStreamReader(System.in)))) {
+            	makeArff(args);
+            }
+          } catch (Exception ex) {
+            ex.printStackTrace();
+          }
+      } else if (action.equals("15")) {
+          try {
+            if (warn("This will do a QA", new BufferedReader(new InputStreamReader(System.in)))) {
+            	makeQA(args);
+            }
+          } catch (Exception ex) {
+            ex.printStackTrace();
+          }
+      } else if (action.equals("16")) {
+          try {
+            if (warn("This will creat a chebi mapping", new BufferedReader(new InputStreamReader(System.in)))) {
+            	//makeChebiMapping(args);
+            	//executeSimulateForPubchem(args);
+            }
+          } catch (Exception ex) {
+            ex.printStackTrace();
+          }
+      } else {
+        System.out.println("Unknown action. Choose from menu");
+      }
+    }
+  }
+
+
+  /**
+   *  Prints a warning and asks if to continue
+   *
+   * @param  text  The warning text
+   * @param  br    The buffered reader from System.in
+   * @return       True=continue, false=break
+   */
+  private static boolean warn(String text, BufferedReader br) {
+    System.out.println(text + ". Do you want to continue (y/n) ?");
+    String action = null;
+    try {
+      action = br.readLine();
+    } catch (IOException ioe) {
+      System.out.println("IO error trying to read your name!");
+      System.exit(1);
+    }
+    if (action.equals("y")) {
+      return (true);
+    } else {
+      return (false);
+    }
+  }
+
+
+  /**
+   *  Executes reading Gaussain log files
+   *
+   * @param  args  The command line args
+   */
+  private static void executeReadGaussian(String[] args) throws Exception{
+	  Torque.init(args[1]+"../conf/jetspeed/WEB-INF/conf/Torque.properties");
+	  TurbineConfig config = new TurbineConfig(args[1], "../conf/jetspeed/WEB-INF/conf/TurbineResources.properties");
+	  config.initialize();
+	  G98Shifts g98 = new G98Shifts();
+	  String[] ht = {"--carbonref", "189.70", "--protonref", "32.18"};
+	  File[] files = new File(args[0]).listFiles();
+	  for (int i = 0; i < files.length; i++) {
+		  if (files[i].getName().substring(files[i].getName().length() - 4).equals(".log")) {
+			  AbInitioDataset aid = null;
+			  System.out.println("Starting to read: " + files[i].getName());
+			  try {
+				  aid = g98.readG9x(files[i], ht);
+				  doInsert(aid, args);
+				  System.out.println("Succesfully written: " + files[i].getName() + ", " + i + ". file");
+				  files[i].delete();
+				  System.out.println("deleted");
+			  } catch (Exception ex) {
+				  System.out.println("Failed to write: " + files[i].getName() + ", because of " + ex.getMessage());
+			  }
+		  }
+	  }
+  }
+
+
+  /**
+   *  Executes reading dkfz files
+   *
+   * @param  args           The command line args
+   * @exception  Exception  Description of Exception
+   */
+  private static void executeReadDkfz(String[] args) throws Exception {
+	  Torque.init(args[1]+"../conf/jetspeed/WEB-INF/conf/Torque.properties");
+	  TurbineConfig config = new TurbineConfig(args[1], "../conf/jetspeed/WEB-INF/conf/TurbineResources.properties");
+	  config.initialize();
+	  File[] files = new File(args[0]).listFiles();
+	  String geraetepropsFile = args[0] + "/geraetemod.txt";
+	  Properties geraeteprops = new Properties();
+	  geraeteprops.load(new FileInputStream(geraetepropsFile));
+	  NmrshiftdbUser user = null;
+	  Criteria crit = new Criteria();
+	  crit.add(NmrshiftdbUserPeer.LOGIN_NAME, "dkfz");
+	  List v = NmrshiftdbUserPeer.doSelect(crit);
+	  //Look if the bulkoad user exists
+	  if (v.size() > 0) {
+		  user = (NmrshiftdbUser) v.get(0);
+	  } else {
+		  //if not, create him
+		  user = new NmrshiftdbUser();
+		  user.setLoginName("dkfz");
+		  user.setPasswordValue("dkfz");
+		  user.setCreated(new Date());
+		  user.setLastLogin(new Date(0));
+		  user.setFirstName("dkfz");
+		  user.setLastName("dkfz");
+		  user.setTitle("dkfz");
+		  user.setAddress("dkfz");
+		  user.setCity("dkfz");
+		  user.setState("dkfz");
+		  user.setZipCode("dkfz");
+		  user.setCountry("dkfz");
+		  user.setWebPage("dkfz");
+		  user.setAffiliation1("dkfz");
+		  user.setAffiliation2("dkfz");
+		  user.setEmail("dkfz");
+		  user.setHallOfFame("false");
+		  user.save();
+	  }
+	  String nmrpropsFile = args[1] + "../conf/jetspeed/WEB-INF/conf/NMRShiftDB.properties";
+	  String jetspeedpropsFile = args[1] + "../conf/jetspeed/WEB-INF/conf/JetspeedResources.properties";
+	  Properties nmrprops = new Properties();
+	  Properties jetspeedprops = new Properties();
+	  nmrprops.load(new FileInputStream(nmrpropsFile));
+	  jetspeedprops.load(new FileInputStream(jetspeedpropsFile));
+	  for (int i = 0; i < files.length; i++) {
+		  try {
+			  if (files[i].getName().substring(files[i].getName().length() - 7).equals(".SPDATA")) {
+				  BufferedReader buffRead = new BufferedReader(new FileReader(files[i]));
+				  String line = "";
+				  TreeMap map = new TreeMap();
+				  int counter = 0;
+				  while ((line = buffRead.readLine()) != null) {
+					  if (line.indexOf("$$$$") != -1) {
+						  try {
+							  processData(map, args, geraeteprops, user, nmrprops, jetspeedprops);
+						  } catch (Exception ex) {
+							  ex.printStackTrace();
+						  }
+						  map = new TreeMap();
+						  counter = 0;
+					  } else {
+						  map.put(line.substring(0, 4).trim() + counter++, line.substring(line.length()-1).equals("<") ? line.substring(4,line.length() - 1).trim() : line.substring(4,line.length()).trim());
+					  }
+				  }
+			  }
+		  } catch (Exception ex) {
+			  ex.printStackTrace();
+		  }
+	  }
+  }
+
+
+  /**
+   *  Executes reading of acd names file
+   *
+   * @param  args           The command line args
+   * @exception  Exception  Description of Exception
+   */
+  private static void executeReadACD(String[] args) throws Exception {
+	  Torque.init(args[1]+"../conf/jetspeed/WEB-INF/conf/Torque.properties");
+	  TurbineConfig config = new TurbineConfig(args[1], "../conf/jetspeed/WEB-INF/conf/TurbineResources.properties");
+	  config.initialize();
+	  String nmrpropsFile = args[1] + "../conf/jetspeed/WEB-INF/conf/NMRShiftDB.properties";
+	  String jetspeedpropsFile = args[1] + "../conf/jetspeed/WEB-INF/conf/JetspeedResources.properties";
+	  Properties nmrprops = new Properties();
+	  Properties jetspeedprops = new Properties();
+	  nmrprops.load(new FileInputStream(nmrpropsFile));
+	  jetspeedprops.load(new FileInputStream(jetspeedpropsFile));
+	  File[] files = new File(args[0]).listFiles();
+	  for (int i = 0; i < files.length; i++) {
+		  if (files[i].getName().equals("nmrshiftdb.sdf")) {
+			  BufferedReader buffRead = new BufferedReader(new FileReader(files[i]));
+			  String line = "";
+			  while ((line = buffRead.readLine()) != null) {
+				  try{
+					  if (line.indexOf("$$$$") != -1) {
+						  buffRead.readLine();
+						  buffRead.readLine();
+						  String nmrshiftdbnr="";//buffRead.readLine().substring(11);
+						  while (true) {
+							  //TODO adop this
+							  DBMolecule dbmol=null;//DBMoleculePeer.doSelectByNmrshiftdbNumber(nmrshiftdbnr);
+							  line = buffRead.readLine();
+							  if(line.indexOf(">  <ACDLab Name>")!=-1){
+								  DBCanonicalName name=new DBCanonicalName(buffRead.readLine(),dbmol.getMoleculeId(),2);
+								  name.save();
+							  }
+							  if(line.indexOf(">  <ACDLabs Index Name>")!=-1){
+								  DBCanonicalName name=new DBCanonicalName(buffRead.readLine(),dbmol.getMoleculeId(),3);
+								  name.save();
+								  break;
+							  }
+							  if(line.indexOf(">  <Name error>")!=-1){
+								  System.err.println("Name error for "+nmrshiftdbnr+": "+buffRead.readLine());
+							  }
+							  if(line.indexOf(">  <Index Error>")!=-1){
+								  System.err.println("Index error for "+nmrshiftdbnr+": "+buffRead.readLine());
+								  break;
+							  }
+						  }
+					  }
+				  } catch (Exception ex) {
+					  ex.printStackTrace();
+				  }
+			  }
+		  }
+	  }
+  }
+
+
+  
+  
+  /**
+   *  Reads file from uni mainz.
+   *
+   * @param  args           The command line args.
+   * @exception  Exception  Database problems.
+   */
+  private static void executeReadMainz(String[] args) throws Exception {
+	  Torque.init(args[1]+"../conf/jetspeed/WEB-INF/conf/Torque.properties");
+	  TurbineConfig config = new TurbineConfig(args[1], "../conf/jetspeed/WEB-INF/conf/TurbineResources.properties");
+	  config.initialize();
+	  File[] files = new File(args[0]).listFiles();
+	  NmrshiftdbUser user = null;
+	  Criteria crit = new Criteria();
+	  crit.add(NmrshiftdbUserPeer.LOGIN_NAME, "mainz2");
+	  List v = NmrshiftdbUserPeer.doSelect(crit);
+	  //Look if the bulkoad user exists
+	  if (v.size() > 0) {
+		  user = (NmrshiftdbUser) v.get(0);
+	  } else {
+		  //if not, create him
+		  user = new NmrshiftdbUser();
+		  user.setLoginName("mainz2");
+		  user.setPasswordValue("mainz");
+		  user.setCreated(new Date());
+		  user.setLastLogin(new Date(0));
+		  user.setFirstName("mainz");
+		  user.setLastName("mainz");
+		  user.setTitle("mainz");
+		  user.setAddress("mainz");
+		  user.setCity("mainz");
+		  user.setState("mainz");
+		  user.setZipCode("mainz");
+		  user.setCountry("mainz");
+		  user.setWebPage("mainz");
+		  user.setAffiliation1("mainz");
+		  user.setAffiliation2("mainz");
+		  user.setEmail("mainz");
+		  user.setHallOfFame("false");
+		  user.setLabgroupId(1);
+		  user.save();
+	  }
+	  String nmrpropsFile = args[1] + "../conf/jetspeed/WEB-INF/conf/NMRShiftDB.properties";
+	  String jetspeedpropsFile = args[1] + "../conf/jetspeed/WEB-INF/conf/JetspeedResources.properties";
+	  Properties nmrprops = new Properties();
+	  Properties jetspeedprops = new Properties();
+	  nmrprops.load(new FileInputStream(nmrpropsFile));
+	  jetspeedprops.load(new FileInputStream(jetspeedpropsFile));
+	  for (int i = 0; i < files.length; i++) {
+		  try {
+			  if (files[i].getName().substring(files[i].getName().length() - 4).equals(".MOL")) {
+				  System.err.println("Reading "+files[i].getName());
+				  BufferedReader buffRead = new BufferedReader(new FileReader(files[i]));
+				  String line = "";
+				  StringBuffer newMdl=new StringBuffer();
+				  Vector assignments=new Vector();
+				  while ((line = buffRead.readLine()) != null) {
+					  if (line.indexOf("A ") == 0) {
+						  assignments.add(line);
+						  assignments.add(buffRead.readLine());
+					  }else{
+						  newMdl.append(line+"\n");
+					  }
+				  }
+				  SubmittingData subData=new SubmittingData(args[1] + "../conf/jetspeed/WEB-INF/conf/normalizer.xml");
+				  subData.setMol(newMdl.toString(),false,false,false);
+				  subData.setSpectrumKeywords("ocmainz inhouse-2");
+				  boolean[] isDoubleBondSpecified = new boolean[subData.getMolWithH().getBondCount()];
+				  SmilesGenerator sg=new SmilesGenerator();
+				  sg.setUseAromaticityFlag(true);
+				  Iterator<IBond> it=subData.getMolWithH().bonds().iterator();
+				  int c=0;
+				  while(it.hasNext()) {
+					  IBond bond=it.next();
+					  if (sg.isValidDoubleBondConfiguration(subData.getMolWithH(),bond) && files[i].getName().indexOf("1.")==-1) {
+						  isDoubleBondSpecified[c] = true;
+					  }
+					  c++;
+				  }
+				  subData.setDoubleBondConfiguration(true);
+				  subData.setIsDoubleBondSpecified(isDoubleBondSpecified);
+				  subData.setComment(files[i].getName()+".MZ2H");//H
+				  boolean[] hasalreadyone=new boolean[subData.getMolWithH().getAtomCount()];//H
+				  for(int k=0;k<assignments.size();k++){
+					  int atom=Integer.parseInt(((String)assignments.get(k)).substring(1).trim());
+					  k++;
+					  //H
+					  if(((String)assignments.get(k)).charAt(0)=='H'){
+						  float value=Float.parseFloat(((String)assignments.get(k)).substring(2));
+						  ArrayList signals=subData.getSignalstable();
+						  boolean added=false;
+						  for(int l=0;l<signals.size();l++){
+							  if(((ValueTriple)signals.get(l)).value1==value){
+								  ((ValueTriple)signals.get(l)).atoms.add(subData.getMolWithH().getAtom(atom-1));
+								  added=true;
+								  break;
+							  }
+						  }
+						  if(!added){
+							  signals.add(new ValueTriple(value));
+							  ((ValueTriple)signals.get(signals.size()-1)).atoms.add(subData.getMolWithH().getAtom(atom-1));
+						  }
+					  }else{
+						  if(((String)assignments.get(k)).indexOf(";")!=-1){
+							  StringTokenizer st=new StringTokenizer((String)assignments.get(k),";");
+							  assignments.set(k,st.nextToken());
+							  assignments.add("A "+atom);
+							  assignments.add(st.nextToken());
+						  }
+						  //end H
+						  float value=Float.parseFloat((String)assignments.get(k));
+						  ArrayList signals=subData.getSignalstable();
+						  boolean added=false;
+						  List connatoms=subData.getMolWithH().getConnectedAtomsList(subData.getMolWithH().getAtom(atom-1));//H
+						  for(int l=0;l<signals.size();l++){
+							  if(((ValueTriple)signals.get(l)).value1==value){
+								  //H
+								  for(int m=0;m<connatoms.size();m++){
+									  if(((IAtom)connatoms.get(m)).getSymbol().equals("H") && !hasalreadyone[subData.getMolWithH().getAtomNumber((IAtom)connatoms.get(m))]){
+										  ((ValueTriple)signals.get(l)).atoms.add(connatoms.get(m));
+										  hasalreadyone[subData.getMolWithH().getAtomNumber((IAtom)connatoms.get(m))]=true;
+										  break;
+									  }
+								  }
+								  //((ValueTriple)signals.get(l)).atoms.add(subData.getMolWithH().getAtomAt(atom-1));
+								  added=true;
+							  }
+						  }
+						  if(!added){
+							  signals.add(new ValueTriple(value));
+							  //H
+							  for(int m=0;m<connatoms.size();m++){
+								  if(((IAtom)connatoms.get(m)).getSymbol().equals("H") && !hasalreadyone[subData.getMolWithH().getAtomNumber((IAtom)connatoms.get(m))]){
+									  ((ValueTriple)signals.get(signals.size()-1)).atoms.add(connatoms.get(m));
+									  hasalreadyone[subData.getMolWithH().getAtomNumber((IAtom)connatoms.get(m))]=true;
+									  break;
+								  }
+							  }
+							  //((ValueTriple)signals.get(signals.size()-1)).atoms.add(subData.getMolWithH().getAtomAt(atom-1));
+						  }
+					  }
+				  }//H
+				  crit = new Criteria();
+				  crit.add(DBSpectrumTypePeer.NAME, "1H");//H
+				  v = DBSpectrumTypePeer.doSelect(crit);
+				  subData.setChoosenSpectrumType((DBSpectrumType) v.get(0));
+				  crit = new Criteria();
+				  crit.add(DBSpectrumPeer.SPECFILE, subData.getSpectrumForApplet());
+				  v = DBSpectrumPeer.doSelect(crit);
+				  if(v.size()==0){
+					  /*crit=new Criteria();
+					    crit.add(DBLiteraturePeer.TITLE,"13-C-NMR-Spektroskopie");
+					    v=DBLiteraturePeer.doSelect(crit);
+					    if(v.size()>0){
+					    DBLiterature lit=(DBLiterature)v.get(0);
+					    lit.read();
+					    subData.getLiterature().add(lit);
+					    }*/
+					  for (int l = 0; l < subData.getConditions().size(); l++) {
+						  ((DBConditionType) subData.getConditions().get(l)).setCurrentValue(new String("Unreported"));
+					  }
+					  subData.save(user.getUserId(), "true", args[2], new Date(), null, Integer.parseInt(nmrprops.getProperty("hosecode.spheres")), true);
+					  /*if (nmrprops.getProperty("writeserializedtodir").equals("true")) {
+					    FileWriter out = new FileWriter(nmrprops.getProperty("serializeddir") + File.separatorChar + subData.spectrum.getNmrshiftdbNumber().replace('/', '|') + ".xml");
+					    out.write(subData.serializeMe());
+					    out.close();
+					    }
+					    if (nmrprops.getProperty("sendserializedemail").equals("true")) {
+					    MailMessage email = new org.apache.turbine.util.mail.MailMessage(jetspeedprops.getProperty("mail.server"), nmrprops.getProperty("serializedemail"), jetspeedprops.getProperty("mail.support"), "Serialized input from" + subData.spectrum.getNmrshiftdbNumber().replace('/', '|'), subData.serializeMe());
+					    if (email.send() == false) {
+					    Log.error("Sending email with serialized input failed for spectrum " + subData.spectrum.getSpectrumId());
+					    }
+					    }*/
+					  System.err.println("Wrote "+files[i].getName());
+				  }
+				  files[i].delete();
+			  }
+		  } catch (Throwable ex) {
+			  ex.printStackTrace();
+		  }
+	  }
+  }
+
+
+  /**
+   *  Several methods, use comments to activate
+   *
+   * @param  args           The command line args.
+   * @exception  Exception  Databse problems.
+   */
+  private static void executeRebuildFingerprints(String[] args) throws Exception {
+	  Torque.init(args[1]+"../conf/jetspeed/WEB-INF/conf/Torque.properties");
+	  TurbineConfig config = new TurbineConfig(args[1], "../conf/jetspeed/WEB-INF/conf/TurbineResources.properties");
+	  config.initialize();
+	  Connection dbconn = Torque.getConnection();
+	  Statement stmt = dbconn.createStatement();
+	  /*ResultSet rs = stmt.executeQuery("select MOLECULE_ID from MOLECULE;");
+	    while (rs.next()) {
+	    try {
+	    	DBMolecule dbmol = DBMoleculePeer.retrieveByPK(new NumberKey(rs.getInt(1)));
+	    	IMolecule mol=dbmol.getAsCDKMolecule(1);
+	    	IMolecule molorig=(IMolecule)mol.clone();
+	    	//System.err.println("Saturating "+dbmol.getMoleculeId());
+	    	new SaturationChecker().saturate(mol);
+	    	//DeduceBondSystemTool dbst=new DeduceBondSystemTool();
+	    	//mol=dbst.fixAromaticBondOrders(mol);
+	    	int wrong=0;
+	    	for(int i=0;i<mol.getBondCount();i++){
+	    		if(mol.getBond(i).getOrder()!=molorig.getBond(i).getOrder())
+	    			wrong++;
+	    	}
+	    	if(wrong>2){
+	    		System.err.println(dbmol.getMoleculeId());
+		    	for(int i=0;i<mol.getBondCount();i++){
+		    		if(mol.getBond(i).getOrder()!=molorig.getBond(i).getOrder()){
+		    			Criteria crit=new Criteria();
+		    			crit.add(DBBondDBAtomPeer.ATOM_ID,dbmol.getAtomsAsArrayInMdlOrder()[mol.getAtomNumber(mol.getBond(i).getAtom(0))].getAtomId());
+		    			List l1=DBBondDBAtomPeer.doSelect(crit);
+		    			crit=new Criteria();
+		    			crit.add(DBBondDBAtomPeer.ATOM_ID,dbmol.getAtomsAsArrayInMdlOrder()[mol.getAtomNumber(mol.getBond(i).getAtom(1))].getAtomId());
+		    			List l2=DBBondDBAtomPeer.doSelect(crit);
+		    			for(int k=0;k<l1.size();k++){
+		    				for(int l=0;l<l2.size();l++){
+		    					if(((DBBondDBAtom)l1.get(k)).getBondId()==((DBBondDBAtom)l2.get(l)).getBondId()){
+		    						DBBond bond=DBBondPeer.retrieveByPK(((DBBondDBAtom)l1.get(k)).getBondId());
+		    						bond.setDegree((int)mol.getBond(i).getOrder());
+		    						bond.save();
+		    					}
+		    				}
+		    			}
+		    		}
+		    	}
+	    	}
+	    }catch(Exception ex){
+	    	ex.printStackTrace();
+	    }
+	    }	  */
+	  /*File dir=new File("/root/seri");
+	  File[] xml=dir.listFiles();
+	  int numberOfRestoredFiles=0;
+	  for(int i=0;i<xml.length;i++){
+		  		try{
+					ObjIn oi=new ObjIn(new FileInputStream(xml[i]));
+					SubmittingData sd=(SubmittingData)oi.readObject();
+			        //If the molecule is already existing, we always take thew new mdl
+			        StringAndStringAndBoolean ssb = new StringAndStringAndBoolean();
+			        DBMolecule oldMol = GeneralUtils.getExistingMolecule(sd.getMolWithHCount(), sd.getMolWithH(), null, null, sd.getMolecule(), ssb);
+			        if(oldMol!=null){
+			          sd.setExistingMoleculeId(oldMol.getMoleculeId());
+			        } 
+			        sd.save(null);
+					numberOfRestoredFiles++;
+				}
+				catch(Exception ex)
+				{
+					ex.printStackTrace();
+				}
+	  }
+	  System.err.println(numberOfRestoredFiles);*/
+	  /*ResultSet rs = stmt.executeQuery("select LOGIN_NAME,FIRST_NAME,LAST_NAME,ADDRESS,CITY from TURBINE_USER where FIRST_NAME=LAST_NAME;");
+	  while (rs.next()){
+		  if (warn(rs.getString(2)+" "+rs.getString(3)+" "+rs.getString(4)+" "+rs.getString(5)+" delete?", new BufferedReader(new InputStreamReader(System.in)))) {
+          	User user = JetspeedSecurity.getUser(rs.getString(1));
+        	JetspeedSecurity.removeUser(user.getUserName());
+		  }
+	  }*/
+	  /*ResultSet rs = stmt.executeQuery("select SPECTRUM_ID, COMMENT from SPECTRUM;");
+	  FileOutputStream fos=new FileOutputStream("/tmp/gr.sql");
+	  while (rs.next()) {
+		  fos.write(new String("update SPECTRUM set COMMENT='"+GeneralUtils.escape(rs.getString(2))+"' where SPECTRUM_ID="+rs.getInt(1)+";\r\n").getBytes());
+	  }
+	  fos.close();*/
+	  ResultSet rs = stmt.executeQuery("select MOLECULE_ID from MOLECULE;");
+	  int errors=0;
+	  while (rs.next()) {
+		  try {
+			  DBMolecule dbmol = DBMoleculePeer.retrieveByPK(new NumberKey(rs.getInt(1)));
+			  /*new DBCanonicalName(GeneralUtils.generateInchiKey(dbmol.getStructureFile(1, true)),dbmol.getMoleculeId(),4).save(dbconn);
+			  System.out.println(GeneralUtils.generateInchiKey(dbmol.getStructureFile(1, true)));*/
+			  System.err.println("Making fingerprints for "+dbmol.getMoleculeId());
+			  dbmol.setFingerprint();
+			  dbmol.save();
+		  } catch (Exception ex) {
+			  ex.printStackTrace();
+			  errors++;
+		  }
+	  }
+	  //makes multis from h count
+	  /*
+	  ResultSet rs = stmt.executeQuery("select SIGNAL.SPECTRUM_ID, SPECTRUM.NMRSHIFTDB_NUMBER, count(*) as c from SIGNAL, SPECTRUM where MULTIPLICITY='' and SIGNAL.SPECTRUM_ID=SPECTRUM.SPECTRUM_ID and SPECTRUM.SPECTRUM_TYPE_ID=1 and SPECTRUM.REVIEW_FLAG='true' group by SIGNAL.SPECTRUM_ID having c>3");
+	  while (rs.next()){
+	    int i=rs.getInt(1);
+	    System.err.println(i+"");
+	    ResultSet rs2=stmt.executeQuery("select SIGNAL_ID from SIGNAL where SPECTRUM_ID="+i);
+	    while(rs2.next()){
+	    DBSignal signal=DBSignalPeer.retrieveByPK(new NumberKey(rs2.getInt(1)));
+	    if(signal.getMultiplicity().equals("")){
+	    if(((DBAtom)signal.getAtoms().get(0)).getHydrogenCount()==0)
+	    signal.setMultiplicity("S");
+	    if(((DBAtom)signal.getAtoms().get(0)).getHydrogenCount()==1)
+	    signal.setMultiplicity("D");
+	    if(((DBAtom)signal.getAtoms().get(0)).getHydrogenCount()==2)
+	    signal.setMultiplicity("T");
+	    if(((DBAtom)signal.getAtoms().get(0)).getHydrogenCount()==3)
+	    signal.setMultiplicity("Q");
+	    signal.save();    				  
+	    }
+	    }
+	    }*/
+	  //rebuilds hose codes
+	  //Rebuids spectrum fingerprints
+	  /*ResultSet rs = stmt.executeQuery("select SPECTRUM_ID from SPECTRUM;");
+	    while (rs.next()) {
+	    try {
+	    DBSpectrum spec = DBSpectrumPeer.getById(new NumberKey(rs.getInt(1)));
+	    System.err.println("Making fingerprint for "+spec.getSpectrumId());
+	    spec.setFingerprint(SpectrumUtils.makeFingerprint(spec));
+	    spec.save();
+	    } catch (Exception ex) {
+	    ex.printStackTrace();
+	    }
+	    }*/
+	  //System.err.println("There were "+errors+" errors");
+  }
+
+
+  /**
+   *  Inserts a dkfz set into the db
+   *
+   * @param  map            The data as a hashmap
+   * @param  args           The command line args
+   * @param  geraeteprops   Description of Parameter
+   * @param  user           Description of Parameter
+   * @param  nmrprops       Description of Parameter
+   * @param  jetspeedprops  Description of Parameter
+   * @exception  Exception  Databse problems
+   */
+  private static void processData(Map map, String[] args, Properties geraeteprops, NmrshiftdbUser user, Properties nmrprops, Properties jetspeedprops) throws Exception {
+	  SubmittingData subdata = new SubmittingData(args[1] + "../conf/normalizer.xml");
+	  System.out.println("processing " + map.get("$ID0"));
+	  //Read the molcule
+	  int counter = 0;
+	  boolean after = false;
+	  boolean before = true;
+	  IMolecule mol = new org.openscience.cdk.Molecule();
+	  while (!after) {
+		  String x = (String) map.get("$CT" + counter);
+		  counter++;
+		  if (x != null) {
+			  before = false;
+			  StringTokenizer st = new StringTokenizer(x);
+			  boolean addAtom = true;
+			  int a = 0;
+			  IAtom atom = null;
+			  int numberofbonds = 0;
+			  while (st.hasMoreTokens()) {
+				  String line = st.nextToken();
+				  if (addAtom) {
+					  line = st.nextToken();
+					  addAtom = false;
+					  IIsotope i = IsotopeFactory.getInstance(DefaultChemObjectBuilder.getInstance()).getMajorIsotope(Integer.parseInt(line));
+					  atom = new org.openscience.cdk.Atom(i.getSymbol());
+					  IsotopeFactory.getInstance(DefaultChemObjectBuilder.getInstance()).configure(atom, i);
+					  mol.addAtom(atom);
+					  a = mol.getAtomNumber(atom);
+					  line = st.nextToken();
+				  } else {
+					  if (numberofbonds == 6) {
+						  atom.getPoint2d().x=Integer.parseInt(line);
+						  String line2 = st.nextToken();
+						  atom.getPoint2d().y=Integer.parseInt(line2);
+					  } else {
+						  String line2 = st.nextToken();
+						  numberofbonds++;
+						  int atomnumber = Integer.parseInt(line) - 1;
+						  if (atomnumber != -1) {
+							  if (atomnumber < mol.getAtomCount()) {
+								  int bondorder = Integer.parseInt(line2);
+								  if (bondorder < 4) {
+									  mol.addBond(a, atomnumber, AtomUtils.getOrderFromInt(bondorder));
+								  }
+								  if (bondorder == 4) {
+									  IBond bond = new org.openscience.cdk.Bond(atom, mol.getAtom(atomnumber), IBond.Order.SINGLE);
+									  bond.setFlag(CDKConstants.ISAROMATIC,true);
+									  mol.addBond(bond);
+									  atom.setFlag(CDKConstants.ISAROMATIC,true);
+									  mol.getAtom(atomnumber).setFlag(CDKConstants.ISAROMATIC,true);
+								  }
+							  }
+						  }
+					  }
+				  }
+			  }
+		  } else {
+			  if (!before) {
+				  after = true;
+			  }
+		  }
+	  }
+	  StringWriter sw = new StringWriter();
+	  AtomUtils.addAndPlaceHydrogens(mol);
+	  SaturationChecker satcheck = new SaturationChecker();
+	  satcheck.saturate(mol);
+	  new MDLWriter(sw).writeMolecule((IMolecule)AtomContainerManipulator.removeHydrogens(mol));
+	  subdata.setMol(sw.toString(),false,true,false);
+	  //read shifts
+	  after = false;
+	  before = true;
+	  int counter2 = 0;
+	  int numberOfSignals = 0;
+	  while (!after) {
+		  String x = (String) map.get("$LX" + counter2);
+		  counter2++;
+		  if (x != null) {
+			  before = false;
+			  StringTokenizer st = new StringTokenizer(x);
+			  while (st.hasMoreTokens()) {
+				  subdata.addToSignalstable(new ValueTriple(Float.parseFloat(st.nextToken())));
+				  numberOfSignals++;
+			  }
+		  } else {
+			  if (!before) {
+				  after = true;
+			  }
+		  }
+	  }
+	  //read rest
+	  Iterator iterator = map.keySet().iterator();
+	  Vector allAssignments = new Vector();
+	  String intensity = "";
+	  String chemicalName = "";
+	  String reference = "DKFZ \'spektren\' database: ";
+	  String ex = "";
+	  String kommentar = "";
+	  String solvent = "";
+	  String lz1="";
+	  String lz2="";
+	  String lz3="";
+	  String lz4="";
+	  while (iterator.hasNext()) {
+		  String element = (String) iterator.next();
+		  if (element.indexOf("$LZ1") != -1){
+			  lz1+=map.get(element)+"   ";
+		  }
+		  if (element.indexOf("$LZ2") != -1){
+			  lz2+=map.get(element)+"   ";
+		  }
+		  if (element.indexOf("$LZ3") != -1){
+			  lz3+=map.get(element)+"   ";
+		  }
+		  if (element.indexOf("$LZ4") != -1){
+			  lz4+=map.get(element)+"   ";
+		  }
+		  if (element.indexOf("$NA") != -1) {
+			  chemicalName += ((String) map.get(element));
+		  }
+		  if (element.indexOf("$HE") != -1 || element.indexOf("$RF") != -1) {
+			  reference += ((String) map.get(element)) + "/";
+		  }
+		  if (element.indexOf("$LY") != -1) {
+			  intensity += ((String) map.get(element)) + "    ";
+		  }
+		  if (element.indexOf("$EX") != -1) {
+			  ex += ((String) map.get(element)) + "    ";
+		  }
+		  if (element.indexOf("$KO") != -1) {
+			  kommentar += ((String) map.get(element)) + "    ";
+		  }
+		  if (element.indexOf("$LM") != -1) {
+			  solvent += ((String) map.get(element)).trim();
+		  }
+	  }
+	  if(!lz1.equals("")){
+		  allAssignments.add(lz1);
+	  }
+	  if(!lz2.equals("")){
+		  allAssignments.add(lz2);
+	  }
+	  if(!lz3.equals("")){
+		  allAssignments.add(lz3);
+	  }
+	  if(!lz4.equals("")){
+		  allAssignments.add(lz4);
+	  }
+	  for(int i=0;i<allAssignments.size();i++){
+		  String assignment=(String)allAssignments.get(i);
+		  int counter3 = 0;
+		  StringTokenizer st = new StringTokenizer(assignment);
+		  while (st.hasMoreTokens()) {
+			  if( subdata.getSignalstable().size()<=counter3){
+				  System.out.println("File corrupt. More assignments than signals!");
+				  break;
+			  }
+			  String x = st.nextToken();
+			  if (!x.equals("0")) {
+				  ((ValueTriple) subdata.getSignalstable().get(counter3)).atoms.add(subdata.getMolWithH().getAtom(Integer.parseInt(x) - 1));
+			  }
+			  counter3++;
+		  }
+	  }
+	  StringTokenizer st = new StringTokenizer(intensity);
+	  boolean all100 = true;
+	  Vector intensities = new Vector();
+	  while (st.hasMoreTokens()) {
+		  String x = st.nextToken();
+		  Float d = new Float(x);
+		  intensities.add(d);
+		  if (d.floatValue() != 100) {
+			  all100 = false;
+		  }
+	  }
+	  if (!all100) {
+		  float max = 0;
+		  for (int i = 0; i < intensities.size(); i++) {
+			  if (((Float) intensities.get(i)).floatValue() > max) {
+				  max = ((Float) intensities.get(i)).floatValue();
+			  }
+		  }
+		  for (int i = 0; i < intensities.size(); i++) {
+			  ((ValueTriple) subdata.getSignalstable().get(i)).value2 = ((Float) intensities.get(i)).floatValue() / max;
+		  }
+	  }
+	  st = new StringTokenizer(ex);
+	  String mhz = geraeteprops.getProperty(st.nextToken());
+	  for (int i = 0; i < subdata.getConditions().size(); i++) {
+		  if (((DBConditionType) subdata.getConditions().get(i)).getConditionName().equals("Field Strength [MHz]")) {
+			  if (mhz == null) {
+				  ((DBConditionType) subdata.getConditions().get(i)).setCurrentValue(new String("Unreported"));
+			  } else {
+				  ((DBConditionType) subdata.getConditions().get(i)).setCurrentValue(new String(Integer.parseInt(mhz) / 100 + ""));
+			  }
+		  }
+	  }
+	  for (int i = 0; i < subdata.getConditions().size(); i++) {
+		  if (((DBConditionType) subdata.getConditions().get(i)).getConditionName().equals("Assignment Method")) {
+			  ((DBConditionType) subdata.getConditions().get(i)).setCurrentValue(new String("Unreported"));
+		  }
+	  }
+	  while (st.hasMoreTokens()) {
+		  try {
+			  int temp = Integer.parseInt(st.nextToken());
+			  for (int i = 0; i < subdata.getConditions().size(); i++) {
+				  if (((DBConditionType) subdata.getConditions().get(i)).getConditionName().equals("Temperature [K]")) {
+					  ((DBConditionType) subdata.getConditions().get(i)).setCurrentValue(new String(temp + ""));
+				  }
+			  }
+		  } catch (Exception e) {}
+	  }
+	  for (int i = 0; i < subdata.getConditions().size(); i++) {
+		  if (((DBConditionType) subdata.getConditions().get(i)).getConditionName().equals("Temperature [K]")) {
+			  if (((DBConditionType) subdata.getConditions().get(i)).getCurrentValue().equals("")) {
+				  ((DBConditionType) subdata.getConditions().get(i)).setCurrentValue("Unreported");
+			  }
+		  }
+	  }
+	  subdata.setChemName(chemicalName);
+	  subdata.setComment(reference+"; "+kommentar);
+	  subdata.setSpectrumKeywords("dkfz spektren database");
+	  Criteria crit = new Criteria();
+	  crit.add(DBSpectrumTypePeer.NAME, "13C");
+	  List v = DBSpectrumTypePeer.doSelect(crit);
+	  subdata.setChoosenSpectrumType((DBSpectrumType) v.get(0));
+	  v = DBConditionPeer.getByValue(solvent);
+	  for (int i = 0; i < subdata.getConditions().size(); i++) {
+		  if (((DBConditionType) subdata.getConditions().get(i)).getConditionName().equals("Solvent")) {
+			  if (v.size() > 0) {
+				  ((DBConditionType) subdata.getConditions().get(i)).setCurrentSelectedCondition((DBCondition) v.get(0));
+			  } else {
+				  ((DBConditionType) subdata.getConditions().get(i)).setCurrentValue(solvent);
+			  }
+		  }
+	  }
+	  subdata.save(user.getUserId(), "true", args[2], new Date(), null, Integer.parseInt(nmrprops.getProperty("hosecode.spheres")),true);
+	  if (nmrprops.getProperty("writeserializedtodir").equals("true")) {
+		  FileWriter out = new FileWriter(nmrprops.getProperty("serializeddir") + File.separatorChar + subdata.getSpectrumid() + ".xml");
+		  out.write(subdata.serializeMe());
+		  out.close();
+	  }
+	  if (nmrprops.getProperty("sendserializedemail").equals("true")) {
+		  MailMessage email = new org.apache.turbine.util.mail.MailMessage(jetspeedprops.getProperty("mail.server"), nmrprops.getProperty("serializedemail"), jetspeedprops.getProperty("mail.support"), "Serialized input from" + subdata.getSpectrumid(), subdata.serializeMe());
+		  if (email.send() == false) {
+			  Log.error("Sending email with serialized input failed for spectrum " + subdata.getSpectrumid());
+		  }
+	  }
+  }
+
+
+  /**
+   *  Makes a file needed for corina coordinate generation
+   *
+   * @param  args           The command line args
+   * @exception  Exception  Databse problems
+   */
+  private static void executeWriteCorina(String[] args) throws Exception {  
+	  Torque.init(args[1]+"../conf/jetspeed/WEB-INF/conf/Torque.properties");
+	  TurbineConfig config = new TurbineConfig(args[1], "../conf/jetspeed/WEB-INF/conf/TurbineResources.properties");
+	  config.initialize();
+	  Connection dbconn = Torque.getConnection();
+	  Statement stmt = dbconn.createStatement();
+	  ResultSet rs = stmt.executeQuery("select MOLECULE_ID from MOLECULE;");
+	  int i = -1;
+	  File outputFile = new File(args[0]+"/nmrshiftdb.sdf.zip");
+	  FileOutputStream baos=new FileOutputStream(outputFile);
+	  ZipOutputStream zipout=new ZipOutputStream(baos);
+	  zipout.putNextEntry(new ZipEntry("nmrshiftdb.sdf"));
+	  while (rs.next()) {
+		  try {
+			  i++;
+			  DBMolecule mol = DBMoleculePeer.retrieveByPK(new NumberKey(rs.getInt(1)));
+			  System.err.println("Start making smiles for molecule " + mol.getMoleculeId());
+			  IMolecule molWithH = mol.getAsCDKMolecule(1);
+			  IMolecule molWithoutH = (IMolecule)AtomContainerManipulator.removeHydrogens(molWithH);
+			  molWithoutH.setProperty(CDKConstants.TITLE, "NMRShiftDB " + mol.getMoleculeId());
+			  molWithoutH.setProperty(CDKConstants.REMARK, "NMRShiftDB " + mol.getMoleculeId());
+			  StringWriter sw = new StringWriter();
+			  new MDLWriter(sw).writeMolecule(molWithH);
+			  zipout.write(sw.toString().getBytes());
+			  zipout.write(new String("$$$$\r\n").getBytes());
+		  }catch(Exception ex){
+			  ex.printStackTrace();
+		  }
+	  }
+	  zipout.closeEntry();
+	  zipout.close();
+  }
+
+
+  /**
+   *  Inserts nci mapping from mapping files
+   *
+   * @param  args           The command line args
+   * @exception  Exception  Databse problems
+   */
+  private static void executeNCI(String[] args) throws Exception {
+	  Torque.init(args[1]+"../conf/jetspeed/WEB-INF/conf/Torque.properties");
+	  TurbineConfig config = new TurbineConfig(args[1], "../conf/jetspeed/WEB-INF/conf/TurbineResources.properties");
+	  config.initialize();
+	  File[] files = new File(args[0]).listFiles();
+	  int fehler=0;
+	  for (int i = 0; i < files.length; i++) {
+		  if (files[i].getName().equals("Mapping.txt")) {
+			  BufferedReader buffRead = new BufferedReader(new FileReader(files[i]));
+			  String line = "";
+			  while ((line = buffRead.readLine()) != null) {
+				  StringTokenizer st=new StringTokenizer(line,"()");
+				  st.nextToken();
+				  String nci=st.nextToken();
+				  line = buffRead.readLine();
+				  st=new StringTokenizer(line);
+				  st.nextToken();
+				  String nmrshiftdbnr=st.nextToken();
+				  String url="http://pubchem.ncbi.nlm.nih.gov/substance/PcsSrv.cgi?sid="+nci;
+				  DBMoleculeHyperlink link= new DBMoleculeHyperlink();
+				  link.setMoleculeId(Integer.parseInt(nmrshiftdbnr));
+				  link.setHyperlink(url);
+				  link.setDescription("NCI Database");
+				  link.setDescriptionSoundex(Soundex.soundex(link.getDescription(), "9", new StringAndInt()));
+				  link.save();
+			  }
+		  }
+	  }
+	  System.err.println("There were "+fehler+" errors!");
+  }
+
+
+  private static void executeDeletePubchem(String[] args) throws Exception {
+	  Torque.init(args[1]+"../conf/jetspeed/WEB-INF/conf/Torque.properties");
+	  TurbineConfig config = new TurbineConfig(args[1], "../conf/jetspeed/WEB-INF/conf/TurbineResources.properties");
+	  config.initialize();
+	  BufferedReader buffRead=new BufferedReader(new FileReader("Results_NMRShiftDB_44.csv"));
+	  FileOutputStream out=new FileOutputStream("nmrshiftdbtodelete.sf");
+	  String line="";
+	  Connection dbconn = Torque.getConnection();
+	  Statement stmt = dbconn.createStatement();	    
+	  while ((line = buffRead.readLine()) != null) {
+		  StringTokenizer st=new StringTokenizer(line,",");
+		  st.nextToken();
+		  String nmrid=st.nextToken();
+		  ResultSet rs=stmt.executeQuery("select * from MOLECULE where MOLECULE_ID="+nmrid);
+		  if(!rs.next()){
+			  out.write(new String("\r\n-OEChem-11050415022D\r\n\r\n  0  0  0  0  0  0  0  0  0  0999 V2000\r\nM  END\r\n> <PUBCHEM_EXT_DATASOURCE_REGID>\r\n"+nmrid+"\r\n\r\n> <PUBCHEM_REVOKE_SUBSTANCE>This is no longer a valid nmrshfitdb id\r\n\r\n$$$$\r\n").getBytes());
+		  }
+	  }
+  }
+
+
+  /**
+   *  Reads corina 3d coordinates
+   *
+   * @param  args           The command line args
+   * @exception  Exception  Databse problems
+   */
+  private static void executeReadAlk(String[] args) throws Exception {
+	  Torque.init(args[1]+"../conf/jetspeed/WEB-INF/conf/Torque.properties");
+	  TurbineConfig config = new TurbineConfig(args[1], "../conf/jetspeed/WEB-INF/conf/TurbineResources.properties");
+	  config.initialize();
+	  File[] files = new File(args[0]).listFiles();
+		TurbineUser user = null;
+		Criteria crit = new Criteria();
+		crit.add(NmrshiftdbUserPeer.LOGIN_NAME, "dkfz");
+		List v = NmrshiftdbUserPeer.doSelect(crit);
+		//Look if the bulkoad user exists
+		if (v.size() > 0) {
+		  user = (TurbineUser) v.get(0);
+		} else {
+			  user = new TurbineUser();
+			  user.setLoginName("dkfz");
+			  user.setPasswordValue("dkfz");
+			  user.setCreated(new Date());
+			  user.setLastLogin(new Date());
+			  user.setFirstName("dkfz");
+			  user.setLastName("dkfz");
+			  user.setTitle("dkfz");
+			  user.setAddress("dkfz");
+			  user.setCity("dkfz");
+			  user.setState("dkfz");
+			  user.setZipCode("dkfz");
+			  user.setCountry("dkfz");
+			  user.setWebPage("dkfz");
+			  user.setAffiliation1("dkfz");
+			  user.setAffiliation2("dkfz");
+			  user.setEmail("dkfz");
+			  user.setHallOfFame("false");
+			  user.setLabgroupId(-1);
+			  user.setLabgroupKey(0);
+			  user.save();
+			  //throw new Exception("no bulkload user");
+		}
+		String nmrpropsFile = args[1] + "../conf/jetspeed/WEB-INF/conf/NMRShiftDB.properties";
+		Properties nmrprops = new Properties();
+		nmrprops.load(new FileInputStream(nmrpropsFile));
+	  int fehler=0;
+	  for (int i = 0; i < files.length; i++) {
+		  if (files[i].getName().indexOf("haiGaBl7g98")>-1) {
+			  BufferedReader buffRead = new BufferedReader(new FileReader(files[i]));
+			  String line = "";
+			  StringBuffer mdl=new StringBuffer();
+			  int mdlcount=0;
+			  while ((line = buffRead.readLine()) != null) {
+				  mdlcount++;
+				  if(mdlcount>500)
+					  mdl=new StringBuffer();
+				  //System.err.println(mdlcount);
+				  if(line.indexOf("$$$$") != -1) {
+					  mdl=new StringBuffer(GeneralUtils.replace(mdl.toString(),"  5  0  0  0","  4  0  0  0"));
+					  IMolecule mol = (IMolecule) new MDLV2000Reader(new StringReader(mdl.toString())).read(new org.openscience.cdk.Molecule());
+					  IteratingMDLReader imdl=new IteratingMDLReader(new StringBufferInputStream(new String(mdl+"\r\n$$$$")),mol.getBuilder());
+					  IMolecule mol2=(IMolecule)imdl.next();
+					  boolean has3d=false;
+					  for(int k=0;k<mol.getAtomCount();k++){
+						  if(mol.getAtom(k).getPoint3d()!=null){
+							  mol.getAtom(k).setPoint2d(new Point2d(mol.getAtom(k).getPoint3d().x,mol.getAtom(k).getPoint3d().y));
+							  mol.getAtom(k).setPoint3d(null);
+							  has3d=true;
+						  }
+					  }
+					  StringWriter writer = new StringWriter();
+				      MDLWriter mdlWriter = new MDLWriter(writer);
+				      mdlWriter.write(mol);
+					  //mol.setProperties(mol2.getProperties());
+					  try{
+						  String nmrshiftdbnr=(String)mol.getProperty(CDKConstants.TITLE);
+						  System.err.println(nmrshiftdbnr+"  "+mol.getAtom(0).getPoint2d()+"  "+mol.getAtom(0).getPoint3d());
+						  IMolecularFormula mfa = MolecularFormulaManipulator.getMolecularFormula(mol);
+						  boolean first=true;
+						  for(IIsotope isotope : mfa.isotopes()){
+							  String element=isotope.getSymbol();
+							  SubmittingData subData=new SubmittingData(args[1] + "../conf/jetspeed/WEB-INF/conf/normalizer.xml");
+					          crit = new Criteria();
+					          crit.add(DBIsotopePeer.ELEMENT_SYMBOL, element);
+					          crit.addJoin(DBSpectrumTypePeer.SPECTRUM_TYPE_ID,DBIsotopePeer.SPECTRUM_TYPE_ID);
+					          v = DBSpectrumTypePeer.doSelect(crit);
+					          if(v.size()==1){
+					        	  try{
+							          subData.setChoosenSpectrumType((DBSpectrumType) v.get(0));
+							          subData.setMol(writer.toString(),false,false,false);
+							          subData.coordinatesetid3=-1;
+							          subData.molcoord=mol;
+							          if(has3d && first){
+							        	  subData.molcoord=mol2;
+							        	  subData.coordinatesetid3=6;
+							        	  first=false;
+							          }
+							          subData.setSpectrumKeywords("nmr sharc");
+							          boolean[] isDoubleBondSpecified = new boolean[subData.getMolWithH().getBondCount()];
+							          int c=0;
+							          SmilesGenerator sg=new SmilesGenerator();
+							          sg.setUseAromaticityFlag(true);
+							          Iterator<IBond> it=subData.getMolWithH().bonds().iterator();
+							          while(it.hasNext()){
+							          	IBond bond=(IBond)it.next();
+							            if (sg.isValidDoubleBondConfiguration(subData.getMolWithH(),bond)) {
+							              isDoubleBondSpecified[c] = true;
+							            }
+							            c++;
+							          }
+							          subData.setDoubleBondConfiguration(true);
+							          subData.setIsDoubleBondSpecified(isDoubleBondSpecified);
+							          subData.setComment(files[i].getName()+"; "+mol2.getProperty("Short"));
+							          subData.setChemName((String)mol2.getProperty("MOL_NAME"));
+							          subData.setCasNumber((String)mol2.getProperty("CAS_RN"));
+							          subData.literatureOld=(String)mol2.getProperty("Author")+": "+(String)mol2.getProperty("source")+", "+(String)mol2.getProperty("YEAR")+", vol. "+(String)mol2.getProperty("Volume");
+							          for(int l=0;l<mol.getAtomCount();l++){
+							        	  if(mol.getAtom(l).getSymbol().equals(element) && ((Double)mol.getAtom(l).getProperty("first shift")).floatValue()<9990){
+							        		  IAtom atom=mol.getAtom(l);
+							        		  ValueTriple vt=new ValueTriple(((Double)atom.getProperty("first shift")).floatValue(),0);
+							        		  vt.atoms.add(subData.getMolWithH().getAtom(l));;
+							        		  subData.getSignalstable().add(vt);
+							        	  }
+							          }
+							          subData.setCalculated();
+							          StringTokenizer st=new StringTokenizer(mdl.toString(),"\n");
+							          String linewithstandard=null;
+							          Vector couplings=new Vector();
+					        		  while(st.hasMoreTokens()){
+							        	  String line2=st.nextToken();
+							        	  if(line2.indexOf("NMRSignal.sigTOshi")>-1){
+							        		  linewithstandard=st.nextToken();
+							        		  while(line2.indexOf("NMRSignal.Nucleus")==-1){
+							        			  line2=st.nextToken();
+							        		  }
+							        		  String nucleus=st.nextToken().trim();
+							        		  if(nucleus.equals(subData.getChoosenSpectrumType().getDBIsotope(0).getElementSymbol())){
+								        		  while(true){
+								        			  line2=st.nextToken();
+								        			  if(line2.indexOf("NMRSignal.J")>-1){
+								        				  String coupling=st.nextToken();
+								        				  StringTokenizer st2=new StringTokenizer(coupling);
+								        				  st2.nextToken();
+								        				  Double value=new Double(st2.nextToken());
+								        				  st2.nextToken();
+								        				  //(1-with-4)
+								        				  String coupl=st2.nextToken();
+								        				  StringTokenizer st3=new StringTokenizer(coupl.substring(1, coupl.length()-2),"-");
+								        				  int firstatom=Integer.parseInt(st3.nextToken())-1;
+								        				  st3.nextToken();
+								        				  int secondatom=Integer.parseInt(st3.nextToken())-1;
+								        				  couplings.add(value);
+								        				  couplings.add(new Integer(firstatom));
+								        				  couplings.add(new Integer(secondatom));
+								        			  }
+								        			  if(line2.indexOf("COLOR")>-1)
+								        				  break;
+								        		  }
+								        		  break;
+							        		  }
+							        	  }
+							          }
+							          StringTokenizer st2=new StringTokenizer(linewithstandard);
+							          st2.nextToken();
+							          st2.nextToken();
+							          st2.nextToken();
+							          for(int l=0;l<subData.getConditions().size();l++){
+							        	  if(((DBConditionType) subData.getConditions().get(l)).getConditionName().equals("NMRBasisSet"))
+							        	  	((DBConditionType) subData.getConditions().get(l)).setCurrentValue((String)mol.getProperty("MOD_NMR_BAS"));
+							          	  if(((DBConditionType) subData.getConditions().get(l)).getConditionName().equals("NMRMethod"))
+							        	  	((DBConditionType) subData.getConditions().get(l)).setCurrentValue((String)mol.getProperty("MOD_NMR_MTD"));
+							          	  if(((DBConditionType) subData.getConditions().get(l)).getConditionName().equals("GeomBasisSet"))
+							        	  	((DBConditionType) subData.getConditions().get(l)).setCurrentValue((String)mol.getProperty("MOD_GEO_BAS"));
+							          	  if(((DBConditionType) subData.getConditions().get(l)).getConditionName().equals("NMRStandard"))
+								        	((DBConditionType) subData.getConditions().get(l)).setCurrentValue(st2.nextToken());
+							          }
+							          if(subData.getSignalstable().size()>0){
+							        	  subData.save(user.getUserId(), "true", args[2], new Date(), null, Integer.parseInt(nmrprops.getProperty("hosecode.spheres")), true);
+								          for(int l=0;l<couplings.size();l=l+3){
+								        	  double value=(Double)couplings.get(l);
+								        	  int firstatom=(Integer)couplings.get(l+1);
+								        	  int secondatom=(Integer)couplings.get(l+2);
+								        	  DBCoupling coupling=new DBCoupling(subData.dbatoms[firstatom],subData.dbatoms[secondatom],subData.getSpectrumid(),value);
+								        	  coupling.save();
+								          }
+							          }
+							      }catch(Exception ex){
+					        		  ex.printStackTrace();
+					        	  }
+					          }else{
+					        	  System.err.println("No type for "+element);
+					          }
+						  }
+					  }catch(Exception ex){
+						  System.err.println("Failed doing "+(String)mol.getProperty(CDKConstants.TITLE)+". "+ex.getMessage());
+						  ex.printStackTrace();
+						  fehler++;
+					  }
+					  mdl=new StringBuffer();
+					  mdlcount=0;
+				  }else{
+					  mdl.append(line+"\n");
+				  }
+			  }
+		  }
+	  }
+	  System.err.println("There were "+fehler+" errors!");
+  }
+
+  
+  /**
+   *  Creates the proton descriptors
+   *
+   * @param  args           The command line args
+   * @exception  Exception  Databse problems
+   */
+  private static void executeMakeDescriptorsAll(String[] args) throws Exception {
+	  Torque.init(args[1]+"../conf/jetspeed/WEB-INF/conf/Torque.properties");
+	  TurbineConfig config = new TurbineConfig(args[1], "../conf/jetspeed/WEB-INF/conf/TurbineResources.properties");
+	  config.initialize();
+	  Connection dbconn = Torque.getConnection();
+	  Statement stmt = dbconn.createStatement();
+	  Statement stmt2 = dbconn.createStatement();
+	  Statement stmt3 = dbconn.createStatement();
+	  String nmrpropsFile = args[1] + "../conf/jetspeed/WEB-INF/conf/NMRShiftDB.properties";
+	  String jetspeedpropsFile = args[1] + "../conf/jetspeed/WEB-INF/conf/JetspeedResources.properties";
+	  Properties nmrprops = new Properties();
+	  Properties jetspeedprops = new Properties();
+	  nmrprops.load(new FileInputStream(nmrpropsFile));
+	  jetspeedprops.load(new FileInputStream(jetspeedpropsFile));
+	  stmt.executeUpdate("drop table if exists DESCRIPTORS_ALL");
+	  ResultSet rs = stmt.executeQuery("select distinct MOLECULE.MOLECULE_ID from MOLECULE join SPECTRUM using (MOLECULE_ID) join SPECTRUM_TYPE using (SPECTRUM_TYPE_ID) where NAME='1H' order by MOLECULE_ID limit 100");
+	  int fehler = 0;
+	  boolean first=true;
+	  float[] floats=null;
+	  AllRingsFinder arf=new AllRingsFinder();
+	  while (rs.next()) {
+		  try {
+			  DBMolecule mol = DBMoleculePeer.retrieveByPK(new NumberKey(rs.getInt(1)));
+			  if(mol.hasCoordinates(2)){
+				  System.err.println(mol.getMoleculeId());
+				  IMolecule cdkmol=mol.getAsCDKMoleculeWithAny3d();
+				  Criteria crit=new Criteria();
+				  crit.add(DBSpectrumPeer.MOLECULE_ID,mol.getMoleculeId());
+				  crit.add(DBSpectrumPeer.SPECTRUM_TYPE_ID,2);
+				  DBSpectrum hspectrum=(DBSpectrum)DBSpectrumPeer.doSelect(crit).get(0);
+				  List signals=hspectrum.getDBSignals();
+				  for(int i=0;i<signals.size();i++){
+					  DBSignal signal=(DBSignal)signals.get(i);
+					  for(int h=0;h<signal.getAtoms().size();h++){
+						  int atomnumber=((DBAtom)signal.getAtoms().get(h)).getMdlNumber();
+						  DBSpectrum spectrum=signal.getDBSpectrum();
+						  DBCondition temp=spectrum.getMeasurementConditionWithName("Temperature [K]",null);
+						  DBCondition field=spectrum.getMeasurementConditionWithName("Field Strength [MHz]",null);
+						  DBCondition solvent=spectrum.getMeasurementConditionWithName("Solvent",null);
+						  int protonclass=AtomUtils.getProtonClass(cdkmol, atomnumber, arf.findAllRings(cdkmol));
+						  floats=AtomUtils.getDescriptorSet(temp, field,solvent, cdkmol, cdkmol.getAtom(atomnumber), AtomUtils.getAllRings(),protonclass);
+						  if(floats!=null){
+							  if(first){
+								  String sql1="create table DESCRIPTORS_ALL";
+								  String sql2=" (ATOM_ID int not null, SIGNAL_ID int not null,";
+								  for(int k=0;k<floats.length;k++){
+									  sql2+="des"+k+" float not null default 0,";
+								  }
+								  sql2+="des"+floats.length+" float not null default 0,";
+								  sql2+="PRIMARY KEY  (ATOM_ID, SIGNAL_ID))";
+								  stmt3.executeUpdate(sql1+""+sql2);
+								  first=false;
+							  }
+							  StringBuffer sql=new StringBuffer("insert into DESCRIPTORS_ALL values("+((DBAtom)signal.getAtoms().get(h)).getAtomId()+","+signal.getSignalId()+",");
+							  for(int k=0;k<floats.length;k++){
+								  sql.append(floats[k]+",");
+							  }
+							  stmt3.executeUpdate(sql.toString()+""+protonclass+")");
+						  }
+					  }
+				  }
+			  }
+		  }catch(Exception ex){
+			  ex.printStackTrace();
+			  fehler++;
+		  }
+	  }
+	  stmt.executeUpdate("drop table if exists DESCRIPTORS_1");
+	  stmt.executeUpdate("drop table if exists DESCRIPTORS_2");
+	  stmt.executeUpdate("drop table if exists DESCRIPTORS_3");
+	  stmt.executeUpdate("drop table if exists DESCRIPTORS_4");
+	  stmt.executeUpdate("drop table if exists DESCRIPTOR_FACTORS");
+	  stmt.executeUpdate("create table DESCRIPTOR_FACTORS (PROTONCLASS INT, DESCRIPTOR VARCHAR(6), MIN_VALUE FLOAT, DIVISOR FLOAT)");
+	  for(int k=1;k<5;k++){
+		  stmt.executeUpdate("create table DESCRIPTORS_"+k+" select * from DESCRIPTORS_ALL where des"+(floats.length)+"="+k);
+		  for(int i=0;i<floats.length+1;i++){
+			  System.err.println(k+"  "+i);
+			  String sql="select min(des"+i+"), max(des"+i+") from DESCRIPTORS_"+k;
+			  rs=stmt.executeQuery(sql);
+			  rs.next();
+			  float min=rs.getFloat(1);
+			  float max=rs.getFloat(2);
+			  if(min==max){
+				  System.err.println("min==max for "+i);
+				  stmt2.executeUpdate("alter table DESCRIPTORS_"+k+" drop column des"+i);
+			  }else{
+				  float divisor=max-min;
+				  if(divisor==0)
+					  divisor=1;
+				  sql="select ATOM_ID, des"+i+" from DESCRIPTORS_"+k;
+				  rs=stmt.executeQuery(sql);
+				  stmt2.executeUpdate("insert into DESCRIPTOR_FACTORS values("+k+",'des"+i+"',"+min+","+divisor+");");
+				  stmt2.executeUpdate("update DESCRIPTORS_"+k+" set des"+i+"=(des"+i+"-"+min+")/"+divisor);
+			  }
+		  }
+	  }
+	  System.err.println("There were "+fehler+" errors!");
+  }
+
+
+
+  /**
+   *  Creates the proton descriptors
+   *
+   * @param  args           The command line args
+   * @exception  Exception  Databse problems
+   */
+  private static void executeMakeDescriptorsNew(String[] args) throws Exception {
+	  Torque.init(args[1]+"../conf/jetspeed/WEB-INF/conf/Torque.properties");
+	  TurbineConfig config = new TurbineConfig(args[1], "../conf/jetspeed/WEB-INF/conf/TurbineResources.properties");
+	  config.initialize();
+	  Connection dbconn = Torque.getConnection();
+	  Statement stmt = dbconn.createStatement();
+	  Statement stmt2 = dbconn.createStatement();
+	  Statement stmt3 = dbconn.createStatement();
+	  String nmrpropsFile = args[1] + "../conf/jetspeed/WEB-INF/conf/NMRShiftDB.properties";
+	  String jetspeedpropsFile = args[1] + "../conf/jetspeed/WEB-INF/conf/JetspeedResources.properties";
+	  Properties nmrprops = new Properties();
+	  Properties jetspeedprops = new Properties();
+	  nmrprops.load(new FileInputStream(nmrpropsFile));
+	  jetspeedprops.load(new FileInputStream(jetspeedpropsFile));
+	  ResultSet rs = stmt.executeQuery("select distinct MOLECULE.MOLECULE_ID from DESCRIPTORS_ALL right join ATOM using (ATOM_ID) join MOLECULE using (MOLECULE_ID) join SPECTRUM using (MOLECULE_ID) join SPECTRUM_TYPE using (SPECTRUM_TYPE_ID) where NAME='1H' and DESCRIPTORS_ALL.des11 is null order by MOLECULE_ID");
+	  int fehler = 0;
+	  float[] floats=null;
+	  AllRingsFinder arf=new AllRingsFinder();
+	  while (rs.next()) {
+		  try {
+			  DBMolecule mol = DBMoleculePeer.retrieveByPK(new NumberKey(rs.getInt(1)));
+			  System.err.println(mol.getMoleculeId());
+			  IMolecule cdkmol=mol.getAsCDKMoleculeWithAny3d();
+			  Criteria crit=new Criteria();
+			  crit.add(DBSpectrumPeer.MOLECULE_ID,mol.getMoleculeId());
+			  crit.add(DBSpectrumPeer.SPECTRUM_TYPE_ID,2);
+			  DBSpectrum hspectrum=(DBSpectrum)DBSpectrumPeer.doSelect(crit).get(0);
+			  List signals=hspectrum.getDBSignals();
+			  for(int i=0;i<signals.size();i++){
+				  DBSignal signal=(DBSignal)signals.get(i);
+				  for(int h=0;h<signal.getAtoms().size();h++){
+					  int atomnumber=((DBAtom)signal.getAtoms().get(h)).getMdlNumber();
+					  DBSpectrum spectrum=signal.getDBSpectrum();
+					  DBCondition temp=spectrum.getMeasurementConditionWithName("Temperature [K]",null);
+					  DBCondition field=spectrum.getMeasurementConditionWithName("Field Strength [MHz]",null);
+					  DBCondition solvent=spectrum.getMeasurementConditionWithName("Solvent",null);
+					  int protonclass=AtomUtils.getProtonClass(cdkmol, atomnumber, arf.findAllRings(cdkmol));
+					  floats=AtomUtils.getDescriptorSet(temp, field,solvent, cdkmol, cdkmol.getAtom(atomnumber), AtomUtils.getAllRings(),protonclass);
+					  if(floats!=null){
+						  StringBuffer sql=new StringBuffer("insert into DESCRIPTORS_ALL values("+((DBAtom)signal.getAtoms().get(h)).getAtomId()+","+signal.getSignalId()+",");
+						  for(int k=0;k<floats.length;k++){
+							  sql.append(floats[k]+",");
+						  }
+						  stmt3.executeUpdate(sql.toString()+""+protonclass+")");
+						  System.err.println(sql);
+					  }
+				  }
+			  }
+		  }catch(Exception ex){
+			  ex.printStackTrace();
+			  fehler++;
+		  }
+	  }
+	  stmt.executeUpdate("drop table if exists DESCRIPTORS_1");
+	  stmt.executeUpdate("drop table if exists DESCRIPTORS_2");
+	  stmt.executeUpdate("drop table if exists DESCRIPTORS_3");
+	  stmt.executeUpdate("drop table if exists DESCRIPTORS_4");
+	  stmt.executeUpdate("drop table if exists DESCRIPTOR_FACTORS");
+	  stmt.executeUpdate("create table DESCRIPTOR_FACTORS (PROTONCLASS INT, DESCRIPTOR VARCHAR(6), MIN_VALUE FLOAT, DIVISOR FLOAT)");
+	  for(int k=1;k<5;k++){
+		  stmt.executeUpdate("create table DESCRIPTORS_"+k+" select * from DESCRIPTORS_ALL where des"+(floats.length)+"="+k);
+		  for(int i=0;i<floats.length+1;i++){
+			  System.err.println(k+"  "+i);
+			  String sql="select min(des"+i+"), max(des"+i+") from DESCRIPTORS_"+k;
+			  rs=stmt.executeQuery(sql);
+			  rs.next();
+			  float min=rs.getFloat(1);
+			  float max=rs.getFloat(2);
+			  if(min==max){
+				  System.err.println("min==max for "+i);
+				  stmt2.executeUpdate("alter table DESCRIPTORS_"+k+" drop column des"+i);
+			  }else{
+				  float divisor=max-min;
+				  if(divisor==0)
+					  divisor=1;
+				  stmt2.executeUpdate("insert into DESCRIPTOR_FACTORS values("+k+",'des"+i+"',"+min+","+divisor+");");
+				  stmt2.executeUpdate("update DESCRIPTORS_"+k+" set des"+i+"=(des"+i+"-"+min+")/"+divisor);
+				  System.err.println("update DESCRIPTORS_"+k+" set des"+i+"=(des"+i+"-"+min+")/"+divisor);
+			  }
+		  }
+	  }
+	  System.err.println("There were "+fehler+" errors!");
+  }
+
+  
+  
+  /**
+   *  Executes an svm crossvalidation
+   *
+   * @param  args           The command line args
+   * @exception  Exception  Databse problems
+   */
+  private static void executeCrosscheckHose(String[] args) throws Exception{
+	  Category sqlLogger = Category.getInstance("sql");
+	  sqlLogger.addAppender(new FileAppender(new SimpleLayout(), args[0]+"/crosslog"));
+	  Torque.init(args[1]+"../conf/jetspeed/WEB-INF/conf/Torque.properties");
+	  TurbineConfig config = new TurbineConfig(args[1], "../conf/jetspeed/WEB-INF/conf/TurbineResources.properties");
+	  config.initialize();
+	  Connection dbconn = Torque.getConnection();
+	  Statement stmt = dbconn.createStatement();
+	  String sql="select MOLECULE_ID from MOLECULE";
+	  ResultSet rs=stmt.executeQuery(sql);
+	  while (rs.next()) {
+		  try {
+			  DBMolecule mol = DBMoleculePeer.retrieveByPK(new NumberKey(rs.getInt(1)));
+			  List l=mol.getDBSpectrums();
+			  for(int i=0;i<l.size();i++){
+				  DBSpectrum spectrum=(DBSpectrum)l.get(i);
+				  IMolecule cdkmol;
+				  if(spectrum.getDBSpectrumType().getName().equals("1H")){
+					  cdkmol=mol.getAsCDKMolecule(1);
+				  }else{
+					  cdkmol=mol.getAsCDKMoleculeWithoutH();
+				  }
+				  for(int k=0;k<cdkmol.getAtomCount();k++){
+					  if(cdkmol.getAtom(k).getSymbol().equals(spectrum.getDBSpectrumType().getDBIsotope(1).getElementSymbol())){
+						  StringBuffer hosecode=new StringBuffer();
+						  double[] prediction=PredictionTool.generalPredict(cdkmol,cdkmol.getAtom(k), false, true, spectrum.getSpectrumId(), -1, new StringBuffer(), false, true, null, new HashMap(), 6, true, hosecode, 6, true, true);
+						  List signals=mol.getAtomAt(k).getDBSignals(spectrum);
+						  if(((DBSignal)signals.get(0)).getFirstShift().getValue()<prediction[0] || ((DBSignal)signals.get(0)).getFirstShift().getValue()>prediction[2]){
+							  System.err.println("Problem: "+((DBSignal)signals.get(0)).getFirstShift().getValue()+", but predicted "+prediction[0]+"-"+prediction[2]+" for "+k+" in "+spectrum.getSpectrumId()+", HOSE code: "+hosecode);
+						  }						  
+					  }
+				  }
+			  }
+		  }catch(Exception ex){
+			  ex.printStackTrace();
+		  }
+	  }
+  }
+
+	  
+	  
+	  
+	  
+  /**
+   *  Executes an svm crossvalidation
+   *
+   * @param  args           The command line args
+   * @exception  Exception  Databse problems
+   */
+  private static void executeCrossvalidate(String[] args) throws Exception{
+	  Category sqlLogger = Category.getInstance("sql");
+	  sqlLogger.addAppender(new FileAppender(new SimpleLayout(), args[0]+"/crosslog"));
+	  Torque.init(args[1]+"../conf/jetspeed/WEB-INF/conf/Torque.properties");
+	  TurbineConfig config = new TurbineConfig(args[1], "../conf/jetspeed/WEB-INF/conf/TurbineResources.properties");
+	  config.initialize();
+	  Connection dbconn = Torque.getConnection();
+	  Statement stmt = dbconn.createStatement();
+	  String sql="select DESCRIPTORS_3.* from DESCRIPTORS_3 join ATOM using (ATOM_ID ) where HETERO ='false'";
+	  double[] errors=new double[10];
+	  double[] hits=new double[10];
+	  for(int i=0;i<10;i++){
+		  int numberoftrainings=0;
+		  sqlLogger.debug(new Date() + " - Validierung "+i);
+		  File trainingfile=new File(args[0]+"/descsvm.training");
+		  File testfile=new File(args[0]+"/descsvm.test");
+		  BufferedWriter writertraining=new BufferedWriter(new OutputStreamWriter(new FileOutputStream(trainingfile)));
+		  BufferedWriter writertest=new BufferedWriter(new OutputStreamWriter(new FileOutputStream(testfile)));
+		  ResultSet rs=stmt.executeQuery(sql);
+		  int m=0;
+		  ResultSetMetaData meta=rs.getMetaData();
+		  int colsnumber = meta.getColumnCount();
+		  Vector<Float> shifts=new Vector<Float>();
+		  while(rs.next()){
+			  StringBuffer line=new StringBuffer();
+			  DBSignal signal=DBSignalPeer.retrieveByPK(new NumberKey(rs.getInt(2)));
+			  //line.append((int)(signal.getFirstShift().getValue()*10)+" ");
+			  line.append(signal.getFirstShift().getValue()+" ");
+			  for(int k=0;k<colsnumber-2;k++){
+				  line.append((k+1)+":"+rs.getDouble(k+3)+" ");
+				  //System.err.println((k+1)+"  "+meta.getColumnName(k+3));
+			  }
+			  line.append("\n");
+			  if(m % 10==i){
+				  writertest.write(line.toString());
+				  shifts.add(new Float(signal.getFirstShift().getValue()));
+				  numberoftrainings++;
+			  }else{
+				  writertraining.write(line.toString());
+			  }
+			  m++;
+		  }
+		  writertraining.close();
+		  writertest.close();
+		  System.err.println("ready");
+		  File modelfile=new File(args[0]+"/descsvm.model");
+		  String[] args2={"-s","3","-t","1","-e","0.001","-n",".5","-c","32","-g","0.0078125",trainingfile+"",modelfile+""};
+		  svm_train t = new svm_train();
+		  t.run(args2);
+		  //trainingfile.delete();
+		  File outputfile=new File(args[0]+"/descsvm.output");
+		  String[] args3={testfile+"",modelfile+"",outputfile+""};
+		  svm_predict.main(args3);
+		  testfile.delete();
+		  FileInputStream fstreamout = new FileInputStream(outputfile);
+		  DataInputStream in = new DataInputStream(fstreamout);
+		  double sqerror=0;
+		  for(int l=0;l<shifts.size();l++){
+			  float value=new Float(in.readLine()).floatValue();
+			  float shift=shifts.get(l).floatValue();
+			  System.err.println((value)+"  "+(shift));
+			  if(((int)(value*10))==((int)(shift*10)))
+				  hits[i]++;
+			  sqerror+=(value-shift)*(value-shift);
+		  }
+		  errors[i]=sqerror/numberoftrainings;
+		  System.err.println("hits "+hits[i]+" num "+numberoftrainings);
+		  hits[i]=hits[i]/numberoftrainings;
+		  System.err.println("error "+errors[i]+", hits: "+hits[i]);
+		  in.close();
+		  outputfile.delete();
+		  modelfile.delete();
+	  }
+	  System.err.println("hits average :"+Statistics.average(hits));
+	  System.err.println("mse "+Statistics.average(errors));
+  }
+
+
+  /**
+   *  Analyzes the current sql logfile
+   *
+   * @param  args           The command line args
+   * @exception  Exception  Databse problems
+   */
+  private static void executeAnalyzeSql(String[] args) throws Exception {
+	  Torque.init(args[1]+"../conf/jetspeed/WEB-INF/conf/Torque.properties");
+	  TurbineConfig config = new TurbineConfig(args[1], "../conf/jetspeed/WEB-INF/conf/TurbineResources.properties");
+	  config.initialize();
+	  Connection dbconn = Torque.getConnection();
+	  Statement stmt = dbconn.createStatement();
+	  String nmrpropsFile = args[1] + "../conf/jetspeed/WEB-INF/conf/NMRShiftDB.properties";
+	  String jetspeedpropsFile = args[1] + "../conf/jetspeed/WEB-INF/conf/JetspeedResources.properties";
+	  Properties nmrprops = new Properties();
+	  Properties jetspeedprops = new Properties();
+	  nmrprops.load(new FileInputStream(nmrpropsFile));
+	  jetspeedprops.load(new FileInputStream(jetspeedpropsFile));
+	  //TODO this needs changing to log4j file
+	  File sqlfile=new File("/home/shk3/workspace/nmrshiftdb/sql.log");
+	  BufferedReader sqllog=new BufferedReader(new InputStreamReader(new FileInputStream(sqlfile)));
+	  String line="";
+	  SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss", Locale.US);
+	  String sql=null;
+	  String[] months={"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
+	  int fehler=0;
+	  int lines=0;
+	  while((line=sqllog.readLine())!=null){
+		  try{
+		  if(line.indexOf("DEBUG")>-1){
+			  System.err.println(line);
+			  StringTokenizer st=new StringTokenizer(line,"-");
+			  st.nextToken();
+			  String date=st.nextToken().trim();
+			  StringTokenizer st2=new StringTokenizer(date);
+			  st2.nextToken();
+			  String month=st2.nextToken();
+			  int monthint=0;
+			  for(int k=0;k<12;k++){
+				  if(months[k].equals(month))
+					  monthint=k+1;
+			  }
+			  st2.nextToken();
+			  st2.nextToken();
+			  st2.nextToken();
+			  String year=st2.nextToken();
+			  st.nextToken();
+			  String type=st.nextToken();
+			  String query=st.nextToken();
+			  if(type.indexOf("Prediction")!=-1){
+				  sql="update STATISTICS set PREDICTION=PREDICTION+1";
+			  }else if(type.indexOf("Search")!=-1){
+				  if(query.indexOf("MOLECULE.SMILES_STRING")!=-1){
+					  sql="update STATISTICS set EXACT_SUBSTRUCTURE=EXACT_SUBSTRUCTURE+1";
+				  }else if(query.indexOf("spectrumsimilarity")!=-1){
+					  sql="update STATISTICS set LINE_SEARCH=LINE_SEARCH+1";
+				  }else if(query.indexOf("fingerprint_compare")!=-1){
+					  sql="update STATISTICS set SUBSTRUCTURE_FUZZY_SEARCH=SUBSTRUCTURE_FUZZY_SEARCH+1";
+				  }else if(query.indexOf("`CONDITION`.VALUE=")!=-1){
+					  sql="update STATISTICS set WEIGHT_SEARCH=WEIGHT_SEARCH+1";
+				  }else if(query.indexOf("CAS_NUMBER=")!=-1){
+					  sql="update STATISTICS set CAS=CAS+1";
+				  }else if(query.indexOf("CHEMICAL_NAME.NAME=")!=-1){
+					  sql="update STATISTICS set NAME=NAME+1";
+				  }else{
+					  sql="update STATISTICS set OTHER_SEARCH=OTHER_SEARCH+1";
+				  }
+			  }
+			  ResultSet rs=stmt.executeQuery("select * from STATISTICS where YEAR="+year+" and MONTH="+monthint);
+			  if(!rs.next()){
+				  stmt.executeUpdate("insert into STATISTICS values("+year+","+monthint+",0,0,0,0,0,0,0,0)");
+			  }  
+			  if(sql!=null)
+				  stmt.executeUpdate(sql+" where YEAR="+year+" and MONTH="+monthint);
+			  sql=null;
+		  }
+		  lines++;
+		  }catch(Exception ex){
+			  fehler++;
+		  }
+	  }
+	  System.err.println(lines+" "+fehler);
+	  sqlfile.renameTo(new File(nmrprops.getProperty("sql.logfile")+formatter.format(new Date())));
+	  sqlfile=new File(nmrprops.getProperty("sql.logfile"));
+	  sqlfile.createNewFile();
+  }
+
+
+  /**
+   *  Reads cas numbers from nci file
+   *
+   * @param  args           The command line args
+   * @exception  Exception  Databse problems
+   */
+  private static void readcasfromnci(String[] args) throws Exception{
+	  Torque.init(args[1]+"../conf/jetspeed/WEB-INF/conf/Torque.properties");
+	  TurbineConfig config = new TurbineConfig(args[1], "../conf/jetspeed/WEB-INF/conf/TurbineResources.properties");
+	  config.initialize();
+	  IteratingMDLReader mdlreader=new IteratingMDLReader(new FileReader("../gauss/NCI3DA99CDKMDL.sdf"), DefaultChemObjectBuilder.getInstance());
+	  while(mdlreader.hasNext()){
+		  IMolecule mol=(IMolecule)mdlreader.next();
+		  StringWriter sw=new StringWriter();
+		  new MDLWriter(sw).writeMolecule(mol);
+		  String inchi=GeneralUtils.generateInchi(sw.toString());
+		  System.err.println("doing "+inchi);
+		  DBMolecule dbmol=DBMoleculePeer.doSelectByInchi(inchi);
+		  if(mol!=null){
+			  dbmol.setCasNumber((String)mol.getProperty(CDKConstants.CASRN));
+			  dbmol.save();
+		  }
+	  }
+  }
+
+
+  /**
+   *  Executes making of chiral smiles
+   *
+   * @param  args           The command line args
+   * @exception  Exception  Databse problems
+   */
+  private static void executeMakeSmilesChiral(String[] args) throws Exception{
+	  Torque.init(args[1]+"../conf/jetspeed/WEB-INF/conf/Torque.properties");
+	  TurbineConfig config = new TurbineConfig(args[1], "../conf/jetspeed/WEB-INF/conf/TurbineResources.properties");
+	  config.initialize();
+	  Connection dbconn = Torque.getConnection();
+	  Statement stmt = dbconn.createStatement();
+	  ResultSet rs = stmt.executeQuery("select MOLECULE_ID from MOLECULE where MOLECULE_ID=10509;");
+	  int i = -1;
+	  int fehler = 0;
+	  while (rs.next()) {
+		  try {
+			  i++;
+			  DBMolecule mol = DBMoleculePeer.retrieveByPK(new NumberKey(rs.getInt(1)));
+			  System.err.println("Start making smiles for molecule " + mol.getMoleculeId());
+			  IMolecule molWithH = mol.getAsCDKMolecule(1);
+			  IMolecule molWithoutH = (IMolecule)AtomContainerManipulator.removeHydrogens(molWithH);
+			    SmilesGenerator sg = new SmilesGenerator();
+			    sg.setUseAromaticityFlag(true);
+			    List bonds = mol.getBonds();
+			    boolean[] bool = new boolean[molWithH.getBondCount()];
+			    for (int k = 0; k < bonds.size(); k++) {
+			    if (((DBBond) bonds.get(k)).getIsConfigurationSpecified().equals("true")) {
+			    bool[k] = true;
+			    }
+			    }
+			    String smiles = sg.createSMILES(molWithoutH);
+			    System.err.println("admin "+molWithoutH);
+			    mol.setSmilesString(smiles.getBytes());
+			    mol.save();
+			    String smilesCh = sg.createSMILES(molWithH, true, bool);
+			    String smilesNonChiralWithH = sg.createSMILES(molWithH);
+			    System.err.println(smilesCh);
+			    System.err.println(smilesNonChiralWithH);
+			    if (!smilesNonChiralWithH.equals(smilesCh)) {
+			    mol.setSmilesStringChiral(smilesCh.getBytes());
+			    } else {
+			    mol.setSmilesStringChiral(null);
+			    }
+			    mol.save();
+			  /*MFAnalyser mfa = new MFAnalyser(molWithH);
+			  mol.setMolecularWeight(mfa.getNaturalMass());
+			  mol.save();
+			  System.err.println(mfa.getNaturalMass());*/
+		  } catch (Exception ex) {
+			  System.err.println("Fehler: " + ex.getMessage() + ", " + rs.getInt(1));
+			  fehler++;
+		  }
+	  }
+	  System.err.println("There were " + fehler + " errors!");
+  }
+
+
+  /**
+   *  Executes building of HOSECodes
+   *
+   * @param  args           The command line args
+   * @exception  Exception  Databse problems
+   */
+  private static void executeBuildHose(String[] args) throws Exception {
+	  Torque.init(args[1]+"../conf/jetspeed/WEB-INF/conf/Torque.properties");
+	  TurbineConfig config = new TurbineConfig(args[1], "../conf/jetspeed/WEB-INF/conf/TurbineResources.properties");
+	  config.initialize();
+	  Connection dbconn = Torque.getConnection();
+	  Statement stmt = dbconn.createStatement();
+	  ResultSet rs = stmt.executeQuery("select MOLECULE_ID from MOLECULE;");
+	  HOSECodeGenerator hcg = new HOSECodeGenerator();
+	  String nmrpropsFile = args[1] + "../conf/jetspeed/WEB-INF/conf/NMRShiftDB.properties";
+	  Properties nmrprops = new Properties();
+	  nmrprops.load(new FileInputStream(nmrpropsFile));
+	  int spheresMax = Integer.parseInt(nmrprops.getProperty("hosecode.spheres"));
+	  int fehler = 0;
+	  while (rs.next()) {
+		  try {
+			  DBMolecule mol = DBMoleculePeer.retrieveByPK(new NumberKey(rs.getInt(1)));
+			  System.err.println("Start making HOSE codes for molecule " + mol.getMoleculeId());
+			  IMolecule cdkmolwithouth=mol.getAsCDKMoleculeWithoutH();
+			  for (int k = 0; k < mol.getAsCDKMolecule(1).getAtomCount(); k++) {
+				  DBAtom dbatom=DBAtomPeer.getByMoleculeIdAndMdlNumber(mol.getMoleculeId(),k);
+				  String hoseCode = null;
+				  String hoseCodeWithRings=null;
+				  if (GeneralUtils.getAtomsWithHoseCode().contains(mol.getAsCDKMolecule(1).getAtom(k).getSymbol())) {
+					  int l=k;
+					  for(int m=0;m<k;m++){
+						  if(mol.getAsCDKMolecule(1).getAtom(m).getSymbol().equals("H"))
+							  l--;
+					  }
+					  hoseCode = hcg.getHOSECode(cdkmolwithouth, cdkmolwithouth.getAtom(l), spheresMax,true);
+					  hoseCodeWithRings = hcg.getHOSECode(cdkmolwithouth, cdkmolwithouth.getAtom(l), spheresMax,true);
+				  }else if(mol.getAsCDKMolecule(1).getAtom(k).getSymbol().equals("H")){
+					  hoseCode = hcg.getHOSECode(mol.getAsCDKMolecule(1), mol.getAsCDKMolecule(1).getAtom(k), spheresMax,true);
+					  hoseCodeWithRings = hcg.getHOSECode(mol.getAsCDKMolecule(1), mol.getAsCDKMolecule(1).getAtom(k), spheresMax,true);
+				  }
+				  if (hoseCode != null) {
+					  dbatom.setHoseCode(hoseCode);
+					  dbatom.setHoseCodeWithRings(hoseCodeWithRings);
+				  } else {
+					  dbatom.setHoseCode("");
+					  dbatom.setHoseCodeWithRings("");
+				  }
+				  dbatom.save();
+			  }
+		  } catch (Exception ex) {
+			  ex.printStackTrace();
+			  fehler++;
+		  }
+	  }
+	  System.err.println("There were "+fehler+" errors!");
+  }
+
+
+  /**
+   *  Executes comparing of shifts to cdk.
+   *
+   * @param  args           The command line args.
+   * @exception  Exception  Databse problems.
+   */
+  private static void executeCompareShifts(String[] args) throws Exception {
+	  TurbineConfig config = new TurbineConfig(args[1], "../conf/jetspeed/WEB-INF/conf/TurbineResources.properties");
+	  config.initialize();
+	  Torque.init(args[1]+"../conf/jetspeed/WEB-INF/conf/Torque.properties");
+	  Connection dbconn = Torque.getConnection();
+	  Statement stmt = dbconn.createStatement();
+	  /*ResultSet rs = stmt.executeQuery("select MOLECULE_ID from MOLECULE;");
+	    while (rs.next()) {
+	    try {
+	    DBMolecule mol = DBMoleculePeer.retrieveByPK(new NumberKey(rs.getInt(1)));
+	    System.err.println("Start comparing for molecule " + mol.getMoleculeId());
+	    System.err.println(GeneralUtils.checkAgainstCdk(mol));        
+	    } catch (Exception ex) {
+	    ex.printStackTrace();
+	    }
+	    }*/
+	  ResultSet rs = stmt.executeQuery("select ATOM_ID from ATOM where SYMBOL='H'");
+	  while (rs.next()) {
+		  DBAtom dbatom=DBAtomPeer.retrieveByPK(new NumberKey(rs.getInt(1)));
+		  System.err.println(dbatom.getAtomId());
+		  Vector v=dbatom.getConnectedAtoms();
+		  boolean hetero=false;
+		  for(int i=0;i<v.size();i++){
+			  if(!(((DBAtom)v.get(i)).getSymbol().equals("H") || ((DBAtom)v.get(i)).getSymbol().equals("C")))
+				  hetero=true;
+		  }
+		  DBAtomPeer.executeStatement("update ATOM set HETERO='"+hetero+"' where ATOM_ID="+dbatom.getAtomId());
+	  }
+  }
+
+
+  /**
+   *  Executes ckecking vi NCI database
+   *
+   * @param  args           The command line args
+   * @exception  Exception  Databse problems
+   */
+  private static void executeCheckNCI(String[] args) throws Exception {
+	  TurbineConfig config = new TurbineConfig(args[1], "../conf/jetspeed/WEB-INF/conf/TurbineResources.properties");
+	  config.initialize();
+	  Torque.init(args[1]+"../conf/jetspeed/WEB-INF/conf/Torque.properties");
+	  Connection dbconn = Torque.getConnection();
+	  Statement stmt = dbconn.createStatement();
+	  IteratingMDLReader imdl=new IteratingMDLReader(new FileReader("NCI3DA99CDKMDL.sdf"),DefaultChemObjectBuilder.getInstance());
+	  int ncicount=0;
+	  int[] found=new int[7];
+	  int[] notfound=new int[7];
+	  int wishedstructures=0;
+	  HOSECodeGenerator hcg=new HOSECodeGenerator();
+	  while(imdl.hasNext()){
+		  boolean wishit=false;
+		  IMolecule mol=(IMolecule)imdl.next();
+		  mol=(IMolecule)AtomContainerManipulator.removeHydrogens(mol);
+	        SmilesGenerator sg = new SmilesGenerator();
+	        sg.setUseAromaticityFlag(true);
+		  String smiles=sg.createSMILES(mol);
+		  List v=DBMoleculePeer.doSelectBySmiles(smiles, null, true);
+		  if(v.size()>0){
+			  DBMolecule dbmol=(DBMolecule)v.get(0);
+			  if(dbmol.getCasNumber().equals("") && mol.getProperty(CDKConstants.CASRN)!=null){
+				  dbmol.setCasNumber((String)mol.getProperty(CDKConstants.CASRN));
+				  dbmol.save();
+			  }
+		  }
+		  for(int i=0;i<mol.getAtomCount();i++){
+			  IAtom a=mol.getAtom(i);
+			  for(int k=1;k<7;k++){
+				  if(a.getSymbol().equals("C")){
+					  String hosecode=hcg.getHOSECode(mol,a,k,true);
+					  StringBuffer hoseCodeBuffer = new StringBuffer();
+					  StringTokenizer st = new StringTokenizer(hosecode, "()/");
+					  for (int l = 0; l < k; l++) {
+						  if (st.hasMoreTokens()) {
+							  String partcode = st.nextToken();
+							  hoseCodeBuffer.append(partcode);
+						  }
+						  if (l == 0) {
+							  hoseCodeBuffer.append("(");
+						  } else if (l == 3) {
+							  hoseCodeBuffer.append(")");
+						  } else {
+							  hoseCodeBuffer.append("/");
+						  }
+					  }
+					  hosecode = hoseCodeBuffer.toString();
+					  String sql="select * from ATOM where HOSE_CODE like \""+hosecode+"%\";";
+					  ResultSet rs=stmt.executeQuery(sql);
+					  if(!rs.next()){
+						  notfound[k]++;
+						  if(k==1 && wishedstructures<10){
+							  wishit=true;
+						  }
+					  }else{
+						  found[k]++;
+					  }
+				  }
+			  }
+		  }
+		  System.err.println(ncicount);
+		  for(int i=1;i<7;i++)
+			  System.err.println("Spheres; "+i+", found:"+found[i]+", not found:"+notfound[i]);
+		  ncicount++;
+		  if(wishit && v.size()==0){
+			  for(int i=0;i<mol.getAtomCount();i++){
+				  IAtom a=mol.getAtom(i);
+				  a.setPoint2d(new Point2d(a.getPoint3d().x,a.getPoint3d().y));
+				  a.getPoint3d().z=0;
+			  }
+			  TurbineUser user = NmrshiftdbUserPeer.getByName("shk3");
+			  StringWriter sw=new StringWriter();
+			  new MDLWriter(sw).writeMolecule(mol);
+			  int existingMolecule=new SubmittingData(args[1]+"/../conf/jetspeed/WEB-INF/conf/normalizer.xml").saveMoleculeOnly(sw.toString(), null, user);
+			  DBWishlist entry = new DBWishlist();
+			  entry.setUserId(user.getUserId());
+			  entry.setDate(new Date());
+			  entry.setSpectrumTypeId(1);
+			  entry.setMoleculeId(existingMolecule);
+			  entry.save();
+			  wishedstructures++;
+			  System.err.println("wish "+smiles+"  ");
+		  }
+	  }
+	  for(int i=1;i<7;i++)
+		  System.err.println("Spheres; "+i+", found:"+found[i]+", not found:"+notfound[i]);
+  }
+
+
+  /**
+   *Insert a AbInitioDataset into the database.
+   *
+   * @param  aid            The AbInitioDataset
+   * @param  args           The command-line arguments
+   * @exception  Exception  Database problems
+   */
+  private static void doInsert(AbInitioDataset aid, String[] args) throws Exception {
+	  IMolecule molWithH = aid.molecule;
+	  IMolecule mol = (IMolecule)AtomContainerManipulator.removeHydrogens(molWithH);
+	  for(int i=0;i<mol.getAtomCount();i++){
+		  mol.getAtom(i).setPoint2d(new Point2d(mol.getAtom(i).getPoint3d().x,mol.getAtom(i).getPoint3d().y));
+		  mol.getAtom(i).setPoint3d(null);
+	  }
+	  IMolecule mol3d=molWithH;
+	  TurbineUser user = null;
+	  Criteria crit = new Criteria();
+	  crit.add(NmrshiftdbUserPeer.LOGIN_NAME, "bulkload");
+	  List v = NmrshiftdbUserPeer.doSelect(crit);
+	  //Look if the bulkoad user exists
+	  if (v.size() > 0) {
+		  user = (TurbineUser) v.get(0);
+	  } else {
+		  //if not, create him
+		  user = new TurbineUser();
+		  user.setLoginName("bulkload");
+		  user.setPasswordValue("bulkload");
+		  user.setCreated(new Date());
+		  user.setLastLogin(new Date(0));
+		  user.setFirstName("bulkload");
+		  user.setLastName("bulkload");
+		  user.setTitle("bulkload");
+		  user.setAddress("bulkload");
+		  user.setCity("bulkload");
+		  user.setState("bulkload");
+		  user.setZipCode("bulkload");
+		  user.setCountry("bulkload");
+		  user.setWebPage("bulkload");
+		  user.setAffiliation1("bulkload");
+		  user.setAffiliation2("bulkload");
+		  user.setEmail("bulkload");
+		  user.setHallOfFame("false");
+		  user.save();
+	  }
+	  //This dates are used whenever the creation date is needed
+	  Date now = new Date();
+	  StringWriter sw = new StringWriter();
+	  MDLWriter mdlw = new MDLWriter(sw);
+	  mdlw.writeMolecule(mol);
+	  String strucFile = sw.toString().replace(',', '.');
+	  //Create a submitting data object with the molecule and the C spectrum
+	  SubmittingData sd = new SubmittingData(args[1] + "../conf/jetspeed/WEB-INF/conf/normalizer.xml");
+	  sd.setMol(strucFile,false,false,false);
+	  for(int i=0;i<mol.getAtomCount();i++){
+		sd.getMolWithHCount().getAtom(i).setProperties(mol.getAtom(i).getProperties());
+	  }
+	  for(int i=0;i<sd.getMolWithH().getAtomCount();i++){
+		if(molWithH.getAtom(i).getProperties()!=null)
+			sd.getMolWithH().getAtom(i).setProperties(molWithH.getAtom(i).getProperties());
+		}
+	  mol=sd.getMolWithHCount();
+	  molWithH=sd.getMolWithH();
+	  //create a hose code - shift map for avarage calculation
+	  Map<Long,ArrayList<Double>> valuesMapC=new HashMap<Long,ArrayList<Double>>();
+	  Map<Long,ArrayList<Double>> valuesMapH=new HashMap<Long,ArrayList<Double>>();
+	  long[] morgan=MorganNumbersTools.getMorganNumbers(molWithH);
+	  for (int i = 0; i < sd.getMolWithH().getAtomCount(); i++) {
+		  if(sd.getMolWithH().getAtom(i).getSymbol().equals("C")){
+			  long morganatom=morgan[i];
+			  if(valuesMapC.get(new Long(morganatom))==null){
+				  valuesMapC.put(new Long(morganatom), new ArrayList<Double>());
+			  }
+			  valuesMapC.get(new Long(morganatom)).add(new Double((double)((java.lang.Math.floor(((Double) molWithH.getAtom(i).getProperty(CDKConstants.NMRSHIFT_CARBON)).doubleValue() * 100)) / 100)));
+		  }
+		  if(sd.getMolWithH().getAtom(i).getSymbol().equals("H")){
+			if(molWithH.getAtom(i).getProperty(CDKConstants.NMRSHIFT_HYDROGEN)!=null){
+			  long morganatom=morgan[i];
+			  if(valuesMapH.get(new Long(morganatom))==null){
+				  valuesMapH.put(new Long(morganatom), new ArrayList<Double>());
+			  }
+			  valuesMapH.get(new Long(morganatom)).add(new Double((float)((java.lang.Math.floor(((Double) molWithH.getAtom(i).getProperty(CDKConstants.NMRSHIFT_HYDROGEN)).doubleValue() * 100)) / 100)));
+		    }
+		}
+	  }
+	  ArrayList signalstable = new ArrayList();
+	  boolean valid=true;
+	  for (int i = 0; i < sd.getMolWithH().getAtomCount(); i++) {
+		  if (molWithH.getAtom(i).getSymbol().equals("C")) {
+			  ValueTriple vt = new ValueTriple();
+			  ArrayList<Double> al=valuesMapC.get(morgan[i]);
+			  double[] values=new double[al.size()];
+			  for(int k=0;k<al.size();k++){
+				  values[k]=al.get(k).doubleValue();
+			  }
+			  vt.value1 = (float)(java.lang.Math.floor(Statistics.average(values) * 100) / 100);
+			  vt.atoms.add(sd.getMolWithH().getAtom(i));
+              vt.multiplicity=sd.getMolWithHCount().getAtom(i).getHydrogenCount();
+			  signalstable.add(vt);
+			  try{
+				  double[] pred=PredictionTool.generalPredict(sd.getMolWithHCount(), sd.getMolWithHCount().getAtom(i),false, true, -1,-1, new StringBuffer(), false, true, null, new HashMap(), 6, true, new StringBuffer(),6,true,true);
+				  if(vt.value1<pred[0] || vt.value2>pred[2])
+					  valid=false;
+			  }catch(Exception ex){
+				  valid=false;	
+			  }
+		  }
+	  }
+      sd.coordinatesetid3=5;
+      sd.molcoord=mol3d;
+	  sd.setSignalstable(signalstable);
+	  sd.setChemName(aid.chemicalName);
+	  sd.setCasNumber(aid.casNumber);
+	  sd.setMoleculeKeywords("NCI");
+	  sd.setSpectrumKeywords("Gaussian 98");
+	  ArrayList originalConditions = new ArrayList();
+	  DBConditionType cond = new DBConditionType();
+	  cond.setCurrentValue(aid.software);
+	  cond.setConditionTypeId(4);
+	  originalConditions.add(cond);
+	  DBConditionType cond2 = new DBConditionType();
+	  cond2.setCurrentValue(aid.nmrAlgorithm);
+	  cond2.setConditionTypeId(5);
+	  originalConditions.add(cond2);
+	  DBConditionType cond3 = new DBConditionType();
+	  cond3.setCurrentValue(aid.optMethod);
+	  cond3.setConditionTypeId(6);
+	  originalConditions.add(cond3);
+	  DBConditionType cond4 = new DBConditionType();
+	  cond4.setCurrentValue(aid.optBasisSet);
+	  cond4.setConditionTypeId(7);
+	  originalConditions.add(cond4);
+	  DBConditionType cond5 = new DBConditionType();
+	  cond5.setCurrentValue(aid.nmrMethod);
+	  cond5.setConditionTypeId(8);
+	  originalConditions.add(cond5);
+	  DBConditionType cond6 = new DBConditionType();
+	  cond6.setCurrentValue(aid.nmrBasisSet);
+	  cond6.setConditionTypeId(9);
+	  originalConditions.add(cond6);
+	  sd.setConditions(originalConditions);
+	  crit = new Criteria();
+	  crit.add(DBSpectrumTypePeer.NAME, "13C");
+	  v = DBSpectrumTypePeer.doSelect(crit);
+	  sd.setChoosenSpectrumType((DBSpectrumType) v.get(0));
+	  sd.setMoleculeLinks("http://www2.ccc.uni-erlangen.de/ncidb2?cas=" + aid.casNumber + ";This molecule in the NCI database");
+	  String nmrpropsFile = args[1] + "../conf/jetspeed/WEB-INF/conf/NMRShiftDB.properties";
+	  String jetspeedpropsFile = args[1] + "../conf/jetspeed/WEB-INF/conf/JetspeedResources.properties";
+	  Properties nmrprops = new Properties();
+	  Properties jetspeedprops = new Properties();
+	  nmrprops.load(new FileInputStream(nmrpropsFile));
+	  jetspeedprops.load(new FileInputStream(jetspeedpropsFile));
+	  if(valid)	  
+		  sd.save(user.getUserId(), "true", args[2], now, null, Integer.parseInt(nmrprops.getProperty("hosecode.spheres")),true);
+	  else
+		  System.err.println("not predicted");
+	  /*if (nmrprops.getProperty("writeserializedtodir").equals("true")) {
+		  FileWriter out = new FileWriter(nmrprops.getProperty("serializeddir") + File.separatorChar + sd.nmrshiftdbnr.replace('/', '|') + ".xml");
+		  out.write(sd.serializeMe());
+		  out.close();
+	  }
+	  if (nmrprops.getProperty("sendserializedemail").equals("true")) {
+		  MailMessage email = new org.apache.turbine.util.mail.MailMessage(jetspeedprops.getProperty("mail.server"), nmrprops.getProperty("serializedemail"), jetspeedprops.getProperty("mail.support"), "Serialized input from" + sd.nmrshiftdbnr.replace('/', '|'), sd.serializeMe());
+		  if (email.send() == false) {
+			  Log.error("Sending email with serialized input from " + now.toString() + " failed for spectrum " + sd.spectrumid);
+		  }
+	  }*/
+	  //Add H spectrum to DB
+	  signalstable.clear();
+	  valid=true;
+	  for (int i = 0; i < mol.getAtomCount(); i++) {
+		  IAtom parent = sd.getMolWithHCount().getAtom(i);
+          List children = molWithH.getConnectedAtomsList(molWithH.getAtom(i));
+		  double altogether = 0;
+		  ValueTriple vt = new ValueTriple();
+		  for (int k = 0; k < children.size(); k++) {
+			  if (((IAtom)children.get(k)).getSymbol().equals("H")) {
+				  altogether += ((Double) ((IAtom)children.get(k)).getProperty(CDKConstants.NMRSHIFT_HYDROGEN)).doubleValue();
+				  vt.atoms.add((IAtom)children.get(k));
+			  }
+		  }
+		  if(vt.atoms.size()>0 && sd.getMolWithH().getAtomNumber((IAtom)vt.atoms.get(0))<morgan.length){
+			  ArrayList<Double> al=valuesMapH.get(morgan[sd.getMolWithH().getAtomNumber((IAtom)vt.atoms.get(0))]);
+			  if(al!=null){
+				  double[] values=new double[al.size()];
+				  for(int k=0;k<al.size();k++){
+					  values[k]=al.get(k).doubleValue();
+				  }
+				  vt.value1 = (float)(java.lang.Math.floor(Statistics.average(values) * 100) / 100);
+				  signalstable.add(vt);
+				  double[] pred=PredictionTool.generalPredict(sd.getMolWithH(), (IAtom)vt.atoms.get(0), false, true, -1,-1, new StringBuffer(), false, true, null, new HashMap(), 6, true, new StringBuffer(),6,true,true);
+				  if(vt.value1<pred[0] || vt.value2>pred[2])
+					  valid=false;
+			  }
+		  }
+	  }
+	  sd.setSignalstable(signalstable);
+	  crit = new Criteria();
+	  crit.add(DBSpectrumTypePeer.NAME, "1H");
+	  v = DBSpectrumTypePeer.doSelect(crit);
+	  sd.setChoosenSpectrumType((DBSpectrumType) v.get(0));
+	  if(valid)
+		  sd.save(user.getUserId(), "true", args[2], now, null, Integer.parseInt(nmrprops.getProperty("hosecode.spheres")),true);
+	  else
+		  System.err.println("not predicted");
+	  /*if (nmrprops.getProperty("writeserializedtodir").equals("true")) {
+		  FileWriter out = new FileWriter(nmrprops.getProperty("serializeddir") + File.separatorChar + sd.nmrshiftdbnr.replace('/', '|') + ".xml");
+		  out.write(sd.serializeMe());
+		  out.close();
+	  }
+	  if (nmrprops.getProperty("sendserializedemail").equals("true")) {
+		  MailMessage email = new org.apache.turbine.util.mail.MailMessage(jetspeedprops.getProperty("mail.server"), nmrprops.getProperty("serializedemail"), jetspeedprops.getProperty("mail.support"), "Serialized input from" + sd.nmrshiftdbnr.replace('/', '|'), sd.serializeMe());
+		  if (email.send() == false) {
+			  Log.error("Sending email with serialized input from " + now.toString() + " failed for spectrum " + sd.spectrumid);
+		  }
+	  }*/
+	  return;
+  }
+
+
+  private static void executeCrossvalidateWeka(String[] args) throws Exception {
+	  Category sqlLogger = Category.getInstance("sql");
+	  sqlLogger.addAppender(new FileAppender(new SimpleLayout(), args[0]+"/crosslog"));
+	  Torque.init(args[1]+"../conf/jetspeed/WEB-INF/conf/Torque.properties");
+	  TurbineConfig config = new TurbineConfig(args[1], "../conf/jetspeed/WEB-INF/conf/TurbineResources.properties");
+	  config.initialize();
+	  Connection dbconn = Torque.getConnection();
+	  Statement stmt=dbconn.createStatement();
+	  String sql="select DESCRIPTORS_ALL.* from DESCRIPTORS_ALL join ATOM using (ATOM_ID ) where HETERO ='false' limit 1000";
+	  double[] errors=new double[10];
+	  double[] errorsh=new double[10];
+	  int[] hits=new int[10];
+	  for(int i=0;i<10;i++){
+		  System.err.println("runde "+i);	        
+		  ResultSet rs=stmt.executeQuery(sql);        
+		  ResultSetMetaData meta=rs.getMetaData();
+		  FileReader reader=new FileReader(args[1]+ "../conf/jetspeed/WEB-INF/conf/header.arff");
+		  int colsnumber = meta.getColumnCount();
+		  //j48
+		  Instances instances=new Instances(reader, 1000);
+		  rs.beforeFirst();
+		  instances.setClassIndex(colsnumber-2);
+		  int m=0;
+		  Vector shifts=new Vector();
+		  while(rs.next()){
+			  /*Instance instance=new Instance(colsnumber-1);
+			  instance.setDataset(instances);
+			  for(int k=3;k<=colsnumber;k++){
+				  if(instances.attribute(k-3).isNumeric()){
+					  instance.setValue(k-3,rs.getDouble(k));
+				  }else{
+					  instance.setValue(k-3,""+rs.getInt(k));
+				  }
+			  }
+			  DBSignal signal=DBSignalPeer.retrieveByPK(new NumberKey(rs.getInt(2)));
+			  DBAtom atom=DBAtomPeer.retrieveByPK(new NumberKey(rs.getInt(1)));
+			  DBMolecule dbmol=atom.getDBMolecule();
+			  float shift=signal.getFirstShift().getValue();
+			  double predicted=PredictionTool.generalPredict(dbmol.getAsCDKMolecule(1), dbmol.getAsCDKMolecule(1).getAtom(atom.getMdlNumber()), true, true, -1, -1, new StringBuffer(""), false, false, null, new HashMap(), -1, false, new StringBuffer(), 6, true, true)[1];
+			  shift=shift-(float)predicted+5;
+			  //System.err.println("Korrektur "+shift+" bei "+signal.getFirstShift().getValue());
+			  shift=shift*100;
+			  if(shift>1500)
+				  shift=1500;          
+			  instance.setClassValue((int)shift);
+			  instances.add(instance);
+			  shifts.add(signal);
+			  m++;*/
+		  }
+		  /*Filter m_Filter = new Discretize();
+		    m_Filter.inputFormat(instances);*/
+		  Instances instancesfiltered = instances;//Filter.useFilter(instances, m_Filter);
+		  //attribute selection via pca
+		  /*AttributeSelection selectionFilter=new AttributeSelection();
+		    selectionFilter.setEvaluator(ASEvaluation.forName("weka.attributeSelection.PrincipalComponents", new String[]{"-R","1"}));
+		    selectionFilter.setSearch(ASSearch.forName("weka.attributeSelection.Ranker", new String[]{}));
+		    selectionFilter.inputFormat(instances);
+		    Instances instancesfiltered = Filter.useFilter(instances, selectionFilter);*/
+		  //Instances instancesfiltered=instances;
+		  //instancesfiltered.setClassIndex(instancesfiltered.firstInstance().numValues()-1);
+		  //instances.delete();
+		  rs.close();
+		  Vector instancestest=new Vector();
+		  Vector shiftstest=new Vector();
+		  for(int k=instancesfiltered.numInstances()-1;k>=0;k--){
+			  if(k % 10==i){
+				  instancestest.add(instancesfiltered.instance(k));
+				  instancesfiltered.delete(k);
+				  shiftstest.add(shifts.get(k));
+			  }
+		  }
+		  J48 j48=new J48();
+		  j48.buildClassifier(instancesfiltered);
+		  instancesfiltered.delete();
+		  int count=0;
+		  m=0;
+		  for(int n=0;n<instancestest.size();n++){
+			  count++;
+			  Instance instance=(Instance)instancestest.get(n);
+			  try{
+				  DBSignal signal=(DBSignal)shifts.get(n);
+				  double shiftf=signal.getFirstShift().getValue();
+				  //instance.setClassMissing();
+				  /*int shifti=(int)(shiftf*100);
+				    if(shifti>1500)
+				    shifti=1500;          */
+				  //double predicted=(j48.classifyInstance(instance)/100)-5;
+
+
+				  DBAtom atom=(DBAtom)signal.getAtoms().get(0);
+				  DBMolecule dbmol=atom.getDBMolecule();
+				  double shift=signal.getFirstShift().getValue();
+				  double predictedhose=PredictionTool.generalPredict(dbmol.getAsCDKMolecule(1), dbmol.getAsCDKMolecule(1).getAtom(atom.getMdlNumber()), true, true, -1, -1, new StringBuffer(""), false, false, null, new HashMap(), -1, false, new StringBuffer(), 6, true, true)[1];
+				  //System.err.println("hose "+predictedhose+" korrektur "+predicted);
+				  //predicted=predicted+predictedhose;
+
+
+				  /*System.err.println("pred - orig: "+predicted+"  "+shiftf);
+				  errors[i]+=(predicted-shiftf)*(predicted-shiftf)                  ;
+				  errorsh[i]+=(predictedhose-shiftf)*(predictedhose-shiftf);
+				  if((int)(shiftf*10)==(int)(predicted*10)){
+					  hits[i]++;
+				  }*/
+			  }catch(Exception ex){
+				  ex.printStackTrace(); 
+			  }
+		  }
+		  m++;
+		  System.err.println(hits[i]+"  "+errors[i]+"   "+errorsh[i]);
+		  errors[i]=errors[i]/count;
+	  }
+	  System.err.println(hits[0]+"  "+hits[1]+"  "+hits[2]+"  "+hits[3]+"  "+hits[4]+"  "+hits[5]+"  "+hits[6]+"  "+hits[7]+"  "+hits[8]+"  "+hits[9]);
+	  System.err.println(" error for orginal set: "+Statistics.average(errors)+  "   "+Statistics.average(errorsh));
+  }
+
+
+  private static void crossvalidateHose(String[] args){
+	  try{
+		  Torque.init(args[1]+"../conf/jetspeed/WEB-INF/conf/Torque.properties");
+		  TurbineConfig config = new TurbineConfig(args[1], "../conf/jetspeed/WEB-INF/conf/TurbineResources.properties");
+		  config.initialize();
+		  Connection dbconn = Torque.getConnection();
+		  Statement stmt = dbconn.createStatement();
+		  double[] errors=new double[10];
+		  int[] hits=new int[10];
+		  for(int i=0;i<10;i++){
+			  ResultSet rs=stmt.executeQuery("select count(*) from SPECTRUM where SPECTRUM_TYPE_ID=2 and REVIEW_FLAG='true'");
+			  rs.next();
+			  int numofmols=rs.getInt(1);
+			  rs=stmt.executeQuery("select SPECTRUM_ID, MOLECULE_ID from SPECTRUM where SPECTRUM_TYPE_ID=2 and REVIEW_FLAG='true' order by SPECTRUM_ID");
+			  for(int k=0;k<i;k++){
+				  for(int l=0;l<(int)numofmols/10;l++){
+					  rs.next();
+				  }
+			  }	        
+			  rs.next();
+			  int startmol=rs.getInt(1);
+			  Vector topredict=new Vector();
+			  for(int k=0;k<(int)numofmols/10;k++){
+				  topredict.add(DBMoleculePeer.retrieveByPK(new NumberKey(rs.getInt(2))));
+				  if(rs.isAfterLast()){
+					  rs.last();
+					  break;
+				  }
+				  rs.next();
+			  }
+			  if(rs.isAfterLast()){
+				  rs.last();
+			  }
+			  int endmol=rs.getInt(1);
+			  System.err.println(i+"  "+numofmols+"  "+startmol+"  "+endmol);
+			  int m=0;
+			  for(int k=0;k<topredict.size();k++){
+				  DBMolecule mol=(DBMolecule)topredict.get(k);
+				  IMolecule cdkmol=mol.getAsCDKMolecule(1);
+				  for(int l=0;l<cdkmol.getAtomCount();l++){
+					  if(cdkmol.getAtom(l).getSymbol().equals("H") && mol.getAtomsAsArrayInMdlOrder()[l].getDBSignalsBySpectrumType("1H").size()>0 && ((IAtom)cdkmol.getConnectedAtomsList(cdkmol.getAtom(l)).get(0)).getSymbol().equals("C")){
+						  try{
+							  double predicted=PredictionTool.generalPredict(cdkmol, cdkmol.getAtom(l), true, true, startmol, endmol, new StringBuffer(""), false, false, null, new HashMap(), -1, false, new StringBuffer(), 6, true, true)[1];
+							  double real=((DBSignal)mol.getAtomsAsArrayInMdlOrder()[l].getDBSignalsBySpectrumType("1H").get(0)).getFirstShift().getValue();
+							  errors[i]+=(predicted-real)*(predicted-real);
+							  if((int)(real*10)==(int)(predicted*10)){
+								  hits[i]++;
+							  }
+							  m++;
+						  }catch(Exception ex){}
+					  }
+				  }
+			  }
+			  errors[i]=errors[i]/m;
+			  System.err.println("m "+m);
+		  }
+		  System.err.println(Statistics.average(errors));
+		  System.err.println(hits[0]+"  "+hits[1]+"  "+hits[2]+"  "+hits[3]+"  "+hits[4]+"  "+hits[5]+"  "+hits[6]+"  "+hits[7]+"  "+hits[8]+"  "+hits[9]);
+	  }catch(Exception ex){
+		  ex.printStackTrace();
+	  }
+  }
+  
+  private static void makeQA(String[] args){
+	  try{
+		  Torque.init(args[1]+"../conf/jetspeed/WEB-INF/conf/Torque.properties");
+		  TurbineConfig config = new TurbineConfig(args[1], "../conf/jetspeed/WEB-INF/conf/TurbineResources.properties");
+		  config.initialize();
+		  Connection dbconn = Torque.getConnection();
+		  Statement stmt = dbconn.createStatement();
+		  ResultSet rs=stmt.executeQuery("select HOSE_CODE_WITH_RINGS, VALUE, SPECTRUM_ID from SHIFT join SIGNAL using (SIGNAL_ID) join SIGNAL_ATOM using (SIGNAL_ID) join ATOM using (ATOM_ID) where SYMBOL='C' and (select CONDITION_TYPE.CONDITION_TYPE from CONDITION_TYPE join `CONDITION` using (CONDITION_TYPE_ID) join SPECTRUM_CONDITION using (CONDITION_ID) where SPECTRUM_CONDITION.SPECTRUM_ID=SIGNAL.SPECTRUM_ID limit 1)='m' order by SPECTRUM_ID");
+		  Map <String,Map<Integer,Float>> hose5=new HashMap<String,Map<Integer,Float>>();
+		  Map <String,Map<Integer,Float>> hose4=new HashMap<String,Map<Integer,Float>>();
+		  while(rs.next()){
+			  String hoseCodeOrig=rs.getString(1);
+			  StringTokenizer st = new StringTokenizer(hoseCodeOrig, "()/");
+			  StringBuffer hoseCodeBuffer = new StringBuffer();
+			  for (int k = 0; k < 5; k++) {
+			    if (st.hasMoreTokens()) {
+			      String partcode = st.nextToken();
+			      hoseCodeBuffer.append(partcode);
+			    }
+			    if (k == 0) {
+			      hoseCodeBuffer.append("(");
+			    } else if (k == 3) {
+			      hoseCodeBuffer.append(")");
+			    } else {
+			      hoseCodeBuffer.append("/");
+			    }
+			  }
+			  String hoseCode = hoseCodeBuffer.toString();
+			  if(hose5.get(hoseCode)==null)
+				  hose5.put(hoseCode, new HashMap<Integer,Float>());
+			  if(rs.getDouble(2)<100)
+				  hose5.get(hoseCode).put(new Integer(rs.getInt(3)),new Float(rs.getDouble(2)));
+			  st = new StringTokenizer(hoseCodeOrig, "()/");
+			  hoseCodeBuffer = new StringBuffer();
+			  for (int k = 0; k < 4; k++) {
+			    if (st.hasMoreTokens()) {
+			      String partcode = st.nextToken();
+			      hoseCodeBuffer.append(partcode);
+			    }
+			    if (k == 0) {
+			      hoseCodeBuffer.append("(");
+			    } else if (k == 3) {
+			      hoseCodeBuffer.append(")");
+			    } else {
+			      hoseCodeBuffer.append("/");
+			    }
+			  }
+			  hoseCode = hoseCodeBuffer.toString();
+			  if(hose4.get(hoseCode)==null)
+				  hose4.put(hoseCode, new HashMap<Integer,Float>());
+			  if(rs.getDouble(2)<100)
+				  hose4.get(hoseCode).put(new Integer(rs.getInt(3)),new Float(rs.getDouble(2)));
+		  }
+		  rs=stmt.executeQuery("select SPECTRUM_ID, MOLECULE_ID from SPECTRUM where REVIEW_FLAG='true' order by SPECTRUM_ID");
+		  Vector topredict=new Vector();
+		  while(rs.next()){
+			  topredict.add(DBMoleculePeer.retrieveByPK(new NumberKey(rs.getInt(2))));
+		  }
+		  rs=null;
+		  dbconn.close();
+		  HOSECodeGenerator hcg = new HOSECodeGenerator();
+		  System.err.println(topredict.size());
+		  OutputStreamWriter osw4=new OutputStreamWriter(new FileOutputStream(new File("error4.txt")));
+		  OutputStreamWriter osw5=new OutputStreamWriter(new FileOutputStream(new File("error5.txt")));
+		  try{
+		  for(int k=0;k<topredict.size();k++){
+			  DBMolecule mol=(DBMolecule)topredict.get(k);
+			  //System.out.println("mol "+mol.getMoleculeId());
+			  IMolecule cdkmol=mol.getAsCDKMoleculeWithoutH();
+			  for(int l=0;l<cdkmol.getAtomCount();l++){
+				  if(cdkmol.getAtom(l).getSymbol().equals("C")){
+				  List signals=mol.getAtomsAsArrayInMdlOrderWithoutHs()[l].getDBSignals('m');
+				  try{
+				  for(int m=0;m<signals.size();m++){
+					  float real=((DBSignal)signals.get(m)).getFirstShift().getValue();
+					  //5 spheres
+					  String hoseCodeOrig=hcg.getHOSECode(cdkmol, cdkmol.getAtom(l), 6,true);
+					  StringTokenizer st = new StringTokenizer(hoseCodeOrig, "()/");
+					  StringBuffer hoseCodeBuffer = new StringBuffer();
+					  for (int n = 0; n < 5; n++) {
+					    if (st.hasMoreTokens()) {
+					      String partcode = st.nextToken();
+					      hoseCodeBuffer.append(partcode);
+					    }
+					    if (n == 0) {
+					      hoseCodeBuffer.append("(");
+					    } else if (n == 3) {
+					      hoseCodeBuffer.append(")");
+					    } else {
+					      hoseCodeBuffer.append("/");
+					    }
+					  }
+					  Map<Integer,Float> result5=hose5.get(hoseCodeBuffer.toString());
+					  int count=0;
+					  float value=0;
+					  Iterator<Integer> it=result5.keySet().iterator();
+					  while(it.hasNext()){
+						  Integer id=it.next();
+						  if(id.intValue()!=((DBSignal)signals.get(m)).getDBSpectrum().getSpectrumId()){
+							  value+=result5.get(id).floatValue();
+							  count++;
+						  }
+					  }
+					  if(count!=0 && value!=0){
+						  float result=value/count;
+						  if(Math.abs(result-real)>5){
+							  osw5.write("5 "+mol.getMoleculeId()+" "+mol.getAtomsAsArrayInMdlOrderWithoutHs()[l].getMdlNumberPlus1()+" "+Math.abs(result-real)+"\r\n");
+							  System.out.print("5 "+mol.getMoleculeId()+" "+mol.getAtomsAsArrayInMdlOrderWithoutHs()[l].getMdlNumberPlus1()+" "+Math.abs(result-real)+"\r\n");
+						  }
+					  }
+					  // 4 spheres
+					  st = new StringTokenizer(hoseCodeOrig, "()/");
+					  hoseCodeBuffer = new StringBuffer();
+					  for (int n = 0; n < 4; n++) {
+					    if (st.hasMoreTokens()) {
+					      String partcode = st.nextToken();
+					      hoseCodeBuffer.append(partcode);
+					    }
+					    if (n == 0) {
+					      hoseCodeBuffer.append("(");
+					    } else if (n == 3) {
+					      hoseCodeBuffer.append(")");
+					    } else {
+					      hoseCodeBuffer.append("/");
+					    }
+					  }
+					  Map<Integer,Float> result4=hose4.get(hoseCodeBuffer.toString());
+					  count=0;
+					  value=0;
+					  it=result4.keySet().iterator();
+					  while(it.hasNext()){
+						  Integer id=it.next();
+						  if(id.intValue()!=((DBSignal)signals.get(m)).getDBSpectrum().getSpectrumId()){
+							  value+=result4.get(id).floatValue();
+							  count++;
+						  }
+					  }
+					  if(count!=0 && value!=0){
+						  float result=value/count;
+						  if(Math.abs(result-real)>10){
+							  osw4.write("4 "+mol.getMoleculeId()+" "+mol.getAtomsAsArrayInMdlOrderWithoutHs()[l].getMdlNumberPlus1()+" "+Math.abs(result-real)+"\r\n");
+							  System.out.print("4 "+mol.getMoleculeId()+" "+mol.getAtomsAsArrayInMdlOrderWithoutHs()[l].getMdlNumberPlus1()+" "+Math.abs(result-real)+"\r\n");
+						  }
+					  }
+				  }
+				  }catch(Exception ex){
+					  ex.printStackTrace();
+				  }
+				  }
+			  }
+		  }
+		  }catch(Throwable ex){
+			  osw4.close();
+			  osw5.close();
+		  }
+	  }catch(Exception ex){
+		  ex.printStackTrace();
+	  }
+  }
+  
+  private static void makeArff(String[] args){
+	  try{
+		  /*Torque.init(args[1]+"../conf/jetspeed/WEB-INF/conf/Torque.properties");
+		  TurbineConfig config = new TurbineConfig(args[1], "../conf/jetspeed/WEB-INF/conf/TurbineResources.properties");
+		  config.initialize();
+		  Connection dbconn = Torque.getConnection();
+		  Statement stmt = dbconn.createStatement();
+		  ResultSet rs=stmt.executeQuery("  order by ATOM_ID");        
+		  ResultSetMetaData meta=rs.getMetaData();
+		  int colsnumber = meta.getColumnCount();
+		  OutputStreamWriter osw=new OutputStreamWriter(new FileOutputStream(new File("data.txt")));
+		  OutputStreamWriter oswx=new OutputStreamWriter(new FileOutputStream(new File("dataX.txt")));
+		  int i=1;
+		  while(rs.next()){
+			System.err.println(i);
+			org.openscience.nmrshiftdb.util.Export export=new org.openscience.nmrshiftdb.util.Export(DBMoleculePeer.retrieveByPK(rs.getInt(1)));
+			InputStream is =  new FileInputStream(export.getImage(true,"jpeg","/tmp/molimages"+ rs.getInt(1),500,500,true,null));
+		  }*/
+
+			
+		  Torque.init(args[1]+"../conf/jetspeed/WEB-INF/conf/Torque.properties");
+		  TurbineConfig config = new TurbineConfig(args[1], "../conf/jetspeed/WEB-INF/conf/TurbineResources.properties");
+		  config.initialize();
+		  Connection dbconn = Torque.getConnection();
+		  Statement stmt = dbconn.createStatement();
+		  ResultSet rs=stmt.executeQuery("select DESCRIPTORS_ALL.ATOM_ID, DESCRIPTORS_ALL.SIGNAL_ID from DESCRIPTORS_ALL join ATOM using (ATOM_ID ) where HETERO ='false' order by ATOM_ID");        
+		  ResultSetMetaData meta=rs.getMetaData();
+		  int colsnumber = meta.getColumnCount();
+		  OutputStreamWriter osw=new OutputStreamWriter(new FileOutputStream(new File("data.txt")));
+		  OutputStreamWriter oswx=new OutputStreamWriter(new FileOutputStream(new File("dataX.txt")));
+		  HashMap<Integer,HashMap<Double,String>> nomnames=new HashMap<Integer,HashMap<Double,String>>();
+		  FileInputStream fstream=new FileInputStream(new File(args[1] + "../conf/jetspeed/WEB-INF/conf/nominalattributes.txt"));
+		  DataInputStream in = new DataInputStream(fstream);
+		  while (in.available() !=0)
+		  {
+			String x=in.readLine();
+			StringTokenizer st=new StringTokenizer(x);
+			Integer des=new Integer(st.nextToken());
+			Double values=new Double(st.nextToken());
+			String def=st.nextToken();
+			if(nomnames.get(des)==null)
+				nomnames.put(des,new HashMap<Double,String>());
+			nomnames.get(des).put(values,def);
+		  }
+		  int i=1;
+		  while(rs.next()){
+			System.err.println(i);
+		    for(int k=3;k<=colsnumber-1;k++){
+		    	if(rs.getDouble(k)==-1){
+		    		osw.write("NA\t");
+		    	}else{
+		    		Integer desnumber=new Integer(rs.getMetaData().getColumnName(k).substring(3));
+		    		if(nomnames.get(new Integer(i-3))!=null && nomnames.get(new Integer(i-3)).get(new Double(rs.getDouble(k)))!=null)
+		    			osw.write(nomnames.get(new Integer(i-3)).get(new Double(rs.getDouble(k)))+"\t");
+		    		else
+		    			osw.write(rs.getDouble(k)+"\t");
+		    	}
+		    }
+		    osw.write(rs.getDouble(colsnumber-1)+"\r\n");
+		    DBSignal signal=DBSignalPeer.retrieveByPK(new NumberKey(rs.getInt(2)));
+		    DBAtom atom=DBAtomPeer.retrieveByPK(new NumberKey(rs.getInt(1)));
+	    	oswx.write(i+"\t"+atom.getAtomId()+"\tblack\t"+signal.getFirstShift().getValue()+"\t"+atom.getHoseCode()+"\t"+atom.getMoleculeId()+"\t"+atom.getAtomId()+"\t"+atom.getDBMolecule().getSmilesStringStr()+"\r\n");
+		    i++;
+		  }
+		  oswx.close();
+		  osw.close();
+		  OutputStreamWriter x=new OutputStreamWriter(new FileOutputStream(new File("dataY.txt")));
+	      FileReader reader=new FileReader(args[1]+ "../conf/jetspeed/WEB-INF/conf/header.arff");
+	      //j48
+	      Instances instances=new Instances(reader);
+	      i=0;
+	      while(instances.enumerateAttributes().hasMoreElements()){
+	    	  try{
+		    	  stmt.executeQuery("select des"+i+" from DESCRIPTORS_ALL");
+		    	  Attribute attr=((Attribute)instances.enumerateAttributes().nextElement());
+		    	  x.write(i+"\t"+attr.name()+"\tblack\t");
+		    	  if(attr.isNominal())
+		    		  x.write("1");
+		    	  else
+		    		  x.write("0");
+		    	  x.write("\r\n");
+	    	  }catch(SQLException ex){
+	    		  System.err.println(i+" fehlt");
+	    	  }
+	    	  i++;
+	      }
+	      x.close();
+      }catch(Exception ex){
+    	  ex.printStackTrace();
+      }
+ 	 
+      }
+}

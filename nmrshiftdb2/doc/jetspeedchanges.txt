@@ -1,0 +1,31 @@
+�ersicht ber neue/ver�derte files/directories im jetspeed-directory (Tue Feb 12 2002, Stefan Kuhn)
+
+Neu:
+WEB-INF/conf/local-portlets.xreg				Unsere Portlet-Registry
+WEB-INF/lib/nmrshift.jar					Unser jar
+WEB-INF/psml/user/con/					Neuer Test-Benutzer
+WEB-INF/psml/user/con/					Neuer Test-Benutzer
+WEB-INF/psml/role/contributor/				Neue Rolle
+WEB-INF/psml/role/contributor/				Neue Rolle
+images/nmrshift-logo.gif						Unser logo
+nmrshiftdb/						Verzeichnis fr unsere Htmls
+
+Ver�dert:
+WEB-INF/psml/user/turbine/html/default.psml			Layout fr turbine, wird zu allen neuen usern 									kopiert
+WEB-INF/psml/anon/html/default.psml				Layout ohne eingeloggten Benutzer
+WEB-INF/psml/role/user/default.psml				Role fr Standard-Benutzer
+WEB-INF/templates/vm/layouts/html/default.vm			Gesamt-Layout
+WEB-INF/templates/vm/navigations/html/bottom.vm		Untere Leiste
+WEB-INF/templates/vm/navigations/html/bottom.vm		Obere Leiste
+WEB-INF/db/jetspeed.script				Datenbankskript, legt unsere Benutzer/Rollen mit an
+
+Anmerkung: Fr die Anlage der neuen Rollen/Benutzer sind auch �derunge in der DB erforderlich
+
+Aus jetspeed.jar wurden alle sprachspezifischen properties-Files in org/apache/jetspeed/modules/localization entfernt, um sicherzustellen, dass das Inteface durchgehend in Englisch ist.
+
+
+
+
+
+
+

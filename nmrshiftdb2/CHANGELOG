@@ -1,0 +1,552 @@
+CHANGELOG
+---------
+
+1.5 Release
+-----------
+- Lots of small improvements and bug fixes
+- Ketcher now possible as editor
+- Jmol updated to the JavaScript version
+- Correlation search possible
+- Zero bonds (dx.doi.org/10.1021/ci200488k) are possible, with searches and prediction
+
+1.4.15 Release
+--------------
+- Update about
+- When submitting spectrum for structure used before, literature etc. is preset
+- Bug #81
+
+1.4.14 Release
+--------------
+New:
+- Report for all spectra generated in quick check and for datasets
+
+Bugfixes:
+- Detail pages get cached, this was a major performance issue.
+
+1.4.14 Release
+--------------
+New
+- DOIs are saved and displayed
+- QuickCheck can be called via JSON (see wiki)
+
+1.4.13 Release
+--------------
+Bugfixes
+- #66,64,65,59
+
+
+1.4.12 Release
+--------------
+New:
+* CMC-SE import in QuickCheck
+* NMReDATA/NMR Record export
+* NMReDATA export in QuickCheck
+* Better layout QuickCheck report
+* Implements #29,34,30,31,28,33,32,51
+* CMC-SE export can be imported in submit
+* LIMS: Parameters for experiments can now be set by user
+
+Fixes:
+* #42
+
+1.4.11 Release
+--------------
+Bugfix release, mainly improvements on QuickCheck
+Fixes bugs #30,31,29,32,26,23,34,28,20
+Implements features #36,37
+
+1.4.10 Release
+--------------
+New:
+* nmrshiftdb2 quality report is saved with spectra.
+* QuickCheck can include a csearch report.
+* If a renumbering is done during submit double numbers are highlighted.
+
+1.4.9 Release
+-------------
+New:
+* The QuickCheck function is available
+* Experiments can now be configured to exclude each other (only directly in db currently)
+
+1.4.8 Release
+-------------
+New:
+* Spectrometers are disabled if the requested experiments take up all available time
+* If a spectrum search is done for a certain spectrum type only spectra of that type are displayed in details
+* Spectrometer shift operation can be set per day of week (lab system)
+
+Fixes:
+* Incomplete submits with a JCAMP only are no longer possible
+* A complete rework and better documentation of the licensing situation, including a new license for code and content
+
+1.4.7 Release
+-------------
+New:
+* Spectrometers can be operated in day and night shifts (lab system)
+
+Fixes:
+* A spectrum search where some shifts have a multiplicity now works (e. g. 145D,34 will find spectra with a D shift around 145 and any shift around 34)
+* Corrected hydrogenCount in exportcmlbyinchi
+
+1.4.6 Release
+-------------
+
+New:
+* Extended search for samples (lab system)
+* The structures history is now permanent for logged-in users
+* Links from Unichem are displayed for structure
+* Warnings in prediction if low number of spheres/broad range
+* Links to tautomers are now shown
+* The Robot Referee reports are permanently available with spectrum records
+
+Fixes:
+* "Show only full spectra" includes pdf (so far, only spectra with jcamp were found)
+
+1.4.5 Release
+-------------
+
+New:
+* md5 checksums are calculated for raw data files
+* IconNMR integration for lab system
+* Structure input changed to MarvinJS due to constant problems with Java Applets
+
+Fixes
+* Unicode support throughout (see relnotes)
+* Isopopes now handled (see relnotes)
+
+1.4.4 Release
+-------------
+
+New:
+* Better display of FAQ etc. pages (not as part of help display)
+* Spectrum type can be chosen for spectrum searches
+* Combined subspectrum searches give a valid result
+* PDFs can be uploaded during submits
+* The submit process was redesigned and should be easier to use
+* "Field Strength" can now be entered as spectrometer frequency and will be calculated according to spectrum type
+* During submit literature entries can be built from DOI
+* The shift table in the submit page can be sorted by atom or shift
+* If shifts are submitted with multiplicities in submit and assignment, the multiplicities are considered when doing the auto assignment
+
+Fixes:
+* In the prediction display the tooltips with shifts values in the structure applet were not properly working in case of symetric atoms
+* Special characters properly handled in submits
+* Renumbering of molecules and adding of atom identifiers during submit re-enabled (had been disabled priviously)
+
+1.4.3 Release
+-------------
+
+New:
+* Measured samples are displayed in details (lab system)
+* Tabs in "Details" are separate for each entry
+
+Fixes:
+* Submit gave error for 1H in certain situations
+* Prediction gave inconsistent numbering if explicit Hs were in molecule
+* Pubchem name search did not work in same casese (e. g. caffeine)
+
+
+1.4.2 Release
+-------------
+
+New:
+* Users can make robot orders self measured in case the robot for some reason does not finish the order.
+* More flexible input for spectra: values can be separated by " " instead of newline
+* Shift table in details display can be sorted by any column, ascending and descending
+* Intensities in input (spectrum and search) are auto-scaled
+* Entries from private instance can now be published to public one
+* Prediction now uses all chiral configurations
+
+Fixes:
+* Upgraded cdk fixes problems with structure search for aromatic compunds (bug #3307737)
+* The spectrumsimilarity UDF had problems in certain situations, leading to spectra missing from results
+
+1.4.1 Release
+-------------
+
+New:
+* New Assignment function does an automatic assignment of a spectrum to a structure
+* Labgroup membership and affiliation is now kept as historic info
+* Links to other stereoisomers are now displayed as images
+* Submits can be kept in private mode for later publication
+* Exports possible already during submit.
+
+Fixes:
+* The chemical name lookup in PubChem is now more generalized, it did not find anything if the name was in pubchem for a stereo specified structure, which was in nmrshiftdb2 without stereo specification
+* Some HOSE codes were not properly found when searching from prediction
+
+1.4 Release
+-------------
+
+New:
+* New submissions are sent to CSEARCH robot (http://nmrpredict.orc.univie.ac.at/c13robot/robot.php) for review, prediction of CSEARCH is saved alongside measures spectrum
+* JCAMP files can now be saved and displayed for spectra
+* Prediction respects E/Z configuration of prenyl groups on double bonds
+* Download in details is now a tab in its own, easier to find
+* Changed the guestbook to be a screen, this cleans up the user interface. Wishlist is gone since not used
+* There is a count of all sessions
+* The jcamp settings text includes examples, options now also offered in submit page next to upload
+* Lab system: Orders can be made operator-orders by operators to enable manual processing in case of stuck orders
+* Lab system: Statistics now include figures for lab submissions
+* Lab system: Searches can be restricted to submissions from the lab
+* "Show all my contributions" is now in reverse order by date, gives last submits first
+* Lab system: Experiments can now be configured in database, makes the UI easily adaptable
+* Lab system: Default mode for machines can now be configured
+* Lab System: Input of probable structure can be configured as optional
+* Results/prediction shows if data from labgroup have been used
+
+Fixes:
+* The InChIs are now generated locally, avoiding problems with the web service
+* New users got a Jetspeed profile, which made most functions not working when logged in, fixed
+* Speedup for potential multiplicities search
+* New JCP (3.1.3) with some bugfixes and new features
+* Images in details show atom numbers
+* Faster exact formula search
+* Fixed reading of jcamp files
+* Fixed certain flaws in peak picking applet
+* Significant speedup of the prediction
+* For spectra with ratings below threshold, it was not possible to view other tabs than the Spectra data tab
+
+1.3.6 Release
+-------------
+
+New:
+* Downlaodable SDFs now have name and id as sdfield.
+
+Fixes:
+* Atom count in CML export of molecules with explicit Hs now correct
+* Hertz corrected to mHz in cml spectrum export
+* Under certain circumstances, the prediction could fail due to interal database problems. This has been fixed.
+* Jmol display in svm prediction works again
+
+1.3.5 Release
+-------------
+
+New:
+* Users can get an RSS feed of their contributions at http://servername/nmrshiftdb/NmrshiftdbServlet?nmrshiftdbaction=rssmine&numbertoexport=4&user=username
+* If the search with pubchem resolution does not find anything in pubchem, it does a direct search in NMRShiftDB (useful in case pubchem is down or in the unlikely case something is in NMRShiftDB, but not in pubchem)
+* The user can set if JCAMP reading should respect SHIFT REFERENCE or not
+* We now use the JCP 3.0 applet. This is much better and faster. It also is signed, so files can now be opened and saved in the applet directly.
+
+Fixes:
+* Images in HTML export did not show up
+* Download files had ugly names due to missed changes of id
+* The spectrum search with multiplicites (eg. 128.0D) works again
+* Similarity search gave errors in details display
+* Reading of JCAMP files was broken when it was done more than once
+* Links given in emails to submitters only worked when user was logged in, now they work always
+* Structure images in review page were not displayed
+* The statistics did not work (empty page) under certain circumstances
+* The link for the RSS feed on home page is correct
+* The "Show more literature types" button was lost
+
+1.3.4 Release
+-------------
+
+New:
+* Name resolution via Pubchem. Should make compounds in NMRShiftDB found with virtually any name.
+* There is an assignment service as web service and via direct http request (see help for doc).
+* For identity checks, the InChI is also considered. This should avoid different structures to be saved together, which could happen if the chiral SMILES did not capture the difference.
+* All steps of edited spectra are kept, also all edited molecules.
+
+Fixes:
+* Double-Float conversion in spectrum search result leading to display problems.
+* Multiplicity search works again.
+* Correct Tanimoto coefficients calculated again.
+* Changes in the prediction display (show HOSE codes, use two spheres) ignored the use measured(calculated settings.
+
+
+1.3.3 Release
+-------------
+
+New:
+* There is a direct link to molecule ids on the front page. The numeric ids will be used as central access key in the future
+* Lab group administrator can choose for each instrument which processing (self, robot, operator) is possible and more changes in the lab system
+
+Fixes:
+* The save of submitting date is now done asynchronous, should give a faster user experience
+* The spectrum search respects spectrum type again
+* URL in emails to reviewers is correct (was missing /portal)
+* Correct credits URL in footer
+* Edit of personal data works again
+* Input shifts of spectrum searches were only shown for 1H spectra
+* CML download has proper H count (bug #1777210)
+
+1.3.2 Release
+-------------
+
+New:
+* Web services for all searches
+* Renumbering in submit optional, should enhance usability
+* InChI Keys as additional canonical name
+
+Fixes:
+* Conditions are saved when a submit is done (broken in 1.3.1)
+* The literature searches work again (broken in 1.3.1)
+* The search history is again preserverd between sessions for logged in users (broken in 1.3.1)
+
+1.3.1 Release
+-------------
+
+New:
+* The jcamp parsing takes care of instrument frequency
+* Improved usability in submit
+* If uploadind a 1H jcamp file during a submission, a manual peak picking is possible
+* Better headings for display of multiple spectra of the same type for the same structure
+
+Fixes:
+* When doing a 1H submit, the assignment is suggested by prediction
+* In 1.3, the substructure search was broken for new structures. Fixed.
+* The monthly report in the lab system was broken.
+
+1.3 Release
+-----------
+
+New:
+* A much faster spectrum search
+* Registration contains a CAPTCHA
+* A fast spectrum search which returns only very close matches
+* Spectrum applet detachable (good for arranging structure and spectrum arount a table)
+* Static name list contains informations about what we have got
+* Expert/normal mode makes search interface clearer
+* Weight search/formula with(out) other elements integrated into general search
+* Peak table/structure/peak view combinations highlight the rows in table as well
+* The rating no longer includes default mark
+* It is possible to switch back from java to non-java mode
+* The cml exports are now indented
+* A much better peak picking algorithm for the JCAMP uploads
+* Unassigned signals can be kept in a spectrum
+
+Fixes:
+* The CML export now contains Hs if exported with a proton spectrum
+* Saving multiple bookmarks for the same molecule no longer gives an exception
+* Thanks to new cdk algorithm the bond orders in aromatic rings should now be ok
+* Display of atoms in search results of HOSE code searches also works for protons
+
+1.2.1 Release
+-----------
+
+New:
+* CML export contains properties
+* CML export contains coupling constants and multiplicities
+* Redesigned user interface
+* Approval of guestbook entries for avoiding spam
+* Search for DBEs/SSR possible
+* Includes a "Show editor content as mol file"-link on each JCP applet
+* News feeds for news and structures are published so that most browsers will offfer direct subscription
+* Prediction includes a prediction for all nuclei at a time and values are displayed as tool tips
+* In potential multiplicities search s/d/t/q are also possible instead of S/D/T/Q
+* Better display of long canoncial names
+
+Fixes:
+* Print Predict has been changed to jpegs instead of applet (much better for printing)
+* RSS feed now validates
+* display of 3d coordinates works again (broken in 1.2)
+* download of files after submit works again (broken in 1.2)
+* import from structures history works again (broken in 1.2)
+* The link to the RSS feed should always point to actual server name and not www.nmrshiftdb.orig
+* In certain cases the fragment searches did not work. This was due to a bug in the jdbc driver and is fixed now.
+* In the result of a hose code prediction shown with two lines the search link also for the second line is correct
+* PDF and RTF generation both run via latest fop release; this should make it much more stable
+* Search by HOSE code also works from a proton prediction
+
+1.2 Release
+-----------
+
+New:
+* All searches can be restricted to certain spectrum types
+* 3d coordinates get generated via cdk for all new inputs
+* Syntax errors in multiplicity search input are now detected
+* sdf/cml files now available with 3d or 2d coordinates
+* Easy reuse of literature items possible
+* Literatures are shown and can be corrected during submit
+* Explicit assignment not needed if only one signal
+* Input via copy&paste also possible in non-java mode
+* Double bond equivalents and number of rings now given for Molecules
+* Combined cml download of spectrum and molecule
+* Chemical formula searches can now use formulas with an element repeated (e .g. C2H5OH)
+* When changing tabs, the last search stays on results
+
+Fixes:
+* Structure searches also possible with 3d input
+* Copy&pase during submit accepts other formats than mdl
+* Problems with saving structures with multiplicities (OutOfMemory error) solved
+* Display of spectra with multiplicities works
+* Reading single line cml files works
+* The list of possible structure file formats is generated from CDK
+* Automatic input of multiplicities with 13C spectra works again
+* Prediction no longer gives wrong structures with aromatic rings containing nitrogen
+
+
+
+1.1 Release
+-------------
+
+New:
+* INChIs generated for new molecules
+* A list of all structure names with links is available; this will be on the server statically for search engines
+* 3D coords are generated via cdk
+* For formula searches it can now be specified if additional elements are allowed or not
+* Substructure search respects charges in query
+* The sdf with shifts is now a valid file and contains measurement conditions
+* sdf files contain Corina coordinates, if available
+* Structures on front page now shown as jpgs. Advantage: Faster loading, no plugin needed for viewing
+* Highly improved spectrum viewer
+* Uses JChemPaint instead of Marvin Applets
+* Also works without any applets
+* If applets are used, highlighting in Details works all ways round
+* Download of structures by INChI now possible, will be used for cooperation with Spartan
+* During submit, predictions for other nuclei than 13C are done
+* Contains a proton prediction
+
+Fixes:
+* Handling of atoms not in cdk atomtypes lists possible; these get ignored when saturation is done
+* Substructure searches no longer affected by cdk bug #931608 (solves #931615)
+* Solves #931616
+* Random jumps between tabs no longer occur
+* Under certain circumstances downlaod of structure/spectrum files was not possible
+* Strange confidence limits when doing submits resolved
+* Solves problems with prediction (less spheres used than should be, bug #1056228)
+* When going back during a submit, assignments and multiplicities are kept
+
+1.0.10 Release
+-------------
+New:
+* Chemical Name no longer required for input
+* Better list format for canonical names
+* HOSE code display and display of two spheres in prediction now selectable
+* Input of shifts now also possible per atom
+* From Confirm page a selective edit is now possible
+* Complete donwload also possible as CML and as sdf including shifts
+* In search by structure, submit and predict upload of all common formats possible instead of mdl only
+* Export as graphics: Size now depends on atom number, hydrogens no longer shown
+
+Fixes:
+* Search for HOSE code from prediction pane works with %
+* Visiting bookmarks works again
+* If an ITA is entered for a journal, this now appears in literature citation
+* Spectra searches in search history have positions after comma as entered
+* "Show my contributions" works again
+* Display of structures no longer contains pi-rings
+* The "import text by copy&paste" window did not show the import-button in certain cases
+
+1.0.9 Release
+-------------
+New:
+* Display of spectra now restricted to type in case type was specified in spectrum search
+* Introduced a real and potential multiplicity search
+* When viewing a structure from prediction, the "return to predition" link is there
+* When uploading a jcmap file, values get rounded to two figures after . 
+* New JCampReader now also reads intensities when doing peak picking
+* When editing editors can go directly to some points
+* It is possible to do multiple condition searches with "one click"
+
+Fixes:
+* Combining multiple conditions now works
+* Search for HOSE code from prediction pane works with &
+* Search for HOSE code from prediction only shows structures with a spectrum of the relevant type
+* Browse all also works together with measured/calculated only; display of done searches correct
+* When a review via url from email is done, edit&accept now works
+* Corrected problems with queries restricted to m/c and combining several seearches
+* Review screen appears again after sending an email to contributor
+* Searches for HOSE code from prediction now also works if hose code contains +
+
+1.0.8 Release
+-------------
+New:
+* The result of a prediction now has a link to structures from which the values came.
+* A "search for hose code" is possible
+* Front page now contains a "choose random entry" facility
+* When doing a prediction for a structure which is in db, you get a link to this structure
+* Repeating searches from search history now allows boolean and/or/not
+* Users can later change their preference for being in hall of fame
+* User can now choose coordinate set in case there is more than one
+
+Fixes:
+* Single atom substructure searches possible
+* Entering single-atom molecules now works
+* "Show all my contributions" shows the spectra again (bug introduced in 1.0.7)
+
+1.0.7 Release
+-------------
+New:
+* Reviewers can get a CC of comments sent to reviewers
+* Shows same number of digits after comma for all shifts of a spectrum in details
+* "Browse all spectra" now respects spectrum type
+
+Fixes:
+* Multiplicity searches only worked for two different signals; now for any number
+* The "reset user interface" is actually working
+* For existing spectra the signals get displayed again during submit
+* If a user has choosen persistant login with cookies, he can now log out (but will be automatically logged in next time when not logging out)
+
+1.0.6 Release
+-------------
+New:
+* Persistant login via cookie now possible
+* Spectrum search can be done type specific
+* Added a "reset user interface" facility, for people getting lost due to unintended jetspeed customisation
+* Link for resetting Jetspeed user interface to initial settings
+
+Fixes:
+* Sometimes there were different predictions for identical atoms in a molecule
+* Predictions where not as good as they could when there was a hydrogen with a lower number than the atom to predict for
+* During reviews, sometimes predictions were not displayed although prediction was possible
+* Multiplicity search now counts signals as many times as they are assigned to atoms. Till now a signal assigned multiple times did count only once
+* In prediction displays inconsistent use of . and , was changed to .
+
+1.0.5 Release
+-------------
+New:
+* The system for editing of unreviewed spectra by the contributor was changed. Explicit permission is no longer needed. Edit always posible via personal page. The reviewer can change by "Edit and accept", so both can chnge things up to the review.
+* A spectrum search displays unused signals, if any
+* Spectrum search gives threshold
+
+Fixes:
+* Structure search with nitro groups failed in certain cases (#841561)
+* Highly improved predictions
+
+1.0.4 Release
+-------------
+New:
+* This enables synchronisation with myNMRShiftDB v. 0.2
+
+1.0.3 Release
+-------------
+New:
+* It is possible to enter multiplicities and coupling constants for spectra.
+* sdf of content available.
+* Flexible normalization mechanism allows easy introductin of further normalizations (apart from existing NO2 group handling).
+
+Fixes:
+* Major problems with substructure search resolved.
+
+1.0.2 Release
+-------------
+New:
+* Introduction of Wishlist and Guestbook (as new portlets)
+* Prediction shows next lower sphere as well
+* Spectrum search now possible with JCAMP files
+* CMLRSS available.
+* Identifiers are now literature specific.
+* Spectrum search can include multiplicities.
+
+Fixes:
+* Problems with edits in certain situations.
+
+1.0.1 Release
+-------------
+New:
+* It is now possible for registered users to mark entries (see help for details).
+* For convinience reasons the prediction statistics are now given as table.
+* There is a link to stereoisomers in details, in case there are any.
+* The intensities now get displayed, in case there are any.
+
+Fixes:
+* The display of assignments was wrong if any explicit atoms were in the molecule and explicit atoms were not displayed.
+* The substructure and similarity searches of aromatic molecules did not work in certain circumstances.
+* Atom numbers are now in exported molecules.
+
+1.0.0 Release
+-------------
+This is the first NMRShiftDB release, so everything is a change.

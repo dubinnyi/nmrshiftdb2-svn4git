@@ -1,0 +1,55 @@
+<table width="100%">
+  <tr valign="top">
+    <td width="200">
+      <h2 style="color:#0000AA">nmrshiftdb2 Links</h2>
+      <a href="portal/js_pane/P-Help">nmrshiftdb2&nbsp;Documentation</a><br>
+      <a href="http://sourceforge.net/projects/nmrshiftdb2" target="_blank">Developers' page</a><br>
+      <a href="$jslink.getTemplate("ShowWebpage")?URL=https://nmrshiftdb2.sourceforge.io/clippings">Media coverage</a><br>
+      <a href="$jslink.getTemplate("ShowWebpage")?URL=https://nmrshiftdb2.sourceforge.io/links.html">Links</a><br>
+      <a href="$jslink.getTemplate("ShowWebpage")?URL=https://nmrshiftdb2.sourceforge.io/faq.html">FAQ</a><br>
+      <a href="$jslink.getTemplate("Guestbook")">Guestbook</a><br>
+      <a href="mailto:$email" tabindex="4">Contact</a><br>
+      #if ($data.User.hasLoggedIn())
+	      <a href="$jslink.setAction("LogoutUser")">$l10n.TOP_LOGOUT</a><br>
+	  #end
+      <br><br>
+      <h2 style="color:#0000AA">nmrshiftdb2 collaborates with</h2><a href="derefer.jsp?url=http://wokinfo.com/products_tools/multidisciplinary/dci/"><img alt="Thomson Reuters Data Citation Index" src="nmrshiftdbhtml/logos/logo_thomson_dci.png"></a>
+      <a href="derefer.jsp?url=http://www.ebi.ac.uk/chebi/"><img alt="ChEBI" src="nmrshiftdbhtml/logos/ChEBI_logo.png"></a>
+      <a href="derefer.jsp?url=http://www.ebi.ac.uk/unichem/"><img alt="UniChem" src="nmrshiftdbhtml/logos/unichem_logo.png"></a><br><br>
+      <a href="derefer.jsp?url=http://pubchem.ncbi.nlm.nih.gov/"><img alt="PubChem" src="nmrshiftdbhtml/logos/pubchemlogo_2013.png"></a><br><br>
+      <a href="derefer.jsp?url=http://risources.dfg.de/detail/RI_00359_de.html"><img alt="RIsources" src="nmrshiftdbhtml/logos/ri_logo.png"></a><br><br>
+      <a href="derefer.jsp?url=http://www.cheminfo.org"><img alt="cheminfo.org" src="nmrshiftdbhtml/logos/epfl.png"></a>
+      <a href="derefer.jsp?url=http://www.cheminfo.org"><img alt="cheminfo.org" src="nmrshiftdbhtml/logos/univalle.jpg"></a><br><br>
+      <a href="derefer.jsp?url=https://www.idnmr.uni-koeln.de/"><img alt="idnmr.uni-koeln.de" src="nmrshiftdbhtml/logos/idmr_logo.jpg"></a>
+      <a href="derefer.jsp?url=https://nmredata.org/"><img alt="nmredata.org" src="nmrshiftdbhtml/logos/nmredata.png"></a><br><br>
+      <a href="derefer.jsp?url=https://fairsharing.org/biodbcore-001282/"><img alt="fairsharing.org" src="nmrshiftdbhtml/logos/FAIRsharing-sdp.png"></a>
+    </td>
+    <td>
+      <h2 style="color:#0000AA">About nmrshiftdb2</h2><p>nmrshiftdb2 is a NMR database (web database) for organic structures and their nuclear magnetic resonance (nmr) spectra. It allows for spectrum prediction (<sup>13</sup>C, <sup>1</sup>H and other nuclei) as well as for searching spectra, structures and other properties. The nmrshiftdb2 software is open source, the data is published under an open content license. The core of nmrshiftdb2 are fully assigned spectra with raw data and peak lists (we have pure peak lists as well). Those datasets are peer reviewed by a <a href="$jslink.getTemplate("ShowWebpage")?URL=https://nmrshiftdb2.sourceforge.io/referees.html">board of reviewers</a>. The project is supported by a <a href="$jslink.getTemplate("ShowWebpage")?URL=https://nmrshiftdb2.sourceforge.io/advisoryboard.html">scientific advisory board</a>. nmrshiftdb2 is part of the <a href="derefer.jsp?url=https://nfdi4chem.de/">NFDI4Chem initiative</a> and will provide a component for a curated repository there. Please consult the <a href="portal/js_pane/P-Help">documentation</a> for more detailed information.</p>
+      #include("problem_of_the_month.html")
+      <h2 style="color:#0000AA">News about nmrshiftdb2</h2>
+      #include("news.html")
+      <br>
+      <a href="http://sourceforge.net/p/nmrshiftdb2/news/feed"><img alt="rss feed" src="images/xml.png"></a>
+    </td>
+    <td width="200">
+      #if($labserver=="true")
+	      <h2 style="color:#0000AA">Latest Additions from this Lab</h2>
+	      <a href="$latest0linklab"><img src="nmrshiftdbhtml/latestlab0.jpg"></a>
+	      <a href="$latest1linklab"><img src="nmrshiftdbhtml/latestlab1.jpg"></a>
+	      <a href="$latest2linklab"><img src="nmrshiftdbhtml/latestlab2.jpg"></a>
+	      <a href="$latest3linklab"><img src="nmrshiftdbhtml/latestlab3.jpg"></a>
+      #end
+      <h2 style="color:#0000AA">Latest Additions #if($labserver=="true")outside#end</h2>
+      <a href="$latest0link"><img src="nmrshiftdbhtml/latest0.jpg"></a>
+      <a href="$latest1link"><img src="nmrshiftdbhtml/latest1.jpg"></a>
+      <a href="$latest2link"><img src="nmrshiftdbhtml/latest2.jpg"></a>
+      <a href="$latest3link"><img src="nmrshiftdbhtml/latest3.jpg"></a>
+      <br><br><a href="portal/js_pane/P-Results;jsessionid=$data.getSession().getId()?nmrshiftdbaction=showDetailsFromHome&molNumber=urltool.getRandomId()">Show random entry</a><br><br>
+      <form action="portal/js_pane/P-Results;jsessionid=$data.getSession().getId()?nmrshiftdbaction=showDetailsFromHome&newmol=true" method="post">
+      	<input name="molNumber" type="text" size="8" maxlength="30"><input type="submit" value="Go directly to ID">
+      </form><br>
+      <a href="urltool.getBaseUrl()/../NmrshiftdbServlet?nmrshiftdbaction=rss&numbertoexport=4"><img alt="rss feed" src="images/xml.png"></a><a href="http://feedvalidator.org/check.cgi?url=urltool.getBaseUrl()/../NmrshiftdbServlet?nmrshiftdbaction%3Drss%26numbertoexport%3D4"><img src="nmrshiftdbhtml/valid-rss.png" alt="[Valid RSS]" title="Validate my RSS feed" /></a>
+    </td>
+  </tr>
+</table>

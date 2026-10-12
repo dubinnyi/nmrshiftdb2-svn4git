@@ -1,0 +1,1219 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database_3_2.dtd">
+<database name="default">
+
+  <table name="TURBINE_USER" javaName="NmrshiftdbUser" alias="TurbineUser"
+    baseClass="org.openscience.nmrshiftdb.om.TurbineUserAdapter"
+    basePeer="org.openscience.nmrshiftdb.om.TurbineUserPeerAdapter">
+    <!-- Unique identifier -->
+    <column name="USER_ID" primaryKey="true" required="true" type="INTEGER"/>
+  </table>
+  
+  <table name="GUESTBOOK" javaName="DBGuestbook" idMethod="idbroker">
+    <column name="GUESTBOOK_ID" required="true" primaryKey="true"
+            type="INTEGER"/>
+    <column name="USER_ID" required="false" type="INTEGER"/>
+    <column name="DATE" required="true" type="DATE"/>
+    <column name="TEXT" required="true" type="LONGVARCHAR"/>
+    <column name="VALID" required="true" type="VARCHAR" size="8" default="false"/>
+    <foreign-key foreignTable="TURBINE_USER">
+      <reference local="USER_ID" foreign="USER_ID"/>
+    </foreign-key>
+  </table>
+
+
+  <table name="SESSIONS" javaName="DBSessions" idMethod="none">
+    <column name="SESSIONS" required="true" primaryKey="true" type="INTEGER"/>
+    <column name="LOWEST_LOAD_SERVER" type="VARCHAR" size="255"/>
+    <column name="SESSIONS_ALL" required="true" type="INTEGER" default="0"/>
+    <column name="SESSIONS_ALL_DATE" required="true" type="DATE"/>
+  </table>
+
+  <table name="CONDITION_TYPE" javaName="DBConditionType" idMethod="idbroker">
+    <column name="CONDITION_TYPE_ID" required="true" primaryKey="true"
+            type="INTEGER"/>
+    <column name="CONDITION_NAME" required="true" type="VARCHAR" size="255"/>
+    <column name="CONDITION_NAME_INPUT" required="false" type="VARCHAR" size="255"/>
+    <column name="CONDITION_TYPE" required="true" type="CHAR"/>
+    <column name="DATA_TYPE" required="true" type="VARCHAR" size="255"/>
+    <column name="DICT_REF" required="true" type="VARCHAR" size="255"/>
+    <column name="UNITS" required="true" type="VARCHAR" size="255"/>
+    <column name="CML_ENTRY_TYPE" required="true" type="VARCHAR" size="255"/>
+    <column name="REQUIRED" required="true" type="VARCHAR" size="255"/>
+    <column name="FOR_1D" required="true" type="VARCHAR" size="255"/>
+    <column name="FOR_2D" required="true" type="VARCHAR" size="255"/>
+  </table>
+
+  <table name="NMR_CONDITION" javaName="DBCondition" idMethod="idbroker">
+    <column name="CONDITION_ID" required="true" primaryKey="true"
+            type="INTEGER"/>
+    <column name="VALUE" required="true" type="VARCHAR" size="255"/>
+    <column name="CONDITION_TYPE_ID" required="true" type="INTEGER"/>
+    <column name="USER_ID" required="true" type="INTEGER"/>
+    <index name="CONDITION_TYPE_ID_INDEX">
+      <index-column name="CONDITION_TYPE_ID"/>
+    </index>
+    <index name="USER_ID_INDEX">
+      <index-column name="USER_ID"/>
+    </index>
+    <foreign-key foreignTable="CONDITION_TYPE">
+      <reference local="CONDITION_TYPE_ID" foreign="CONDITION_TYPE_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="TURBINE_USER">
+      <reference local="USER_ID" foreign="USER_ID"/>
+    </foreign-key>
+  </table>
+
+  <table name="SPECTRUM_TYPE" javaName="DBSpectrumType" idMethod="idbroker">
+    <column name="SPECTRUM_TYPE_ID" required="true" primaryKey="true"
+            type="INTEGER"/>
+    <column name="DIMENSIONALITY" required="true" type="INTEGER"/>
+    <column name="NAME" required="true" type="VARCHAR" size="255"/>
+    <column name="USER_ID" required="true" type="INTEGER"/>
+    <column name="FREQUENCY_RATIO" required="true" type="FLOAT"/>
+    <column name="PEAKS_MANDATORY" required="true" type="VARCHAR" size="255"/>
+    <column name="NMREDATA_NAME" required="false " type="VARCHAR" size="255"/>
+    <column name="RED_LIMIT" required="false" type="FLOAT"/>
+    <column name="ORANGE_LIMIT" required="true" type="FLOAT"/>
+    <column name="NMREDATA_DIMENSIONALITY" required="true" type="INTEGER"/>
+    <index name="USER_ID_INDEX">
+      <index-column name="USER_ID"/>
+    </index>
+    <foreign-key foreignTable="TURBINE_USER">
+      <reference local="USER_ID" foreign="USER_ID"/>
+    </foreign-key>
+    <index name="DIMENSIONLATA_INDEX">
+      <index-column name="DIMENSIONALITY"/>
+    </index>
+  </table>
+
+  <table name="SPECTRUM_TYPE_CONDITION" javaName="DBSpectrumTypeDBCondition">
+    <column name="SPECTRUM_TYPE_ID" required="true" primaryKey="true"
+            type="INTEGER"/>
+    <column name="CONDITION_TYPE_ID" required="true" primaryKey="true"
+            type="INTEGER"/>
+    <foreign-key foreignTable="CONDITION_TYPE">
+      <reference local="CONDITION_TYPE_ID" foreign="CONDITION_TYPE_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="SPECTRUM_TYPE">
+      <reference local="SPECTRUM_TYPE_ID" foreign="SPECTRUM_TYPE_ID"/>
+    </foreign-key>
+  </table>
+
+  <table name="ISOTOPE" javaName="DBIsotope" idMethod="idbroker">
+    <column name="SPECTRUM_TYPE_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="AXIS" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="ELEMENT_SYMBOL" required="true" type="VARCHAR" size="255"/>
+    <column name="ATOMIC_MASS" required="true" type="INTEGER"/>
+    <index name="ELEMENT_SYMBOL_INDEX">
+      <index-column name="ELEMENT_SYMBOL"/>
+    </index>
+    <index name="SPECTRUM_TYPE_ID_INDEX">
+      <index-column name="SPECTRUM_TYPE_ID"/>
+    </index>
+    <foreign-key foreignTable="SPECTRUM_TYPE">
+      <reference local="SPECTRUM_TYPE_ID" foreign="SPECTRUM_TYPE_ID"/>
+    </foreign-key>
+  </table>
+
+  <table name="MOLECULE" javaName="DBMolecule" idMethod="idbroker">
+    <column name="MOLECULE_ID" required="true" primaryKey="true"
+            type="INTEGER"/>
+    <column name="DATE" required="true" type="DATE"/>
+    <column name="CAS_NUMBER" required="true" type="LONGVARCHAR"/>
+    <column name="MOLECULAR_WEIGHT" required="true" type="FLOAT"/>
+    <column name="SMILES_STRING" required="true" type="VARBINARY"/>
+    <column name="SMILES_STRING_CHIRAL" required="false" type="VARBINARY"/>
+    <column name="USER_ID" required="true" type="INTEGER"/>
+    <column name="fp0" required="true" type="BIGINT"/>
+    <column name="fp1" required="true" type="BIGINT"/>
+    <column name="fp2" required="true" type="BIGINT"/>
+    <column name="fp3" required="true" type="BIGINT"/>
+    <column name="fp4" required="true" type="BIGINT"/>
+    <column name="fp5" required="true" type="BIGINT"/>
+    <column name="fp6" required="true" type="BIGINT"/>
+    <column name="fp7" required="true" type="BIGINT"/>
+    <column name="fp8" required="true" type="BIGINT"/>
+    <column name="fp9" required="true" type="BIGINT"/>
+    <column name="fp10" required="true" type="BIGINT"/>
+    <column name="fp11" required="true" type="BIGINT"/>
+    <column name="fp12" required="true" type="BIGINT"/>
+    <column name="fp13" required="true" type="BIGINT"/>
+    <column name="fp14" required="true" type="BIGINT"/>
+    <column name="fp15" required="true" type="BIGINT"/>
+    <column name="DBE" required="true" type="FLOAT"/>
+    <column name="SSSR" required="true" type="INTEGER"/>
+    <column name="SAR" required="true" type="INTEGER"/>
+    <column name="COMMENT" type="BLOB" default=""/>
+    <column name="FORMULA" type="LONGVARCHAR" default=""/>
+    <column name="MULTIPLICITY_0" type="INTEGER" default="0"/>
+    <column name="MULTIPLICITY_1" type="INTEGER" default="0"/>
+    <column name="MULTIPLICITY_2" type="INTEGER" default="0"/>
+    <column name="MULTIPLICITY_3" type="INTEGER" default="0"/>
+    <column name="VIEWS" type="INTEGER" default="0"/>
+    <column name="DOI" type="LONGVARCHAR" default=""/>
+    <index name="SMILES_STRING_INDEX">
+      <index-column name="SMILES_STRING(250)"/>
+    </index>
+    <index name="SMILES_STRING_CHIRAL_INDEX">
+      <index-column name="SMILES_STRING_CHIRAL(250)"/>
+    </index>
+    <index name="CAS_NUMBER_INDEX">
+      <index-column name="CAS_NUMBER(250)"/>
+    </index>
+    <index name="MOLECULAR_WEIGHT_INDEX">
+      <index-column name="MOLECULAR_WEIGHT"/>
+    </index>
+    <index name="USER_ID_INDEX">
+      <index-column name="USER_ID"/>
+    </index>
+    <index name="FORMULA_INDEX">
+      <index-column name="FORMULA(250)"/>
+    </index>
+    <index name="MULTIPLICITY_0_INDEX">
+	    <index-column name="MULTIPLICITY_0"/>
+    </index>
+    <index name="MULTIPLICITY_1_INDEX">
+	    <index-column name="MULTIPLICITY_1"/>
+    </index>
+    <index name="MULTIPLICITY_2_INDEX">
+	    <index-column name="MULTIPLICITY_2"/>
+    </index>
+    <index name="MULTIPLICITY_3_INDEX">
+	    <index-column name="MULTIPLICITY_3"/>
+    </index>
+    <foreign-key foreignTable="TURBINE_USER">
+      <reference local="USER_ID" foreign="USER_ID"/>
+    </foreign-key>
+  </table>
+
+  <table name="MIXTURE" javaName="DBMixture" idMethod="idbroker">
+    <column name="MIXTURE_ID" required="true" primaryKey="true"
+            type="INTEGER"/>
+    <column name="USER_ID" required="true" type="INTEGER"/>
+    <column name="MIXTURE_COMMENT" type="LONGVARCHAR" default=""/>
+    <foreign-key foreignTable="TURBINE_USER">
+      <reference local="USER_ID" foreign="USER_ID"/>
+    </foreign-key>
+  </table>
+
+  <table name="MIXTURE_MOLECULE" javaName="DBMixtureDBMolecule">
+    <column name="MIXTURE_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="MOLECULE_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="RATIO" required="true" type="INTEGER"/>
+    <foreign-key foreignTable="MIXTURE">
+      <reference local="MIXTURE_ID" foreign="MIXTURE_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="MOLECULE">
+      <reference local="MOLECULE_ID" foreign="MOLECULE_ID"/>
+    </foreign-key>
+  </table>
+
+  <table name="SUBSTANCE" javaName="DBSubstance" idMethod="idbroker">
+    <column name="SUBSTANCE_ID" required="true" primaryKey="true"
+            type="INTEGER"/>
+    <column name="USER_ID" required="true" type="INTEGER"/>
+    <column name="SUBSTANCE_COMMENT" type="LONGVARCHAR" default=""/>
+    <foreign-key foreignTable="TURBINE_USER">
+      <reference local="USER_ID" foreign="USER_ID"/>
+    </foreign-key>
+  </table>
+  
+  <table name="BOOKMARK" javaName="DBBookmark">
+    <column name="MOLECULE_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="USER_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <foreign-key foreignTable="MOLECULE">
+      <reference local="MOLECULE_ID" foreign="MOLECULE_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="TURBINE_USER">
+      <reference local="USER_ID" foreign="USER_ID"/>
+    </foreign-key>
+  </table>
+
+  <table name="CANONICAL_NAME_TYPE" javaName="DBCanonicalNameType" idMethod="idbroker">
+    <column name="CANONICAL_NAME_TYPE_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="CANONICAL_NAME_TYPE" required="true" type="VARCHAR" size="255"/>
+  </table>
+
+  <table name="CANONICAL_NAME" javaName="DBCanonicalName">
+    <column name="MOLECULE_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="CANONICAL_NAME_TYPE_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="NAME" required="true" type="VARCHAR" size="255"/>
+    <column name="NAME_SOUNDEX" required="true" type="LONGVARCHAR"/>
+    <foreign-key foreignTable="MOLECULE">
+      <reference local="MOLECULE_ID" foreign="MOLECULE_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="CANONICAL_NAME_TYPE">
+      <reference local="CANONICAL_NAME_TYPE_ID" foreign="CANONICAL_NAME_TYPE_ID"/>
+    </foreign-key>
+  </table>
+
+  <table name="WISHLIST" javaName="DBWishlist">
+    <column name="USER_ID" required="false" type="INTEGER" primaryKey="true"/>
+    <column name="DATE" required="true" type="DATE"/>
+    <column name="SPECTRUM_TYPE_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="MOLECULE_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <foreign-key foreignTable="SPECTRUM_TYPE">
+      <reference local="SPECTRUM_TYPE_ID" foreign="SPECTRUM_TYPE_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="TURBINE_USER">
+      <reference local="USER_ID" foreign="USER_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="MOLECULE">
+      <reference local="MOLECULE_ID" foreign="MOLECULE_ID"/>
+    </foreign-key>
+  </table>
+
+  <table name="SPECTRUM" javaName="DBSpectrum" idMethod="idbroker">
+    <column name="SPECTRUM_ID" required="true" primaryKey="true"
+            type="INTEGER"/>
+    <column name="DATE" required="true" type="DATE"/>
+    <column name="SPECFILE" required="true" type="LONGVARCHAR"/>
+    <column name="SIMPLE_SPECFILE" required="true" type="LONGVARCHAR"/>
+    <column name="REVIEW_FLAG" required="true" type="VARCHAR" size="8"/>
+    <column name="REVIEW_KEY" required="true" type="VARCHAR" size="6"/>
+    <column name="FINGERPRINT" required="true" type="BIGINT"/>
+    <column name="USER_ID" required="true" type="INTEGER"/>
+    <column name="SPECTRUM_TYPE_ID" required="true" type="INTEGER"/>
+    <column name="COMMENT" type="BLOB"/>
+    <column name="COMMENT_SOUNDEX" required="true" type="LONGVARCHAR"/>
+    <column name="MOLECULE_ID" required="false" type="INTEGER" javaType="object"/>
+    <column name="MIXTURE_ID" required="false" type="INTEGER" javaType="object"/>
+    <column name="SUBSTANCE_ID" required="false" type="INTEGER" javaType="object"/>
+    <column name="PUBLISHED" required="true" type="VARCHAR" size="8"/>
+    <column name="RAW_DATA_VIEWS" type="INTEGER" default="0"/>
+    <column name="CORRELATION_SPECFILE" required="true" type="LONGVARCHAR"/>
+    <index name="REVIEW_FLAG_INDEX">
+      <index-column name="REVIEW_FLAG"/>
+    </index>
+    <index name="MOLECULE_ID_INDEX">
+      <index-column name="MOLECULE_ID"/>
+    </index>
+    <index name="MIXTURE_ID_INDEX">
+      <index-column name="MIXTURE_ID"/>
+    </index>
+    <index name="SUBSTANCE_ID_INDEX">
+      <index-column name="SUBSTANCE_ID"/>
+    </index>
+    <index name="SPECTRUM_TYPE_ID_INDEX">
+      <index-column name="SPECTRUM_TYPE_ID"/>
+    </index>
+    <index name="SPECFILE_INDEX">
+      <index-column name="SPECFILE(255)"/>
+    </index>
+    <index name="DATE_INDEX">
+      <index-column name="DATE"/>
+    </index>
+    <index name="USER_ID_INDEX">
+      <index-column name="USER_ID"/>
+    </index>
+    <foreign-key foreignTable="TURBINE_USER">
+      <reference local="USER_ID" foreign="USER_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="SPECTRUM_TYPE">
+      <reference local="SPECTRUM_TYPE_ID" foreign="SPECTRUM_TYPE_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="MOLECULE">
+      <reference local="MOLECULE_ID" foreign="MOLECULE_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="MIXTURE">
+      <reference local="MIXTURE_ID" foreign="MIXTURE_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="SUBSTANCE">
+      <reference local="SUBSTANCE_ID" foreign="SUBSTANCE_ID"/>
+    </foreign-key>
+  </table>
+
+  <table name="SPECTRUM_FILE" javaName="DBSpectrumFile">
+    <column name="SPECTRUM_ID" required="true" primaryKey="true" type="INTEGER"/>
+    <column name="TYPE" required="true" primaryKey="true" type="VARCHAR" size="25"/>
+    <column name="FORMAT" required="true" type="VARCHAR" size="15"/>
+    <column name="DATA" required="true" type="BLOB"/> 
+    <foreign-key foreignTable="SPECTRUM">
+      <reference local="SPECTRUM_ID" foreign="SPECTRUM_ID"/>
+    </foreign-key>
+  </table>
+  
+  <table name="SPECTRUM_CONDITION" javaName="DBSpectrumDBCondition">
+    <column name="SPECTRUM_ID" required="true" primaryKey="true" type="INTEGER"/>
+    <column name="CONDITION_ID" required="true" primaryKey="true" type="INTEGER"/>
+    <foreign-key foreignTable="SPECTRUM">
+      <reference local="SPECTRUM_ID" foreign="SPECTRUM_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="NMR_CONDITION">
+      <reference local="CONDITION_ID" foreign="CONDITION_ID"/>
+    </foreign-key>
+  </table>
+
+  <table name="ATOM" javaName="DBAtom" idMethod="idbroker">
+    <column name="ATOM_ID" required="true" primaryKey="true"
+            type="INTEGER"/>
+    <column name="SYMBOL" required="true" type="VARCHAR" size="3"/>
+    <column name="MOLECULE_ID" required="true" type="INTEGER"/>
+    <column name="HOSE_CODE" required="true" type="VARBINARY"/>
+    <column name="HOSE_CODE_WITH_RINGS" required="true" type="VARBINARY"/>
+    <column name="ATOMIC_MASS" required="true" type="INTEGER"/>
+    <column name="FORMAL_CHARGE" required="true" type="INTEGER"/>
+    <column name="IS_AROMATIC" required="true" type="VARCHAR" size="5" default="false"/>
+    <column name="IS_VISIBLE" required="true" type="VARCHAR" size="5" default="false"/>
+    <column name="HETERO" required="true" type="VARCHAR" size="5" default="false"/>
+    <column name="ATOM_NUMBER" required="true" type="INTEGER"/>
+    <column name="EQUIVALENCE_NUMBER" required="true" type="INTEGER"/>
+    <index name="MOLECULE_ID_INDEX">
+      <index-column name="MOLECULE_ID"/>
+    </index>
+    <index name="HOSE_CODE_INDEX">
+      <index-column name="HOSE_CODE"/>
+    </index>
+    <foreign-key foreignTable="MOLECULE">
+      <reference local="MOLECULE_ID" foreign="MOLECULE_ID"/>
+    </foreign-key>
+  </table>
+
+  <table name="COORDINATE_SET_TYPE" javaName="DBCoordinateSetType" idMethod="idbroker">
+    <column name="COORDINATE_SET_TYPE_ID" required="true" primaryKey="true" type="INTEGER"/>
+    <column name="DESCRIPTION" type="BLOB"/>
+  </table>
+
+  <table name="COORDINATE_SET_2D" javaName="DBCoordinateSet2d">
+    <column name="COORDINATE_SET_TYPE_ID" required="true" primaryKey="true" type="INTEGER"/>
+    <column name="ATOM_ID" required="true" primaryKey="true" type="INTEGER"/>
+    <column name="X_COORDINATE" required="true" type="DOUBLE"/>
+    <column name="Y_COORDINATE" required="true" type="DOUBLE"/>
+    <foreign-key foreignTable="ATOM">
+      <reference local="ATOM_ID" foreign="ATOM_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="COORDINATE_SET_TYPE">
+      <reference local="COORDINATE_SET_TYPE_ID" foreign="COORDINATE_SET_TYPE_ID"/>
+    </foreign-key>
+  </table>
+
+  <table name="COORDINATE_SET_3D" javaName="DBCoordinateSet3d">
+    <column name="COORDINATE_SET_TYPE_ID" required="true" primaryKey="true" type="INTEGER"/>
+    <column name="ATOM_ID" required="true" primaryKey="true" type="INTEGER"/>
+    <column name="X_COORDINATE" required="true" type="DOUBLE"/>
+    <column name="Y_COORDINATE" required="true" type="DOUBLE"/>
+    <column name="Z_COORDINATE" required="true" type="DOUBLE"/>
+    <foreign-key foreignTable="ATOM">
+      <reference local="ATOM_ID" foreign="ATOM_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="COORDINATE_SET_TYPE">
+      <reference local="COORDINATE_SET_TYPE_ID" foreign="COORDINATE_SET_TYPE_ID"/>
+    </foreign-key>
+  </table>
+
+  <table name="COUPLING" javaName="DBCoupling">
+    <column name="SPECTRUM_ID" required="true" type="INTEGER"/>
+    <column name="ATOM_ID_1" required="false" javaType="object" type="INTEGER"/>
+    <column name="ATOM_ID_2" required="false" javaType="object" type="INTEGER"/>
+    <column name="SIGNAL_ID" required="false" javaType="object" type="INTEGER"/>
+    <column name="CONSTANT" required="true" type="DOUBLE"/>
+    <foreign-key foreignTable="ATOM">
+      <reference local="ATOM_ID_1" foreign="ATOM_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="ATOM">
+      <reference local="ATOM_ID_2" foreign="ATOM_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="NMR_SIGNAL">
+      <reference local="SIGNAL_ID" foreign="SIGNAL_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="SPECTRUM">
+      <reference local="SPECTRUM_ID" foreign="SPECTRUM_ID"/>
+    </foreign-key>
+  </table>
+
+  <table name="BOND" javaName="DBBond" idMethod="idbroker">
+    <column name="BOND_ID" required="true" primaryKey="true"
+            type="INTEGER"/>
+    <column name="DEGREE" required="true" type="INTEGER"/>
+    <column name="STEREO" required="true" type="INTEGER"/>
+    <column name="IS_CONFIGURATION_SPECIFIED" required="true" type="VARCHAR" size="5" default="false"/>
+    <column name="IS_AROMATIC" required="true" type="VARCHAR" size="5" default="false"/>
+  </table>
+
+  <table name="BOND_ATOM" javaName="DBBondDBAtom">
+    <column name="BOND_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="ATOM_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="ORDER_NUMBER" required="true" type="INTEGER"/>
+    <foreign-key foreignTable="BOND">
+      <reference local="BOND_ID" foreign="BOND_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="ATOM">
+      <reference local="ATOM_ID" foreign="ATOM_ID"/>
+    </foreign-key>
+  </table>
+
+  <table name="NMR_SIGNAL" javaName="DBSignal" idMethod="idbroker">
+    <column name="SIGNAL_ID" required="true" primaryKey="true"
+            type="INTEGER"/>
+    <column name="INTENSITY" required="true" type="REAL"/>
+    <column name="MULTIPLICITY" required="false" type="VARCHAR" size="255"/>
+    <column name="SPECTRUM_ID" required="true" type="INTEGER"/>
+    <index name="SPECTRUM_ID_INDEX">
+      <index-column name="SPECTRUM_ID"/>
+    </index>
+    <index name="SPECTRUM_MULTIPLICITY_INDEX">
+      <index-column name="SPECTRUM_ID"/>
+      <index-column name="MULTIPLICITY"/>
+    </index>
+    <foreign-key foreignTable="SPECTRUM">
+      <reference local="SPECTRUM_ID" foreign="SPECTRUM_ID"/>
+    </foreign-key>
+  </table>
+
+  <table name="SHIFT" javaName="DBShift">
+    <column name="SIGNAL_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="AXIS" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="VALUE" required="true" type="REAL"/>
+    <foreign-key foreignTable="NMR_SIGNAL">
+      <reference local="SIGNAL_ID" foreign="SIGNAL_ID"/>
+    </foreign-key>
+  </table>
+
+  <table name="SIGNAL_ATOM" javaName="DBSignalDBAtom">
+    <column name="SIGNAL_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="AXIS" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="ATOM_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <foreign-key foreignTable="SHIFT">
+      <reference local="SIGNAL_ID" foreign="SIGNAL_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="SHIFT">
+      <reference local="AXIS" foreign="AXIS"/>
+    </foreign-key>
+    <foreign-key foreignTable="ATOM">
+      <reference local="ATOM_ID" foreign="ATOM_ID"/>
+    </foreign-key>
+  </table>
+
+  <table name="CHEMICAL_NAME" javaName="DBChemicalName">
+    <column name="MOLECULE_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="NAME" required="true" type="VARCHAR" size="255" primaryKey="true"/>
+    <column name="NAME_SOUNDEX" required="true" type="VARCHAR" size="255"/>
+    <foreign-key foreignTable="MOLECULE">
+      <reference local="MOLECULE_ID" foreign="MOLECULE_ID"/>
+    </foreign-key>
+  </table>
+
+  <table name="USER_SPECTRUM" javaName="DBUserDBSpectrum">
+    <column name="USER_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="SPECTRUM_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="USER_SPECTRUM_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="ASSIGNMENT_DATE" required="false" type="DATE"/>
+    <column name="REVIEW_DATE" required="false" type="DATE"/>
+    <foreign-key foreignTable="TURBINE_USER">
+      <reference local="USER_ID" foreign="USER_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="SPECTRUM">
+      <reference local="SPECTRUM_ID" foreign="SPECTRUM_ID"/>
+    </foreign-key>
+  </table>
+
+  <table name="USER_SPECTRUM_EDIT" javaName="DBUserDBSpectrumEdit">
+    <column name="USER_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="SPECTRUM_ID_OLD" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="SPECTRUM_ID_NEW" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="EDIT" required="true" type="DATE" primaryKey="true"/>
+    <foreign-key foreignTable="TURBINE_USER">
+      <reference local="USER_ID" foreign="USER_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="SPECTRUM">
+      <reference local="SPECTRUM_ID_OLD" foreign="SPECTRUM_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="SPECTRUM">
+      <reference local="SPECTRUM_ID_NEW" foreign="SPECTRUM_ID"/>
+    </foreign-key>
+  </table>
+
+  <table name="USER_SPECTRUM_MARK" javaName="DBUserDBSpectrumMark">
+    <column name="USER_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="SPECTRUM_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="MARK" required="true" type="INTEGER"/>
+    <column name="MARK_DATE" required="true" type="DATE"/>
+    <column name="COMMENT" required="true" type="LONGVARCHAR"/>
+    <foreign-key foreignTable="TURBINE_USER">
+      <reference local="USER_ID" foreign="USER_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="SPECTRUM">
+      <reference local="SPECTRUM_ID" foreign="SPECTRUM_ID"/>
+    </foreign-key>
+  </table>
+
+  <table name="MOLECULE_HYPERLINK" javaName="DBMoleculeHyperlink">
+    <column name="MOLECULE_ID" required="true" primaryKey="true" type="INTEGER"/>
+    <column name="HYPERLINK" required="true" primaryKey="true" type="LONGVARCHAR"/>
+    <column name="DESCRIPTION" required="true" type="LONGVARCHAR"/>
+    <column name="DESCRIPTION_SOUNDEX" required="true" type="LONGVARCHAR"/>
+    <foreign-key foreignTable="MOLECULE">
+      <reference local="MOLECULE_ID" foreign="MOLECULE_ID"/>
+    </foreign-key>
+    <index name="HYPERLINK_INDEX">
+      <index-column name="HYPERLINK(250)"/>
+    </index>
+  </table>
+
+  <table name="SPECTRUM_HYPERLINK" javaName="DBSpectrumHyperlink">
+    <column name="SPECTRUM_ID" required="true" primaryKey="true" type="INTEGER"/>
+    <column name="HYPERLINK" required="true" primaryKey="true" type="LONGVARCHAR"/>
+    <column name="DESCRIPTION" required="true" type="LONGVARCHAR"/>
+    <column name="DESCRIPTION_SOUNDEX" required="true" type="LONGVARCHAR"/>
+    <foreign-key foreignTable="SPECTRUM">
+      <reference local="SPECTRUM_ID" foreign="SPECTRUM_ID"/>
+    </foreign-key>
+    <index name="HYPERLINK_INDEX">
+      <index-column name="HYPERLINK(250)"/>
+    </index>
+  </table>
+
+  <table name="KEYWORD" javaName="DBKeyword" idMethod="idbroker">
+    <column name="KEYWORD_ID" required="true" primaryKey="true" type="INTEGER"/>
+    <column name="KEYWORD" required="true" type="VARCHAR" size="255"/>
+    <column name="KEYWORD_SOUNDEX" required="true" type="LONGVARCHAR"/>
+  </table>
+
+  <table name="MOLECULE_KEYWORD" javaName="DBMoleculeDBKeyword">
+    <column name="MOLECULE_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="KEYWORD_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <foreign-key foreignTable="MOLECULE">
+      <reference local="MOLECULE_ID" foreign="MOLECULE_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="KEYWORD">
+      <reference local="KEYWORD_ID" foreign="KEYWORD_ID"/>
+    </foreign-key>
+  </table>
+
+  <table name="SPECTRUM_KEYWORD" javaName="DBSpectrumDBKeyword">
+    <column name="SPECTRUM_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="KEYWORD_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <foreign-key foreignTable="SPECTRUM">
+      <reference local="SPECTRUM_ID" foreign="SPECTRUM_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="KEYWORD">
+      <reference local="KEYWORD_ID" foreign="KEYWORD_ID"/>
+    </foreign-key>
+  </table>
+
+  <table name="SUBSTANCE_KEYWORD" javaName="DBSubstanceDBKeyword">
+    <column name="SUBSTANCE_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="KEYWORD_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <foreign-key foreignTable="SUBSTANCE">
+      <reference local="SUBSTANCE_ID" foreign="SUBSTANCE_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="KEYWORD">
+      <reference local="KEYWORD_ID" foreign="KEYWORD_ID"/>
+    </foreign-key>
+  </table>
+  
+  <table name="DATASET_REVIEW_KEY" javaName="DBDatasetReviewKey" idMethod="idbroker">
+    <column name="DATASET_REVIEW_KEY_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="MOLECULE_ID" required="true" type="INTEGER"/>
+    <column name="CONDITION_ID" required="true" type="INTEGER"/>
+    <column name="REVIEW_KEY" required="true" type="VARCHAR" size="6"/>
+    <foreign-key foreignTable="MOLECULE">
+      <reference local="MOLECULE_ID" foreign="MOLECULE_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="NMR_CONDITION">
+      <reference local="CONDITION_ID" foreign="CONDITION_ID"/>
+    </foreign-key>
+  </table>
+  
+  <table name="DATASET_REVIEW_KEY_KEYWORD" javaName="DBDatasetReviewKeyDBKeyword">
+    <column name="DATASET_REVIEW_KEY_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="KEYWORD_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <foreign-key foreignTable="KEYWORD">
+      <reference local="KEYWORD_ID" foreign="KEYWORD_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="DATASET_REVIEW_KEY">
+      <reference local="DATASET_REVIEW_KEY_ID" foreign="DATASET_REVIEW_KEY_ID"/>
+    </foreign-key>
+  </table>
+  
+  <table name="DATASET_DOI" javaName="DBDatasetDoi" idMethod="idbroker">
+    <column name="DATASET_DOI_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="MOLECULE_ID" required="true" type="INTEGER"/>
+    <column name="CONDITION_ID" required="true" type="INTEGER"/>
+    <column name="DOI" type="LONGVARCHAR" required="true"/>
+    <foreign-key foreignTable="MOLECULE">
+      <reference local="MOLECULE_ID" foreign="MOLECULE_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="NMR_CONDITION">
+      <reference local="CONDITION_ID" foreign="CONDITION_ID"/>
+    </foreign-key>
+  </table>
+
+  <table name="DATASET_DOI_KEYWORD" javaName="DBDatasetDoiDBKeyword">
+    <column name="DATASET_DOI_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="KEYWORD_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <foreign-key foreignTable="KEYWORD">
+      <reference local="KEYWORD_ID" foreign="KEYWORD_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="DATASET_DOI">
+      <reference local="DATASET_DOI_ID" foreign="DATASET_DOI_ID"/>
+    </foreign-key>
+  </table>
+  
+  <table name="REVIEWGROUP" javaName="DBReviewGroup" idMethod="idbroker">
+    <column name="REVIEWGROUP_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="REVIEWGROUP_NAME" required="true" type="VARCHAR" size="20"/>
+    <column name="USER_ID" required="false" type="INTEGER"/>
+    <foreign-key foreignTable="TURBINE_USER">
+      <reference local="USER_ID" foreign="USER_ID"/>
+    </foreign-key>
+    <unique name="REVIEWGROUP_NAME_INDEX">
+      <unique-column name="REVIEWGROUP_NAME(20)"/>
+    </unique>
+  </table>
+
+  <table name="REVIEWGROUP_USER" javaName="DBReviewGroupDBUser">
+    <column name="REVIEWGROUP_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="USER_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <foreign-key foreignTable="TURBINE_USER">
+      <reference local="USER_ID" foreign="USER_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="REVIEWGROUP">
+      <reference local="REVIEWGROUP_ID" foreign="REVIEWGROUP_ID"/>
+    </foreign-key>
+  </table>
+
+  <table name="REVIEWTYPE" javaName="DBReviewType" idMethod="idbroker">
+    <column name="REVIEWTYPE_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="REVIEWTYPE_NAME" required="true" type="VARCHAR" size="20"/>
+    <column name="USER_ID" required="false" type="INTEGER"/>
+    <foreign-key foreignTable="TURBINE_USER">
+      <reference local="USER_ID" foreign="USER_ID"/>
+    </foreign-key>
+    <unique name="REVIEWTYPE_NAME_INDEX">
+      <unique-column name="REVIEWTYPE_NAME(20)"/>
+    </unique>
+  </table>
+
+  <table name="REVIEWTYPE_USER" javaName="DBReviewTypeDBUser">
+    <column name="REVIEWTYPE_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="USER_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <foreign-key foreignTable="TURBINE_USER">
+      <reference local="USER_ID" foreign="USER_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="REVIEWTYPE">
+      <reference local="REVIEWTYPE_ID" foreign="REVIEWTYPE_ID"/>
+    </foreign-key>
+  </table>
+
+  <table name="LITERATURE" javaName="DBLiterature" idMethod="idbroker">
+    <column name="LITERATURE_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="TITLE" required="true" type="VARCHAR" size="255"/>
+    <column name="SUBTITLE" required="false" type="VARCHAR" size="255"/>
+    <column name="TITLE_TOTAL_SOUNDEX" required="true" type="VARCHAR" size="255"/>
+    <column name="TITLE_TOTAL" required="true" type="VARCHAR" size="255"/>
+    <column name="ET_AL" required="true" type="VARCHAR" size="5" default="false"/>
+    <column name="URL" required="false" type="VARCHAR" size="255"/>
+    <column name="DOI" required="false" type="VARCHAR" size="255"/>
+  </table>
+
+  <table name="SPECTRUM_LITERATURE" javaName="DBSpectrumDBLiterature">
+    <column name="SPECTRUM_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="LITERATURE_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <foreign-key foreignTable="SPECTRUM">
+      <reference local="SPECTRUM_ID" foreign="SPECTRUM_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="LITERATURE">
+      <reference local="LITERATURE_ID" foreign="LITERATURE_ID"/>
+    </foreign-key>
+  </table>
+
+  <table name="IDENTIFIER" javaName="DBIdentifier">
+    <column name="ATOM_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="SPECTRUM_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="IDENTIFIER" required="true" type="VARCHAR" size="255"/>
+    <foreign-key foreignTable="ATOM">
+      <reference local="ATOM_ID" foreign="ATOM_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="SPECTRUM">
+      <reference local="SPECTRUM_ID" foreign="SPECTRUM_ID"/>
+    </foreign-key>
+  </table>
+
+  <table name="JOURNAL" javaName="DBJournal" idMethod="idbroker">
+    <column name="JOURNAL_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="TITLE" required="true" type="VARCHAR" size="255"/>
+    <column name="SUBTITLE" required="false" type="VARCHAR" size="255"/>
+    <column name="ITA" required="false" type="VARCHAR" size="255"/>
+  </table>
+
+  <table name="JOURNAL_VOLUME" javaName="DBJournalVolume" idMethod="idbroker">
+    <column name="JOURNAL_VOLUME_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="VOLUME" required="true" type="INTEGER"/>
+    <column name="YEAR" required="true" type="INTEGER"/>
+    <column name="JOURNAL_ID" required="true" type="INTEGER"/>
+    <index name="JOURNAL_ID_INDEX">
+      <index-column name="JOURNAL_ID"/>
+    </index>
+    <foreign-key foreignTable="JOURNAL">
+      <reference local="JOURNAL_ID" foreign="JOURNAL_ID"/>
+    </foreign-key>
+  </table>
+
+  <table name="ARTICLE" javaName="DBArticle">
+    <column name="LITERATURE_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="PAGES_FROM" required="true" type="INTEGER"/>
+    <column name="PAGES_TO" required="true" type="INTEGER"/>
+    <column name="ISSUE_NUMBER" required="true" type="INTEGER"/>
+    <column name="PUBLISHED_IN_BOOK" required="false" type="INTEGER"/>
+    <column name="PUBLISHED_IN_JOURNAL" required="false" type="INTEGER"/>
+    <index name="PUBLISHED_IN_BOOK_INDEX">
+      <index-column name="PUBLISHED_IN_BOOK"/>
+    </index>
+    <index name="PUBLISHED_IN_JOURNAL_INDEX">
+      <index-column name="PUBLISHED_IN_JOURNAL"/>
+    </index>
+    <foreign-key foreignTable="LITERATURE">
+      <reference local="LITERATURE_ID" foreign="LITERATURE_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="LITERATURE">
+      <reference local="PUBLISHED_IN_BOOK" foreign="LITERATURE_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="JOURNAL_VOLUME">
+      <reference local="PUBLISHED_IN_JOURNAL" foreign="JOURNAL_VOLUME_ID"/>
+    </foreign-key>
+  </table>
+
+  <table name="BOOK" javaName="DBBook">
+    <column name="LITERATURE_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <foreign-key foreignTable="LITERATURE">
+      <reference local="LITERATURE_ID" foreign="LITERATURE_ID"/>
+    </foreign-key>
+  </table>
+
+  <table name="AUTHOR" javaName="DBAuthor" idMethod="idbroker">
+    <column name="AUTHOR_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="SURNAME" required="true" type="VARCHAR" size="255"/>
+    <column name="NAME" required="true" type="VARCHAR" size="255"/>
+    <column name="NAME_TOTAL_SOUNDEX" required="true" type="VARCHAR" size="255"/>
+    <column name="NAME_TOTAL" required="true" type="VARCHAR" size="255"/>
+  </table>
+
+  <table name="IS_EDITOR" javaName="IsEditor">
+    <column name="AUTHOR_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="LITERATURE_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="EDITOR_ORDER" required="true" type="INTEGER" default="0"/>
+    <foreign-key foreignTable="AUTHOR">
+      <reference local="AUTHOR_ID" foreign="AUTHOR_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="LITERATURE">
+      <reference local="LITERATURE_ID" foreign="LITERATURE_ID"/>
+    </foreign-key>
+  </table>
+
+  <table name="IS_AUTHOR" javaName="IsAuthor">
+    <column name="AUTHOR_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="LITERATURE_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="AUTHOR_ORDER" required="true" type="INTEGER" default="0"/>
+    <foreign-key foreignTable="AUTHOR">
+      <reference local="AUTHOR_ID" foreign="AUTHOR_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="LITERATURE">
+      <reference local="LITERATURE_ID" foreign="LITERATURE_ID"/>
+    </foreign-key>
+  </table>
+
+  <table name="PUBLISHER" javaName="DBPublisher" idMethod="idbroker">
+    <column name="PUBLISHER_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="NAME" required="true" type="VARCHAR" size="255"/>
+    <column name="PLACE" required="true" type="VARCHAR" size="255"/>
+  </table>
+
+  <table name="BOOK_PUBLISHER" javaName="DBBookDBPublisher">
+    <column name="PUBLISHER_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="LITERATURE_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="YEAR" required="true" type="INTEGER"/>
+    <foreign-key foreignTable="PUBLISHER">
+      <reference local="PUBLISHER_ID" foreign="PUBLISHER_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="LITERATURE">
+      <reference local="LITERATURE_ID" foreign="LITERATURE_ID"/>
+    </foreign-key>
+  </table>
+
+  <table name="LABGROUP" javaName="DBLabGroup" idMethod="idbroker">
+    <column name="LABGROUP_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="LABGROUP_NAME" required="true" type="VARCHAR" size="20"/>
+    <column name="LEADER" required="true" type="INTEGER"/>
+    <foreign-key foreignTable="TURBINE_USER">
+      <reference local="LEADER" foreign="USER_ID"/>
+    </foreign-key>
+    <unique name="LABGROUP_NAME_INDEX">
+      <unique-column name="LABGROUP_NAME(20)"/>
+    </unique>
+  </table>
+
+  <table name="USER_HISTORY" javaName="DBUserHistory" idMethod="idbroker">
+    <column name="USER_HISTORY_ID" required="true" primaryKey="true"
+            type="INTEGER"/>
+    <column name="USER_ID" required="true" type="INTEGER"/>
+    <column name="JOIN_DATE" required="true" type="DATE"/>
+    <column name="LEAVE_DATE" required="false" type="DATE"/>
+    <column name="LABGROUP_ID" required="false" type="INTEGER" javaType="object"/>
+    <column name="AFFILIATION_1" size="99" type="VARCHAR"/>
+    <column name="AFFILIATION_2" size="99" type="VARCHAR"/>
+    <foreign-key foreignTable="TURBINE_USER">
+      <reference local="USER_ID" foreign="USER_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="LABGROUP">
+	    <reference local="LABGROUP_ID" foreign="LABGROUP_ID"/>
+    </foreign-key>
+  </table>
+  
+  <table name="MACHINE" javaName="DBMachine" idMethod="idbroker">
+    <column name="MACHINE_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="NAME" required="true" type="VARCHAR" size="20"/>
+    <column name="FIELD_STRENGTH" required="true" type="INTEGER"/>
+    <column name="VALID" required="true" type="VARCHAR" size="10"/>
+    <column name="LABGROUP_ID" required="true" type="INTEGER"/>
+    <column name="DEFAULT_MACHINE" required="true" type="INTEGER"/>
+    <column name="MEASURE_SELF" required="true" type="VARCHAR" size="10"/>
+    <column name="MEASURE_OPERATOR" required="true" type="VARCHAR" size="10"/>
+    <column name="MEASURE_CHANGER" required="true" type="VARCHAR" size="10"/>
+    <column name="MEASURE_BARCODE" required="true" type="VARCHAR" size="10"/>
+    <column name="MEASURE_SELF_NIGHT" required="true" type="VARCHAR" size="10"/>
+    <column name="MEASURE_OPERATOR_NIGHT" required="true" type="VARCHAR" size="10"/>
+    <column name="MEASURE_CHANGER_NIGHT" required="true" type="VARCHAR" size="10"/>
+    <column name="MEASURE_BARCODE_NIGHT" required="true" type="VARCHAR" size="10"/>
+    <column name="MEASURE_SELF_ENFORCE_STRUCTURE" required="true" type="VARCHAR" size="10"/>
+    <column name="MEASURE_OPERATOR_ENFORCE_STRUCTURE" required="true" type="VARCHAR" size="10"/>
+    <column name="MEASURE_CHANGER_ENFORCE_STRUCTURE" required="true" type="VARCHAR" size="10"/>
+    <column name="MEASURE_BARCODE_ENFORCE_STRUCTURE" required="true" type="VARCHAR" size="10"/>
+    <column name="DEFAULT_MODE" required="true" type="VARCHAR" size="10"/>
+    <column name="DEFAULT_MODE_NIGHT" required="true" type="VARCHAR" size="10"/>
+    <column name="ICONNMR_INTEGRATION" required="true" type="VARCHAR" size="10"/>
+    <column name="SCP_MACHINE_NAME" required="false" type="VARCHAR" size="50"/>
+    <column name="SCP_PATH" required="false" type="VARCHAR" size="50"/>
+    <column name="SHIFT_OPERATION_MON" required="true" type="VARCHAR" size="8"/>
+    <column name="SHIFT_OPERATION_TUE" required="true" type="VARCHAR" size="8"/>
+    <column name="SHIFT_OPERATION_WED" required="true" type="VARCHAR" size="8"/>
+    <column name="SHIFT_OPERATION_THU" required="true" type="VARCHAR" size="8"/>
+    <column name="SHIFT_OPERATION_FRI" required="true" type="VARCHAR" size="8"/>
+    <column name="SHIFT_OPERATION_SAT" required="true" type="VARCHAR" size="8"/>
+    <column name="SHIFT_OPERATION_SUN" required="true" type="VARCHAR" size="8"/>
+    <column name="HOUR_DAY_MONDAY" required="true" type="INTEGER"/>
+    <column name="MINUTE_DAY_MONDAY" required="true" type="INTEGER"/>
+    <column name="HOUR_NIGHT_MONDAY" required="true" type="INTEGER"/>
+    <column name="MINUTE_NIGHT_MONDAY" required="true" type="INTEGER"/>
+    <column name="HOUR_DAY_TUESDAY" required="true" type="INTEGER"/>
+    <column name="MINUTE_DAY_TUESDAY" required="true" type="INTEGER"/>
+    <column name="HOUR_NIGHT_TUESDAY" required="true" type="INTEGER"/>
+    <column name="MINUTE_NIGHT_TUESDAY" required="true" type="INTEGER"/>
+    <column name="HOUR_DAY_WEDNESDAY" required="true" type="INTEGER"/>
+    <column name="MINUTE_DAY_WEDNESDAY" required="true" type="INTEGER"/>
+    <column name="HOUR_NIGHT_WEDNESDAY" required="true" type="INTEGER"/>
+    <column name="MINUTE_NIGHT_WEDNESDAY" required="true" type="INTEGER"/>
+    <column name="HOUR_DAY_THURSDAY" required="true" type="INTEGER"/>
+    <column name="MINUTE_DAY_THURSDAY" required="true" type="INTEGER"/>
+    <column name="HOUR_NIGHT_THURSDAY" required="true" type="INTEGER"/>
+    <column name="MINUTE_NIGHT_THURSDAY" required="true" type="INTEGER"/>
+    <column name="HOUR_DAY_FRIDAY" required="true" type="INTEGER"/>
+    <column name="MINUTE_DAY_FRIDAY" required="true" type="INTEGER"/>
+    <column name="HOUR_NIGHT_FRIDAY" required="true" type="INTEGER"/>
+    <column name="MINUTE_NIGHT_FRIDAY" required="true" type="INTEGER"/>
+    <column name="HOUR_DAY_SATURDAY" required="true" type="INTEGER"/>
+    <column name="MINUTE_DAY_SATURDAY" required="true" type="INTEGER"/>
+    <column name="HOUR_NIGHT_SATURDAY" required="true" type="INTEGER"/>
+    <column name="MINUTE_NIGHT_SATURDAY" required="true" type="INTEGER"/>
+    <column name="HOUR_DAY_SUNDAY" required="true" type="INTEGER"/>
+    <column name="MINUTE_DAY_SUNDAY" required="true" type="INTEGER"/>
+    <column name="HOUR_NIGHT_SUNDAY" required="true" type="INTEGER"/>
+    <column name="MINUTE_NIGHT_SUNDAY" required="true" type="INTEGER"/>
+    <column name="CHANGE_TIME" required="true" type="INTEGER"/>
+    <column name="SFTP_HOST" required="false" type="VARCHAR" size="50"/>
+    <column name="SFTP_USER" required="false" type="VARCHAR" size="50"/>
+    <column name="SFTP_PASSWORD" required="false" type="VARCHAR" size="50"/>
+    <column name="SCP_PASSWORD" required="false" type="VARCHAR" size="50"/>
+    <column name="SCP_USERNAME" required="false" type="VARCHAR" size="50"/>
+    <column name="FORCE_WEEKEND" required="true" type="VARCHAR" size="50"/>
+    <column name="NIGHT_LIMIT" required="false" type="INTEGER"/>
+    <column name="DEFAULT_ON_CLIENT" required="true" type="VARCHAR" size="20"/>
+    <column name="HAS_LOW_PRIO" required="true" type="VARCHAR" size="20"/>
+    <column name="NUMBER_OF_HOLDERS" required="true" type="INTEGER"/>
+    <foreign-key foreignTable="LABGROUP">
+      <reference local="LABGROUP_ID" foreign="LABGROUP_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="NMR_CONDITION">
+      <reference local="FIELD_STRENGTH" foreign="CONDITION_ID"/>
+    </foreign-key>
+  </table>
+
+  <table name="MACHINE_USER_EXCLUDED" javaName="DBMachineDBUserExcluded">
+    <column name="MACHINE_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="USER_ID" required="true" primaryKey="true" type="INTEGER"/>
+    <foreign-key foreignTable="MACHINE">
+      <reference local="MACHINE_ID" foreign="MACHINE_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="TURBINE_USER">
+      <reference local="USER_ID" foreign="USER_ID"/>
+    </foreign-key>
+  </table>
+  
+  
+  <table name="MACHINE_CONDITION" javaName="DBMachineCondition">
+    <column name="MACHINE_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="CONDITION_ID" required="true" primaryKey="true" type="INTEGER"/>
+    <column name="NAME_ICONNMR" required="false" type="VARCHAR" size="50"/>
+    <column name="ORDER_POSITION" required="true" type="INTEGER"/>
+    <foreign-key foreignTable="MACHINE">
+      <reference local="MACHINE_ID" foreign="MACHINE_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="NMR_CONDITION">
+      <reference local="CONDITION_ID" foreign="CONDITION_ID"/>
+    </foreign-key>
+  </table>
+  
+  <table name="EXPERIMENT_CATEGORY" javaName="DBExperimentCategory" idMethod="idbroker">
+    <column name="EXPERIMENT_CATEGORY_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="NAME" required="true" type="VARCHAR" size="20"/>
+    <column name="ORDER_POSITION" required="true" type="INTEGER"/>
+  </table>
+
+  <table name="EXPERIMENT_REPORT_CATEGORY" javaName="DBExperimentReportCategory" idMethod="idbroker">
+    <column name="EXPERIMENT_REPORT_CATEGORY_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="NAME" required="true" type="VARCHAR" size="20"/>
+    <column name="ORDER_POSITION" required="true" type="INTEGER"/>
+  </table>
+
+  <table name="EXPERIMENT" javaName="DBExperiment" idMethod="idbroker">
+    <column name="EXPERIMENT_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="NAME" required="true" type="VARCHAR" size="50"/>
+    <column name="VALID" required="true" type="VARCHAR" size="10"/>
+    <column name="LABGROUP_ID" required="true" type="INTEGER"/>
+    <column name="EXPERIMENT_CATEGORY_ID" required="true" type="INTEGER"/>
+    <column name="EXPERIMENT_REPORT_CATEGORY_ID" required="true" type="INTEGER"/>
+    <column name="MAX_NUMBER" required="true" type="INTEGER"/>
+    <column name="LINE_BEFORE" required="true" type="VARCHAR" size="50"/>
+    <column name="AUTOMATION_ORDER" required="true" type="INTEGER"/>
+    <column name="SUB_EXPERIMENT_1_ID" required="false" type="INTEGER" javaType="object"/>
+    <column name="SUB_EXPERIMENT_2_ID" required="false" type="INTEGER" javaType="object"/>
+    <column name="SUB_EXPERIMENT_3_ID" required="false" type="INTEGER" javaType="object"/>
+    <column name="IDENTICAL_WITH" required="false" type="INTEGER" javaType="object"/>
+    <column name="ORDER_POSITION" required="true" type="INTEGER"/>
+    <foreign-key foreignTable="EXPERIMENT_CATEGORY">
+	    <reference local="EXPERIMENT_CATEGORY_ID" foreign="EXPERIMENT_CATEGORY_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="EXPERIMENT_REPORT_CATEGORY">
+	    <reference local="EXPERIMENT_REPORT_CATEGORY_ID" foreign="EXPERIMENT_REPORT_CATEGORY_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="LABGROUP">
+	    <reference local="LABGROUP_ID" foreign="LABGROUP_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="EXPERIMENT">
+	    <reference local="SUB_EXPERIMENT_1_ID" foreign="EXPERIMENT_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="EXPERIMENT">
+	    <reference local="SUB_EXPERIMENT_2_ID" foreign="EXPERIMENT_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="EXPERIMENT">
+            <reference local="SUB_EXPERIMENT_3_ID" foreign="EXPERIMENT_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="EXPERIMENT">
+	    <reference local="IDENTICAL_WITH" foreign="EXPERIMENT_ID"/>
+    </foreign-key>
+  </table>
+  
+  <table name="EXPERIMENT_PARAMETER" javaName="DBExperimentParameter">
+    <column name="PARAMETER_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="NAME_DISPLAY" required="true" type="VARCHAR" size="50"/>
+    <column name="NAME_ICONNMR" required="true" type="VARCHAR" size="50"/>
+    <column name="VISIBLE" required="true" type="VARCHAR" size="8"/>
+  </table>
+
+  <table name="EXPERIMENT_MACHINE" javaName="DBExperimentDBMachine" idMethod="idbroker">
+    <column name="EXPERIMENT_MACHINE_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="EXPERIMENT_ID" required="true" type="INTEGER"/>
+    <column name="MACHINE_ID" required="true" type="INTEGER"/>
+    <column name="NAME_ICONNMR" required="true" type="VARCHAR" size="50"/>
+    <column name="VALID_DAY" required="true" type="VARCHAR" size="8"/>
+    <column name="VALID_NIGHT" required="true" type="VARCHAR" size="8"/>
+    <column name="DURATION" required="true" type="INTEGER"/>
+    <column name="COMPULSORY" required="true" type="VARCHAR" size="8"/>
+    <column name="HIDE_HOUR_BEGIN" required="false" type="INTEGER"/>
+    <column name="HIDE_MINUTE_BEGIN" required="false" type="INTEGER"/>
+    <column name="HIDE_HOUR_END" required="false" type="INTEGER"/>
+    <column name="HIDE_MINUTE_END" required="false" type="INTEGER"/>
+    <foreign-key foreignTable="MACHINE">
+      <reference local="MACHINE_ID" foreign="MACHINE_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="EXPERIMENT">
+      <reference local="EXPERIMENT_ID" foreign="EXPERIMENT_ID"/>
+    </foreign-key>
+  </table>
+  
+  <table name="EXPERIMENT_MACHINE_PARAMETER" javaName="DBExperimentDBMachineDBParameter">
+    <column name="EXPERIMENT_MACHINE_PARAMETER_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="EXPERIMENT_MACHINE_ID" required="true" type="INTEGER"/>
+    <column name="PARAMETER_ID" required="true" type="INTEGER"/>
+    <column name="DEFAULT_VALUE" required="true" type="FLOAT"/>
+    <foreign-key foreignTable="EXPERIMENT_MACHINE">
+      <reference local="EXPERIMENT_MACHINE_ID" foreign="EXPERIMENT_MACHINE_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="EXPERIMENT_PARAMETER">
+      <reference local="PARAMETER_ID" foreign="PARAMETER_ID"/>
+    </foreign-key>
+  </table>
+
+  <table name="EXCLUDING_EXPERIMENTS" javaName="DBExcludingExperiments">
+    <column name="MACHINE_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="EXPERIMENT_ID_1" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="EXPERIMENT_ID_2" required="true" type="INTEGER" primaryKey="true"/>
+    <foreign-key foreignTable="MACHINE">
+      <reference local="MACHINE_ID" foreign="MACHINE_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="EXPERIMENT">
+      <reference local="EXPERIMENT_ID_1" foreign="EXPERIMENT_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="EXPERIMENT">
+      <reference local="EXPERIMENT_ID_2" foreign="EXPERIMENT_ID"/>
+    </foreign-key>
+  </table>
+
+  <table name="SAMPLE" javaName="DBSample" idMethod="idbroker">
+    <column name="SAMPLE_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="USERS_ID" required="true" type="VARCHAR" size="20"/>
+    <column name="USERS_ID_COMMENT" required="true" type="VARCHAR" size="40"/>
+    <column name="USER_ID" required="true" type="INTEGER"/>
+    <column name="SOLVENT" required="true" type="INTEGER"/>
+    <column name="MACHINE" required="true" type="INTEGER"/>
+    <column name="PROBABLE_STRUCTURE" required="false" type="INTEGER"/>	
+    <column name="DATE" required="true" type="DATE"/>
+    <column name="SPECIAL_CARE" required="true" type="VARCHAR" size="1000"/>
+    <column name="OTHER_WISHED_SPECTRUM" required="true" type="VARCHAR" size="50"/>
+    <column name="FINISHED" required="true" type="VARCHAR" size="8"/>
+    <column name="PROCESS" required="true" type="VARCHAR" size="8"/>
+    <column name="ATTACHMENT" required="true" type="BLOB"/>
+    <column name="ATTACHMENT_NAME" required="true" type="VARCHAR" size="20"/>
+    <column name="HOLDER_NO" required="true" type="INTEGER"/>
+    <!-- this column is used if the number of finished experiments is read in the AssignRobotDaemon -->
+    <column name="FINISHED_EXPERIMENTS" required="false" type="INTEGER"/>
+    <column name="print" required="false" type="INTEGER"/>
+    <column name="scan" required="false" type="INTEGER"/>
+    <column name="complete" required="false" type="INTEGER"/>
+    <column name="SHORT_ID" required="false" type="INTEGER"/>
+    <column name="LOW_PRIO" required="true" type="VARCHAR" size="20"/>
+    <column name="ADDITIONAL_DURATION" required="false" type="INTEGER"/>
+    <index name="USER_ID_INDEX">
+      <index-column name="USER_ID"/>
+    </index>
+    <foreign-key foreignTable="TURBINE_USER">
+      <reference local="USER_ID" foreign="USER_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="NMR_CONDITION">
+      <reference local="SOLVENT" foreign="CONDITION_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="MACHINE">
+      <reference local="MACHINE" foreign="MACHINE_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="MOLECULE">
+      <reference local="PROBABLE_STRUCTURE" foreign="MOLECULE_ID"/>
+    </foreign-key>
+  </table>
+
+  <table name="EXPERIMENT_SAMPLE" javaName="DBExperimentDBSample">
+    <column name="EXPERIMENT_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="SAMPLE_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="COUNT" required="true" type="INTEGER"/>
+    <column name="SEQUENCE" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="DURATION" required="false" type="INTEGER"/>
+    <foreign-key foreignTable="SAMPLE">
+      <reference local="SAMPLE_ID" foreign="SAMPLE_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="EXPERIMENT">
+      <reference local="EXPERIMENT_ID" foreign="EXPERIMENT_ID"/>
+    </foreign-key>
+  </table>
+
+  <table name="EXPERIMENT_SAMPLE_PARAMETER" javaName="DBExperimentDBSampleDBParameter">
+    <column name="EXPERIMENT_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="SAMPLE_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="PARAMETER_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="SEQUENCE" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="VALUE" required="true" type="FLOAT"/>
+    <foreign-key foreignTable="SAMPLE">
+      <reference local="SAMPLE_ID" foreign="SAMPLE_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="EXPERIMENT">
+      <reference local="EXPERIMENT_ID" foreign="EXPERIMENT_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="EXPERIMENT_PARAMETER">
+      <reference local="PARAMETER_ID" foreign="PARAMETER_ID"/>
+    </foreign-key>
+  </table>
+
+  <table name="RAW_FILE" javaName="DBRawFile" idMethod="idbroker">
+    <column name="RAW_FILE_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="SAMPLE_ID" required="true" type="INTEGER"/>
+    <column name="URL" required="true" type="VARCHAR" size="255"/>
+    <column name="CONTAINED_FILES" required="true" type="LONGVARCHAR"/>
+    <column name="ASSIGNED" required="true" type="VARCHAR" size="255"/>
+    <column name="MD5" required="true" type="VARCHAR" size="32"/>
+    <column name="DATE" required="false" type="DATE"/>
+    <foreign-key foreignTable="SAMPLE">
+      <reference local="SAMPLE_ID" foreign="SAMPLE_ID"/>
+    </foreign-key>
+  </table>
+
+  <table name="RAW_FILE_SPECTRUM" javaName="DBRawFileDBSpectrum">
+    <column name="RAW_FILE_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <column name="SPECTRUM_ID" required="true" type="INTEGER" primaryKey="true"/>
+    <foreign-key foreignTable="RAW_FILE">
+      <reference local="RAW_FILE_ID" foreign="RAW_FILE_ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="SPECTRUM">
+      <reference local="SPECTRUM_ID" foreign="SPECTRUM_ID"/>
+    </foreign-key>
+  </table>
+
+  <table name="QUICK_CHECK" javaName="DBQuickCheck" idMethod="idbroker">
+    <column name="QUICK_CHECK_ID" required="true" primaryKey="true"
+            type="INTEGER"/>
+    <column name="USER_ID" required="false" type="INTEGER"/>
+    <column name="NAME" required="true" type="VARCHAR" size="255"/>
+    <column name="DATE" required="true" type="DATE"/>
+    <column name="CML" required="true" type="LONGVARCHAR"/>
+    <foreign-key foreignTable="TURBINE_USER">
+      <reference local="USER_ID" foreign="USER_ID"/>
+    </foreign-key>
+  </table>  
+
+  <table name="AFFILIATION_1_LOV" javaName="DBAffiliation1Lov" idMethod="idbroker">
+    <column name="AFFILIATION_1_LOV_ID" required="true" primaryKey="true"
+            type="INTEGER"/>
+    <column name="AFFILIATION_1" required="true" type="VARCHAR" size="255"/>
+  </table>
+
+  <table name="AFFILIATION_2_LOV" javaName="DBAffiliation2Lov" idMethod="idbroker">
+    <column name="AFFILIATION_2_LOV_ID" required="true" primaryKey="true"
+            type="INTEGER"/>
+    <column name="AFFILIATION_1_LOV_ID" required="true" type="INTEGER"/>
+    <column name="AFFILIATION_2" required="true" type="VARCHAR" size="255"/>
+    <column name="DESCRIPTION" required="true" type="VARCHAR" size="255"/>
+    <foreign-key foreignTable="AFFILIATION_1_LOV">
+      <reference local="AFFILIATION_1_LOV_ID" foreign="AFFILIATION_1_LOV_ID"/>
+    </foreign-key>
+  </table>
+</database>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

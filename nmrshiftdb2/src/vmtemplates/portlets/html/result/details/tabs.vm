@@ -1,0 +1,32 @@
+<table cellpadding="0" cellspacing="0" border="0" width="100%"  >
+  <tr>
+    <td valign="top">
+      <table align="left" cellspacing="0" border="0" cellpadding="0"  >
+        <tr width="100%">
+            #foreach($tabheader in $tabheaders)
+              #set($currenttab=$velocityCount - 1)
+              #if($tab.get($outercounter)==$currenttab)
+    	          <td valign="middle"  class="HighlightTitleStyleClass"   style="background-color: #0000AA; color: #FFFFFF;"  >
+                          $tabheader
+        	      </td>
+	       	  #else
+        	       <td valign="middle"  class="TitleStyleClass"   style="background-color: #999999; color: #FFFFFF;"  >
+                          <a href="$urltool.removesessionid($data.getRequest().getRequestURI());jsessionid=${sessionidext}?$query&$tabname=${outercounter}_$currenttab$displayallurl#spectrum${spectrum.getSpectrumId()}"  style="color: #FFFFFF" >$tabheader</a>
+    	          </td>
+              #end
+              <td width="2">&nbsp;</td>
+            #end
+        </tr>
+      </table>
+      <table align="right" cellspacing="0" border="0" cellpadding="0">
+        <tr width="100%">    
+          <td align="right" nowrap="true" valign="middle"></td>
+        </tr>      
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="0" width="100%" border="0" cellpadding="0"  >
+  <tr><td height="2"  style="background-color: #0000AA"  ><img height="2" width="2" src="images/dot.gif" /></td></tr>
+  <tr><td height="2"  style="background-color: #FFFFFF"  ><img height="2" width="2" src="images/dot.gif" /></td></tr>
+</table>

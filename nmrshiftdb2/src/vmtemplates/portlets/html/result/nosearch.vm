@@ -1,0 +1,7 @@
+#if($showpredict=="true")
+  <h3><a href="$link.getPaneById("P-Predict").addPathInfo("eventSubmit_doShowfromsession","showfromsession")">Return to prediction</a></h3>
+#end
+#if($showassignment=="true")
+  <h3><a href="$link.getPaneById("P-Assign").addPathInfo("eventSubmit_doShowfromsession","showfromsession")">Return to assignment</a></h3>
+#end
+You did not do a search!

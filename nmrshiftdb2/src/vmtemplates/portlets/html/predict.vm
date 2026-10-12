@@ -1,0 +1,344 @@
+#if($error)
+    $error
+#else
+    <script LANGUAGE="JavaScript1.1">
+     (function(window, document, undefined){
+    var XBTooltip = function( element, userConf, color, tooltip) {
+    var config = {
+    id: userConf.id|| undefined,
+    className: userConf.className || undefined,
+    x: userConf.x || 20,
+    y: userConf.y || 20,
+    text: userConf.text || undefined
+    };
+    var over = function(event) {
+    tooltip.style.display = "block";
+    tooltip.style.color=color;
+    },
+    out = function(event) {
+    tooltip.style.display = "none";
+    },
+    move = function(event) {
+    event = event ? event : window.event;
+    if ( event.pageX == null && event.clientX != null ) {
+    var doc = document.documentElement, body = document.body;
+    event.pageX = event.clientX + (doc && doc.scrollLeft || body && body.scrollLeft || 0) - (doc && doc.clientLeft || body && body.clientLeft || 0);
+    event.pageY = event.clientY + (doc && doc.scrollTop || body && body.scrollTop || 0) - (doc && doc.clientTop || body && body.clientTop || 0);
+    }
+    tooltip.style.top = (event.pageY+config.y) + "px";
+    tooltip.style.left = (event.pageX+config.x) + "px";
+    }
+    if (tooltip === undefined && config.id) {
+    tooltip = document.getElementById(config.id);
+    if (tooltip) tooltip = tooltip.parentNode.removeChild(tooltip)
+    }
+    if (tooltip === undefined && config.text) {
+    tooltip = document.createElement("div");
+    if (config.id) tooltip.id= config.id;
+    tooltip.innerHTML = config.text;
+    }
+    if (config.className) tooltip.className = config.className;
+    tooltip = document.body.appendChild(tooltip);
+    tooltip.style.position = "absolute";
+    element.onmouseover = over;
+    element.onmouseout = out;
+    element.onmousemove = move;
+    over();
+    };
+    window.XBTooltip = window.XBT = XBTooltip;
+    })(this, this.document);
+
+
+	function newPopup(url) {
+	   popupWindow = window.open(url,'popUpWindow','height=300,width=500,left=10,top=10,resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no,directories=no,status=no')
+	}
+    </script>
+
+    <a href="#if($doAssignment)$link.getPaneById("P-Help")?URL=using.html#predict #else $link.getPaneById("P-Help")?URL=using.html#assign #end" title="Help for prediction/assignment"><img src="images/help.png" style="color:white"></a>
+      <div style="color:red">
+      $!messages
+      </div>
+    <table cellspacing="10"><tr> #if($method=="hose") <td>
+      <form action="$link.getPaneById($tab)">
+        Use <select name="numberofspheres" size="1">
+        #foreach($number in $numbers)
+          <option value="$number.getInt()" #if($number.getInteger()==$choosennumber) selected #end>$number.getString()</option>
+        #end
+        </select>spheres <input name="eventSubmit_doChangenumberofspheres"  type="submit" value="Change number of spheres">
+      </form>
+    </td>#if($input=="0")<td><img src="images/blank.gif" height="1" width="30"></td><td>#if($twospheres=="true") <a href="$link.getPaneById($tab)?twospheres=false&eventSubmit_doChangelayout=changelayout&hose3d=$hose3d&force3d=$force3d&measuredonly=$measuredonly&calculatedonly=$calculatedonly&spectrumType=$typeid&solvent=$session.getAttribute("solvent")">Do not show two spheres</a> #else <a href="$link.getPaneById($tab)?twospheres=true&eventSubmit_doChangelayout=changelayout&hose3d=$hose3d&force3d=$force3d&measuredonly=$measuredonly&calculatedonly=$calculatedonly&spectrumType=$typeid&solvent=$session.getAttribute("solvent")">Show two spheres</a> #end </td> #end <td><a target="_new" href="download/NmrshiftdbServlet/predict.html;jsessionid=$session.getId()?nmrshiftdbaction=printpredict&spectrumType=$typeid&solvent=$session.getAttribute("solvent")">Print</a></td> #if($input=="0")<td>#if($hosecode=="true") <a href="$link.getPaneById($tab)?hosecode=false&eventSubmit_doChangelayout=changelayout&hose3d=$hose3d&force3d=$force3d&measuredonly=$measuredonly&calculatedonly=$calculatedonly&spectrumType=$typeid&solvent=$session.getAttribute("solvent")">Do not show HOSE codes</a> #else <a href="$link.getPaneById($tab)?hosecode=true&eventSubmit_doChangelayout=changelayout&hose3d=$hose3d&force3d=$force3d&measuredonly=$measuredonly&calculatedonly=$calculatedonly&spectrumType=$typeid&solvent=$session.getAttribute("solvent")">Show HOSE codes</a> #end </td> #end </tr> #end </table>
+    <table>
+      <tr>
+        <td>
+          #if($input=="1")
+    	      #parse("structureinput/jsfunctions.vm")
+    	  #end
+    	  #if($session.getAttribute("applet")=="applet")
+    	    <script>
+            function unselectandselect(b){
+              if(currentlyworking==1){
+                return;
+              }else{
+                currentlyworking=1;
+                document.JcpViewer.selectAtom(parseInt(b));
+                document.Spectrum.paintLine(b);
+                currentlyworking=0;
+              }
+            }
+            //-->
+            </script>
+          #end
+          #if($input=="1")
+            #parse("structureinput/display.vm")
+            #if($structureeditor=="MARVINJS" || $structureeditor=="GGAKETCHER" || $session.getAttribute("applet")=="applet" || $showoldinput=="true")
+              <form action="$link.getPaneById($tab)" method="post" NAME="MolForm">
+                <input type="hidden" name="MolTxt" value="">
+                <fieldset style="border:none" id="controls">Use <input type="checkbox" name="measuredonly" value="true" checked>measured and/or <input type="checkbox" name="calculatedonly" value="true">calculated/predicted spectra<br>
+                Use 3D hose codes<input type="checkbox" name="hose3d" value="true" #if($hose3d=="true")checked#end > Force use of 3D hose codes<input type="checkbox" name="force3d" value="true" #if($force3d=="true")checked#end ></fieldset><br>
+                <a href="JavaScript:newPopup('nmrshiftdbhtml/hints/predictions.html');"><img src="images/help.png" style="color:white"></a><br>
+                <select size="1" name="spectrumType" onChange="if(document.getElementsByName('spectrumType')[0].value==100 || document.getElementsByName('spectrumType')[0].value==101 || document.getElementsByName('spectrumType')[0].value==102){document.getElementsByName('solvent')[0].disabled=true;document.getElementById('controls').disabled=true;}else{document.getElementsByName('solvent')[0].disabled=false;document.getElementById('controls').disabled=false;}">
+                #foreach($spectrumtype in $types)
+                 <option value="$spectrumtype.getSpectrumTypeId()" 
+                 #if($spectrumtype.getSpectrumTypeId()==$selectedType)
+                    selected
+                 #end
+                 >$spectrumtype.getName()</option>
+                #end
+                </select>
+                <select size="1" name="solvent">
+                #foreach($solvent in $solvents)
+                 <option value="$solvent.getConditionId()" 
+                 #if($solvent.getConditionId()==$selectedSolvent.getConditionId())
+                    selected
+                 #end
+                 >$solvent.getValue()</option>
+                #end
+                </select>
+                
+                <br><br>
+                #if($doAssignment)
+    	            Input list: <a href="JavaScript:newPopup('nmrshiftdbhtml/hints/formathint.html');">Input format</a><br>
+    				<textarea name="spectrum" cols="20" rows="10" onBlur="if (this.value == '') this.value = 'Format like:\r\n56.2;.2S\r\n64.1;.6Q\r\nIntensity and\r\nmultiplicity optional';" onFocus="if (this.value.indexOf('Format like:')>-1) this.value = '';" >$!assignSpectrum</textarea>
+    	        #end
+                #if($structureeditor=="GGAKETCHER")
+                    <input type="hidden" name="eventSubmit_doPredict" value="doPredict">
+                    <input TYPE="button" name="eventSubmit_doPredict" style="background-color:#0000AA; color:white" VALUE="#if($doAssignment)Assignspectrum#else Predict Spectrum#end" onClick="exportMol()">
+                #else
+                    <input TYPE="submit" name="eventSubmit_doPredict" style="background-color:#0000AA; color:white" VALUE="#if($doAssignment)Assignspectrum#else Predict Spectrum#end" onClick="exportMol()">
+                #end
+              </form>
+              #if($doAssignment)
+              <script LANGUAGE="JavaScript1.1">
+                  document.MolForm.spectrum.focus();
+                  document.MolForm.spectrum.blur();
+    
+                  function newPopup(url) {
+                    popupWindow = window.open(
+                        url,'popUpWindow','height=300,width=300,left=10,top=10,resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no,directories=no,status=no')
+                  }
+              </script>
+              #end
+          #end
+    	#else
+            #if($session.getAttribute("applet")=="applet")
+              <a href="$link.getPaneById($tab)?eventSubmit_doNoapplet=noapplet" title="Switch off Java applets" style="color:white"><img src="images/nojava.png"></a><br>
+              <script src="nmrshiftdbhtml/Jmol.js"></script>
+              <script LANGUAGE="JavaScript1.1" SRC="nmrshiftdbhtml/marvin.js"></script>
+              <script LANGUAGE="JavaScript1.1">
+              #if($coords=="3d")
+                jmolInitialize("nmrshiftdbhtml");
+                jmolApplet(300, "load $baseurl/../$molfile; labels %i");
+                //-->
+                </script>
+                <img src="images/blank.gif" height="1" width="20">
+                <script LANGUAGE="JavaScript1.1">
+                <!--
+              #end
+              mview_name = "JcpViewer";
+              mview_mayscript = true;
+              mview_begin("$baseurl/../nmrshiftdbhtml", 300, 300);
+              mview_param("load","$baseurl/../$molfile");
+              mview_param("atomNumbersVisible","true");
+              mview_param("background","12632256");
+              mview_param("spectrumRenderer","Spectrum");
+              mview_param("detachable","true");
+              mview_param("tooltips","$tooltips");
+              mview_param("highlightTable","true");
+              mview_end();
+              //-->
+              </script>
+            #else
+    		  <a href="$link.getPaneById($tab)?eventSubmit_doApplet=applet" title="Switch on Java-Applets" style="color:white"><img src="images/java.png"></a><br>
+              <img src="$imagefile">
+            #end
+              <form action="$link.getPaneById($tab)?hose3d=$hose3d&force3d=$force3d&measuredonly=$measuredonly&calculatedonly=$calculatedonly&spectrumType=$typeid&solvent=$session.getAttribute("solvent")" method="post" NAME="MolForm">
+                <input TYPE="submit" name="eventSubmit_doCorrectmolecule" VALUE="Modify prediction">
+              </form>
+              <br>
+              #if($session.getAttribute("applet")=="applet")
+                <span style="color:#0000AA">Double click upper part to get resizeable window!</span><br>
+                <script LANGUAGE="JavaScript1.1">
+                  spectrumapplet_name = "Spectrum";
+                  spectrumapplet_begin("$baseurl/../nmrshiftdbhtml", 300, 250);
+                  spectrumapplet_param("structureRenderer","JcpViewer");
+                  spectrumapplet_param("spectrum","$spectrumForApplet");
+                  spectrumapplet_param("spectrumTyp","$spectrumtype");
+                  spectrumapplet_param("predictions","$predictionValuesForApplet");
+                  spectrumapplet_param("highlightTable","true");
+                  #if($typeid=="100")
+                    spectrumapplet_param("frequency","125");
+                    spectrumapplet_param("spectrumTyp","1H");
+                  #end
+                  spectrumapplet_end();
+                </script>
+              #else
+                <img src="$specfile">
+              #end
+            </td>
+            <td width="20"></td>
+            <td>
+              #if($typeid=="100")
+                Prediction is for conditions 298 K, 125 Mhz, Chloroform-D1 (CDCl3)!<br><br>
+              #elseif($selectedSolvent.getConditionId()>-1)
+                Prediction is for $selectedSolvent.getValue()
+              #end
+              #if($doAssignment)
+              	Similarity of the predicted spectrum and yours is $similarity %, average difference of shifts is $averagedifference - low similarities and high differences indicate that your spectrum and the structure might not belong together.<br><br>
+              	Did you know your data almost constitute a complete nmrshiftdb2 entry - <a href="$link.getPaneById("P-Submit")?eventSubmit_doChecklogin=checklogin&nextaction=submitfromassignment&submitlevel=3">you could easily add these and submit your data</a>.<br><br>
+              #end
+              #set($sessionid=$session.getId())
+                <table onmouseout="unselectandselect(-1)">
+                  <tr bgcolor="#0000AA"><th><div style="color:white">No.</div></th><th><div style="color:white;font-size:200%">#if($doAssignment)Input<br>shift#else Shift#end</div></th>#if($doAssignment)<th><div style="color:white">Prediction</div></th>#end
+                  #if($method=="hose")
+                    #if($doAssignment)<th><div style="color:white">Difference<br>(Input-calculated)</div></th>#end
+                  #end
+                  #if($print=="0" && $hosecode=="true") <th><div style="color:white">HOSE code used</div></th> #end
+                  </tr>
+                  #foreach($element in $elements)
+                    <tr id="tableid$element.getRange()" bgcolor="#set($evenorodd=$velocityCount % 2)#if($element.getStatistics(9)=="1.00")C0C0C0#elseif($evenorodd==1)white#else#D3D3D3#end" nowrap 
+                    #if($session.getAttribute("applet")=="applet")
+                      onMouseover="
+                      #if($coords=="3d")
+                        jmolScript('select atomno=$element.getCurrentSelectedNumber();set display selected;',0);document.Spectrum.paintLine($element.getNameForElements());
+                      #end
+                        unselectandselect($element.getNameForElements());
+                       style.backgroundColor='#FF6600';" 
+                       #if($evenorodd==0)
+                         onmouseout="style.backgroundColor='#D3D3D3';"
+                       #else
+                         onmouseout="style.backgroundColor='white';"
+                       #end
+                    #end
+                    >
+                      <td #if($twospheres=="true") rowspan="2" #end >$element.getDisplayText()</td>
+                      <td #if($twospheres=="true") rowspan="2" #end ><p #if($twospheres=="true")  style="font-size:200%" #end id="atc$element.getDisplayText()" onmouseover="XBT(this, {text: '$element.getMultiplicity()', className: 'xbtooltip'}, 'black')">
+                      $element.getValueAsString()
+                      #if($method=="hose")
+                        #set($imagewarning="warning.png")
+                        #set($textwarning="Probably not a reliable prediction: ")
+                        #if($element.statisticsIsLessThan(4,2) || ($element.statisticsIsLessThan(4,3) && $element.statisticsDiffMoreThan(7,8,10)))
+                            #set($imagewarning="warningstrong.png")
+                        #end
+                        #if($element.statisticsIsLessThan(4,3))
+                            #set($textwarning="$textwarning Only $element.getStatistics(4) spheres used")
+                        #end
+                        #if($element.statisticsDiffMoreThan(7,8,10))
+                            #if($element.statisticsIsLessThan(4,3))
+                                #set($textwarning="$textwarning, ")
+                            #end
+                            #set($textwarning="$textwarning Range > 10 ppm!")
+                        #end
+                        #if($element.statisticsIsLessThan(4,3) || $element.statisticsDiffMoreThan(7,8,10))
+                            <span onmouseover="XBT(this, {text: '$textwarning', className: 'xbtooltip'}, 'red')"><img src="nmrshiftdbhtml/$imagewarning"></span>
+                        #end
+                      #end</p></td>
+                      #if($method=="hose")
+                        #if($doAssignment)
+                            <td nowrap>$element.getStatistics(1)</td>
+                            <td nowrap>
+                            #if($element.statisticsIsLessThan(3, 5))
+                                <img src="nmrshiftdbhtml/ampel_gruen.gif">
+                            #elseif($element.statisticsIsLessThan(3, 10))
+                                <img src="nmrshiftdbhtml/ampel_gelb.gif">
+                            #else
+                                <img src="nmrshiftdbhtml/ampel_rot.gif">
+                            #end
+                            $element.getStatistics(3)</td>
+                        #end
+                      #end
+                      #set($solv="-1")
+                      #if($selectedSolvent)
+                        #set($solv=$selectedSolvent.getConditionId())
+                      #end
+                      #if($print=="0" && $hosecode=="true") <td nowrap><a href="portal/js_pane/P-Results;jsessionid=$sessionid?eventSubmit_doGeneralsearch=generalsearch&searchstring=$element.getIntensityEsc()&searchaction=$constants.getEXACT()&searchfield=$constants.getHOSECODE()&spectype=$spectype&solvent=$solv"> #if($typeid=="100")$element.getDelta() #else $urltool.escapeHtml($element.getIntensity()) #end </a></td> #end
+                    </tr>
+                    #if($twospheres=="true")
+                      <tr bgcolor=
+                      #set($evenorodd=$velocityCount % 2)
+                      #if($evenorodd==1)
+                        "#D3D3D3"
+                      #else
+                        "#A0A0A0"
+                      #end
+                       nowrap 
+                      #if($session.getAttribute("applet")=="applet")
+                        onMouseover="unselectandselect($element.getNameForElements())"
+                      #end
+                      >
+                       #if($method=="hose")
+                        #if($doAssignment)
+                            <td nowrap>$element.getStatistics(3)</td>
+                        #end
+                        <td nowrap>$element.getStatistics2(6)</td>
+                        <td nowrap>$element.getStatistics2(4) /#if($element.getStatistics2(10)=="1.00") stereo HOSE#else 2D HOSE#end</td>
+                        <td nowrap>$element.getStatistics2(7)</td>
+                        <td nowrap>$element.getStatistics2(8)</td>
+                        <td nowrap>$element.getStatistics2(1)</td>
+                        #if(!$doAssignment)
+                            <td nowrap>$element.getStatistics2(3)</td>
+                        #end
+                        <td nowrap>$element.getStatistics2(5)</td>
+                        #if($print=="0" && $hosecode=="true") <td nowrap><a href="portal/js_pane/P-Results;jsessionid=$sessionid?eventSubmit_doGeneralsearch=generalsearch&searchstring=$element.getIdentifierEsc()&searchaction=$constants.getEXACT()&searchfield=$constants.getHOSECODE()&spectype=$spectype">$element.getIdentifier()</a></td> #end
+                      #end
+                      </tr>
+                    #end
+                  #end
+                </table>
+                #if($urltool.isLabserver())
+            <br>
+            <div style="background-color:#C0C0C0">=Prediction is from lab data ($labgroup)</div><br>
+        #end
+
+
+
+
+
+
+              #if($doAssignment)
+              	$!unused
+              #end
+            </td>
+          </tr>
+          <tr>
+            <td>
+              #if($linkmessage=="none")
+              
+              #else
+                <a href="$linkmessage">View structure in database</a><br> 
+              #end
+              <a href="$shiftsfile" target="_blank">Show structure with shifts</a>
+            </td>
+            <td></td>
+            <td>
+              <a href="$link.getPaneById($tab)?eventSubmit_doNewpredict=newpredict">#if($doAssignment)New Assignment#else New prediction#end</a>
+            </td>
+            #end
+        </td>
+      </tr>
+    </table>
+    <br><br><br><br>
+    $!csearch
+    #if($selectedType==100 || $selectedType==101 || $selectedType==102)
+    <script LANGUAGE="JavaScript1.1">document.getElementsByName('solvent')[0].disabled=true;document.getElementById('controls').disabled=true;</script>
+    #end
+#end

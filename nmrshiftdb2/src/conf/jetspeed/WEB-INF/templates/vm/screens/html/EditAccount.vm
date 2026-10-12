@@ -1,0 +1,338 @@
+#*
+Copyright 2004 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*#
+
+#macro(displaymols $mollist $header $wheretolink)
+      <table>
+        <tr>
+          <td colspan="10">
+            $header
+          </td>
+        </tr>
+        <tr>
+        #foreach($mol in $mollist)
+          #set($velocityCountM1=$velocityCount - 1)
+          #set($test=$velocityCountM1%10)
+            #if($test==0)
+              #if($velocityCount==1)
+                        
+              #else
+                </tr><tr>
+              #end
+            #end
+          <td><a
+          #if($wheretolink=="review")
+              href="$jslink.getPaneById("P-Review").addQueryData("eventSubmit_doReview","doReview").addQueryData("spectrumid","$mol.getSpectrumId()").addQueryData("userid","$data.User.getUserId()")"
+          #elseif($wheretolink=="showunreviewed")
+              href="$jslink.getPaneById("P-Results").addQueryData("nmrshiftdbaction","showDetailsFromHome").addQueryData("newmol","true").addQueryData("molNumber","$mol.getDBMolecule().getMoleculeId()").addQueryData("unreviewed","unreviewed")"
+          #else
+              href="$jslink.getPaneById("P-Results").addQueryData("nmrshiftdbaction","showDetailsFromHome").addQueryData("newmol","true").addQueryData("molNumber","$mol.getDBMolecule().getMoleculeId()")"
+          #end
+          >
+          <img alt="$mol.getDBMolecule().getChemicalNamesAsOneStringWithFallback()" 
+          #if($urltool.doImageCache())
+              src="images/molecules/small/${mol.getMoleculeId()}.jpeg"
+          #else
+              src="download/NmrshiftdbServlet/${mol.getMoleculeId()}.jpg;jsessionid=$data.getSession().getId()?nmrshiftdbaction=exportmol&spectrumid=$mol.getSpectrumId()&format=jpeg&size=150x150&shownumbers=false&backcolor=12632256"
+          #end      
+          >
+          </a><br>
+          ID: $mol.getSpectrumId() - $mol.getDBSpectrumType().getName()
+          </td>
+        #end
+        </tr>
+      </table>
+#end
+
+<table cellpadding="0" cellspacing="0" border="0" width="100%"  >
+  <tr>
+    <td valign="top">
+      <table align="left" cellspacing="0" border="0" cellpadding="0"  >
+        <tr width="100%">
+            #foreach($tabheader in $tabheaders)
+              #set($currenttab=$velocityCount - 1)
+              #if($selectedtab==$currenttab)
+                  <td valign="middle"  class="HighlightTitleStyleClass"   style="background-color: #0000AA; color: #FFFFFF;"  >
+                          $tabheader
+                  </td>
+              #else
+                   <td valign="middle"  class="TitleStyleClass"   style="background-color: #999999; color: #FFFFFF;"  >
+                          <a href="$link.setPage("EditAccount")?tab=$currenttab"  style="color: #FFFFFF" >$tabheader</a>
+                  </td>
+              #end
+              <td width="5">&nbsp;</td>
+            #end
+        </tr>
+      </table>
+      <table align="right" cellspacing="0" border="0" cellpadding="0">
+        <tr width="100%">    
+          <td align="right" nowrap="true" valign="middle"></td>
+        </tr>      
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="0" width="100%" border="0" cellpadding="0"  >
+  <tr><td height="2"  style="background-color: #0000AA"  ><img height="2" width="2" src="images/dot.gif" /></td></tr>
+  <tr><td height="2"  style="background-color: #FFFFFF"  ><img height="2" width="2" src="images/dot.gif" /></td></tr>
+</table>
+<center><table>
+#if($urltool.getTurbineUser($data).getUnsavedSpectraCount($data)>0)
+    <tr><td>$urltool.getTurbineUser($data).getUnsavedSpectraCount($data) spectrum/a submitted by you is/are queued and will be processed!</td></tr>
+#end
+
+#if($selectedtab==0)
+    <table cellpadding="2" cellspacing="0" border="1" width="50%">
+      <tr>
+        <td align="center" colspan="3" class="INPUTFORMTITLE">
+          $l10n.EDITACCOUNT_TITLE<br>
+          *=Field needs to be filled in
+        </td>
+      </tr>
+      <tr>
+        <td class="INPUTFORM">
+          #if ($data.Message)
+            ## Message include account creation failure messages.
+            <p style="color:red"><b>$data.Message</b></p>
+          #end
+          <form
+              method="POST" 
+              action="$jslink.HomePage" 
+              enctype="application/x-www-form-urlencoded">
+          <input name="submit2" type="submit" value="$l10n.USERFORM_UPDATE" style="width: 0; height: 0; overflow:hidden;margin:0; border: 0; padding: 0; display: block;">
+          <input name="$jslink.ActionKey" type="hidden" value="UpdateAccount">
+          <input name="username" type="hidden" value="$!data.User.UserName">
+          <center>
+              <table cellpadding="0" cellspacing="1" border="0">
+                <tr>
+                  <td>$l10n.USERFORM_USERNAMEMSG*</td>
+                  <td>&nbsp;</td>
+                  <td align="left">
+                    $data.User.UserName
+                  </td>
+                </tr>
+                <tr>
+                  <td>$l10n.USERFORM_OLDPASSWORDMSG</td>
+                  <td>&nbsp;</td>
+                  <td align="left">
+                    <input name="old_password" type="PASSWORD" value="">
+                  </td>
+                </tr>
+                <tr>
+                  <td>$l10n.USERFORM_PASSWORDMSG</td>
+                  <td>&nbsp;</td>
+                  <td align="left">
+                    <input name="password" type="PASSWORD" value="">
+                  </td>
+                </tr>
+                <tr>
+                  <td>$l10n.USERFORM_PASSWORDCONFIRMMSG</td>
+                  <td>&nbsp;</td>
+                  <td align="left">
+                    <input name="password_confirm" type="PASSWORD" value="">
+                  </td>
+                </tr>
+#if ( $config.getBoolean("automatic.logon.enable") == true )
+                <tr>
+                  <td colspan="3">
+                    <input name="rememberme" value="true" type="checkbox" 
+#if ( $data.getRequest().getCookies() && $data.getRequest().getCookies().length>0 && $data.getCookies().get("logincookie") )
+                        checked
+#end
+                    />$l10n.USERFORM_REMEMBERME
+                  </td>
+                </tr>
+#end
+                <tr>
+                  <td>$l10n.USERFORM_FIRSTNAMEMSG</td>
+                  <td>&nbsp;</td>
+                  <td align="left">
+                    <input name="firstname" type="TEXT" value="$!data.User.FirstName">
+                  </td> 
+                </tr>
+                <tr>
+                  <td>$l10n.USERFORM_LASTNAMEMSG</td>
+                  <td>&nbsp;</td>
+                  <td align="left">
+                   <input name="lastname" type="TEXT" value="$!data.User.LastName">
+                  </td>
+                </tr>
+                <tr>
+                  <td>$l10n.USERFORM_EMAILMSG*</td>
+                  <td>&nbsp;</td>
+                  <td align="left">
+                    <input name="email" type="TEXT" value="$!data.User.Email">
+                  </td>
+                </tr> 
+                
+              <tr>
+                <td> Title: </td>
+                <td>&nbsp;</td>
+                <td align=right><input name="title" type="TEXT" value="$!urltool.getTurbineUser($data).Title" /> </td>
+              </tr>
+              <tr>
+                <td> Address: </td>
+                <td>&nbsp;</td>
+                <td align=right><input name="address" type="TEXT" value="$!urltool.getTurbineUser($data).Address" /> </td>
+              </tr>
+              <tr>
+                <td> City: </td>
+                <td>&nbsp;</td>
+                <td align=right><input name="city" type="TEXT" value="$!urltool.getTurbineUser($data).City" /> </td>
+              </tr>
+              <tr>
+                <td> State: </td>
+                <td>&nbsp;</td>
+                <td align=right><input name="state" type="TEXT" value="$!urltool.getTurbineUser($data).State" /> </td>
+              </tr>
+              <tr>
+                <td> ZIP Code: </td>
+                <td>&nbsp;</td>
+                <td align=right><input name="zipcode" type="TEXT" value="$!urltool.getTurbineUser($data).ZipCode" /> </td>
+              </tr>
+              <tr>
+                <td> Country: </td>
+                <td>&nbsp;</td>
+                <td align=right><input name="country" type="TEXT" value="$!urltool.getTurbineUser($data).Country" /> </td>
+              </tr>
+              <tr>
+                <td> Web Page: </td>
+                <td>&nbsp;</td>
+                <td align=right><input name="webpage" type="TEXT" value="$!urltool.getTurbineUser($data).WebPage" /> </td>
+              </tr>
+              #if(!$urltool.getTurbineUser($data).HostId)
+	              <tr>
+	                <td> MNova Host ID: </td>
+	                <td>&nbsp;</td>
+	                <td align=right><input name="hostid" type="TEXT" value="$!urltool.getTurbineUser($data).HostId" /> </td>
+	              </tr>
+	          #end
+              #if(!$urltool.useFixedAffiliations())
+                <tr>
+                    <td> Affiliation/institute* (enter or choose one): </td>
+                    #if(!$urltool.isLabserver())
+                        <td>&nbsp;</td>
+                    #end
+                    <td align=right><input name="affiliation1" type="TEXT" value="$!urltool.getTurbineUser($data).Affiliation1" /> </td>
+                    #if($urltool.isLabserver())
+                        <td>
+                            </select><select name="aff1" size="1">
+                              #foreach($day in $urltool.getAff1())
+                                <option value="$day">$day</option>
+                              #end
+                            </select>
+                        </td>
+                    #end
+                </tr>
+              #end
+              <tr>
+                #if($urltool.useFixedAffiliations())
+                   <td> Affiliation/Workgroup (choose one)*: </td>
+                    #if(!$urltool.isLabserver())
+                        <td>&nbsp;</td>
+                    #end
+                    <td>&nbsp;</td>
+                    #if($urltool.isLabserver())
+                        <td>
+                            </select><select name="aff2" size="1">
+                              #foreach($day in $urltool.getAff2())
+                                <option value="$day" #if($!urltool.getTurbineUser($data).getAffiliation2()==$day) selected #end >$day</option>
+                              #end
+                            </select>
+                        </td>
+                    #end
+                #else
+                    <td> Affiliation/workgroup (enter or choose one)*: </td>
+                    #if(!$urltool.isLabserver())
+                        <td>&nbsp;</td>
+                    #end
+                    <td align=right><input name="affiliation2" type="TEXT" value="$!urltool.getTurbineUser($data).Affiliation2" /> </td>
+                    #if($urltool.isLabserver())
+                        <td>
+                            </select><select name="aff2" size="1">
+                              #foreach($day in $urltool.getAff2())
+                                <option value="$day">$day</option>
+                              #end
+                            </select>
+                        </td>
+                    #end 
+                #end
+              </tr>
+              <tr>
+                <td> I want my real name to appear on the Credits page </td>
+                <td>&nbsp;</td>
+                <td align=right><input name="realname" type="checkbox" value="realname" 
+                #if($!urltool.getTurbineUser($data).HallOfFame=="true")
+                  checked
+                #end
+                > </td>
+              </tr>
+                
+                
+                
+                <tr>
+                  <td colspan="3">$l10n.NEWACCOUNT_INFOEMAILMSG</td>
+                </tr> 
+                <tr>
+                  <td colspan="3">&nbsp;</td>
+                </tr> 
+                <tr>
+                  <td colspan="3">
+                    <table width="100%">
+                      <tr>
+                        <td align="right" width="40%">
+                          <input name="cancelBtn" type="submit" value="$l10n.USERFORM_CANCEL">
+                        </td>
+                        <td width="10%">&nbsp;</td>
+                        <td align="left" width="40%">
+                          <input name="submit2" type="submit" value="$l10n.USERFORM_UPDATE">
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </center>
+          </form>
+        </td>
+      </tr>
+    </table>
+#end
+
+#if($selectedtab==1)
+  #if($urltool.getTurbineUser($data).getMyPrivateSpectra($data).size()==0)
+    No private spectra!
+  #else
+    #displaymols($urltool.getTurbineUser($data).getMyPrivateSpectra($data) "Click entry to view details!" "show")
+  #end
+#end
+
+#if($selectedtab==2)
+  #if($urltool.getTurbineUser($data).getMyUnreviewedContributions($data).size()==0)
+    No unreviewed spectra!
+  #else
+    #displaymols($urltool.getTurbineUser($data).getMyUnreviewedContributions($data) "Click entry to view details!" "showunreviewed")
+  #end
+#end
+
+#if($selectedtab==3)
+#if($urltool.getTurbineUser($data).isReviewer())
+    #if($urltool.getTurbineUser($data).getMyMissingReviews($data).size()==0)
+      No unreviewed spectra!
+    #else
+      #displaymols($urltool.getTurbineUser($data).getMyMissingReviews($data) "Click entry to review it!" "review")
+    #end
+#end
+#end

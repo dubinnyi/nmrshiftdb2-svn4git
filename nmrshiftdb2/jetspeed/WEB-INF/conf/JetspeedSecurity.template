@@ -1,0 +1,192 @@
+# Copyright 2004 The Apache Software Foundation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#     http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# -------------------------------------------------------------------
+# $Id: JetspeedSecurity.template,v 1.14 2004/03/31 04:49:10 morciuch Exp $
+#
+# This is the configuration file for JetspeedSecurity
+#
+# Note that strings containing "," (comma) characters must backslash
+# escape the comma (i.e. '\,')
+#
+# -------------------------------------------------------------------
+services.JetspeedSecurity.classname=org.apache.jetspeed.services.security.JetspeedDBSecurityService
+
+#########################################
+# Programmatic Cascade Delete Service   #
+#########################################
+
+services.JetspeedSecurity.programmatic.cascade.delete=false
+
+#########################################
+# Authentication Service                #
+#########################################
+
+services.PortalAuthentication.classname=@services.PortalAuthentication.classname@
+
+#########################################
+# Authorization Service                 #
+#########################################
+
+services.PortalAccessController.classname=@services.PortalAccessController.classname@
+
+#########################################
+# User Management Service               #
+#########################################
+
+services.UserManagement.classname=@services.UserManagement.classname@
+services.JetspeedSecurity.user.class=@services.JetspeedSecurity.user.class@
+
+#########################################
+# Role Management Service               #
+#########################################
+
+services.RoleManagement.classname=@services.RoleManagement.classname@
+services.JetspeedSecurity.role.class=@services.JetspeedSecurity.role.class@
+services.JetspeedSecurity.role.default=user
+
+#########################################
+# Group Management Service              #
+#########################################
+
+services.GroupManagement.classname=@services.GroupManagement.classname@
+services.JetspeedSecurity.group.class=@services.JetspeedSecurity.group.class@
+  
+
+#########################################
+# Permission Management Service        #
+#########################################
+
+services.PermissionManagement.classname=@services.PermissionManagement.classname@
+services.JetspeedSecurity.permission.class=@services.JetspeedSecurity.permission.class@
+
+#########################################
+# Security Cache Service                #
+#########################################
+
+services.SecurityCache.classname=org.apache.jetspeed.services.security.SecurityCacheImpl
+
+# This is used by the SecurityService to make the password checking
+# secure. When enabled, passwords are transformed by a one-way
+# function into a sequence of bytes that is base64 encoded.
+# It is impossible to guess the plain-text form of the password
+# from the representation. When user logs in, the entered password
+# is transformed the same way and then compared with stored value.
+#
+# Default: false
+#
+
+services.JetspeedSecurity.secure.passwords=false
+
+#
+# This property lets you choose what digest algorithm will be used
+# for encrypting passwords. Check documentation of your JRE for
+# available algorithms.
+#
+# Default: SHA
+#
+
+services.JetspeedSecurity.secure.passwords.algorithm=SHA
+
+# Role(s) to assign to new user.  Multiple Role must be comma separated.
+services.JetspeedSecurity.newuser.roles=user
+
+# Default permission(s) when object have no permissions defined
+# The follow permissions are define in the default Jetspeed installation:
+#     view, customize, minimize, maximize, close
+#     * = All permissions
+services.JetspeedSecurity.permission.default.anonymous=view
+services.JetspeedSecurity.permission.default.loggedin=*
+
+# During logon, username and password can be case sensitive or case insensitive
+# This option configures the logon username and password to be case sensitive or insensitive
+# if its case insensitive, then "logon.casesensitive.upper" controls whether the username and
+# password or converted to upper or lower case before passing on to the database
+services.JetspeedSecurity.caseinsensitive.username=false
+services.JetspeedSecurity.caseinsensitive.password=false
+services.JetspeedSecurity.caseinsensitive.upper=true
+
+# Auto-Account-Disable Feature
+services.JetspeedSecurity.logon.auto.disable=false
+
+# 3 logon strikes per 300 seconds and your out
+services.JetspeedSecurity.logon.strike.count=3
+services.JetspeedSecurity.logon.strike.interval=300
+# dont allow more than 10 over any time period
+services.JetspeedSecurity.logon.strike.max=10
+
+# anonymous user
+services.JetspeedSecurity.user.anonymous=anon
+
+# Caching
+services.JetspeedSecurity.caching.enable=true
+
+#
+# Number of days until password expires. To disable
+# this feature, set it to 0.
+#
+# Default:  0
+#
+services.JetspeedSecurity.password.expiration.period=0
+
+#
+# Comma separated list of system users. System users cannot 
+# be deleted because they are essential to security service.
+#
+# Default: admin, anon
+#
+services.JetspeedSecurity.system.users = admin
+services.JetspeedSecurity.system.users = anon
+
+#
+# Comma separated list of system roles. System roles cannot 
+# be deleted because they are essential to security service.
+#
+# Default: user, admin
+#
+services.JetspeedSecurity.system.roles = user
+services.JetspeedSecurity.system.roles = admin
+
+#
+# Comma separated list of system groups. System groups cannot 
+# be deleted because they are essential to security service.
+#
+# Default: jetspeed
+#
+services.JetspeedSecurity.system.groups = Jetspeed
+
+#
+# Comma separated list of system permissions. System permissions cannot 
+# be deleted because they are essential to security service.
+#
+# Default: <none>
+#
+services.JetspeedSecurity.system.permissions =
+
+#
+# Comma separated list of administrative roles. Only users 
+# with administratives roles can perform secured portlet actions
+#
+# Default: admin
+#
+services.JetspeedSecurity.admin.roles = admin
+
+#########################################
+# Action buttons                        #
+#########################################
+services.JetspeedSecurity.actions.anon.disable=true
+services.JetspeedSecurity.actions.allusers.disable=false
+
+    
+

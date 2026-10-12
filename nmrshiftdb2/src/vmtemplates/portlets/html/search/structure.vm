@@ -1,0 +1,44 @@
+#if($unassigned)<a href="portal/js_pane/P-Results;jsessionid=$data.getSession().getId()?nmrshiftdbaction=$constants.getBROWSE()&startbrowseall=$firstmolecule">Browse all structures</a>#end
+<p style="color:red">$!message2</p>
+<table>
+	<tr>
+		<td>
+      #parse("structureinput/jsfunctions.vm")
+      #parse("structureinput/display.vm")
+		</td>
+		<td>
+      #if($structureeditor=="MARVINJS" || $structureeditor=="GGAKETCHER" || $data.getSession().getAttribute("applet")=="applet" || $import=="true")
+        <form name="MolForm" action="portal/js_pane/P-Results;jsessionid=$data.getSession().getId()" method="post">
+          <input type="hidden" name="MolTxt">
+          <input type="radio" value="$constants.getSUBSTRUCTURE_EXACT()" name="type" 
+          #if($sub=="$constants.getSUBSTRUCTURE_EXACT()")
+            checked
+          #end
+          > Substructure Search<br>
+          <input type="radio" value="$constants.getSUBSTRUCTURE_SIMILARITY()" name="type" 
+          #if($sub=="$constants.getSUBSTRUCTURE_SIMILARITY()")
+            checked
+          #end
+          > Similarity Search (Substructure)<br>
+          <input type="radio" value="$constants.getTOTALSTRUCTURE()" name="type"
+          #if($sub=="$constants.getTOTALSTRUCTURE()")
+            checked
+          #end
+          > Identity Search ?<br>
+          #if($mixturesearch)<input type="checkbox" name="mixture" value="mixture"
+          #if($mixture)
+            checked
+          #end
+          > Search in mixtures<b>#end
+          #if($structureeditor=="GGAKETCHER")
+             <input type="hidden" name="eventSubmit_doStructuresearch" value="doStructuresearch">
+             <input name="eventSubmit_doStructuresearch" type="button" style="background-color:#0000AA; color:white" value="Search by structure" onClick="exportMol();">
+          #else
+             <input name="eventSubmit_doStructuresearch" type="submit" style="background-color:#0000AA; color:white" value="Search by structure" onClick="exportMol();">
+          #end
+        </form>
+      #end
+		</td>
+	</tr>
+</table>
+

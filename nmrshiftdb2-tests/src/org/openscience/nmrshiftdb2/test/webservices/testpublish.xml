@@ -1,0 +1,2100 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<data>
+    <MOLECULE>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <DATE type="DATETIME">2002-09-16 10:45:18.0</DATE>
+        <CAS_NUMBER type="MEDIUMBLOB"/>
+        <MOLECULAR_WEIGHT type="FLOAT">220.35</MOLECULAR_WEIGHT>
+        <SMILES_STRING type="MEDIUMBLOB">OCC1=CC3(C)(CCC2C(C)CCC23(C1C))</SMILES_STRING>
+        <SMILES_STRING_CHIRAL type="MEDIUMBLOB">[H]OC([H])([H])C1=C([H])[C@]3(C([H])([H])[H])(C([H])([H])C([H])([H])[C/@]2([C/@]([H])(C([H])([H])[H])C([H])([H])C/([H])([H])[C/@]23([C@]1(C([H])[H])[H]([H])))([H]))</SMILES_STRING_CHIRAL>
+        <USER_ID type="INTEGER">163</USER_ID>
+        <fp0 type="BIGINT">8388609</fp0>
+        <fp1 type="BIGINT">290477228163072</fp1>
+        <fp2 type="BIGINT">4613656360528118800</fp2>
+        <fp3 type="BIGINT">142606341</fp3>
+        <fp4 type="BIGINT">1196269724762626</fp4>
+        <fp5 type="BIGINT">33554432</fp5>
+        <fp6 type="BIGINT">4611687186658754560</fp6>
+        <fp7 type="BIGINT">1048576</fp7>
+        <fp8 type="BIGINT">2305860601399738368</fp8>
+        <fp9 type="BIGINT">2</fp9>
+        <fp10 type="BIGINT">4398046511104</fp10>
+        <fp11 type="BIGINT">36028797018963968</fp11>
+        <fp12 type="BIGINT">0</fp12>
+        <fp13 type="BIGINT">0</fp13>
+        <fp14 type="BIGINT">0</fp14>
+        <fp15 type="BIGINT">0</fp15>
+        <DBE type="FLOAT">4.0</DBE>
+        <SSSR type="INTEGER">3</SSSR>
+        <SAR type="INTEGER">6</SAR>
+        <COMMENT type="BLOB"/>
+        <FORMULA type="MEDIUMBLOB">C15H24O</FORMULA>
+        <MULTIPLICITY_0 type="INTEGER">3</MULTIPLICITY_0>
+        <MULTIPLICITY_1 type="INTEGER">4</MULTIPLICITY_1>
+        <MULTIPLICITY_2 type="INTEGER">5</MULTIPLICITY_2>
+        <MULTIPLICITY_3 type="INTEGER">3</MULTIPLICITY_3>
+    </MOLECULE>
+    <ATOM>
+        <ATOM_ID type="INTEGER">10000041</ATOM_ID>
+        <SYMBOL type="CHAR">C</SYMBOL>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <HOSE_CODE_WITH_RINGS type="TEXT">C-4-5;HHCC(@CCC,HHC/H=C,HHH,@CC&amp;,@CH&amp;/&amp;|C,@H&amp;C,HHC,@HC&amp;)@,HHO,HHH,HH&amp;,HHH/,H/</HOSE_CODE_WITH_RINGS>
+        <ATOMIC_MASS type="INTEGER">12</ATOMIC_MASS>
+        <FORMAL_CHARGE type="INTEGER">0</FORMAL_CHARGE>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+        <IS_VISIBLE type="CHAR">true</IS_VISIBLE>
+        <HETERO type="VARCHAR">false</HETERO>
+        <HOSE_CODE type="VARCHAR">C-4;CC(CCC,HHC/&amp;CC,H=C,HHH,H&amp;C/,H&amp;C,HHC,&amp;C,H&amp;C),HHH,HH&amp;,HHO,HHH/,H/</HOSE_CODE>
+    </ATOM>
+    <ATOM>
+        <ATOM_ID type="INTEGER">10000042</ATOM_ID>
+        <SYMBOL type="CHAR">C</SYMBOL>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <HOSE_CODE_WITH_RINGS type="TEXT">C-4-5;HHCC(@CHC,HHC/@HCC,@CC&amp;,@CC&amp;/HHH,HH&amp;,HH&amp;,@HCC,H=&amp;,HHH),=&amp;C,HHH/@,HHO/</HOSE_CODE_WITH_RINGS>
+        <ATOMIC_MASS type="INTEGER">12</ATOMIC_MASS>
+        <FORMAL_CHARGE type="INTEGER">0</FORMAL_CHARGE>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+        <IS_VISIBLE type="CHAR">true</IS_VISIBLE>
+        <HETERO type="VARCHAR">false</HETERO>
+        <HOSE_CODE type="VARCHAR">C-4;CC(HCC,HHC/&amp;CC,HCC,&amp;CC/,HCC,HH&amp;,HH&amp;,HHH,H=&amp;,HHH),=&amp;C,HHH/,HHO/</HOSE_CODE>
+    </ATOM>
+    <ATOM>
+        <ATOM_ID type="INTEGER">10000043</ATOM_ID>
+        <SYMBOL type="CHAR">C</SYMBOL>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <HOSE_CODE_WITH_RINGS type="TEXT">C-4-5;@CCHC(@HCC,HHC,@CCC/HHH,HH&amp;,HH&amp;,HH&amp;,@HCC,@CC&amp;/,=&amp;C,HHH,HHH,H=&amp;)@,HHO/@,H/</HOSE_CODE_WITH_RINGS>
+        <ATOMIC_MASS type="INTEGER">12</ATOMIC_MASS>
+        <FORMAL_CHARGE type="INTEGER">0</FORMAL_CHARGE>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+        <IS_VISIBLE type="CHAR">true</IS_VISIBLE>
+        <HETERO type="VARCHAR">false</HETERO>
+        <HOSE_CODE type="VARCHAR">C-4;CCC(CCC,HCC,HHC/&amp;CC,HCC,HH&amp;,HH&amp;,HHH,HH&amp;/,H=&amp;,HHH,=&amp;C,HHH),HHO/,H/</HOSE_CODE>
+    </ATOM>
+    <ATOM>
+        <ATOM_ID type="INTEGER">10000044</ATOM_ID>
+        <SYMBOL type="CHAR">C</SYMBOL>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <HOSE_CODE_WITH_RINGS type="TEXT">C-4-5;HHCC(@CHC,HHC/HHH,@CH&amp;,@C&amp;C/HHC,@HCC,@CC&amp;)HH&amp;,=&amp;C,HHH,HHH,H=&amp;/@,HHO/</HOSE_CODE_WITH_RINGS>
+        <ATOMIC_MASS type="INTEGER">12</ATOMIC_MASS>
+        <FORMAL_CHARGE type="INTEGER">0</FORMAL_CHARGE>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+        <IS_VISIBLE type="CHAR">true</IS_VISIBLE>
+        <HETERO type="VARCHAR">false</HETERO>
+        <HOSE_CODE type="VARCHAR">C-4;CC(HCC,HHC/H&amp;C,HHH,C&amp;C/,HHC,&amp;CC,HCC),HH&amp;,H=&amp;,HHH,=&amp;C,HHH/,HHO/</HOSE_CODE>
+    </ATOM>
+    <ATOM>
+        <ATOM_ID type="INTEGER">10000045</ATOM_ID>
+        <SYMBOL type="CHAR">C</SYMBOL>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <HOSE_CODE_WITH_RINGS type="TEXT">C-4-5;HHCC(@CCC,HHC/@HCC,@CH&amp;,@CCC,@CH&amp;/=&amp;C,HHH,HH&amp;,HHH,H=&amp;,HH&amp;,HHH),HHO/@,H/</HOSE_CODE_WITH_RINGS>
+        <ATOMIC_MASS type="INTEGER">12</ATOMIC_MASS>
+        <FORMAL_CHARGE type="INTEGER">0</FORMAL_CHARGE>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+        <IS_VISIBLE type="CHAR">true</IS_VISIBLE>
+        <HETERO type="VARCHAR">false</HETERO>
+        <HOSE_CODE type="VARCHAR">C-4;CC(CCC,HHC/CCC,H&amp;C,HCC,H&amp;C/HH&amp;,H=&amp;,HHH,HH&amp;,=&amp;C,HHH,HHH),HHO/,H/</HOSE_CODE>
+    </ATOM>
+    <ATOM>
+        <ATOM_ID type="INTEGER">10000046</ATOM_ID>
+        <SYMBOL type="CHAR">C</SYMBOL>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <HOSE_CODE_WITH_RINGS type="TEXT">C-4-5;@CCCC(@H,@CC,@CC,@C,HHC,@CHC/HHH,H=&amp;,=&amp;C,HHH,HH&amp;,HH&amp;,HH&amp;,@HC&amp;/,HHO,HHH)@,H//</HOSE_CODE_WITH_RINGS>
+        <ATOMIC_MASS type="INTEGER">12</ATOMIC_MASS>
+        <FORMAL_CHARGE type="INTEGER">0</FORMAL_CHARGE>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+        <IS_VISIBLE type="CHAR">true</IS_VISIBLE>
+        <HETERO type="VARCHAR">false</HETERO>
+        <HOSE_CODE type="VARCHAR">C-4;CCCC(CCC,HCC,HCC,HHC/HH&amp;,H=&amp;,HHH,H&amp;C,HH&amp;,=&amp;C,HHH,HH&amp;/,HHH,HHO),H//</HOSE_CODE>
+    </ATOM>
+    <ATOM>
+        <ATOM_ID type="INTEGER">10000047</ATOM_ID>
+        <SYMBOL type="CHAR">C</SYMBOL>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <HOSE_CODE_WITH_RINGS type="TEXT">C-3-5;H=CC(CC,@CCC/@HC&amp;,HHO,HHH,HHC,@&amp;CC/HHH,H,HH&amp;,HHC,@&amp;HC)@,HH&amp;,@HC&amp;/,HHH/</HOSE_CODE_WITH_RINGS>
+        <ATOMIC_MASS type="INTEGER">12</ATOMIC_MASS>
+        <FORMAL_CHARGE type="INTEGER">0</FORMAL_CHARGE>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+        <IS_VISIBLE type="CHAR">true</IS_VISIBLE>
+        <HETERO type="VARCHAR">false</HETERO>
+        <HOSE_CODE type="VARCHAR">C-3;=CC(CC,CCC/H&amp;C,HHO,C&amp;C,HHC,HHH/,HHH,H,HC&amp;,HHC,HH&amp;),H&amp;C,HH&amp;/,HHH/</HOSE_CODE>
+    </ATOM>
+    <ATOM>
+        <ATOM_ID type="INTEGER">10000048</ATOM_ID>
+        <SYMBOL type="CHAR">C</SYMBOL>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <HOSE_CODE_WITH_RINGS type="TEXT">C-3-5;=CCC(HC,@HCC,HHO/@CC&amp;,HHH,@CC&amp;,H/HHH,HHC,@&amp;HC,HHC)HH&amp;,@HC&amp;,HH&amp;/@,HHH/</HOSE_CODE_WITH_RINGS>
+        <ATOMIC_MASS type="INTEGER">12</ATOMIC_MASS>
+        <FORMAL_CHARGE type="INTEGER">0</FORMAL_CHARGE>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+        <IS_VISIBLE type="CHAR">true</IS_VISIBLE>
+        <HETERO type="VARCHAR">false</HETERO>
+        <HOSE_CODE type="VARCHAR">C-3;=CCC(HC,HCC,HHO/&amp;CC,&amp;CC,HHH,H/,HHC,HHH,HC&amp;,HHC),HH&amp;,H&amp;C,HH&amp;/,HHH/</HOSE_CODE>
+    </ATOM>
+    <ATOM>
+        <ATOM_ID type="INTEGER">10000049</ATOM_ID>
+        <SYMBOL type="CHAR">C</SYMBOL>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <HOSE_CODE_WITH_RINGS type="TEXT">C-4;HHCO(=CC,H/H|C,@HCC/@CC&amp;,HHH,@CC&amp;)HHH,HHC,@&amp;HC,HHC/HH&amp;,@HC&amp;,HH&amp;/</HOSE_CODE_WITH_RINGS>
+        <ATOMIC_MASS type="INTEGER">12</ATOMIC_MASS>
+        <FORMAL_CHARGE type="INTEGER">0</FORMAL_CHARGE>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+        <IS_VISIBLE type="CHAR">true</IS_VISIBLE>
+        <HETERO type="VARCHAR">false</HETERO>
+        <HOSE_CODE type="VARCHAR">C-4;CO(=CC,H/HC,HCC/&amp;CC,&amp;CC,HHH),HHC,HHH,HC&amp;,HHC/,HH&amp;,H&amp;C,HH&amp;/</HOSE_CODE>
+    </ATOM>
+    <ATOM>
+        <ATOM_ID type="INTEGER">10000050</ATOM_ID>
+        <SYMBOL type="CHAR">C</SYMBOL>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <HOSE_CODE_WITH_RINGS type="TEXT">C-4-5;@HCCC(@CCC,=CC,HHH/@CHC,HHC,@C&amp;C,|H&amp;,HHO/HH&amp;,@HC&amp;,HH&amp;,HHH,HH&amp;,H),HHH/@/</HOSE_CODE_WITH_RINGS>
+        <ATOMIC_MASS type="INTEGER">12</ATOMIC_MASS>
+        <FORMAL_CHARGE type="INTEGER">0</FORMAL_CHARGE>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+        <IS_VISIBLE type="CHAR">true</IS_VISIBLE>
+        <HETERO type="VARCHAR">false</HETERO>
+        <HOSE_CODE type="VARCHAR">C-4;CCC(CCC,=CC,HHH/C&amp;C,HCC,HHC,H&amp;,HHO/HH&amp;,HHH,H&amp;C,HH&amp;,HH&amp;,H),HHH//</HOSE_CODE>
+    </ATOM>
+    <ATOM>
+        <ATOM_ID type="INTEGER">10000051</ATOM_ID>
+        <SYMBOL type="CHAR">C</SYMBOL>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <HOSE_CODE_WITH_RINGS type="TEXT">C-4;HHHC(@HCC/=CC,@CCC/|H&amp;,HHO,@CHC,HHC,@C&amp;C)@,H,HH&amp;,@HC&amp;,HH&amp;,HHH,HH&amp;/,HHH/</HOSE_CODE_WITH_RINGS>
+        <ATOMIC_MASS type="INTEGER">12</ATOMIC_MASS>
+        <FORMAL_CHARGE type="INTEGER">0</FORMAL_CHARGE>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+        <IS_VISIBLE type="CHAR">true</IS_VISIBLE>
+        <HETERO type="VARCHAR">false</HETERO>
+        <HOSE_CODE type="VARCHAR">C-4;C(HCC/CCC,=CC/C&amp;C,HCC,HHC,H&amp;,HHO)HH&amp;,HHH,H&amp;C,HH&amp;,HH&amp;,H/,HHH/</HOSE_CODE>
+    </ATOM>
+    <ATOM>
+        <ATOM_ID type="INTEGER">10000052</ATOM_ID>
+        <SYMBOL type="CHAR">C</SYMBOL>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <HOSE_CODE_WITH_RINGS type="TEXT">C-4-5;@HCCC(HHH,HHC,@CHC/HH&amp;,HHC,@&amp;CC/@,HH&amp;,@HCC,@CC&amp;)@,=&amp;C,HHH,HHH,H=&amp;/,HHO/</HOSE_CODE_WITH_RINGS>
+        <ATOMIC_MASS type="INTEGER">12</ATOMIC_MASS>
+        <FORMAL_CHARGE type="INTEGER">0</FORMAL_CHARGE>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+        <IS_VISIBLE type="CHAR">true</IS_VISIBLE>
+        <HETERO type="VARCHAR">false</HETERO>
+        <HOSE_CODE type="VARCHAR">C-4;CCC(HCC,HHC,HHH/CC&amp;,HHC,HH&amp;/&amp;CC,HCC,HH&amp;),H=&amp;,HHH,=&amp;C,HHH/,HHO/</HOSE_CODE>
+    </ATOM>
+    <ATOM>
+        <ATOM_ID type="INTEGER">10000053</ATOM_ID>
+        <SYMBOL type="CHAR">C</SYMBOL>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <HOSE_CODE_WITH_RINGS type="TEXT">C-4;HHHC(@HCC/HHC,@CHC/HH&amp;,HHC,@&amp;CC)@,HH&amp;,@HCC,@CC&amp;/@,=&amp;C,HHH,HHH,H=&amp;/</HOSE_CODE_WITH_RINGS>
+        <ATOMIC_MASS type="INTEGER">12</ATOMIC_MASS>
+        <FORMAL_CHARGE type="INTEGER">0</FORMAL_CHARGE>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+        <IS_VISIBLE type="CHAR">true</IS_VISIBLE>
+        <HETERO type="VARCHAR">false</HETERO>
+        <HOSE_CODE type="VARCHAR">C-4;C(HCC/HCC,HHC/CC&amp;,HHC,HH&amp;)&amp;CC,HCC,HH&amp;/,H=&amp;,HHH,=&amp;C,HHH/</HOSE_CODE>
+    </ATOM>
+    <ATOM>
+        <ATOM_ID type="INTEGER">10000054</ATOM_ID>
+        <SYMBOL type="CHAR">C</SYMBOL>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <HOSE_CODE_WITH_RINGS type="TEXT">C-4-5;@CCCC(HHC,HHH,H=C,@CCC/HH&amp;,&amp;|C,@H&amp;C,HHC,@&amp;HC/@,HHO,HHH,HH&amp;,@HC&amp;)@,H,HHH//</HOSE_CODE_WITH_RINGS>
+        <ATOMIC_MASS type="INTEGER">12</ATOMIC_MASS>
+        <FORMAL_CHARGE type="INTEGER">0</FORMAL_CHARGE>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+        <IS_VISIBLE type="CHAR">true</IS_VISIBLE>
+        <HETERO type="VARCHAR">false</HETERO>
+        <HOSE_CODE type="VARCHAR">C-4;CCCC(CCC,HHC,H=C,HHH/HC&amp;,H&amp;C,HHC,HH&amp;,&amp;C/H&amp;C,HHH,HH&amp;,HHO),HHH,H//</HOSE_CODE>
+    </ATOM>
+    <ATOM>
+        <ATOM_ID type="INTEGER">10000055</ATOM_ID>
+        <SYMBOL type="CHAR">C</SYMBOL>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <HOSE_CODE_WITH_RINGS type="TEXT">C-4;HHHC(@CCC/HHC,H=C,@CCC/HH&amp;,&amp;|C,@H&amp;C,HHC,@&amp;HC)@,HHO,HHH,HH&amp;,@HC&amp;/@,H,HHH/</HOSE_CODE_WITH_RINGS>
+        <ATOMIC_MASS type="INTEGER">12</ATOMIC_MASS>
+        <FORMAL_CHARGE type="INTEGER">0</FORMAL_CHARGE>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+        <IS_VISIBLE type="CHAR">true</IS_VISIBLE>
+        <HETERO type="VARCHAR">false</HETERO>
+        <HOSE_CODE type="VARCHAR">C-4;C(CCC/CCC,HHC,H=C/HC&amp;,H&amp;C,HHC,HH&amp;,&amp;C)H&amp;C,HHH,HH&amp;,HHO/,HHH,H/</HOSE_CODE>
+    </ATOM>
+    <ATOM>
+        <ATOM_ID type="INTEGER">10000056</ATOM_ID>
+        <SYMBOL type="CHAR">O</SYMBOL>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <HOSE_CODE_WITH_RINGS type="TEXT">O-2;HC(HHC/=CC/H|C,@HCC)@CC&amp;,HHH,@CC&amp;/HHH,HHC,@&amp;HC,HHC/</HOSE_CODE_WITH_RINGS>
+        <ATOMIC_MASS type="INTEGER">16</ATOMIC_MASS>
+        <FORMAL_CHARGE type="INTEGER">0</FORMAL_CHARGE>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+        <IS_VISIBLE type="CHAR">true</IS_VISIBLE>
+        <HETERO type="VARCHAR">false</HETERO>
+        <HOSE_CODE type="VARCHAR">O-2;C(HHC/=CC/HC,HCC)&amp;CC,&amp;CC,HHH/,HHC,HHH,HC&amp;,HHC/</HOSE_CODE>
+    </ATOM>
+    <ATOM>
+        <ATOM_ID type="INTEGER">10000057</ATOM_ID>
+        <SYMBOL type="CHAR">H</SYMBOL>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <HOSE_CODE_WITH_RINGS type="TEXT">H-1;C(HCC/CCC,HHC/&amp;CC,H=C,HHH,H&amp;C),H&amp;C,HHC,&amp;C,H&amp;C/,HHH,HH&amp;,HHO,HHH/</HOSE_CODE_WITH_RINGS>
+        <ATOMIC_MASS type="INTEGER">1</ATOMIC_MASS>
+        <FORMAL_CHARGE type="INTEGER">0</FORMAL_CHARGE>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+        <IS_VISIBLE type="CHAR">false</IS_VISIBLE>
+        <HETERO type="VARCHAR">false</HETERO>
+        <HOSE_CODE type="VARCHAR">H-1;C(HCC/CCC,HHC/&amp;CC,H=C,HHH,H&amp;C),H&amp;C,HHC,&amp;C,H&amp;C/,HHH,HH&amp;,HHO,HHH/</HOSE_CODE>
+    </ATOM>
+    <ATOM>
+        <ATOM_ID type="INTEGER">10000058</ATOM_ID>
+        <SYMBOL type="CHAR">H</SYMBOL>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <HOSE_CODE_WITH_RINGS type="TEXT">H-1;C(HCC/CCC,HHC/&amp;CC,H=C,HHH,H&amp;C),H&amp;C,HHC,&amp;C,H&amp;C/,HHH,HH&amp;,HHO,HHH/</HOSE_CODE_WITH_RINGS>
+        <ATOMIC_MASS type="INTEGER">1</ATOMIC_MASS>
+        <FORMAL_CHARGE type="INTEGER">0</FORMAL_CHARGE>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+        <IS_VISIBLE type="CHAR">false</IS_VISIBLE>
+        <HETERO type="VARCHAR">false</HETERO>
+        <HOSE_CODE type="VARCHAR">H-1;C(HCC/CCC,HHC/&amp;CC,H=C,HHH,H&amp;C),H&amp;C,HHC,&amp;C,H&amp;C/,HHH,HH&amp;,HHO,HHH/</HOSE_CODE>
+    </ATOM>
+    <ATOM>
+        <ATOM_ID type="INTEGER">10000059</ATOM_ID>
+        <SYMBOL type="CHAR">H</SYMBOL>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <HOSE_CODE_WITH_RINGS type="TEXT">H-1;C(HCC/HCC,HHC/&amp;CC,HCC,&amp;CC),HCC,HH&amp;,HH&amp;,HHH,H=&amp;,HHH/,=&amp;C,HHH/</HOSE_CODE_WITH_RINGS>
+        <ATOMIC_MASS type="INTEGER">1</ATOMIC_MASS>
+        <FORMAL_CHARGE type="INTEGER">0</FORMAL_CHARGE>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+        <IS_VISIBLE type="CHAR">false</IS_VISIBLE>
+        <HETERO type="VARCHAR">false</HETERO>
+        <HOSE_CODE type="VARCHAR">H-1;C(HCC/HCC,HHC/&amp;CC,HCC,&amp;CC),HCC,HH&amp;,HH&amp;,HHH,H=&amp;,HHH/,=&amp;C,HHH/</HOSE_CODE>
+    </ATOM>
+    <ATOM>
+        <ATOM_ID type="INTEGER">10000060</ATOM_ID>
+        <SYMBOL type="CHAR">H</SYMBOL>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <HOSE_CODE_WITH_RINGS type="TEXT">H-1;C(HCC/HCC,HHC/&amp;CC,HCC,&amp;CC),HCC,HH&amp;,HH&amp;,HHH,H=&amp;,HHH/,=&amp;C,HHH/</HOSE_CODE_WITH_RINGS>
+        <ATOMIC_MASS type="INTEGER">1</ATOMIC_MASS>
+        <FORMAL_CHARGE type="INTEGER">0</FORMAL_CHARGE>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+        <IS_VISIBLE type="CHAR">false</IS_VISIBLE>
+        <HETERO type="VARCHAR">false</HETERO>
+        <HOSE_CODE type="VARCHAR">H-1;C(HCC/HCC,HHC/&amp;CC,HCC,&amp;CC),HCC,HH&amp;,HH&amp;,HHH,H=&amp;,HHH/,=&amp;C,HHH/</HOSE_CODE>
+    </ATOM>
+    <ATOM>
+        <ATOM_ID type="INTEGER">10000061</ATOM_ID>
+        <SYMBOL type="CHAR">H</SYMBOL>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <HOSE_CODE_WITH_RINGS type="TEXT">H-1;C(CCC/CCC,HCC,HHC/&amp;CC,HCC,HH&amp;,HH&amp;,HHH,HH&amp;),H=&amp;,HHH,=&amp;C,HHH/,HHO/</HOSE_CODE_WITH_RINGS>
+        <ATOMIC_MASS type="INTEGER">1</ATOMIC_MASS>
+        <FORMAL_CHARGE type="INTEGER">0</FORMAL_CHARGE>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+        <IS_VISIBLE type="CHAR">false</IS_VISIBLE>
+        <HETERO type="VARCHAR">false</HETERO>
+        <HOSE_CODE type="VARCHAR">H-1;C(CCC/CCC,HCC,HHC/&amp;CC,HCC,HH&amp;,HH&amp;,HHH,HH&amp;),H=&amp;,HHH,=&amp;C,HHH/,HHO/</HOSE_CODE>
+    </ATOM>
+    <ATOM>
+        <ATOM_ID type="INTEGER">10000062</ATOM_ID>
+        <SYMBOL type="CHAR">H</SYMBOL>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <HOSE_CODE_WITH_RINGS type="TEXT">H-1;C(HCC/HCC,HHC/H&amp;C,HHH,C&amp;C),HHC,&amp;CC,HCC/,HH&amp;,H=&amp;,HHH,=&amp;C,HHH/</HOSE_CODE_WITH_RINGS>
+        <ATOMIC_MASS type="INTEGER">1</ATOMIC_MASS>
+        <FORMAL_CHARGE type="INTEGER">0</FORMAL_CHARGE>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+        <IS_VISIBLE type="CHAR">false</IS_VISIBLE>
+        <HETERO type="VARCHAR">false</HETERO>
+        <HOSE_CODE type="VARCHAR">H-1;C(HCC/HCC,HHC/H&amp;C,HHH,C&amp;C),HHC,&amp;CC,HCC/,HH&amp;,H=&amp;,HHH,=&amp;C,HHH/</HOSE_CODE>
+    </ATOM>
+    <ATOM>
+        <ATOM_ID type="INTEGER">10000063</ATOM_ID>
+        <SYMBOL type="CHAR">H</SYMBOL>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <HOSE_CODE_WITH_RINGS type="TEXT">H-1;C(HCC/HCC,HHC/H&amp;C,HHH,C&amp;C),HHC,&amp;CC,HCC/,HH&amp;,H=&amp;,HHH,=&amp;C,HHH/</HOSE_CODE_WITH_RINGS>
+        <ATOMIC_MASS type="INTEGER">1</ATOMIC_MASS>
+        <FORMAL_CHARGE type="INTEGER">0</FORMAL_CHARGE>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+        <IS_VISIBLE type="CHAR">false</IS_VISIBLE>
+        <HETERO type="VARCHAR">false</HETERO>
+        <HOSE_CODE type="VARCHAR">H-1;C(HCC/HCC,HHC/H&amp;C,HHH,C&amp;C),HHC,&amp;CC,HCC/,HH&amp;,H=&amp;,HHH,=&amp;C,HHH/</HOSE_CODE>
+    </ATOM>
+    <ATOM>
+        <ATOM_ID type="INTEGER">10000064</ATOM_ID>
+        <SYMBOL type="CHAR">H</SYMBOL>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <HOSE_CODE_WITH_RINGS type="TEXT">H-1;C(HCC/CCC,HHC/CCC,H&amp;C,HCC,H&amp;C)HH&amp;,H=&amp;,HHH,HH&amp;,=&amp;C,HHH,HHH/,HHO/</HOSE_CODE_WITH_RINGS>
+        <ATOMIC_MASS type="INTEGER">1</ATOMIC_MASS>
+        <FORMAL_CHARGE type="INTEGER">0</FORMAL_CHARGE>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+        <IS_VISIBLE type="CHAR">false</IS_VISIBLE>
+        <HETERO type="VARCHAR">false</HETERO>
+        <HOSE_CODE type="VARCHAR">H-1;C(HCC/CCC,HHC/CCC,H&amp;C,HCC,H&amp;C)HH&amp;,H=&amp;,HHH,HH&amp;,=&amp;C,HHH,HHH/,HHO/</HOSE_CODE>
+    </ATOM>
+    <ATOM>
+        <ATOM_ID type="INTEGER">10000065</ATOM_ID>
+        <SYMBOL type="CHAR">H</SYMBOL>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <HOSE_CODE_WITH_RINGS type="TEXT">H-1;C(HCC/CCC,HHC/CCC,H&amp;C,HCC,H&amp;C)HH&amp;,H=&amp;,HHH,HH&amp;,=&amp;C,HHH,HHH/,HHO/</HOSE_CODE_WITH_RINGS>
+        <ATOMIC_MASS type="INTEGER">1</ATOMIC_MASS>
+        <FORMAL_CHARGE type="INTEGER">0</FORMAL_CHARGE>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+        <IS_VISIBLE type="CHAR">false</IS_VISIBLE>
+        <HETERO type="VARCHAR">false</HETERO>
+        <HOSE_CODE type="VARCHAR">H-1;C(HCC/CCC,HHC/CCC,H&amp;C,HCC,H&amp;C)HH&amp;,H=&amp;,HHH,HH&amp;,=&amp;C,HHH,HHH/,HHO/</HOSE_CODE>
+    </ATOM>
+    <ATOM>
+        <ATOM_ID type="INTEGER">10000066</ATOM_ID>
+        <SYMBOL type="CHAR">H</SYMBOL>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <HOSE_CODE_WITH_RINGS type="TEXT">H-1;C(=CC/CC,CCC/H&amp;C,HHO,C&amp;C,HHC,HHH),HHH,H,HC&amp;,HHC,HH&amp;/,H&amp;C,HH&amp;/</HOSE_CODE_WITH_RINGS>
+        <ATOMIC_MASS type="INTEGER">1</ATOMIC_MASS>
+        <FORMAL_CHARGE type="INTEGER">0</FORMAL_CHARGE>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+        <IS_VISIBLE type="CHAR">false</IS_VISIBLE>
+        <HETERO type="VARCHAR">false</HETERO>
+        <HOSE_CODE type="VARCHAR">H-1;C(=CC/CC,CCC/H&amp;C,HHO,C&amp;C,HHC,HHH),HHH,H,HC&amp;,HHC,HH&amp;/,H&amp;C,HH&amp;/</HOSE_CODE>
+    </ATOM>
+    <ATOM>
+        <ATOM_ID type="INTEGER">10000067</ATOM_ID>
+        <SYMBOL type="CHAR">H</SYMBOL>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <HOSE_CODE_WITH_RINGS type="TEXT">H-1;C(HCO/=CC,H/HC,HCC)&amp;CC,&amp;CC,HHH/,HHC,HHH,HC&amp;,HHC/</HOSE_CODE_WITH_RINGS>
+        <ATOMIC_MASS type="INTEGER">1</ATOMIC_MASS>
+        <FORMAL_CHARGE type="INTEGER">0</FORMAL_CHARGE>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+        <IS_VISIBLE type="CHAR">false</IS_VISIBLE>
+        <HETERO type="VARCHAR">false</HETERO>
+        <HOSE_CODE type="VARCHAR">H-1;C(HCO/=CC,H/HC,HCC)&amp;CC,&amp;CC,HHH/,HHC,HHH,HC&amp;,HHC/</HOSE_CODE>
+    </ATOM>
+    <ATOM>
+        <ATOM_ID type="INTEGER">10000068</ATOM_ID>
+        <SYMBOL type="CHAR">H</SYMBOL>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <HOSE_CODE_WITH_RINGS type="TEXT">H-1;C(HCO/=CC,H/HC,HCC)&amp;CC,&amp;CC,HHH/,HHC,HHH,HC&amp;,HHC/</HOSE_CODE_WITH_RINGS>
+        <ATOMIC_MASS type="INTEGER">1</ATOMIC_MASS>
+        <FORMAL_CHARGE type="INTEGER">0</FORMAL_CHARGE>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+        <IS_VISIBLE type="CHAR">false</IS_VISIBLE>
+        <HETERO type="VARCHAR">false</HETERO>
+        <HOSE_CODE type="VARCHAR">H-1;C(HCO/=CC,H/HC,HCC)&amp;CC,&amp;CC,HHH/,HHC,HHH,HC&amp;,HHC/</HOSE_CODE>
+    </ATOM>
+    <ATOM>
+        <ATOM_ID type="INTEGER">10000069</ATOM_ID>
+        <SYMBOL type="CHAR">H</SYMBOL>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <HOSE_CODE_WITH_RINGS type="TEXT">H-1;C(CCC/CCC,=CC,HHH/C&amp;C,HCC,HHC,H&amp;,HHO)HH&amp;,HHH,H&amp;C,HH&amp;,HH&amp;,H/,HHH/</HOSE_CODE_WITH_RINGS>
+        <ATOMIC_MASS type="INTEGER">1</ATOMIC_MASS>
+        <FORMAL_CHARGE type="INTEGER">0</FORMAL_CHARGE>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+        <IS_VISIBLE type="CHAR">false</IS_VISIBLE>
+        <HETERO type="VARCHAR">false</HETERO>
+        <HOSE_CODE type="VARCHAR">H-1;C(CCC/CCC,=CC,HHH/C&amp;C,HCC,HHC,H&amp;,HHO)HH&amp;,HHH,H&amp;C,HH&amp;,HH&amp;,H/,HHH/</HOSE_CODE>
+    </ATOM>
+    <ATOM>
+        <ATOM_ID type="INTEGER">10000070</ATOM_ID>
+        <SYMBOL type="CHAR">H</SYMBOL>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <HOSE_CODE_WITH_RINGS type="TEXT">H-1;C(HHC/HCC/CCC,=CC)C&amp;C,HCC,HHC,H&amp;,HHO/HH&amp;,HHH,H&amp;C,HH&amp;,HH&amp;,H/</HOSE_CODE_WITH_RINGS>
+        <ATOMIC_MASS type="INTEGER">1</ATOMIC_MASS>
+        <FORMAL_CHARGE type="INTEGER">0</FORMAL_CHARGE>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+        <IS_VISIBLE type="CHAR">false</IS_VISIBLE>
+        <HETERO type="VARCHAR">false</HETERO>
+        <HOSE_CODE type="VARCHAR">H-1;C(HHC/HCC/CCC,=CC)C&amp;C,HCC,HHC,H&amp;,HHO/HH&amp;,HHH,H&amp;C,HH&amp;,HH&amp;,H/</HOSE_CODE>
+    </ATOM>
+    <ATOM>
+        <ATOM_ID type="INTEGER">10000071</ATOM_ID>
+        <SYMBOL type="CHAR">H</SYMBOL>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <HOSE_CODE_WITH_RINGS type="TEXT">H-1;C(HHC/HCC/CCC,=CC)C&amp;C,HCC,HHC,H&amp;,HHO/HH&amp;,HHH,H&amp;C,HH&amp;,HH&amp;,H/</HOSE_CODE_WITH_RINGS>
+        <ATOMIC_MASS type="INTEGER">1</ATOMIC_MASS>
+        <FORMAL_CHARGE type="INTEGER">0</FORMAL_CHARGE>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+        <IS_VISIBLE type="CHAR">false</IS_VISIBLE>
+        <HETERO type="VARCHAR">false</HETERO>
+        <HOSE_CODE type="VARCHAR">H-1;C(HHC/HCC/CCC,=CC)C&amp;C,HCC,HHC,H&amp;,HHO/HH&amp;,HHH,H&amp;C,HH&amp;,HH&amp;,H/</HOSE_CODE>
+    </ATOM>
+    <ATOM>
+        <ATOM_ID type="INTEGER">10000072</ATOM_ID>
+        <SYMBOL type="CHAR">H</SYMBOL>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <HOSE_CODE_WITH_RINGS type="TEXT">H-1;C(HHC/HCC/CCC,=CC)C&amp;C,HCC,HHC,H&amp;,HHO/HH&amp;,HHH,H&amp;C,HH&amp;,HH&amp;,H/</HOSE_CODE_WITH_RINGS>
+        <ATOMIC_MASS type="INTEGER">1</ATOMIC_MASS>
+        <FORMAL_CHARGE type="INTEGER">0</FORMAL_CHARGE>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+        <IS_VISIBLE type="CHAR">false</IS_VISIBLE>
+        <HETERO type="VARCHAR">false</HETERO>
+        <HOSE_CODE type="VARCHAR">H-1;C(HHC/HCC/CCC,=CC)C&amp;C,HCC,HHC,H&amp;,HHO/HH&amp;,HHH,H&amp;C,HH&amp;,HH&amp;,H/</HOSE_CODE>
+    </ATOM>
+    <ATOM>
+        <ATOM_ID type="INTEGER">10000073</ATOM_ID>
+        <SYMBOL type="CHAR">H</SYMBOL>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <HOSE_CODE_WITH_RINGS type="TEXT">H-1;C(CCC/HCC,HHC,HHH/CC&amp;,HHC,HH&amp;)&amp;CC,HCC,HH&amp;/,H=&amp;,HHH,=&amp;C,HHH/</HOSE_CODE_WITH_RINGS>
+        <ATOMIC_MASS type="INTEGER">1</ATOMIC_MASS>
+        <FORMAL_CHARGE type="INTEGER">0</FORMAL_CHARGE>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+        <IS_VISIBLE type="CHAR">false</IS_VISIBLE>
+        <HETERO type="VARCHAR">false</HETERO>
+        <HOSE_CODE type="VARCHAR">H-1;C(CCC/HCC,HHC,HHH/CC&amp;,HHC,HH&amp;)&amp;CC,HCC,HH&amp;/,H=&amp;,HHH,=&amp;C,HHH/</HOSE_CODE>
+    </ATOM>
+    <ATOM>
+        <ATOM_ID type="INTEGER">10000074</ATOM_ID>
+        <SYMBOL type="CHAR">H</SYMBOL>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <HOSE_CODE_WITH_RINGS type="TEXT">H-1;C(HHC/HCC/HCC,HHC)CC&amp;,HHC,HH&amp;/&amp;CC,HCC,HH&amp;/</HOSE_CODE_WITH_RINGS>
+        <ATOMIC_MASS type="INTEGER">1</ATOMIC_MASS>
+        <FORMAL_CHARGE type="INTEGER">0</FORMAL_CHARGE>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+        <IS_VISIBLE type="CHAR">false</IS_VISIBLE>
+        <HETERO type="VARCHAR">false</HETERO>
+        <HOSE_CODE type="VARCHAR">H-1;C(HHC/HCC/HCC,HHC)CC&amp;,HHC,HH&amp;/&amp;CC,HCC,HH&amp;/</HOSE_CODE>
+    </ATOM>
+    <ATOM>
+        <ATOM_ID type="INTEGER">10000075</ATOM_ID>
+        <SYMBOL type="CHAR">H</SYMBOL>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <HOSE_CODE_WITH_RINGS type="TEXT">H-1;C(HHC/HCC/HCC,HHC)CC&amp;,HHC,HH&amp;/&amp;CC,HCC,HH&amp;/</HOSE_CODE_WITH_RINGS>
+        <ATOMIC_MASS type="INTEGER">1</ATOMIC_MASS>
+        <FORMAL_CHARGE type="INTEGER">0</FORMAL_CHARGE>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+        <IS_VISIBLE type="CHAR">false</IS_VISIBLE>
+        <HETERO type="VARCHAR">false</HETERO>
+        <HOSE_CODE type="VARCHAR">H-1;C(HHC/HCC/HCC,HHC)CC&amp;,HHC,HH&amp;/&amp;CC,HCC,HH&amp;/</HOSE_CODE>
+    </ATOM>
+    <ATOM>
+        <ATOM_ID type="INTEGER">10000076</ATOM_ID>
+        <SYMBOL type="CHAR">H</SYMBOL>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <HOSE_CODE_WITH_RINGS type="TEXT">H-1;C(HHC/HCC/HCC,HHC)CC&amp;,HHC,HH&amp;/&amp;CC,HCC,HH&amp;/</HOSE_CODE_WITH_RINGS>
+        <ATOMIC_MASS type="INTEGER">1</ATOMIC_MASS>
+        <FORMAL_CHARGE type="INTEGER">0</FORMAL_CHARGE>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+        <IS_VISIBLE type="CHAR">false</IS_VISIBLE>
+        <HETERO type="VARCHAR">false</HETERO>
+        <HOSE_CODE type="VARCHAR">H-1;C(HHC/HCC/HCC,HHC)CC&amp;,HHC,HH&amp;/&amp;CC,HCC,HH&amp;/</HOSE_CODE>
+    </ATOM>
+    <ATOM>
+        <ATOM_ID type="INTEGER">10000077</ATOM_ID>
+        <SYMBOL type="CHAR">H</SYMBOL>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <HOSE_CODE_WITH_RINGS type="TEXT">H-1;C(HHC/CCC/CCC,HHC,H=C)HC&amp;,H&amp;C,HHC,HH&amp;,&amp;C/H&amp;C,HHH,HH&amp;,HHO/</HOSE_CODE_WITH_RINGS>
+        <ATOMIC_MASS type="INTEGER">1</ATOMIC_MASS>
+        <FORMAL_CHARGE type="INTEGER">0</FORMAL_CHARGE>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+        <IS_VISIBLE type="CHAR">false</IS_VISIBLE>
+        <HETERO type="VARCHAR">false</HETERO>
+        <HOSE_CODE type="VARCHAR">H-1;C(HHC/CCC/CCC,HHC,H=C)HC&amp;,H&amp;C,HHC,HH&amp;,&amp;C/H&amp;C,HHH,HH&amp;,HHO/</HOSE_CODE>
+    </ATOM>
+    <ATOM>
+        <ATOM_ID type="INTEGER">10000078</ATOM_ID>
+        <SYMBOL type="CHAR">H</SYMBOL>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <HOSE_CODE_WITH_RINGS type="TEXT">H-1;C(HHC/CCC/CCC,HHC,H=C)HC&amp;,H&amp;C,HHC,HH&amp;,&amp;C/H&amp;C,HHH,HH&amp;,HHO/</HOSE_CODE_WITH_RINGS>
+        <ATOMIC_MASS type="INTEGER">1</ATOMIC_MASS>
+        <FORMAL_CHARGE type="INTEGER">0</FORMAL_CHARGE>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+        <IS_VISIBLE type="CHAR">false</IS_VISIBLE>
+        <HETERO type="VARCHAR">false</HETERO>
+        <HOSE_CODE type="VARCHAR">H-1;C(HHC/CCC/CCC,HHC,H=C)HC&amp;,H&amp;C,HHC,HH&amp;,&amp;C/H&amp;C,HHH,HH&amp;,HHO/</HOSE_CODE>
+    </ATOM>
+    <ATOM>
+        <ATOM_ID type="INTEGER">10000079</ATOM_ID>
+        <SYMBOL type="CHAR">H</SYMBOL>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <HOSE_CODE_WITH_RINGS type="TEXT">H-1;C(HHC/CCC/CCC,HHC,H=C)HC&amp;,H&amp;C,HHC,HH&amp;,&amp;C/H&amp;C,HHH,HH&amp;,HHO/</HOSE_CODE_WITH_RINGS>
+        <ATOMIC_MASS type="INTEGER">1</ATOMIC_MASS>
+        <FORMAL_CHARGE type="INTEGER">0</FORMAL_CHARGE>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+        <IS_VISIBLE type="CHAR">false</IS_VISIBLE>
+        <HETERO type="VARCHAR">false</HETERO>
+        <HOSE_CODE type="VARCHAR">H-1;C(HHC/CCC/CCC,HHC,H=C)HC&amp;,H&amp;C,HHC,HH&amp;,&amp;C/H&amp;C,HHH,HH&amp;,HHO/</HOSE_CODE>
+    </ATOM>
+    <ATOM>
+        <ATOM_ID type="INTEGER">10000080</ATOM_ID>
+        <SYMBOL type="CHAR">H</SYMBOL>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <HOSE_CODE_WITH_RINGS type="TEXT">H-1;O(C/HHC/=CC)HC,HCC/&amp;CC,&amp;CC,HHH/</HOSE_CODE_WITH_RINGS>
+        <ATOMIC_MASS type="INTEGER">1</ATOMIC_MASS>
+        <FORMAL_CHARGE type="INTEGER">0</FORMAL_CHARGE>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+        <IS_VISIBLE type="CHAR">false</IS_VISIBLE>
+        <HETERO type="VARCHAR">true</HETERO>
+        <HOSE_CODE type="VARCHAR">H-1;O(C/HHC/=CC)HC,HCC/&amp;CC,&amp;CC,HHH/</HOSE_CODE>
+    </ATOM>
+    <BOND>
+        <BOND_ID type="INTEGER">10000042</BOND_ID>
+        <DEGREE type="INTEGER">1</DEGREE>
+        <IS_CONFIGURATION_SPECIFIED type="CHAR">false</IS_CONFIGURATION_SPECIFIED>
+        <STEREO type="INTEGER">0</STEREO>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+    </BOND>
+    <BOND>
+        <BOND_ID type="INTEGER">10000046</BOND_ID>
+        <DEGREE type="INTEGER">1</DEGREE>
+        <IS_CONFIGURATION_SPECIFIED type="CHAR">false</IS_CONFIGURATION_SPECIFIED>
+        <STEREO type="INTEGER">0</STEREO>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+    </BOND>
+    <BOND>
+        <BOND_ID type="INTEGER">10000060</BOND_ID>
+        <DEGREE type="INTEGER">1</DEGREE>
+        <IS_CONFIGURATION_SPECIFIED type="CHAR">false</IS_CONFIGURATION_SPECIFIED>
+        <STEREO type="INTEGER">0</STEREO>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+    </BOND>
+    <BOND>
+        <BOND_ID type="INTEGER">10000061</BOND_ID>
+        <DEGREE type="INTEGER">1</DEGREE>
+        <IS_CONFIGURATION_SPECIFIED type="CHAR">false</IS_CONFIGURATION_SPECIFIED>
+        <STEREO type="INTEGER">0</STEREO>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+    </BOND>
+    <BOND>
+        <BOND_ID type="INTEGER">10000043</BOND_ID>
+        <DEGREE type="INTEGER">1</DEGREE>
+        <IS_CONFIGURATION_SPECIFIED type="CHAR">false</IS_CONFIGURATION_SPECIFIED>
+        <STEREO type="INTEGER">0</STEREO>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+    </BOND>
+    <BOND>
+        <BOND_ID type="INTEGER">10000062</BOND_ID>
+        <DEGREE type="INTEGER">1</DEGREE>
+        <IS_CONFIGURATION_SPECIFIED type="CHAR">false</IS_CONFIGURATION_SPECIFIED>
+        <STEREO type="INTEGER">0</STEREO>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+    </BOND>
+    <BOND>
+        <BOND_ID type="INTEGER">10000063</BOND_ID>
+        <DEGREE type="INTEGER">1</DEGREE>
+        <IS_CONFIGURATION_SPECIFIED type="CHAR">false</IS_CONFIGURATION_SPECIFIED>
+        <STEREO type="INTEGER">0</STEREO>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+    </BOND>
+    <BOND>
+        <BOND_ID type="INTEGER">10000044</BOND_ID>
+        <DEGREE type="INTEGER">1</DEGREE>
+        <IS_CONFIGURATION_SPECIFIED type="CHAR">false</IS_CONFIGURATION_SPECIFIED>
+        <STEREO type="INTEGER">0</STEREO>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+    </BOND>
+    <BOND>
+        <BOND_ID type="INTEGER">10000051</BOND_ID>
+        <DEGREE type="INTEGER">1</DEGREE>
+        <IS_CONFIGURATION_SPECIFIED type="CHAR">false</IS_CONFIGURATION_SPECIFIED>
+        <STEREO type="INTEGER">1</STEREO>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+    </BOND>
+    <BOND>
+        <BOND_ID type="INTEGER">10000064</BOND_ID>
+        <DEGREE type="INTEGER">1</DEGREE>
+        <IS_CONFIGURATION_SPECIFIED type="CHAR">false</IS_CONFIGURATION_SPECIFIED>
+        <STEREO type="INTEGER">0</STEREO>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+    </BOND>
+    <BOND>
+        <BOND_ID type="INTEGER">10000052</BOND_ID>
+        <DEGREE type="INTEGER">1</DEGREE>
+        <IS_CONFIGURATION_SPECIFIED type="CHAR">false</IS_CONFIGURATION_SPECIFIED>
+        <STEREO type="INTEGER">0</STEREO>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+    </BOND>
+    <BOND>
+        <BOND_ID type="INTEGER">10000053</BOND_ID>
+        <DEGREE type="INTEGER">1</DEGREE>
+        <IS_CONFIGURATION_SPECIFIED type="CHAR">false</IS_CONFIGURATION_SPECIFIED>
+        <STEREO type="INTEGER">0</STEREO>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+    </BOND>
+    <BOND>
+        <BOND_ID type="INTEGER">10000065</BOND_ID>
+        <DEGREE type="INTEGER">1</DEGREE>
+        <IS_CONFIGURATION_SPECIFIED type="CHAR">false</IS_CONFIGURATION_SPECIFIED>
+        <STEREO type="INTEGER">0</STEREO>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+    </BOND>
+    <BOND>
+        <BOND_ID type="INTEGER">10000066</BOND_ID>
+        <DEGREE type="INTEGER">1</DEGREE>
+        <IS_CONFIGURATION_SPECIFIED type="CHAR">false</IS_CONFIGURATION_SPECIFIED>
+        <STEREO type="INTEGER">0</STEREO>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+    </BOND>
+    <BOND>
+        <BOND_ID type="INTEGER">10000054</BOND_ID>
+        <DEGREE type="INTEGER">1</DEGREE>
+        <IS_CONFIGURATION_SPECIFIED type="CHAR">false</IS_CONFIGURATION_SPECIFIED>
+        <STEREO type="INTEGER">1</STEREO>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+    </BOND>
+    <BOND>
+        <BOND_ID type="INTEGER">10000067</BOND_ID>
+        <DEGREE type="INTEGER">1</DEGREE>
+        <IS_CONFIGURATION_SPECIFIED type="CHAR">false</IS_CONFIGURATION_SPECIFIED>
+        <STEREO type="INTEGER">0</STEREO>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+    </BOND>
+    <BOND>
+        <BOND_ID type="INTEGER">10000068</BOND_ID>
+        <DEGREE type="INTEGER">1</DEGREE>
+        <IS_CONFIGURATION_SPECIFIED type="CHAR">false</IS_CONFIGURATION_SPECIFIED>
+        <STEREO type="INTEGER">0</STEREO>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+    </BOND>
+    <BOND>
+        <BOND_ID type="INTEGER">10000045</BOND_ID>
+        <DEGREE type="INTEGER">1</DEGREE>
+        <IS_CONFIGURATION_SPECIFIED type="CHAR">false</IS_CONFIGURATION_SPECIFIED>
+        <STEREO type="INTEGER">0</STEREO>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+    </BOND>
+    <BOND>
+        <BOND_ID type="INTEGER">10000047</BOND_ID>
+        <DEGREE type="INTEGER">1</DEGREE>
+        <IS_CONFIGURATION_SPECIFIED type="CHAR">false</IS_CONFIGURATION_SPECIFIED>
+        <STEREO type="INTEGER">0</STEREO>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+    </BOND>
+    <BOND>
+        <BOND_ID type="INTEGER">10000049</BOND_ID>
+        <DEGREE type="INTEGER">2</DEGREE>
+        <IS_CONFIGURATION_SPECIFIED type="CHAR">false</IS_CONFIGURATION_SPECIFIED>
+        <STEREO type="INTEGER">0</STEREO>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+    </BOND>
+    <BOND>
+        <BOND_ID type="INTEGER">10000050</BOND_ID>
+        <DEGREE type="INTEGER">1</DEGREE>
+        <IS_CONFIGURATION_SPECIFIED type="CHAR">false</IS_CONFIGURATION_SPECIFIED>
+        <STEREO type="INTEGER">0</STEREO>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+    </BOND>
+    <BOND>
+        <BOND_ID type="INTEGER">10000069</BOND_ID>
+        <DEGREE type="INTEGER">1</DEGREE>
+        <IS_CONFIGURATION_SPECIFIED type="CHAR">false</IS_CONFIGURATION_SPECIFIED>
+        <STEREO type="INTEGER">0</STEREO>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+    </BOND>
+    <BOND>
+        <BOND_ID type="INTEGER">10000048</BOND_ID>
+        <DEGREE type="INTEGER">1</DEGREE>
+        <IS_CONFIGURATION_SPECIFIED type="CHAR">false</IS_CONFIGURATION_SPECIFIED>
+        <STEREO type="INTEGER">0</STEREO>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+    </BOND>
+    <BOND>
+        <BOND_ID type="INTEGER">10000055</BOND_ID>
+        <DEGREE type="INTEGER">1</DEGREE>
+        <IS_CONFIGURATION_SPECIFIED type="CHAR">false</IS_CONFIGURATION_SPECIFIED>
+        <STEREO type="INTEGER">0</STEREO>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+    </BOND>
+    <BOND>
+        <BOND_ID type="INTEGER">10000056</BOND_ID>
+        <DEGREE type="INTEGER">1</DEGREE>
+        <IS_CONFIGURATION_SPECIFIED type="CHAR">false</IS_CONFIGURATION_SPECIFIED>
+        <STEREO type="INTEGER">0</STEREO>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+    </BOND>
+    <BOND>
+        <BOND_ID type="INTEGER">10000070</BOND_ID>
+        <DEGREE type="INTEGER">1</DEGREE>
+        <IS_CONFIGURATION_SPECIFIED type="CHAR">false</IS_CONFIGURATION_SPECIFIED>
+        <STEREO type="INTEGER">0</STEREO>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+    </BOND>
+    <BOND>
+        <BOND_ID type="INTEGER">10000071</BOND_ID>
+        <DEGREE type="INTEGER">1</DEGREE>
+        <IS_CONFIGURATION_SPECIFIED type="CHAR">false</IS_CONFIGURATION_SPECIFIED>
+        <STEREO type="INTEGER">0</STEREO>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+    </BOND>
+    <BOND>
+        <BOND_ID type="INTEGER">10000057</BOND_ID>
+        <DEGREE type="INTEGER">1</DEGREE>
+        <IS_CONFIGURATION_SPECIFIED type="CHAR">false</IS_CONFIGURATION_SPECIFIED>
+        <STEREO type="INTEGER">1</STEREO>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+    </BOND>
+    <BOND>
+        <BOND_ID type="INTEGER">10000072</BOND_ID>
+        <DEGREE type="INTEGER">1</DEGREE>
+        <IS_CONFIGURATION_SPECIFIED type="CHAR">false</IS_CONFIGURATION_SPECIFIED>
+        <STEREO type="INTEGER">0</STEREO>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+    </BOND>
+    <BOND>
+        <BOND_ID type="INTEGER">10000073</BOND_ID>
+        <DEGREE type="INTEGER">1</DEGREE>
+        <IS_CONFIGURATION_SPECIFIED type="CHAR">false</IS_CONFIGURATION_SPECIFIED>
+        <STEREO type="INTEGER">0</STEREO>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+    </BOND>
+    <BOND>
+        <BOND_ID type="INTEGER">10000074</BOND_ID>
+        <DEGREE type="INTEGER">1</DEGREE>
+        <IS_CONFIGURATION_SPECIFIED type="CHAR">false</IS_CONFIGURATION_SPECIFIED>
+        <STEREO type="INTEGER">0</STEREO>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+    </BOND>
+    <BOND>
+        <BOND_ID type="INTEGER">10000075</BOND_ID>
+        <DEGREE type="INTEGER">1</DEGREE>
+        <IS_CONFIGURATION_SPECIFIED type="CHAR">false</IS_CONFIGURATION_SPECIFIED>
+        <STEREO type="INTEGER">0</STEREO>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+    </BOND>
+    <BOND>
+        <BOND_ID type="INTEGER">10000058</BOND_ID>
+        <DEGREE type="INTEGER">1</DEGREE>
+        <IS_CONFIGURATION_SPECIFIED type="CHAR">false</IS_CONFIGURATION_SPECIFIED>
+        <STEREO type="INTEGER">3</STEREO>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+    </BOND>
+    <BOND>
+        <BOND_ID type="INTEGER">10000076</BOND_ID>
+        <DEGREE type="INTEGER">1</DEGREE>
+        <IS_CONFIGURATION_SPECIFIED type="CHAR">false</IS_CONFIGURATION_SPECIFIED>
+        <STEREO type="INTEGER">0</STEREO>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+    </BOND>
+    <BOND>
+        <BOND_ID type="INTEGER">10000077</BOND_ID>
+        <DEGREE type="INTEGER">1</DEGREE>
+        <IS_CONFIGURATION_SPECIFIED type="CHAR">false</IS_CONFIGURATION_SPECIFIED>
+        <STEREO type="INTEGER">0</STEREO>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+    </BOND>
+    <BOND>
+        <BOND_ID type="INTEGER">10000078</BOND_ID>
+        <DEGREE type="INTEGER">1</DEGREE>
+        <IS_CONFIGURATION_SPECIFIED type="CHAR">false</IS_CONFIGURATION_SPECIFIED>
+        <STEREO type="INTEGER">0</STEREO>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+    </BOND>
+    <BOND>
+        <BOND_ID type="INTEGER">10000079</BOND_ID>
+        <DEGREE type="INTEGER">1</DEGREE>
+        <IS_CONFIGURATION_SPECIFIED type="CHAR">false</IS_CONFIGURATION_SPECIFIED>
+        <STEREO type="INTEGER">0</STEREO>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+    </BOND>
+    <BOND>
+        <BOND_ID type="INTEGER">10000059</BOND_ID>
+        <DEGREE type="INTEGER">1</DEGREE>
+        <IS_CONFIGURATION_SPECIFIED type="CHAR">false</IS_CONFIGURATION_SPECIFIED>
+        <STEREO type="INTEGER">1</STEREO>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+    </BOND>
+    <BOND>
+        <BOND_ID type="INTEGER">10000080</BOND_ID>
+        <DEGREE type="INTEGER">1</DEGREE>
+        <IS_CONFIGURATION_SPECIFIED type="CHAR">false</IS_CONFIGURATION_SPECIFIED>
+        <STEREO type="INTEGER">0</STEREO>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+    </BOND>
+    <BOND>
+        <BOND_ID type="INTEGER">10000081</BOND_ID>
+        <DEGREE type="INTEGER">1</DEGREE>
+        <IS_CONFIGURATION_SPECIFIED type="CHAR">false</IS_CONFIGURATION_SPECIFIED>
+        <STEREO type="INTEGER">0</STEREO>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+    </BOND>
+    <BOND>
+        <BOND_ID type="INTEGER">10000082</BOND_ID>
+        <DEGREE type="INTEGER">1</DEGREE>
+        <IS_CONFIGURATION_SPECIFIED type="CHAR">false</IS_CONFIGURATION_SPECIFIED>
+        <STEREO type="INTEGER">0</STEREO>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+    </BOND>
+    <BOND>
+        <BOND_ID type="INTEGER">10000083</BOND_ID>
+        <DEGREE type="INTEGER">1</DEGREE>
+        <IS_CONFIGURATION_SPECIFIED type="CHAR">false</IS_CONFIGURATION_SPECIFIED>
+        <STEREO type="INTEGER">0</STEREO>
+        <IS_AROMATIC type="CHAR">false</IS_AROMATIC>
+    </BOND>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000042</BOND_ID>
+        <ATOM_ID type="INTEGER">10000041</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">0</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000046</BOND_ID>
+        <ATOM_ID type="INTEGER">10000041</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">0</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000060</BOND_ID>
+        <ATOM_ID type="INTEGER">10000041</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">0</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000061</BOND_ID>
+        <ATOM_ID type="INTEGER">10000041</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">0</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000042</BOND_ID>
+        <ATOM_ID type="INTEGER">10000042</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">1</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000043</BOND_ID>
+        <ATOM_ID type="INTEGER">10000042</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">0</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000062</BOND_ID>
+        <ATOM_ID type="INTEGER">10000042</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">0</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000063</BOND_ID>
+        <ATOM_ID type="INTEGER">10000042</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">0</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000043</BOND_ID>
+        <ATOM_ID type="INTEGER">10000043</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">1</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000044</BOND_ID>
+        <ATOM_ID type="INTEGER">10000043</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">0</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000051</BOND_ID>
+        <ATOM_ID type="INTEGER">10000043</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">0</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000064</BOND_ID>
+        <ATOM_ID type="INTEGER">10000043</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">0</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000052</BOND_ID>
+        <ATOM_ID type="INTEGER">10000044</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">1</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000053</BOND_ID>
+        <ATOM_ID type="INTEGER">10000044</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">0</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000065</BOND_ID>
+        <ATOM_ID type="INTEGER">10000044</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">0</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000066</BOND_ID>
+        <ATOM_ID type="INTEGER">10000044</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">0</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000053</BOND_ID>
+        <ATOM_ID type="INTEGER">10000045</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">1</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000054</BOND_ID>
+        <ATOM_ID type="INTEGER">10000045</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">1</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000067</BOND_ID>
+        <ATOM_ID type="INTEGER">10000045</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">0</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000068</BOND_ID>
+        <ATOM_ID type="INTEGER">10000045</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">0</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000044</BOND_ID>
+        <ATOM_ID type="INTEGER">10000046</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">1</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000045</BOND_ID>
+        <ATOM_ID type="INTEGER">10000046</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">0</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000047</BOND_ID>
+        <ATOM_ID type="INTEGER">10000046</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">0</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000054</BOND_ID>
+        <ATOM_ID type="INTEGER">10000046</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">0</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000049</BOND_ID>
+        <ATOM_ID type="INTEGER">10000047</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">1</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000050</BOND_ID>
+        <ATOM_ID type="INTEGER">10000047</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">1</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000069</BOND_ID>
+        <ATOM_ID type="INTEGER">10000047</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">0</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000048</BOND_ID>
+        <ATOM_ID type="INTEGER">10000048</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">1</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000049</BOND_ID>
+        <ATOM_ID type="INTEGER">10000048</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">0</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000055</BOND_ID>
+        <ATOM_ID type="INTEGER">10000048</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">0</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000055</BOND_ID>
+        <ATOM_ID type="INTEGER">10000049</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">1</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000056</BOND_ID>
+        <ATOM_ID type="INTEGER">10000049</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">0</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000070</BOND_ID>
+        <ATOM_ID type="INTEGER">10000049</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">0</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000071</BOND_ID>
+        <ATOM_ID type="INTEGER">10000049</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">0</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000047</BOND_ID>
+        <ATOM_ID type="INTEGER">10000050</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">1</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000048</BOND_ID>
+        <ATOM_ID type="INTEGER">10000050</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">0</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000057</BOND_ID>
+        <ATOM_ID type="INTEGER">10000050</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">0</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000072</BOND_ID>
+        <ATOM_ID type="INTEGER">10000050</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">0</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000057</BOND_ID>
+        <ATOM_ID type="INTEGER">10000051</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">1</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000073</BOND_ID>
+        <ATOM_ID type="INTEGER">10000051</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">0</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000074</BOND_ID>
+        <ATOM_ID type="INTEGER">10000051</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">0</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000075</BOND_ID>
+        <ATOM_ID type="INTEGER">10000051</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">0</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000051</BOND_ID>
+        <ATOM_ID type="INTEGER">10000052</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">1</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000052</BOND_ID>
+        <ATOM_ID type="INTEGER">10000052</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">0</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000058</BOND_ID>
+        <ATOM_ID type="INTEGER">10000052</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">0</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000076</BOND_ID>
+        <ATOM_ID type="INTEGER">10000052</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">0</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000058</BOND_ID>
+        <ATOM_ID type="INTEGER">10000053</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">1</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000077</BOND_ID>
+        <ATOM_ID type="INTEGER">10000053</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">0</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000078</BOND_ID>
+        <ATOM_ID type="INTEGER">10000053</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">0</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000079</BOND_ID>
+        <ATOM_ID type="INTEGER">10000053</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">0</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000045</BOND_ID>
+        <ATOM_ID type="INTEGER">10000054</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">1</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000046</BOND_ID>
+        <ATOM_ID type="INTEGER">10000054</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">1</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000050</BOND_ID>
+        <ATOM_ID type="INTEGER">10000054</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">0</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000059</BOND_ID>
+        <ATOM_ID type="INTEGER">10000054</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">0</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000059</BOND_ID>
+        <ATOM_ID type="INTEGER">10000055</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">1</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000080</BOND_ID>
+        <ATOM_ID type="INTEGER">10000055</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">0</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000081</BOND_ID>
+        <ATOM_ID type="INTEGER">10000055</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">0</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000082</BOND_ID>
+        <ATOM_ID type="INTEGER">10000055</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">0</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000056</BOND_ID>
+        <ATOM_ID type="INTEGER">10000056</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">1</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000083</BOND_ID>
+        <ATOM_ID type="INTEGER">10000056</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">0</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000060</BOND_ID>
+        <ATOM_ID type="INTEGER">10000057</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">1</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000061</BOND_ID>
+        <ATOM_ID type="INTEGER">10000058</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">1</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000062</BOND_ID>
+        <ATOM_ID type="INTEGER">10000059</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">1</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000063</BOND_ID>
+        <ATOM_ID type="INTEGER">10000060</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">1</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000064</BOND_ID>
+        <ATOM_ID type="INTEGER">10000061</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">1</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000065</BOND_ID>
+        <ATOM_ID type="INTEGER">10000062</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">1</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000066</BOND_ID>
+        <ATOM_ID type="INTEGER">10000063</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">1</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000067</BOND_ID>
+        <ATOM_ID type="INTEGER">10000064</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">1</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000068</BOND_ID>
+        <ATOM_ID type="INTEGER">10000065</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">1</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000069</BOND_ID>
+        <ATOM_ID type="INTEGER">10000066</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">1</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000070</BOND_ID>
+        <ATOM_ID type="INTEGER">10000067</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">1</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000071</BOND_ID>
+        <ATOM_ID type="INTEGER">10000068</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">1</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000072</BOND_ID>
+        <ATOM_ID type="INTEGER">10000069</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">1</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000073</BOND_ID>
+        <ATOM_ID type="INTEGER">10000070</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">1</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000074</BOND_ID>
+        <ATOM_ID type="INTEGER">10000071</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">1</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000075</BOND_ID>
+        <ATOM_ID type="INTEGER">10000072</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">1</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000076</BOND_ID>
+        <ATOM_ID type="INTEGER">10000073</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">1</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000077</BOND_ID>
+        <ATOM_ID type="INTEGER">10000074</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">1</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000078</BOND_ID>
+        <ATOM_ID type="INTEGER">10000075</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">1</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000079</BOND_ID>
+        <ATOM_ID type="INTEGER">10000076</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">1</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000080</BOND_ID>
+        <ATOM_ID type="INTEGER">10000077</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">1</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000081</BOND_ID>
+        <ATOM_ID type="INTEGER">10000078</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">1</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000082</BOND_ID>
+        <ATOM_ID type="INTEGER">10000079</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">1</ORDER_NUMBER>
+    </BOND_ATOM>
+    <BOND_ATOM>
+        <BOND_ID type="INTEGER">10000083</BOND_ID>
+        <ATOM_ID type="INTEGER">10000080</ATOM_ID>
+        <ORDER_NUMBER type="INTEGER">1</ORDER_NUMBER>
+    </BOND_ATOM>
+    <COORDINATE_SET_2D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">1</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000041</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">-2.4064</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">1.8581</Y_COORDINATE>
+    </COORDINATE_SET_2D>
+    <COORDINATE_SET_2D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">1</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000042</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">-3.0738</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">1.3732</Y_COORDINATE>
+    </COORDINATE_SET_2D>
+    <COORDINATE_SET_2D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">1</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000043</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">-2.8189</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">0.5885</Y_COORDINATE>
+    </COORDINATE_SET_2D>
+    <COORDINATE_SET_2D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">1</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000044</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">-2.4064</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">-0.681</Y_COORDINATE>
+    </COORDINATE_SET_2D>
+    <COORDINATE_SET_2D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">1</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000045</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">-1.7389</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">-0.1961</Y_COORDINATE>
+    </COORDINATE_SET_2D>
+    <COORDINATE_SET_2D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">1</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000046</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">-1.9938</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">0.5885</Y_COORDINATE>
+    </COORDINATE_SET_2D>
+    <COORDINATE_SET_2D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">1</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000047</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">-0.9138</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">1.3732</Y_COORDINATE>
+    </COORDINATE_SET_2D>
+    <COORDINATE_SET_2D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">1</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000048</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">-0.6589</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">0.5885</Y_COORDINATE>
+    </COORDINATE_SET_2D>
+    <COORDINATE_SET_2D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">1</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000049</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">0.0421</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">0.1536</Y_COORDINATE>
+    </COORDINATE_SET_2D>
+    <COORDINATE_SET_2D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">1</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000050</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">-1.1389</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">0.2599</Y_COORDINATE>
+    </COORDINATE_SET_2D>
+    <COORDINATE_SET_2D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">1</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000051</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">-0.7301</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">-0.4568</Y_COORDINATE>
+    </COORDINATE_SET_2D>
+    <COORDINATE_SET_2D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">1</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000052</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">-3.0738</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">-0.1961</Y_COORDINATE>
+    </COORDINATE_SET_2D>
+    <COORDINATE_SET_2D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">1</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000053</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">-3.8585</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">-0.4509</Y_COORDINATE>
+    </COORDINATE_SET_2D>
+    <COORDINATE_SET_2D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">1</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000054</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">-1.7389</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">1.3732</Y_COORDINATE>
+    </COORDINATE_SET_2D>
+    <COORDINATE_SET_2D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">1</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000055</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">-1.484</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">2.1578</Y_COORDINATE>
+    </COORDINATE_SET_2D>
+    <COORDINATE_SET_2D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">1</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000056</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">0.016</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">-0.671</Y_COORDINATE>
+    </COORDINATE_SET_2D>
+    <COORDINATE_SET_2D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">1</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000057</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">-1.8600478</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">2.46494135</Y_COORDINATE>
+    </COORDINATE_SET_2D>
+    <COORDINATE_SET_2D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">1</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000058</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">-2.95279544</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">2.46490243</Y_COORDINATE>
+    </COORDINATE_SET_2D>
+    <COORDINATE_SET_2D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">1</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000059</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">-3.48206103</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">2.08036341</Y_COORDINATE>
+    </COORDINATE_SET_2D>
+    <COORDINATE_SET_2D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">1</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000060</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">-3.81977322</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">1.041114</Y_COORDINATE>
+    </COORDINATE_SET_2D>
+    <COORDINATE_SET_2D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">1</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000061</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">-3.63545199</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">0.58851529</Y_COORDINATE>
+    </COORDINATE_SET_2D>
+    <COORDINATE_SET_2D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">1</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000062</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">-2.95279544</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">-1.28780243</Y_COORDINATE>
+    </COORDINATE_SET_2D>
+    <COORDINATE_SET_2D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">1</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000063</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">-1.8600478</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">-1.28784135</Y_COORDINATE>
+    </COORDINATE_SET_2D>
+    <COORDINATE_SET_2D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">1</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000064</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">-1.33066373</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">-0.90327771</Y_COORDINATE>
+    </COORDINATE_SET_2D>
+    <COORDINATE_SET_2D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">1</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000065</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">-0.99292718</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">0.1359869</Y_COORDINATE>
+    </COORDINATE_SET_2D>
+    <COORDINATE_SET_2D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">1</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000066</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">-0.43381823</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">2.0337866</Y_COORDINATE>
+    </COORDINATE_SET_2D>
+    <COORDINATE_SET_2D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">1</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000067</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">0.84135602</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">-0.01357347</Y_COORDINATE>
+    </COORDINATE_SET_2D>
+    <COORDINATE_SET_2D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">1</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000068</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">0.34553427</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">0.91167968</Y_COORDINATE>
+    </COORDINATE_SET_2D>
+    <COORDINATE_SET_2D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">1</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000069</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">-1.23395192</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">1.0709008</Y_COORDINATE>
+    </COORDINATE_SET_2D>
+    <COORDINATE_SET_2D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">1</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000070</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">-1.43938214</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">-0.86136891</Y_COORDINATE>
+    </COORDINATE_SET_2D>
+    <COORDINATE_SET_2D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">1</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000071</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">-0.32553109</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">-1.16608214</Y_COORDINATE>
+    </COORDINATE_SET_2D>
+    <COORDINATE_SET_2D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">1</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000072</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">-0.02081786</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">-0.05223109</Y_COORDINATE>
+    </COORDINATE_SET_2D>
+    <COORDINATE_SET_2D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">1</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000073</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">-3.20161552</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">-1.00258643</Y_COORDINATE>
+    </COORDINATE_SET_2D>
+    <COORDINATE_SET_2D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">1</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000074</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">-4.11068119</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">0.32573493</Y_COORDINATE>
+    </COORDINATE_SET_2D>
+    <COORDINATE_SET_2D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">1</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000075</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">-4.63513493</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">-0.70308119</Y_COORDINATE>
+    </COORDINATE_SET_2D>
+    <COORDINATE_SET_2D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">1</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000076</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">-3.60631881</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">-1.22753493</Y_COORDINATE>
+    </COORDINATE_SET_2D>
+    <COORDINATE_SET_2D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">1</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000077</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">-0.7074036</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">1.9055002</Y_COORDINATE>
+    </COORDINATE_SET_2D>
+    <COORDINATE_SET_2D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">1</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000078</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">-1.2317002</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">2.9343964</Y_COORDINATE>
+    </COORDINATE_SET_2D>
+    <COORDINATE_SET_2D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">1</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000079</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">-2.2605964</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">2.4100998</Y_COORDINATE>
+    </COORDINATE_SET_2D>
+    <COORDINATE_SET_2D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">1</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000080</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">-0.00983233</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">-1.48714328</Y_COORDINATE>
+    </COORDINATE_SET_2D>
+    <COORDINATE_SET_3D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">2</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000041</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">0.1697</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">1.6913</Y_COORDINATE>
+        <Z_COORDINATE type="DOUBLE">-0.2687</Z_COORDINATE>
+    </COORDINATE_SET_3D>
+    <COORDINATE_SET_3D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">2</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000042</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">0.1493</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">0.1539</Y_COORDINATE>
+        <Z_COORDINATE type="DOUBLE">-0.0912</Z_COORDINATE>
+    </COORDINATE_SET_3D>
+    <COORDINATE_SET_3D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">2</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000043</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">1.4224</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">-0.1611</Y_COORDINATE>
+        <Z_COORDINATE type="DOUBLE">0.7156</Z_COORDINATE>
+    </COORDINATE_SET_3D>
+    <COORDINATE_SET_3D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">2</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000044</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">2.3657</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">0.5163</Y_COORDINATE>
+        <Z_COORDINATE type="DOUBLE">2.8569</Z_COORDINATE>
+    </COORDINATE_SET_3D>
+    <COORDINATE_SET_3D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">2</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000045</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">2.7427</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">1.6152</Y_COORDINATE>
+        <Z_COORDINATE type="DOUBLE">1.8281</Z_COORDINATE>
+    </COORDINATE_SET_3D>
+    <COORDINATE_SET_3D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">2</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000046</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">2.3915</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">1.0052</Y_COORDINATE>
+        <Z_COORDINATE type="DOUBLE">0.4758</Z_COORDINATE>
+    </COORDINATE_SET_3D>
+    <COORDINATE_SET_3D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">2</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000047</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">2.1226</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">1.6408</Y_COORDINATE>
+        <Z_COORDINATE type="DOUBLE">-1.8328</Z_COORDINATE>
+    </COORDINATE_SET_3D>
+    <COORDINATE_SET_3D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">2</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000048</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">3.1777</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">0.8688</Y_COORDINATE>
+        <Z_COORDINATE type="DOUBLE">-1.7928</Z_COORDINATE>
+    </COORDINATE_SET_3D>
+    <COORDINATE_SET_3D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">2</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000049</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">3.8793</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">0.3196</Y_COORDINATE>
+        <Z_COORDINATE type="DOUBLE">-3.0081</Z_COORDINATE>
+    </COORDINATE_SET_3D>
+    <COORDINATE_SET_3D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">2</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000050</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">3.6017</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">0.6001</Y_COORDINATE>
+        <Z_COORDINATE type="DOUBLE">-0.3632</Z_COORDINATE>
+    </COORDINATE_SET_3D>
+    <COORDINATE_SET_3D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">2</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000051</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">4.8164</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">1.4551</Y_COORDINATE>
+        <Z_COORDINATE type="DOUBLE">0.0035</Z_COORDINATE>
+    </COORDINATE_SET_3D>
+    <COORDINATE_SET_3D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">2</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000052</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">1.1069</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">-0.135</Y_COORDINATE>
+        <Z_COORDINATE type="DOUBLE">2.2259</Z_COORDINATE>
+    </COORDINATE_SET_3D>
+    <COORDINATE_SET_3D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">2</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000053</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">0.9131</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">-1.5561</Y_COORDINATE>
+        <Z_COORDINATE type="DOUBLE">2.7588</Z_COORDINATE>
+    </COORDINATE_SET_3D>
+    <COORDINATE_SET_3D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">2</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000054</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">1.6697</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">2.0196</Y_COORDINATE>
+        <Z_COORDINATE type="DOUBLE">-0.4424</Z_COORDINATE>
+    </COORDINATE_SET_3D>
+    <COORDINATE_SET_3D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">2</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000055</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">1.9945</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">3.4714</Y_COORDINATE>
+        <Z_COORDINATE type="DOUBLE">-0.0852</Z_COORDINATE>
+    </COORDINATE_SET_3D>
+    <COORDINATE_SET_3D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">2</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000056</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">3.2131</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">0.7729</Y_COORDINATE>
+        <Z_COORDINATE type="DOUBLE">-4.1882</Z_COORDINATE>
+    </COORDINATE_SET_3D>
+    <COORDINATE_SET_3D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">2</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000057</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">-0.3915</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">1.9819</Y_COORDINATE>
+        <Z_COORDINATE type="DOUBLE">-1.1568</Z_COORDINATE>
+    </COORDINATE_SET_3D>
+    <COORDINATE_SET_3D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">2</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000058</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">-0.2305</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">2.1846</Y_COORDINATE>
+        <Z_COORDINATE type="DOUBLE">0.617</Z_COORDINATE>
+    </COORDINATE_SET_3D>
+    <COORDINATE_SET_3D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">2</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000059</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">-0.7376</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">-0.153</Y_COORDINATE>
+        <Z_COORDINATE type="DOUBLE">0.4632</Z_COORDINATE>
+    </COORDINATE_SET_3D>
+    <COORDINATE_SET_3D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">2</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000060</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">0.1821</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">-0.3413</Y_COORDINATE>
+        <Z_COORDINATE type="DOUBLE">-1.0617</Z_COORDINATE>
+    </COORDINATE_SET_3D>
+    <COORDINATE_SET_3D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">2</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000061</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">1.8604</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">-1.1112</Y_COORDINATE>
+        <Z_COORDINATE type="DOUBLE">0.4095</Z_COORDINATE>
+    </COORDINATE_SET_3D>
+    <COORDINATE_SET_3D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">2</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000062</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">3.1698</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">-0.2132</Y_COORDINATE>
+        <Z_COORDINATE type="DOUBLE">2.9537</Z_COORDINATE>
+    </COORDINATE_SET_3D>
+    <COORDINATE_SET_3D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">2</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000063</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">2.127</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">0.9591</Y_COORDINATE>
+        <Z_COORDINATE type="DOUBLE">3.8239</Z_COORDINATE>
+    </COORDINATE_SET_3D>
+    <COORDINATE_SET_3D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">2</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000064</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">2.1565</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">2.5174</Y_COORDINATE>
+        <Z_COORDINATE type="DOUBLE">2.0027</Z_COORDINATE>
+    </COORDINATE_SET_3D>
+    <COORDINATE_SET_3D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">2</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000065</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">3.8087</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">1.8365</Y_COORDINATE>
+        <Z_COORDINATE type="DOUBLE">1.8807</Z_COORDINATE>
+    </COORDINATE_SET_3D>
+    <COORDINATE_SET_3D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">2</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000066</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">1.638</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">1.965</Y_COORDINATE>
+        <Z_COORDINATE type="DOUBLE">-2.7419</Z_COORDINATE>
+    </COORDINATE_SET_3D>
+    <COORDINATE_SET_3D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">2</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000067</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">4.9128</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">0.6659</Y_COORDINATE>
+        <Z_COORDINATE type="DOUBLE">-3.0186</Z_COORDINATE>
+    </COORDINATE_SET_3D>
+    <COORDINATE_SET_3D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">2</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000068</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">3.8615</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">-0.7698</Y_COORDINATE>
+        <Z_COORDINATE type="DOUBLE">-2.9766</Z_COORDINATE>
+    </COORDINATE_SET_3D>
+    <COORDINATE_SET_3D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">2</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000069</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">3.8241</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">-0.458</Y_COORDINATE>
+        <Z_COORDINATE type="DOUBLE">-0.2246</Z_COORDINATE>
+    </COORDINATE_SET_3D>
+    <COORDINATE_SET_3D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">2</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000070</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">5.1362</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">1.216</Y_COORDINATE>
+        <Z_COORDINATE type="DOUBLE">1.0178</Z_COORDINATE>
+    </COORDINATE_SET_3D>
+    <COORDINATE_SET_3D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">2</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000071</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">5.6297</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">1.2482</Y_COORDINATE>
+        <Z_COORDINATE type="DOUBLE">-0.6921</Z_COORDINATE>
+    </COORDINATE_SET_3D>
+    <COORDINATE_SET_3D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">2</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000072</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">4.5487</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">2.5101</Y_COORDINATE>
+        <Z_COORDINATE type="DOUBLE">-0.0538</Z_COORDINATE>
+    </COORDINATE_SET_3D>
+    <COORDINATE_SET_3D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">2</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000073</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">0.2231</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">0.472</Y_COORDINATE>
+        <Z_COORDINATE type="DOUBLE">2.4217</Z_COORDINATE>
+    </COORDINATE_SET_3D>
+    <COORDINATE_SET_3D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">2</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000074</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">1.8245</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">-2.1319</Y_COORDINATE>
+        <Z_COORDINATE type="DOUBLE">2.5978</Z_COORDINATE>
+    </COORDINATE_SET_3D>
+    <COORDINATE_SET_3D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">2</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000075</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">0.6915</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">-1.5171</Y_COORDINATE>
+        <Z_COORDINATE type="DOUBLE">3.8253</Z_COORDINATE>
+    </COORDINATE_SET_3D>
+    <COORDINATE_SET_3D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">2</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000076</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">0.0853</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">-2.0316</Y_COORDINATE>
+        <Z_COORDINATE type="DOUBLE">2.2328</Z_COORDINATE>
+    </COORDINATE_SET_3D>
+    <COORDINATE_SET_3D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">2</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000077</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">3.0758</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">3.6059</Y_COORDINATE>
+        <Z_COORDINATE type="DOUBLE">-0.0587</Z_COORDINATE>
+    </COORDINATE_SET_3D>
+    <COORDINATE_SET_3D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">2</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000078</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">1.5641</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">4.1351</Y_COORDINATE>
+        <Z_COORDINATE type="DOUBLE">-0.8352</Z_COORDINATE>
+    </COORDINATE_SET_3D>
+    <COORDINATE_SET_3D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">2</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000079</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">1.5749</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">3.7077</Y_COORDINATE>
+        <Z_COORDINATE type="DOUBLE">0.8927</Z_COORDINATE>
+    </COORDINATE_SET_3D>
+    <COORDINATE_SET_3D>
+        <COORDINATE_SET_TYPE_ID type="INTEGER">2</COORDINATE_SET_TYPE_ID>
+        <ATOM_ID type="INTEGER">10000080</ATOM_ID>
+        <X_COORDINATE type="DOUBLE">3.6925</X_COORDINATE>
+        <Y_COORDINATE type="DOUBLE">0.3999</Y_COORDINATE>
+        <Z_COORDINATE type="DOUBLE">-4.9406</Z_COORDINATE>
+    </COORDINATE_SET_3D>
+    <CANONICAL_NAME>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <CANONICAL_NAME_TYPE_ID type="INTEGER">1</CANONICAL_NAME_TYPE_ID>
+        <NAME type="VARCHAR">(1,3a,6-Trimethyl-1,3a,4,5,5a,6,7,8-octahydro-cyclopenta[c]pentalen-2-yl)-methanol</NAME>
+        <NAME_SOUNDEX type="MEDIUMBLOB">13636534134567823624153215345245354</NAME_SOUNDEX>
+    </CANONICAL_NAME>
+    <CANONICAL_NAME>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <CANONICAL_NAME_TYPE_ID type="INTEGER">2</CANONICAL_NAME_TYPE_ID>
+        <NAME type="VARCHAR">rel-[(1R,3aS,5aS,6R,8aR)-1,3a,6-trimethyl-1,3a,4,5,5a,6,7,8-octahydrocyclopenta[c]pentalen-2-yl]methanol</NAME>
+        <NAME_SOUNDEX type="MEDIUMBLOB">6416325268613636534134567823624153215345245354</NAME_SOUNDEX>
+    </CANONICAL_NAME>
+    <CANONICAL_NAME>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <CANONICAL_NAME_TYPE_ID type="INTEGER">3</CANONICAL_NAME_TYPE_ID>
+        <NAME type="VARCHAR">cyclopenta[c]pentalene-2-methanol,
+            1,3a,4,5,5a,6,7,8-octahydro-1,3a,6-trimethyl-,
+            (1S,3aR,5aR,8aS)-</NAME>
+        <NAME_SOUNDEX type="MEDIUMBLOB">241532153452535413456782361363653412365682</NAME_SOUNDEX>
+    </CANONICAL_NAME>
+    <CANONICAL_NAME>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <CANONICAL_NAME_TYPE_ID type="INTEGER">4</CANONICAL_NAME_TYPE_ID>
+        <NAME type="VARCHAR">InChI=1/C15H24O/c1-10-4-7-15-11(2)12(9-16)8-14(15,3)6-5-13(10)15/h8,10-11,13,16H,4-7,9H2,1-3H3/t10-,11+,13+,14+,15+/m0/s1</NAME>
+        <NAME_SOUNDEX type="MEDIUMBLOB">5212152421471512129168141536513158131647921313141521</NAME_SOUNDEX>
+    </CANONICAL_NAME>
+    <CANONICAL_NAME>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <CANONICAL_NAME_TYPE_ID type="INTEGER">5</CANONICAL_NAME_TYPE_ID>
+        <NAME type="VARCHAR">GJNXTRPTZOVADS-PWRGDLIESA-N</NAME>
+        <NAME_SOUNDEX type="MEDIUMBLOB">252361321321623425</NAME_SOUNDEX>
+    </CANONICAL_NAME>
+    <CHEMICAL_NAME>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <NAME type="VARCHAR">Subergorgiol</NAME>
+        <NAME_SOUNDEX type="VARCHAR">2162624</NAME_SOUNDEX>
+    </CHEMICAL_NAME>
+    <MOLECULE_HYPERLINK>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <HYPERLINK type="MEDIUMBLOB">http://pubchem.ncbi.nlm.nih.gov/substance/PcsSrv.cgi?sid=586360</HYPERLINK>
+        <DESCRIPTION type="MEDIUMBLOB">Deposition in PubChem</DESCRIPTION>
+        <DESCRIPTION_SOUNDEX type="MEDIUMBLOB">31235125</DESCRIPTION_SOUNDEX>
+    </MOLECULE_HYPERLINK>
+    <MOLECULE_HYPERLINK>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <HYPERLINK type="MEDIUMBLOB">http://pubchem.ncbi.nlm.nih.gov/summary/summary.cgi?cid=636436</HYPERLINK>
+        <DESCRIPTION type="MEDIUMBLOB">Compound in PubChem</DESCRIPTION>
+        <DESCRIPTION_SOUNDEX type="MEDIUMBLOB">251535125</DESCRIPTION_SOUNDEX>
+    </MOLECULE_HYPERLINK>
+    <SPECTRUM>
+        <SPECTRUM_ID type="INTEGER">3407</SPECTRUM_ID>
+        <DATE type="DATETIME">2002-09-16 10:45:18.0</DATE>
+        <SPECFILE type="MEDIUMBLOB">17.7;0.0Q;10|20.0;0.0Q;12|22.9;0.0Q;14|28.9;0.0T;4|29.9;0.0T;1|35.8;0.0T;3|37.6;0.0T;0|39.7;0.0D;11|50.9;0.0D;9|57.3;0.0S;13|61.3;0.0T;8|64.1;0.0S;5|64.9;0.0D;2|134.0;0.0D;6|146.7;0.0S;7|</SPECFILE>
+        <REVIEW_FLAG type="CHAR">true</REVIEW_FLAG>
+        <REVIEW_KEY type="VARCHAR">15858</REVIEW_KEY>
+        <FINGERPRINT type="BIGINT">231928494064</FINGERPRINT>
+        <USER_ID type="INTEGER">163</USER_ID>
+        <SPECTRUM_TYPE_ID type="INTEGER">1</SPECTRUM_TYPE_ID>
+        <COMMENT type="BLOB">; Multiplicities generated
+            automatically from H count</COMMENT>
+        <COMMENT_SOUNDEX type="MEDIUMBLOB"/>
+        <MOLECULE_ID type="INTEGER">2151</MOLECULE_ID>
+        <SIMPLE_SPECFILE type="MEDIUMBLOB">17.7;0.0Q|20.0;0.0Q|22.9;0.0Q|28.9;0.0T|29.9;0.0T|35.8;0.0T|37.6;0.0T|39.7;0.0D|50.9;0.0D|57.3;0.0S|61.3;0.0T|64.1;0.0S|64.9;0.0D|134.0;0.0D|146.7;0.0S|</SIMPLE_SPECFILE>
+        <JCAMP type="BLOB">null</JCAMP>
+        <MIXTURE_ID type="INTEGER">null</MIXTURE_ID>
+        <SUBSTANCE_ID type="INTEGER">null</SUBSTANCE_ID>
+    </SPECTRUM>
+    <NMR_SIGNAL>
+        <SIGNAL_ID type="INTEGER">250931</SIGNAL_ID>
+        <INTENSITY type="FLOAT">0.0</INTENSITY>
+        <SPECTRUM_ID type="INTEGER">3407</SPECTRUM_ID>
+        <MULTIPLICITY type="VARCHAR">Q</MULTIPLICITY>
+    </NMR_SIGNAL>
+    <NMR_SIGNAL>
+        <SIGNAL_ID type="INTEGER">250932</SIGNAL_ID>
+        <INTENSITY type="FLOAT">0.0</INTENSITY>
+        <SPECTRUM_ID type="INTEGER">3407</SPECTRUM_ID>
+        <MULTIPLICITY type="VARCHAR">Q</MULTIPLICITY>
+    </NMR_SIGNAL>
+    <NMR_SIGNAL>
+        <SIGNAL_ID type="INTEGER">250933</SIGNAL_ID>
+        <INTENSITY type="FLOAT">0.0</INTENSITY>
+        <SPECTRUM_ID type="INTEGER">3407</SPECTRUM_ID>
+        <MULTIPLICITY type="VARCHAR">Q</MULTIPLICITY>
+    </NMR_SIGNAL>
+    <NMR_SIGNAL>
+        <SIGNAL_ID type="INTEGER">250934</SIGNAL_ID>
+        <INTENSITY type="FLOAT">0.0</INTENSITY>
+        <SPECTRUM_ID type="INTEGER">3407</SPECTRUM_ID>
+        <MULTIPLICITY type="VARCHAR">T</MULTIPLICITY>
+    </NMR_SIGNAL>
+    <NMR_SIGNAL>
+        <SIGNAL_ID type="INTEGER">250935</SIGNAL_ID>
+        <INTENSITY type="FLOAT">0.0</INTENSITY>
+        <SPECTRUM_ID type="INTEGER">3407</SPECTRUM_ID>
+        <MULTIPLICITY type="VARCHAR">T</MULTIPLICITY>
+    </NMR_SIGNAL>
+    <NMR_SIGNAL>
+        <SIGNAL_ID type="INTEGER">250936</SIGNAL_ID>
+        <INTENSITY type="FLOAT">0.0</INTENSITY>
+        <SPECTRUM_ID type="INTEGER">3407</SPECTRUM_ID>
+        <MULTIPLICITY type="VARCHAR">T</MULTIPLICITY>
+    </NMR_SIGNAL>
+    <NMR_SIGNAL>
+        <SIGNAL_ID type="INTEGER">250937</SIGNAL_ID>
+        <INTENSITY type="FLOAT">0.0</INTENSITY>
+        <SPECTRUM_ID type="INTEGER">3407</SPECTRUM_ID>
+        <MULTIPLICITY type="VARCHAR">T</MULTIPLICITY>
+    </NMR_SIGNAL>
+    <NMR_SIGNAL>
+        <SIGNAL_ID type="INTEGER">250938</SIGNAL_ID>
+        <INTENSITY type="FLOAT">0.0</INTENSITY>
+        <SPECTRUM_ID type="INTEGER">3407</SPECTRUM_ID>
+        <MULTIPLICITY type="VARCHAR">D</MULTIPLICITY>
+    </NMR_SIGNAL>
+    <NMR_SIGNAL>
+        <SIGNAL_ID type="INTEGER">250939</SIGNAL_ID>
+        <INTENSITY type="FLOAT">0.0</INTENSITY>
+        <SPECTRUM_ID type="INTEGER">3407</SPECTRUM_ID>
+        <MULTIPLICITY type="VARCHAR">D</MULTIPLICITY>
+    </NMR_SIGNAL>
+    <NMR_SIGNAL>
+        <SIGNAL_ID type="INTEGER">250940</SIGNAL_ID>
+        <INTENSITY type="FLOAT">0.0</INTENSITY>
+        <SPECTRUM_ID type="INTEGER">3407</SPECTRUM_ID>
+        <MULTIPLICITY type="VARCHAR">S</MULTIPLICITY>
+    </NMR_SIGNAL>
+    <NMR_SIGNAL>
+        <SIGNAL_ID type="INTEGER">250941</SIGNAL_ID>
+        <INTENSITY type="FLOAT">0.0</INTENSITY>
+        <SPECTRUM_ID type="INTEGER">3407</SPECTRUM_ID>
+        <MULTIPLICITY type="VARCHAR">T</MULTIPLICITY>
+    </NMR_SIGNAL>
+    <NMR_SIGNAL>
+        <SIGNAL_ID type="INTEGER">250942</SIGNAL_ID>
+        <INTENSITY type="FLOAT">0.0</INTENSITY>
+        <SPECTRUM_ID type="INTEGER">3407</SPECTRUM_ID>
+        <MULTIPLICITY type="VARCHAR">S</MULTIPLICITY>
+    </NMR_SIGNAL>
+    <NMR_SIGNAL>
+        <SIGNAL_ID type="INTEGER">250943</SIGNAL_ID>
+        <INTENSITY type="FLOAT">0.0</INTENSITY>
+        <SPECTRUM_ID type="INTEGER">3407</SPECTRUM_ID>
+        <MULTIPLICITY type="VARCHAR">D</MULTIPLICITY>
+    </NMR_SIGNAL>
+    <NMR_SIGNAL>
+        <SIGNAL_ID type="INTEGER">250944</SIGNAL_ID>
+        <INTENSITY type="FLOAT">0.0</INTENSITY>
+        <SPECTRUM_ID type="INTEGER">3407</SPECTRUM_ID>
+        <MULTIPLICITY type="VARCHAR">D</MULTIPLICITY>
+    </NMR_SIGNAL>
+    <NMR_SIGNAL>
+        <SIGNAL_ID type="INTEGER">250945</SIGNAL_ID>
+        <INTENSITY type="FLOAT">0.0</INTENSITY>
+        <SPECTRUM_ID type="INTEGER">3407</SPECTRUM_ID>
+        <MULTIPLICITY type="VARCHAR">S</MULTIPLICITY>
+    </NMR_SIGNAL>
+    <NMR_CONDITION>
+        <CONDITION_ID type="INTEGER">120</CONDITION_ID>
+        <VALUE type="VARCHAR">298</VALUE>
+        <CONDITION_TYPE_ID type="INTEGER">1</CONDITION_TYPE_ID>
+        <USER_ID type="INTEGER">163</USER_ID>
+    </NMR_CONDITION>
+    <NMR_CONDITION>
+        <CONDITION_ID type="INTEGER">121</CONDITION_ID>
+        <VALUE type="VARCHAR">Chloroform-D1 (CDCl3)</VALUE>
+        <CONDITION_TYPE_ID type="INTEGER">2</CONDITION_TYPE_ID>
+        <USER_ID type="INTEGER">163</USER_ID>
+    </NMR_CONDITION>
+    <NMR_CONDITION>
+        <CONDITION_ID type="INTEGER">122</CONDITION_ID>
+        <VALUE type="VARCHAR">125</VALUE>
+        <CONDITION_TYPE_ID type="INTEGER">3</CONDITION_TYPE_ID>
+        <USER_ID type="INTEGER">163</USER_ID>
+    </NMR_CONDITION>
+    <SPECTRUM_CONDITION>
+        <SPECTRUM_ID type="INTEGER">3407</SPECTRUM_ID>
+        <CONDITION_ID type="INTEGER">120</CONDITION_ID>
+    </SPECTRUM_CONDITION>
+    <SPECTRUM_CONDITION>
+        <SPECTRUM_ID type="INTEGER">3407</SPECTRUM_ID>
+        <CONDITION_ID type="INTEGER">121</CONDITION_ID>
+    </SPECTRUM_CONDITION>
+    <SPECTRUM_CONDITION>
+        <SPECTRUM_ID type="INTEGER">3407</SPECTRUM_ID>
+        <CONDITION_ID type="INTEGER">122</CONDITION_ID>
+    </SPECTRUM_CONDITION>
+    <entry xmlns="http://bibtexml.sf.net/">
+        <book>
+            <place>Berlin, Heidelberg, New York</place>
+            <publisher>Springer-Verlag</publisher>
+            <author>J.-M. Yue; S.-N. Chen</author>
+            <etal>false</etal>
+            <title>NMR-Basic Principles and Progress, Vol.
+                14</title>
+            <year>1978</year>
+        </book>
+    </entry>
+	<entry xmlns="http://bibtexml.sf.net/"><article><journal>Journal of Natural Products</journal><volume>65</volume><pages>1033-1036</pages><author>G.-H. Wang</author><etal>true</etal><year>2002</year></article></entry>
+    <SHIFT>
+        <SIGNAL_ID type="INTEGER">250931</SIGNAL_ID>
+        <AXIS type="INTEGER">1</AXIS>
+        <VALUE type="FLOAT">17.7</VALUE>
+    </SHIFT>
+    <SHIFT>
+        <SIGNAL_ID type="INTEGER">250932</SIGNAL_ID>
+        <AXIS type="INTEGER">1</AXIS>
+        <VALUE type="FLOAT">20.0</VALUE>
+    </SHIFT>
+    <SHIFT>
+        <SIGNAL_ID type="INTEGER">250933</SIGNAL_ID>
+        <AXIS type="INTEGER">1</AXIS>
+        <VALUE type="FLOAT">22.9</VALUE>
+    </SHIFT>
+    <SHIFT>
+        <SIGNAL_ID type="INTEGER">250934</SIGNAL_ID>
+        <AXIS type="INTEGER">1</AXIS>
+        <VALUE type="FLOAT">28.9</VALUE>
+    </SHIFT>
+    <SHIFT>
+        <SIGNAL_ID type="INTEGER">250935</SIGNAL_ID>
+        <AXIS type="INTEGER">1</AXIS>
+        <VALUE type="FLOAT">29.9</VALUE>
+    </SHIFT>
+    <SHIFT>
+        <SIGNAL_ID type="INTEGER">250936</SIGNAL_ID>
+        <AXIS type="INTEGER">1</AXIS>
+        <VALUE type="FLOAT">35.8</VALUE>
+    </SHIFT>
+    <SHIFT>
+        <SIGNAL_ID type="INTEGER">250937</SIGNAL_ID>
+        <AXIS type="INTEGER">1</AXIS>
+        <VALUE type="FLOAT">37.6</VALUE>
+    </SHIFT>
+    <SHIFT>
+        <SIGNAL_ID type="INTEGER">250938</SIGNAL_ID>
+        <AXIS type="INTEGER">1</AXIS>
+        <VALUE type="FLOAT">39.7</VALUE>
+    </SHIFT>
+    <SHIFT>
+        <SIGNAL_ID type="INTEGER">250939</SIGNAL_ID>
+        <AXIS type="INTEGER">1</AXIS>
+        <VALUE type="FLOAT">50.9</VALUE>
+    </SHIFT>
+    <SHIFT>
+        <SIGNAL_ID type="INTEGER">250940</SIGNAL_ID>
+        <AXIS type="INTEGER">1</AXIS>
+        <VALUE type="FLOAT">57.3</VALUE>
+    </SHIFT>
+    <SHIFT>
+        <SIGNAL_ID type="INTEGER">250941</SIGNAL_ID>
+        <AXIS type="INTEGER">1</AXIS>
+        <VALUE type="FLOAT">61.3</VALUE>
+    </SHIFT>
+    <SHIFT>
+        <SIGNAL_ID type="INTEGER">250942</SIGNAL_ID>
+        <AXIS type="INTEGER">1</AXIS>
+        <VALUE type="FLOAT">64.1</VALUE>
+    </SHIFT>
+    <SHIFT>
+        <SIGNAL_ID type="INTEGER">250943</SIGNAL_ID>
+        <AXIS type="INTEGER">1</AXIS>
+        <VALUE type="FLOAT">64.9</VALUE>
+    </SHIFT>
+    <SHIFT>
+        <SIGNAL_ID type="INTEGER">250944</SIGNAL_ID>
+        <AXIS type="INTEGER">1</AXIS>
+        <VALUE type="FLOAT">134.0</VALUE>
+    </SHIFT>
+    <SHIFT>
+        <SIGNAL_ID type="INTEGER">250945</SIGNAL_ID>
+        <AXIS type="INTEGER">1</AXIS>
+        <VALUE type="FLOAT">146.7</VALUE>
+    </SHIFT>
+    <SIGNAL_ATOM>
+        <SIGNAL_ID type="INTEGER">250937</SIGNAL_ID>
+        <ATOM_ID type="INTEGER">10000041</ATOM_ID>
+        <AXIS type="INTEGER">1</AXIS>
+    </SIGNAL_ATOM>
+    <SIGNAL_ATOM>
+        <SIGNAL_ID type="INTEGER">250935</SIGNAL_ID>
+        <ATOM_ID type="INTEGER">10000042</ATOM_ID>
+        <AXIS type="INTEGER">1</AXIS>
+    </SIGNAL_ATOM>
+    <SIGNAL_ATOM>
+        <SIGNAL_ID type="INTEGER">250943</SIGNAL_ID>
+        <ATOM_ID type="INTEGER">10000043</ATOM_ID>
+        <AXIS type="INTEGER">1</AXIS>
+    </SIGNAL_ATOM>
+    <SIGNAL_ATOM>
+        <SIGNAL_ID type="INTEGER">250936</SIGNAL_ID>
+        <ATOM_ID type="INTEGER">10000044</ATOM_ID>
+        <AXIS type="INTEGER">1</AXIS>
+    </SIGNAL_ATOM>
+    <SIGNAL_ATOM>
+        <SIGNAL_ID type="INTEGER">250934</SIGNAL_ID>
+        <ATOM_ID type="INTEGER">10000045</ATOM_ID>
+        <AXIS type="INTEGER">1</AXIS>
+    </SIGNAL_ATOM>
+    <SIGNAL_ATOM>
+        <SIGNAL_ID type="INTEGER">250942</SIGNAL_ID>
+        <ATOM_ID type="INTEGER">10000046</ATOM_ID>
+        <AXIS type="INTEGER">1</AXIS>
+    </SIGNAL_ATOM>
+    <SIGNAL_ATOM>
+        <SIGNAL_ID type="INTEGER">250944</SIGNAL_ID>
+        <ATOM_ID type="INTEGER">10000047</ATOM_ID>
+        <AXIS type="INTEGER">1</AXIS>
+    </SIGNAL_ATOM>
+    <SIGNAL_ATOM>
+        <SIGNAL_ID type="INTEGER">250945</SIGNAL_ID>
+        <ATOM_ID type="INTEGER">10000048</ATOM_ID>
+        <AXIS type="INTEGER">1</AXIS>
+    </SIGNAL_ATOM>
+    <SIGNAL_ATOM>
+        <SIGNAL_ID type="INTEGER">250941</SIGNAL_ID>
+        <ATOM_ID type="INTEGER">10000049</ATOM_ID>
+        <AXIS type="INTEGER">1</AXIS>
+    </SIGNAL_ATOM>
+    <SIGNAL_ATOM>
+        <SIGNAL_ID type="INTEGER">250939</SIGNAL_ID>
+        <ATOM_ID type="INTEGER">10000050</ATOM_ID>
+        <AXIS type="INTEGER">1</AXIS>
+    </SIGNAL_ATOM>
+    <SIGNAL_ATOM>
+        <SIGNAL_ID type="INTEGER">250931</SIGNAL_ID>
+        <ATOM_ID type="INTEGER">10000051</ATOM_ID>
+        <AXIS type="INTEGER">1</AXIS>
+    </SIGNAL_ATOM>
+    <SIGNAL_ATOM>
+        <SIGNAL_ID type="INTEGER">250938</SIGNAL_ID>
+        <ATOM_ID type="INTEGER">10000052</ATOM_ID>
+        <AXIS type="INTEGER">1</AXIS>
+    </SIGNAL_ATOM>
+    <SIGNAL_ATOM>
+        <SIGNAL_ID type="INTEGER">250932</SIGNAL_ID>
+        <ATOM_ID type="INTEGER">10000053</ATOM_ID>
+        <AXIS type="INTEGER">1</AXIS>
+    </SIGNAL_ATOM>
+    <SIGNAL_ATOM>
+        <SIGNAL_ID type="INTEGER">250940</SIGNAL_ID>
+        <ATOM_ID type="INTEGER">10000054</ATOM_ID>
+        <AXIS type="INTEGER">1</AXIS>
+    </SIGNAL_ATOM>
+    <SIGNAL_ATOM>
+        <SIGNAL_ID type="INTEGER">250933</SIGNAL_ID>
+        <ATOM_ID type="INTEGER">10000055</ATOM_ID>
+        <AXIS type="INTEGER">1</AXIS>
+    </SIGNAL_ATOM>
+</data>

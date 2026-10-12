@@ -1,0 +1,137 @@
+#*
+Copyright 2004 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*#
+
+## $Id: card-customize.vm,v 1.16 2004/03/17 19:17:27 jford Exp $
+<!-- WEB-INF\templates\vm\controllers\html\card-customize.vm -->
+<br>
+<center>
+<table width="80%" cellspacing="1" cellpadding="0" border="0">
+  <tr>
+    <th width="5%" #if (${skin.TitleBackgroundColor}) bgcolor="${skin.TitleBackgroundColor}" #end align="left">
+      #if ($skin.TitleColor) <font color="$skin.TitleColor"> #end
+      &nbsp;
+      #if ($skin.TitleColor) </font> #end
+    </th>
+    <th #if (${skin.TitleBackgroundColor}) bgcolor="${skin.TitleBackgroundColor}" #end align="left">
+      #if ($skin.TitleColor) <font color="$skin.TitleColor"> #end
+      $l10n.CUSTOMIZER_NAME
+      #if ($skin.TitleColor) </font> #end
+    </th>
+    <th width="10%" #if (${skin.TitleBackgroundColor}) bgcolor="${skin.TitleBackgroundColor}" #end align="center">
+      #if ($skin.TitleColor) <font color="$skin.TitleColor"> #end
+      $l10n.CUSTOMIZER_ACTION
+      #if ($skin.TitleColor) </font> #end
+    </th>
+  </tr>
+#set ($portletcount = 0)
+#set ($COUNTI="0")
+#foreach ($entry in $portlets)
+#set ($COUNTI="1")
+#set ($position = $velocityCount - 1)
+  <tr>
+  <td align="center" valign="top">
+##
+## Retrieve Entrytitle (-name)
+#set ($title="*")
+#if ($entry.Parent)
+  #set ($title = $titles.get($entry.Id) )
+#else
+  #set ($title = $entry.MetaInfo.Title)
+#end
+##
+#if ($title=="*")
+  #if ($entry.Parent) 
+    #set ($title=$entry.Parent)
+  #else
+    #set ($title=$entry.Name)
+  #end
+#end
+  ## Insert a image for portlets and panes!
+  #set ($FF=false)
+  #foreach ($entr in $runs)
+    #if ($entr.parent == $entry.Parent && !$FF)
+      #set ($FF=true)
+      <img src="images/html/is_portlet.gif" width=14" height="14" border="0" alt="Portlet" hspace="2"></TD>
+    #end
+  #end
+
+  ## Portlet is not used - use blank image!
+  #if (!$FF)
+    #set ($portletcount = $portletcount + 1)
+    <a href="$jslink.getAction("controls.Customize",$entry.Id)">
+      <img src="images/is_pane.gif" alt="$l10n.CUSTOMIZER_CUSTOMIZABLEPANE" width=14" height="14" border="0" hspace="2" >
+    </a></TD>
+  #end
+
+    <td valign="top">
+  #if (!$FF)
+    <a href="$jslink.getAction("controls.Customize",$entry.Id)">
+      <b>$title</b>
+    </a>
+  #else
+    <b>$title</b>  
+  #end    
+    </td>
+    <td valign="top" align="center">
+      <form action="#psmlLink($jslink.Template)" method="post">
+#if ($!action) <input type="hidden" name="$jslink.ActionKey" value="$action"> #end
+        <input type="hidden" name="position" value="$position" />
+        <input type="image" border="0" alt="Delete" src="images/close.gif" name="eventSubmit_doDelete">
+#if ($velocityCount < $portlets.size())
+        <input type="image" border="0" alt="Move down" src="images/down.gif" name="eventSubmit_doUp" >
+#else
+        <img src="images/dot.gif" width=14" height="14" border="0">
+#end
+#if ($position > 0)
+        <input type="image" border="0" src="images/up.gif" alt="Move up" name="eventSubmit_doDown">
+#else
+        <img src="images/dot.gif" width=14" height="14" border="0">
+#end
+      </form>
+    </td>
+  </tr>
+#end
+#if ($!COUNTI=="0")
+    <tr>
+      <td align="center" colspan="3">
+        <b>$l10n.CUSTOMIZER_NOTHINGDEFINED</b>
+      </td>
+    </tr>
+#end
+  </table>
+  <table cellspacing="2">
+    <tr>
+      <td>
+        <form action="#psmlLink($jslink.Template)" method="post">
+          #if ($!action) <input type="hidden" name="$jslink.ActionKey" value="$action" > #end
+          <table cellspacing="2">
+            <tr>
+#if ($controller.Portlets.allowCustomize($data))
+              <td>
+                <input type="submit" name="eventSubmit_doApply" value="$saveLabel">
+              </td>
+#end
+              <td>
+                <input type="submit" name="eventSubmit_doCancel" value="$l10n.CUSTOMIZER_CANCEL">
+              </td>
+            </tr>
+          </table>
+        </form>
+      </td>
+    </tr>
+  </table>
+</center>
+

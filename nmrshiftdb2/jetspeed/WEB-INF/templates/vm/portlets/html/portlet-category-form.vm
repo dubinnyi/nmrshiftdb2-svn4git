@@ -1,0 +1,127 @@
+#*
+Copyright 2004 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*#
+
+<script>
+	function updateCategory()
+	{
+	  var categoryIndex = document.AddCategoryForm.existing_categories.selectedIndex;
+	  var category = document.AddCategoryForm.existing_categories[categoryIndex].value;
+	  document.AddCategoryForm.category_name.value = category;
+	}
+	
+	function updateGroup()
+	{
+	  var groupIndex = document.AddCategoryForm.existing_groups.selectedIndex;
+	  var group = document.AddCategoryForm.existing_groups[groupIndex].value;
+	  document.AddCategoryForm.category_group.value = group;
+	}
+</script>
+
+<table bgcolor="#ffffff" cellpadding="5">
+  <tr>
+    <td align="center" bgcolor="$!{skin.TitleBackgroundColor}">
+      #if($parent_categories)
+      	<table bgcolor="#ffffff" cellpadding="5">
+      	  <tr>
+      	  	<th align="center" colspan="3">$l10n.REGISTRY_EDITOR_PORTLET_PARENT_CATEGORIES</td>
+      	  </tr>
+      	  <tr>
+	      	<th>&nbsp;</th>
+	        <th>$l10n.REGISTRY_EDITOR_PORTLET_CATEGORY_NAME</th>
+	        <th>$l10n.REGISTRY_EDITOR_PORTLET_CATEGORY_GROUP</th>
+          </tr>
+          #foreach($category in $parent_categories)
+              <tr>
+                <td bgcolor="$!{skin.TitleBackgroundColor}">&nbsp;</td>
+                <td bgcolor="$!{skin.TitleBackgroundColor}">$category.name</td>
+                <td bgcolor="$!{skin.TitleBackgroundColor}">$category.group</td>
+              </tr>
+          #end
+      	</table>
+      #end
+      #if($entry.getCategories().size() > 0)
+        <form name="PortletForm" method="post" action="$jslink.getPaneByName("PortletForm").setAction("portlets.PortletUpdateAction")">
+          <input type="hidden" name="mode" value="update"/>
+          <input type="hidden" name="portlet_name" value="$!entry.Name"/>
+          <input type="hidden" name="tab" value="categories"/>
+          <table bgcolor="#ffffff" cellpadding="5">
+            <th>&nbsp;</th>
+            <th>$l10n.REGISTRY_EDITOR_PORTLET_CATEGORY_NAME</th>
+            <th>$l10n.REGISTRY_EDITOR_PORTLET_CATEGORY_GROUP</th>
+            #foreach($category in $entry.getCategories())
+              <tr>
+                <td bgcolor="$!{skin.TitleBackgroundColor}">
+                  <input type="checkbox" name="category_name" value="$category.name"/>
+                  <input type="hidden" name="$!{category.name}.category_group" value="$!category.group"/>
+                </td>
+                <td bgcolor="$!{skin.TitleBackgroundColor}">$category.name</td>
+                <td bgcolor="$!{skin.TitleBackgroundColor}">$category.group</td>
+              </tr>
+            #end
+          </table>
+          <input type="submit" name="eventSubmit_doRemovecategories" value="$l10n.REGISTRY_EDITOR_PORTLET_REMOVECATEGORIES"/>
+        </form>
+      #end
+    </td>
+  </tr>
+  <tr>
+    <td align="center" bgcolor="$!{skin.TitleBackgroundColor}">
+      <form name="AddCategoryForm" method="post" action="$jslink.getPaneByName("PortletForm").setAction("portlets.PortletUpdateAction")">
+        <input type="hidden" name="mode" value="update"/>
+        <input type="hidden" name="portlet_name" value="$!entry.Name"/>
+        <input type="hidden" name="tab" value="categories"/>
+        <table bgcolor="#ffffff" cellpadding="5">
+          <tr>
+            <td bgcolor="$!{skin.TitleBackgroundColor}">
+              <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_PORTLET_CATEGORY_NAME</font></b>
+            </td>
+            <td bgcolor="$!{skin.TitleBackgroundColor}">
+              <input type="text" name="category_name"/>
+            </td>
+            <td bgcolor="$!{skin.TitleBackgroundColor}">
+              <select name="existing_categories" onChange="updateCategory();">
+              	<option value="">$l10n.REGISTRY_EDITOR_PORTLET_PICK_CATEGORY</option>
+            	#foreach($category in $categories)
+            	  <option value="$category.name">$category.name</option>
+            	#end
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td bgcolor="$!{skin.TitleBackgroundColor}">
+              <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_PORTLET_CATEGORY_GROUP</font></b>
+            </td>
+            <td bgcolor="$!{skin.TitleBackgroundColor}">
+              <input type="text" name="category_group"/>
+            </td>
+            <td bgcolor="$!{skin.TitleBackgroundColor}">
+              <select name="existing_groups" onChange="updateGroup();">
+              	<option value="">$l10n.REGISTRY_EDITOR_PORTLET_PICK_GROUP</option>
+                #foreach($group in $groups)
+            	  <option value="$group.name">$group.name</option>
+                #end
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td align="center" colspan="2" bgcolor="$!{skin.TitleBackgroundColor}"><input type="submit" name="eventSubmit_doAddcategory" value="$l10n.REGISTRY_EDITOR_PORTLET_ADDCATEGORY"/></td>
+          </tr>
+        </table>
+      </form>
+    </td>
+  </tr>
+</table>
+          

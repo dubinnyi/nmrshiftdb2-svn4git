@@ -1,0 +1,63 @@
+<html>
+    <head>
+        <title></title>
+        <meta content="">
+        <style></style>
+    </head>
+    <body>
+  
+        <script language="JavaScript1.1">
+            <!--
+            var currentlyworking=0;
+            function select(atom,spectrumapplet,appletmview){
+            if(currentlyworking==1){
+            return;
+            }
+            else{
+            currentlyworking=1;
+            appletmview.selectAllAtoms(0,false);
+            appletmview.selectAtom(0,atom,true);
+            spectrumapplet.paintLine(atom);
+            currentlyworking=0;
+            }
+            }
+            -->
+        </script>  
+
+
+
+                    <applet name="Spectrum1" 
+                        code="SpectrumView.class"  
+                        codebase="."
+                        archive="spectrumapplet.jar" 
+                        width="650" height="550">
+                        <param name="spectrum" 
+                        value= "30.8;0.0;8q|30.8;0.0;9q|30.8;0.0;10q|31.3;0.0;12q|
+                                31.3;0.0;13q|31.3;0.0;14q|34.6;0.0;7s|35.3;0.0;11s|">
+                        <param name="spectrumExperiment" 
+                        value= "30.7;0.0;8q|30.7;0.0;9q|30.7;0.0;10q|32.3;0.0;12q|
+                                32.3;0.0;13q|32.3;0.0;14q|34.1;0.0;7s|36.3;0.0;11s|">
+                        <param name="showCorrelation" value= "true">
+                        <param name="showCoupling" value= "true">
+                    </applet>
+
+
+    </body>
+</html>
+
+
+
+           
+
+
+
+
+
+
+
+
+
+
+
+
+

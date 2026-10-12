@@ -1,0 +1,109 @@
+        <table onmouseout="unselectandselect(-1)">
+          <tr bgcolor="#0000AA"><th><div style="color:white">No.</div></th><th><div style="color:white;font-size:200%">#if($doAssignment)Input<br>shift#else Shift#end</div></th>#if($doAssignment)<th><div style="color:white">Prediction</div></th>#end
+          #if($method=="hose")
+            #if($doAssignment)<th><div style="color:white">Difference<br>(Input-calculated)</div></th>#end<th><div style="color:white">deviation</div></th><th><div style="color:white">spheres</div></th><th><div style="color:white">min</div></th><th><div style="color:white">max</div></th>#if(!$doAssignment)<th><div style="color:white">mean</div></th><th><div style="color:white">median</div></th>#end<th><div style="color:white">values</div></th>
+          #end
+          #if($print=="0" && $hosecode=="true") <th><div style="color:white">HOSE code used</div></th> #end
+          </tr>
+          #foreach($element in $elements)
+            <tr id="tableid$element.getRange()" bgcolor="#set($evenorodd=$velocityCount % 2)#if($element.getStatistics(9)=="1.00")C0C0C0#elseif($evenorodd==1)white#else#D3D3D3#end" nowrap 
+            #if($session.getAttribute("applet")=="applet")
+              onMouseover="
+              #if($coords=="3d")
+                jmolScript('select atomno=$element.getCurrentSelectedNumber();set display selected;',0);document.Spectrum.paintLine($element.getNameForElements());
+              #end
+                unselectandselect($element.getNameForElements());
+               style.backgroundColor='#FF6600';" 
+               #if($evenorodd==0)
+                 onmouseout="style.backgroundColor='#D3D3D3';"
+               #else
+                 onmouseout="style.backgroundColor='white';"
+               #end
+            #end
+            >
+              <td #if($twospheres=="true") rowspan="2" #end >$element.getDisplayText()</td>
+              <td #if($twospheres=="true") rowspan="2" #end ><p #if($twospheres=="true")  style="font-size:200%" #end>$element.getValueAsString()
+              #if($method=="hose")
+	            #set($imagewarning="warning.png")
+	            #set($textwarning="Probably not a reliable prediction: ")
+                #if($element.statisticsIsLessThan(4,2) || ($element.statisticsIsLessThan(4,3) && $element.statisticsDiffMoreThan(7,8,10)))
+                	#set($imagewarning="warningstrong.png")
+                #end
+                #if($element.statisticsIsLessThan(4,3))
+                	#set($textwarning="$textwarning Only $element.getStatistics(4) spheres used")
+                #end
+                #if($element.statisticsDiffMoreThan(7,8,10))
+                	#if($element.statisticsIsLessThan(4,3))
+                		#set($textwarning="$textwarning, ")
+                	#end
+                	#set($textwarning="$textwarning Range > 10 ppm!")
+                #end
+                #if($element.statisticsIsLessThan(4,3) || $element.statisticsDiffMoreThan(7,8,10))
+                	<img src="nmrshiftdbhtml/$imagewarning">
+                #end
+              #end</p></td>
+              #if($method=="hose")
+                #if($doAssignment)
+                	<td nowrap>$element.getStatistics(1)</td>
+                	<td nowrap>
+                	#if($element.statisticsIsLessThan(3, 5))
+                		<img src="nmrshiftdbhtml/ampel_gruen.gif">
+                	#elseif($element.statisticsIsLessThan(3, 10))
+                		<img src="nmrshiftdbhtml/ampel_gelb.gif">
+                	#else
+                		<img src="nmrshiftdbhtml/ampel_rot.gif">
+                	#end
+                	$element.getStatistics(3)</td>
+                #end
+                <td nowrap>$element.getStatistics(6)</td>
+                <td nowrap>$element.getStatistics(4) /#if($element.getStatistics(10)=="1.00") stereo HOSE#else 2D HOSE#end</td>
+                <td nowrap>$element.getStatistics(7)</td>
+                <td nowrap>$element.getStatistics(8)</td>
+                #if(!$doAssignment)
+                	<td nowrap>$element.getStatistics(1)</td>
+                	<td nowrap>$element.getStatistics(3)</td>
+                #end
+                <td nowrap>$element.getStatistics(5)</td>
+              #end
+                      #set($solv="-1")
+                      #if($selectedSolvent)
+                        #set($solv=$selectedSolvent.getConditionId())
+                      #end
+              #if($print=="0" && $hosecode=="true") <td nowrap><a href="portal/js_pane/P-Results;jsessionid=$sessionid?eventSubmit_doGeneralsearch=generalsearch&searchstring=$element.getIntensityEsc()&searchaction=$constants.getEXACT()&searchfield=$constants.getHOSECODE()&spectype=$spectype&solvent=$solv"> #if($typeid=="100")$element.getDelta() #else $element.getIntensity() #end </a></td> #end
+            </tr>
+            #if($twospheres=="true")
+              <tr bgcolor=
+              #set($evenorodd=$velocityCount % 2)
+              #if($evenorodd==1)
+                "#D3D3D3"
+              #else
+                "#A0A0A0"
+              #end
+               nowrap 
+              #if($session.getAttribute("applet")=="applet")
+                onMouseover="unselectandselect($element.getNameForElements())"
+              #end
+              >
+               #if($method=="hose")
+                #if($doAssignment)
+                	<td nowrap>$element.getStatistics(3)</td>
+                #end
+                <td nowrap>$element.getStatistics2(6)</td>
+                <td nowrap>$element.getStatistics2(4) /#if($element.getStatistics2(10)=="1.00") stereo HOSE#else 2D HOSE#end</td>
+                <td nowrap>$element.getStatistics2(7)</td>
+                <td nowrap>$element.getStatistics2(8)</td>
+                <td nowrap>$element.getStatistics2(1)</td>
+                #if(!$doAssignment)
+                	<td nowrap>$element.getStatistics2(3)</td>
+                #end
+                <td nowrap>$element.getStatistics2(5)</td>
+                #if($print=="0" && $hosecode=="true") <td nowrap><a href="portal/js_pane/P-Results;jsessionid=$sessionid?eventSubmit_doGeneralsearch=generalsearch&searchstring=$element.getIdentifierEsc()&searchaction=$constants.getEXACT()&searchfield=$constants.getHOSECODE()&spectype=$spectype">$element.getIdentifier()</a></td> #end
+              #end
+              </tr>
+            #end
+          #end
+        </table>
+        #if($urltool.isLabserver())
+        	<br>
+        	<div style="background-color:#C0C0C0">=Prediction is from lab data ($labgroup)</div><br>
+		#end

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!--
+Copyright 2004 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<rdf:RDF
+  xmlns:rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:ocs = "http://alchemy.openjava.org/ocs/ocs-syntax#"
+  xmlns:dc  = "http://purl.org/dc/elements/1.0/">
+  <rdf:description about="">
+    <dc:title>My Jetspeed OCS Feed</dc:title>
+    <dc:creator>Raphaël Luta (mailto:raphael@apache.org)</dc:creator>
+    <dc:description>This is a sample OCS channel to be extended by your own channel descriptions</dc:description>
+        
+      <rdf:description about="http://www.apacheweek.com/">
+        <dc:title>Apache News from Apache Week</dc:title>
+        <dc:creator>Apache Week</dc:creator>
+        <dc:description>The essential resource for anyone running an Apache server  or anyone responsible for running Apache based services </dc:description>
+        
+          <rdf:description about="http://www.apacheweek.com/issues/apacheweek-headlines.xml">
+            <dc:language>en</dc:language>
+            <ocs:format>http://my.netscape.com/publish/formats/rss-0.91.dtd</ocs:format>
+          </rdf:description>
+
+      </rdf:description>
+    
+      <rdf:description about="http://xml.com">
+        <dc:title>XML News from XML com</dc:title>
+        <dc:creator>XML com</dc:creator>
+        <dc:description>XML News and Feature Articles from XML com</dc:description>
+        
+          <rdf:description about="http://xml.com/xml/xmlnews.rdf">
+            <dc:language>en</dc:language>
+            <ocs:format>http://my.netscape.com/publish/formats/rss-0.91.dtd</ocs:format>
+          </rdf:description>
+        
+      </rdf:description>
+    
+      <rdf:description about="http://www.xmlhack.com">
+        <dc:title>xmlhack</dc:title>
+        <dc:creator>Xmlhack com</dc:creator>
+        <dc:description>Developer news from the XML community</dc:description>
+        
+          <rdf:description about="http://www.xmlhack.com/rsscat.php">
+            <dc:language>en</dc:language>
+            <ocs:format>http://my.netscape.com/publish/formats/rss-0.91.dtd</ocs:format>
+          </rdf:description>
+        
+      </rdf:description>
+    
+      <rdf:description about="http://slashdot.org/index.pl?section=">
+        <dc:title>Slashdot</dc:title>
+        <dc:creator>Org</dc:creator>
+        <dc:description>News for Nerds Stuff that Matters</dc:description>
+        
+          <rdf:description about="http://www.slashdot.org/slashdot.rdf">
+            <dc:language>en</dc:language>
+            <ocs:format>http://my.netscape.com/publish/formats/rss-0.9.dtd</ocs:format>
+          </rdf:description>
+        
+      </rdf:description>
+    
+      <rdf:description about="http://www.mozilla.org">
+        <dc:title>Mozilla latest headlines</dc:title>
+        <dc:creator>Mozilla org</dc:creator>
+        <dc:description>Here you will find notices of important changes to the web site  or new information important to the Mozilla developer community  For pointers to the hottest article and threads in our newsgroups  check out NewsBot  </dc:description>
+        
+          <rdf:description about="http://www.mozilla.org/news.rdf">
+            <dc:language>en</dc:language>
+            <ocs:format>http://my.netscape.com/publish/formats/rss-0.9.dtd</ocs:format>
+          </rdf:description>
+        
+      </rdf:description>
+
+      <rdf:description about="http://barrapunto.com/barrapunto.rdf">
+        <dc:title>Barrapunto</dc:title>
+        <dc:creator>Barrapunto</dc:creator>
+        <dc:description>Slashdot clon in Spanish</dc:description>
+        
+          <rdf:description about="http://barrapunto.com/barrapunto.rdf">
+            <dc:language>es</dc:language>
+            <ocs:format>http://my.netscape.com/publish/formats/rss-0.91.dtd</ocs:format>
+          </rdf:description>
+        
+      </rdf:description>
+    
+  </rdf:description>
+</rdf:RDF>

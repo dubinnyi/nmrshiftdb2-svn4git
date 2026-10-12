@@ -1,0 +1,20 @@
+<deployment
+    xmlns="http://xml.apache.org/axis/wsdd/"
+    xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from serviceName WSDL service -->;
+  <service name="NMRShiftDB" provider="java:MSG" use="literal">
+      <!-- Definitions for the SOAPMonitor (optional) -->
+      <!--<requestFlow>
+          <handler type="soapmonitor"/>
+      </requestFlow>
+      <responseFlow>
+          <handler type="soapmonitor"/>
+      </responseFlow>-->
+      <!-- End of the definitions for the SOAPMonitor -->
+      <parameter name="className"
+                 value="org.openscience.nmrshiftdb.webservices.NMRShiftDBServiceBindingImpl"/>
+      <parameter name="allowedMethods" value="doPrediction doSubmit getSpectrumTypes doElucidate getUserNumber doSearch doAssignment publish"/>
+      <wsdlFile>NMRShiftDB.wsdl</wsdlFile>
+  </service>
+</deployment>

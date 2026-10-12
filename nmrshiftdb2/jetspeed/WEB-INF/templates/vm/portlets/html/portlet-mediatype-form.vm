@@ -1,0 +1,81 @@
+#*
+Copyright 2004 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*#
+
+<table bgcolor="#ffffff" cellpadding="5">
+<tr>
+  <td align="center" bgcolor="$!{skin.TitleBackgroundColor}">
+    #if($parent_mediatypes)
+      <table bgcolor="#ffffff" cellpadding="5">
+        <tr>
+          <th align="center">$l10n.REGISTRY_EDITOR_PORTLET_PARENT_MEDIATYPES</th>
+	    </tr>
+	    #foreach($mediaType in $parent_mediatypes)
+	      <tr>
+	        <td align="center" bgcolor="$!{skin.TitleBackgroundColor}">$mediaType</td>                              
+          </tr>
+	    #end
+      </table>
+    #end
+    #if($entry.getMediaTypes().size() > 0)
+      <form name="RemoveMediaTypesForm" method="post" action="$jslink.getPaneByName("PortletForm").setAction("portlets.PortletUpdateAction")">
+        <input type="hidden" name="mode" value="update"/>
+        <input type="hidden" name="portlet_name" value="$!entry.Name"/>
+        <input type="hidden" name="tab" value="media_types"/>
+        <table bgcolor="#ffffff" cellpadding="5">
+          <th>&nbsp;</th>
+          <th>$l10n.REGISTRY_EDITOR_PORTLET_MEDIATYPE</th>
+          #foreach($mediaType in $entry.getMediaTypes())
+            <tr>
+              <td bgcolor="$!{skin.TitleBackgroundColor}">
+                <input type="checkbox" name="media_type" value="$!mediaType.ref"/>
+              </td>
+              <td bgcolor="$!{skin.TitleBackgroundColor}">$!mediaType.ref</td>                              
+            </tr>
+          #end
+        </table>
+        <input type="submit" name="eventSubmit_doRemovemediatypes" value="$l10n.REGISTRY_EDITOR_PORTLET_REMOVEMEDIATYPE"/>
+      </form>
+    #end
+  </td>
+</tr>
+
+<tr>
+  <td align="center" bgcolor="$!{skin.TitleBackgroundColor}">
+    <form name="PortletForm" method="post" action="$jslink.getPaneByName("PortletForm").setAction("portlets.PortletUpdateAction")">
+      <input type="hidden" name="mode" value="update"/>
+      <input type="hidden" name="portlet_name" value="$!entry.Name"/>
+      <input type="hidden" name="tab" value="media_types"/>
+      <table bgcolor="#ffffff" cellpadding="5">
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_PORTLET_MEDIATYPE</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <select name="media_type">
+            #foreach($mediaType in $media_types)
+              <option value="$mediaType">$mediaType</option>
+            #end
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td align="center" colspan="2" bgcolor="$!{skin.TitleBackgroundColor}"><input type="submit" name="eventSubmit_doAddmediatype" value="$l10n.REGISTRY_EDITOR_PORTLET_ADDMEDIATYPE"/></td>
+        </tr>
+      </table>
+    </form>
+  </td>
+</tr>
+</table>

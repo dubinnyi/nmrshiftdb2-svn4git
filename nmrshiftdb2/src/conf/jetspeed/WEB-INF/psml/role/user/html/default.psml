@@ -1,0 +1,177 @@
+<?xml version="1.0"?>
+<portlets xmlns="http://www.apache.org/2000/02/CVS">
+  <controller name="CardPortletController">
+    <parameter name="parameter" value="pane"/>
+  </controller>
+  <control name="TabControl"/>
+  <skin name="nmrshiftdb"/>
+  <portlets id="P-Home">
+    <metainfo>
+      <title>Home</title>
+    </metainfo>
+    <entry parent="Home">
+      <control name="ClearPortletControl"/>
+      <layout>
+        <property name="column" value="0"/>
+        <property name="row" value="0"/>
+      </layout>
+    </entry>
+  </portlets>
+  <portlets id="P-Search">
+    <controller name="TwoColumns"/>
+    <metainfo>
+      <title>Search</title>
+    </metainfo>
+    <entry parent="SearchBySpectrum">
+      <layout>
+        <property name="column" value="0"/>
+        <property name="row" value="0"/>
+      </layout>
+    </entry>
+    <entry parent="SearchByName">
+      <layout>
+        <property name="column" value="0"/>
+        <property name="row" value="1"/>
+      </layout>
+    </entry>
+    <entry parent="SearchByStructure">
+      <layout>
+        <property name="column" value="0"/>
+        <property name="row" value="2"/>
+      </layout>
+    </entry>
+    <entry parent="Keywords">
+      <layout>
+        <property name="column" value="0"/>
+        <property name="row" value="4"/>
+      </layout>
+    </entry>
+    <entry parent="measuredornot">
+      <layout>
+        <property name="column" value="0"/>
+        <property name="row" value="6"/>
+      </layout>
+    </entry>
+    <entry parent="Spectrum type selection">
+      <layout>
+        <property name="column" value="0"/>
+        <property name="row" value="7"/>
+      </layout>
+    </entry>
+    <entry parent="SearchHistory">
+      <layout>
+        <property name="column" value="1"/>
+        <property name="row" value="0"/>
+      </layout>
+    </entry>
+    <entry parent="SearchByCondition">
+      <layout>
+        <property name="column" value="0"/>
+        <property name="row" value="5"/>
+      </layout>
+    </entry>
+  </portlets>
+  <portlets id="P-Results">
+    <controller name="TwoColumnsRight"/>
+    <metainfo>
+      <title>Results</title>
+    </metainfo>
+    <entry parent="Details">
+      <parameter name="_display" value="normal"/>
+      <layout>
+        <property name="column" value="1"/>
+        <property name="row" value="1"/>
+      </layout>
+    </entry>
+    <entry parent="Bookmarks">
+      <layout>
+        <property name="column" value="1"/>
+        <property name="row" value="0"/>
+      </layout>
+    </entry>
+    <entry parent="Results">
+      <layout>
+        <property name="column" value="0"/>
+        <property name="row" value="0"/>
+      </layout>
+    </entry>
+  </portlets>
+  <portlets  id="P-Quickcheck">
+    <metainfo>
+      <title>Quick Check</title>
+    </metainfo>
+    <entry parent="Quickcheck">
+      <parameter name="_display" value="normal"/>
+      <layout>
+        <property name="column" value="0"/>
+        <property name="row" value="0"/>
+      </layout>
+    </entry>
+  </portlets>
+  <portlets  id="P-Predict">
+    <metainfo>
+      <title>Predict</title>
+    </metainfo>
+    <entry parent="Predict">
+      <parameter name="_display" value="normal"/>
+      <layout>
+        <property name="column" value="0"/>
+        <property name="row" value="0"/>
+      </layout>
+    </entry>
+  </portlets>
+  <portlets id="P-Assign">
+    <metainfo>
+      <title>Assignment</title>
+    </metainfo>
+    <entry parent="Assignment Tool">
+      <control name="ClearPortletControl"/>
+      <layout>
+        <property name="column" value="0"/>
+        <property name="row" value="0"/>
+      </layout>
+    </entry>
+  </portlets>
+  <portlets id="P-Submit">
+    <metainfo>
+      <title>Submit</title>
+    </metainfo>
+    <entry parent="Submit">
+      <parameter name="_display" value="normal"/>
+      <layout>
+        <property name="column" value="0"/>
+        <property name="row" value="0"/>
+      </layout>
+    </entry>
+  </portlets>
+  <portlets id="P-Review">
+    <metainfo>
+      <title>Review</title>
+    </metainfo>
+    <entry parent="Review">
+      <parameter name="_display" value="normal"/>
+      <layout>
+        <property name="column" value="0"/>
+        <property name="row" value="0"/>
+      </layout>
+    </entry>
+  </portlets>
+  <portlets id="P-Help">
+    <controller name="TwoColumnsRight"/>
+    <metainfo>
+      <title>Help</title>
+    </metainfo>
+    <entry parent="WebPagePortletWithURLFromRequest">
+      <layout>
+        <property name="column" value="1"/>
+        <property name="row" value="0"/>
+      </layout>
+    </entry>
+    <entry parent="Help index">
+      <layout>
+        <property name="column" value="0"/>
+        <property name="row" value="0"/>
+      </layout>
+    </entry>
+  </portlets>
+</portlets>

@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:tns="http://www.nmrshiftdb.org/ws/2006/10/NMRShiftDB/"
+  xmlns:nsdt="http://www.nmrshiftdb.org/schemas/2006/10/NMRShiftDBTypes"
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  name="NMRShiftDB"
+  targetNamespace="http://www.nmrshiftdb.org/ws/2006/10/NMRShiftDB/">
+  <wsdl:types>
+    <xsd:schema
+      targetNamespace="http://www.nmrshiftdb.org/ws/2006/10/NMRShiftDB/"
+      xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+      xmlns:nsdt="http://www.nmrshiftdb.org/schemas/2006/10/NMRShiftDBTypes"
+      xmlns:cml="http://www.xml-cml.org/schema">
+      <xsd:import
+        namespace="http://www.xml-cml.org/schema"
+        schemaLocation="http://www.nmrshiftdb.org/nmrshiftdbhtml/schema.xsd" />
+      <xsd:import
+        namespace="http://www.nmrshiftdb.org/schemas/2006/10/NMRShiftDBTypes"
+        schemaLocation="http://www.nmrshiftdb.org/nmrshiftdbhtml/NMRShiftDBTypes.xsd" />
+      <xsd:element
+        name="doPredictionResponseValue"
+        type="nsdt:spectrumtype" />
+      <xsd:element
+        name="doPredictionRequestParameters"
+        type="nsdt:DoPredictionParameters" />
+      <xsd:element
+        name="doSubmitResponseValue"
+        type="xsd:string" />
+      <xsd:element
+        name="doSubmitRequestParameters"
+        type="nsdt:DoSubmitParameters" />
+      <xsd:element
+        name="doAssignmentResponseValue"
+        type="nsdt:cmltype" />
+      <xsd:element
+        name="doAssignmentRequestParameters"
+        type="nsdt:DoAssignmentParameters" />
+      <xsd:element
+        name="getSpectrumTypesRequestParameters"
+        type="nsdt:GetSpectrumTypesParameters" />
+      <xsd:element
+        name="getSpectrumTypesResponseValue"
+        type="xsd:string" />
+      <xsd:element
+        name="doElucidateResponseValue"
+        type="nsdt:cmltype" />
+      <xsd:element
+        name="doElucidateRequestParameters"
+        type="nsdt:DoElucidateParameters" />
+      <xsd:element
+        name="getUserNumberRequestParameters"
+        type="nsdt:GetUserNumberParameters" />
+      <xsd:element
+        name="getUserNumberResponseValue"
+        type="xsd:positiveInteger" />
+      <xsd:element
+        name="doSearchRequestParameters"
+        type="nsdt:DoSearchParameters" />
+      <xsd:element
+        name="doSearchResponseValue"
+        type="nsdt:moleculelisttype" />
+      <xsd:element
+        name="publishRequestParameters"
+        type="nsdt:PublishParameters" />
+      <xsd:element
+        name="publishResponseValue"
+        type="xsd:positiveInteger" />
+      </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="doPredictionResponse">
+    <wsdl:part
+      element="tns:doPredictionResponseValue"
+      name="response" />
+  </wsdl:message>
+  <wsdl:message name="doPredictionRequest">
+    <wsdl:part
+      element="tns:doPredictionRequestParameters"
+      name="request" />
+  </wsdl:message>
+  <wsdl:message name="doSubmitResponse">
+    <wsdl:part
+      element="tns:doSubmitResponseValue"
+      name="response" />
+  </wsdl:message>
+  <wsdl:message name="doSubmitRequest">
+    <wsdl:part
+      element="tns:doSubmitRequestParameters"
+      name="request" />
+  </wsdl:message>
+  <wsdl:message name="doAssignmentResponse">
+    <wsdl:part
+      element="tns:doAssignmentResponseValue"
+      name="response" />
+  </wsdl:message>
+  <wsdl:message name="doAssignmentRequest">
+    <wsdl:part
+      element="tns:doAssignmentRequestParameters"
+      name="request" />
+  </wsdl:message>
+  <wsdl:message name="getSpectrumTypesResponse">
+    <wsdl:part
+      name="response"
+      element="tns:getSpectrumTypesResponseValue">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSpectrumTypesRequest">
+    <wsdl:part
+      name="request"
+      element="tns:getSpectrumTypesRequestParameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="doElucidateResponse">
+    <wsdl:part
+      element="tns:doElucidateResponseValue"
+      name="response" />
+  </wsdl:message>
+  <wsdl:message name="doElucidateRequest">
+    <wsdl:part
+      element="tns:doElucidateRequestParameters"
+      name="request" />
+  </wsdl:message>
+  <wsdl:message name="publishResponse">
+    <wsdl:part
+      name="response"
+      element="tns:publishResponseValue">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="publishRequest">
+    <wsdl:part
+      name="request"
+      element="tns:publishRequestParameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="doSearchResponse">
+    <wsdl:part
+      name="response"
+      element="tns:doSearchResponseValue">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="doSearchRequest">
+    <wsdl:part
+      name="request"
+      element="tns:doSearchRequestParameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUserNumberResponse">
+    <wsdl:part
+      name="response"
+      element="tns:getUserNumberResponseValue">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUserNumberRequest">
+    <wsdl:part
+      name="request"
+      element="tns:getUserNumberRequestParameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="NMRShiftDB">
+    <wsdl:operation name="doPrediction">
+      <wsdl:input message="tns:doPredictionRequest" />
+      <wsdl:output message="tns:doPredictionResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="doSubmit">
+      <wsdl:input message="tns:doSubmitRequest" />
+      <wsdl:output message="tns:doSubmitResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="doAssignment">
+      <wsdl:input message="tns:doAssignmentRequest" />
+      <wsdl:output message="tns:doAssignmentResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getSpectrumTypes">
+      <wsdl:input message="tns:getSpectrumTypesRequest"></wsdl:input>
+      <wsdl:output message="tns:getSpectrumTypesResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="doEludicate">
+      <wsdl:input message="tns:doElucidateRequest" />
+      <wsdl:output message="tns:doElucidateResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getUserNumber">
+      <wsdl:input message="tns:getUserNumberRequest"></wsdl:input>
+      <wsdl:output message="tns:getUserNumberResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="doSearch">
+      <wsdl:input message="tns:doSearchRequest"></wsdl:input>
+      <wsdl:output message="tns:doSearchResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="publish">
+      <wsdl:input message="tns:publishRequest"></wsdl:input>
+      <wsdl:output message="tns:publishResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding
+    name="NMRShiftDBSOAP"
+    type="tns:NMRShiftDB">
+    <soap:binding
+      style="document"
+      transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="doPrediction">
+      <soap:operation
+        soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="doSubmit">
+      <soap:operation
+        soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="doAssignment">
+      <soap:operation
+        soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getSpectrumTypes">
+      <soap:operation
+        soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="doEludicate">
+      <soap:operation
+        soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUserNumber">
+      <soap:operation
+        soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="doSearch">
+      <soap:operation
+        soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="publish">
+      <soap:operation
+        soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+   </wsdl:binding>
+  <wsdl:service name="NMRShiftDB">
+    <wsdl:port
+      binding="tns:NMRShiftDBSOAP"
+      name="NMRShiftDBSOAP">
+      <soap:address
+        location="http://www.nmrshiftdb.org/axis/services/NMRShiftDB" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

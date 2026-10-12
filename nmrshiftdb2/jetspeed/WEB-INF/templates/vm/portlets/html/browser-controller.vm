@@ -1,0 +1,80 @@
+#*
+Copyright 2004 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*#
+
+<table width="100%" cellpadding="3" cellspacing="1" BORDER="1">
+  <tr>
+    <th>${l10n.BROWSER_CONTROLLER_NAME_VM}</th>
+    <th>${l10n.BROWSER_CONTROLLER_TITLE_VM}</th>
+    <th>${l10n.BROWSER_CONTROLLER_DESCRIPTION_VM}</th>
+    <th>${l10n.BROWSER_CONTROLLER_MEDIA_TYPES_VM}</th>
+    <th colspan="2">${l10n.BROWSER_CONTROLLER_ACTIONS_VM}</th>
+  </tr>
+#foreach ( $entry in $registry )
+#set ( $old = "" )
+  <tr>
+    <td>$entry.Name</td>
+    <td>$!entry.Title&nbsp;</td>
+    <td>$!entry.Description&nbsp;</td>
+    <td>
+#foreach ( $type in $entry.listMediaTypes() )
+      #if ($old != "") , #end $!type
+      #set ( $old = $type )
+#end
+    </td>
+    <td>
+      <a style="font-size:10" href="$jslink.setPaneByName("ControllerForm").addQueryData("mode","update").addQueryData("controller_name", $!entry.Name)">${l10n.BROWSER_CONTROLLER_EDIT_VM}</a>&nbsp;
+    </td>
+    <td>
+      <a style="font-size:10" href="$jslink.setPaneByName("ControllerForm").addQueryData("mode","delete").addQueryData("controller_name", $!entry.Name)">${l10n.BROWSER_CONTROLLER_DELETE_VM}</a>&nbsp;
+    </td>
+  </tr>
+#end
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr>
+    <td align="right" width="50%">
+#if ($prev)
+<form action="$jslink" method="post">
+       <input type="submit" value="${l10n.BROWSER_CONTROLLER_LT_LT_PREVIOUS_VM}">
+      <input type="hidden" name="start" value="$prev">
+</form>
+#end
+    </td>
+    <td align="left" width="50%">
+#if ($next)
+<form action="$jslink" method="post">
+       <input type="submit" value="${l10n.BROWSER_CONTROLLER_NEXT_GT_GT_VM}">
+      <input type="hidden" name="start" value="$next">
+</form>
+#end
+   </td>
+  </tr>
+  <tr>
+    <td colspan=6 align="left">
+     <a style="font-size:10" href="$jslink.setPaneByName("ControllerForm").addQueryData("mode","insert")">${l10n.BROWSER_CONTROLLER_ADD_CONTROLLER_VM}</a>&nbsp;
+    </td>
+  </tr>
+</table>
+
+<center>
+  <table>
+    <tr>
+      <td>
+        #registry_alpha_nav($jslink $filtered_entries 0 "" "")
+      </td>
+    </tr>
+  </table>
+</center>

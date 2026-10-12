@@ -1,0 +1,371 @@
+#*
+Copyright 2004 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*#
+
+<table bgcolor="#ffffff" cellpadding="5">
+      #if ($msg)
+      <tr>
+        <td colspan="2">
+          <table bgcolor="#ffffff">
+            <tr>
+              <td>
+                $msg
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      #end
+      #if($reason)
+      <tr>
+        <td colspan="2">
+          <table bgcolor="#ffffff">
+            <tr>
+              <td>
+                $reason
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      #end
+</table>
+
+#if ($mode == "delete")
+	<form name="SecurityForm" method="post" action="$jslink.getPaneByName("SecurityBrowser").setAction("portlets.SecurityUpdateAction")">
+      <table>
+      	<tr>
+      		<td colspan="2">$l10n.REGISTRY_EDITOR_SECURITY_CONFIRM_DELETE</td>
+      	</tr>
+        <tr>
+            #formReadOnlyCell ($l10n.REGISTRY_EDITOR_SECURITY_NAME "security_name" $!entry.Name)
+        </tr>
+      </table>
+      <table border="0"  cellspacing="0" cellpadding="5" width="30%">
+      <tr>
+        <td>
+          <input type="submit" name="eventSubmit_doDelete" value="$l10n.REGISTRY_EDITOR_SECURITY_DELETE"/>
+        </td>
+      </tr>
+      </table>
+      </form>
+#elseif($mode == "insert")
+	<form name="SecurityForm" method="post" action="$jslink.getPaneByName("SecurityForm").setAction("portlets.SecurityUpdateAction")">
+      
+      <table>
+		<input type="hidden" name="mode" value="update"/>
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_SECURITY_NAME</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+              <input type="text" size="30" name="security_name" value="$!data.user.getTemp("security_name")"/>
+            </font>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_SECURITY_TITLE</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+              <input type="text" size="50" name="title" value="$!data.user.getTemp("title")">
+            </font>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_SECURITY_DESCRIPTION</font></b>
+          </td>
+          <td bgcolor="$!{skin.TitleBackgroundColor}">
+            <font face="$ui.sansSerifFonts">
+              <textarea rows="10" cols="50" size="50" name="description">$!data.user.getTemp("description")</textarea>
+            </font>
+          </td>
+        </tr>
+      </table>
+      <table border="0"  cellspacing="0" cellpadding="5" width="30%">
+      <tr>
+        <td>
+          <input type="submit" name="eventSubmit_doInsert" value="$l10n.REGISTRY_EDITOR_SECURITY_INSERT"/>
+        </td>
+      </tr>
+      </table>
+      </form>
+      #elseif($mode == "update")
+	      <form name="SecurityForm" method="post" action="$jslink.getPaneByName("SecurityForm").setAction("portlets.SecurityUpdateAction")">
+	      
+	      <table>
+		<input type="hidden" name="mode" value="update"/>
+	        <tr>
+	          #formReadOnlyCell ($l10n.REGISTRY_EDITOR_SECURITY_NAME "security_name" $!entry.Name)
+	        </tr>
+	        <tr>
+	          <td bgcolor="$!{skin.TitleBackgroundColor}">
+	            <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_SECURITY_TITLE</font></b>
+	          </td>
+	          <td bgcolor="$!{skin.TitleBackgroundColor}">
+	            <font face="$ui.sansSerifFonts">
+	              <input type="text" size="50" name="title" value="$!entry.title">
+	            </font>
+	          </td>
+	        </tr>
+	        <tr>
+              <td bgcolor="$!{skin.TitleBackgroundColor}">
+                <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_SECURITY_DESCRIPTION</font></b>
+              </td>
+              <td bgcolor="$!{skin.TitleBackgroundColor}">
+                <font face="$ui.sansSerifFonts">
+                  <textarea rows="10" cols="50" size="50" name="description">$!entry.description</textarea>
+                </font>
+              </td>
+            </tr>
+	      </table>
+	      <table border="0"  cellspacing="0" cellpadding="5" width="30%">
+	      <tr>
+	        <td>
+	          <input type="submit" name="eventSubmit_doUpdate" value="$l10n.REGISTRY_EDITOR_SECURITY_UPDATE"/>
+	        </td>
+	      </tr>
+	      </table>
+	      </form>
+      
+      	      <form method="post" action="$jslink.getPaneByName("SecurityForm").setAction("portlets.SecurityUpdateAction")">
+      		<input type="hidden" name="mode" value="update"/>
+      		<input type="hidden" name="security_name" value="$!entry.name"/>
+	      <table border="1">
+	        ##<th>&nbsp;</th>
+	      	##<th>Action</th>
+	      	##<th>Allows</th>
+	      #foreach($securityAccess in $entry.getAccesses())
+	      	<tr>
+	      	  <td><input type="checkbox" name="access_index" value="$!velocityCount"/></td>
+	      	  <td>
+	      	    $securityAccess.action
+	      	  </td>
+	      	  
+	      	  #set($allowList = $securityAccess.getOwnerAllows())
+	      	  #if($allowList.size() == 0)
+	      	  	#set($allowList = $securityAccess.getAllows())
+	      	  #end
+
+	      	  #if($allowList.size() == 1)
+	      	  	#set($allow = $allowList.get(0))
+	      	  #end
+	      	  <td>
+	      	  	#if($allow)
+	      	  	<table>
+	      	  		<tr>
+	      	  			<td>#if($allow.user)$l10n.REGISTRY_EDITOR_SECURITY_ACCESS_USER #elseif($allow.group && $allow.role) $l10n.REGISTRY_EDITOR_SECURITY_ACCESS_GROUP_ROLE #elseif($allow.role)$l10n.REGISTRY_EDITOR_SECURITY_ACCESS_ROLE #elseif($allow.group)$l10n.REGISTRY_EDITOR_SECURITY_ACCESS_GROUP #else $l10n.REGISTRY_EDITOR_SECURITY_ACCESS_OWNER #end</td>
+	      	  			<td>#if($allow.user)$allow.user #elseif($allow.group && $allow.role) $allow.group/$allow.role #elseif($allow.role)$allow.role #elseif($allow.group)$allow.group #else &nbsp; #end</td>
+	      	  		<tr>
+	      	  	</table>
+	      	  	#else${l10n.SECURITY_FORM_NO_ALLOW_SET_VM}#end
+	      	  </td>
+	      	</tr>
+	      #end
+	      #if($entry.getAccesses().size() > 0)
+	      <tr>
+	        <td colspan="3"><input type="submit" name="eventSubmit_doRemoveaccess" value="$l10n.REGISTRY_EDITOR_SECURITY_DELETE_ACCESS"/>
+	      </tr>
+	      #end
+	      </table>
+	      </form>
+	      
+	      <!--Add a new action entry-->
+	      <script>
+	      	
+	      	var userSelect = new Array;
+	      	var roleSelect = new Array;
+            var groupSelect = new Array;
+	      	var populated = false;
+	      	
+	      	function populate()
+	      	{	      	
+		      	#foreach($user in $users)
+		      	    #set($myCount = $velocityCount - 1)
+		      		var userOption$myCount = new Option;
+		      		userOption${myCount}.value = "$user.userName";
+		      		userOption${myCount}.text = "$user.userName";
+		      		
+		      		userSelect[$myCount] = userOption$myCount;		      		
+		      	#end
+		      	
+		      	#foreach($role in $roles)
+		      		#set($myCount = $velocityCount - 1)
+		      		var roleOption$myCount = new Option;
+		      		roleOption${myCount}.value = "$role.name";
+		      		roleOption${myCount}.text = "$role.name";
+		      		
+		      		roleSelect[$myCount] = roleOption$myCount;
+		      	#end
+
+		      	#foreach($group in $groups)
+		      		#set($myCount = $velocityCount - 1)
+		      		var groupOption$myCount = new Option;
+		      		groupOption${myCount}.value = "$group.name";
+		      		groupOption${myCount}.text = "$group.name";
+		      		
+		      		groupSelect[$myCount] = groupOption$myCount;
+		      	#end
+		      	
+		      	populated = true;
+		}
+		
+		
+	      
+	      	function changeList(selectAction)
+	      	{
+                var groupLabel = document.getElementById("groupLabel");
+                var roleLabel = document.getElementById("roleLabel");
+                var select = document.NewSecurity.allow_value;
+                var select2 = document.NewSecurity.allow_value2;
+            
+	      		if(!populated)
+	      		{
+	      			populate();
+	      		}
+	      		var val = selectAction.options[selectAction.selectedIndex].value;
+	      		
+	      		var newOpts = new Array;
+                var newOpts2 = new Array;
+	      		
+	      		if(val == "user")
+	      		{
+	      			newOpts = userSelect;
+                    select.style.visibility = "visible";
+                    select2.style.visibility = "hidden";
+                    groupLabel.innerHTML = "$l10n.REGISTRY_EDITOR_SECURITY_ACCESS_USER"; 
+                    groupLabel.style.visibility = "visible";                    
+                    roleLabel.style.visibility = "hidden";                                                                           
+	      		}
+	      		else if(val == "role")
+	      		{
+	      			newOpts = roleSelect;
+                    select.style.visibility = "visible";
+                    select2.style.visibility = "hidden";                    
+                    groupLabel.innerHTML = "$l10n.REGISTRY_EDITOR_SECURITY_ACCESS_ROLE";   
+                    groupLabel.style.visibility = "visible";                    
+                    roleLabel.style.visibility = "hidden";                                                                         
+	      		}
+	      		else if(val == "group")
+	      		{
+	      			newOpts = groupSelect;
+                    select.style.visibility = "visible";
+                    select2.style.visibility = "hidden";                    
+                    groupLabel.innerHTML = "$l10n.REGISTRY_EDITOR_SECURITY_ACCESS_GROUP";                                        
+                    groupLabel.style.visibility = "visible";                    
+                    roleLabel.style.visibility = "hidden";                
+	      		}
+	      		else if(val == "groupRole")
+	      		{
+	      			newOpts = groupSelect;
+                    newOpts2 = roleSelect;
+                    select.style.visibility = "visible";
+                    select2.style.visibility = "visible";                    
+                    groupLabel.style.visibility = "visible";                    
+                    roleLabel.style.visibility = "visible";                
+                    groupLabel.innerHTML = "$l10n.REGISTRY_EDITOR_SECURITY_ACCESS_GROUP";                    
+                    roleLabel.innerHTML = "$l10n.REGISTRY_EDITOR_SECURITY_ACCESS_ROLE";
+	      		}
+                else
+                {
+                    select.style.visibility = "hidden";
+                    select2.style.visibility = "hidden";                    
+                    groupLabel.style.visibility = "hidden";                    
+                    roleLabel.style.visibility = "hidden";                
+                }	      		
+	      		
+	      		for(var i=0; i<newOpts.length; i++)
+	      		{
+	      			select.options[i] = newOpts[i];
+	      		}
+	      		
+	      		for(var j=newOpts.length; j<select.options.length; j++)
+	      		{
+	      			select.options[j] = new Option;
+	      		}                
+	      		
+	      		for(var i=0; i<newOpts2.length; i++)
+	      		{
+	      			select2.options[i] = newOpts2[i];
+	      		}
+	      		
+	      		for(var j=newOpts2.length; j<select2.options.length; j++)
+	      		{
+	      			select2.options[j] = new Option;
+	      		}
+                
+	      	}
+	      	
+	      </script>
+	      <form name="NewSecurity" method="post" action="$jslink.getPaneByName("SecurityForm").setAction("portlets.SecurityUpdateAction")">
+	      <input type="hidden" name="mode" value="update"/>
+	      <input type="hidden" name="security_name" value="$!entry.name"/>
+	      <table>
+	      	<tr>
+	      	  <td>$l10n.REGISTRY_EDITOR_SECURITY_ACCESS_ACTION</td>
+	      	  <td>
+	      	  	<select name="access_action" >
+	      	  		<option value="*">*</option>
+	      	  		#foreach($permission in $permissions)
+	      	  		<option value="$!permission.name" #if($data.user.getTemp("access_action") == $permission.name) selected="true" #end>$!permission.name</option>
+	      	  		#end
+	      	  	</select>
+	      	  </td>
+	      	</tr>
+	      	<tr>
+	      	  <td>$l10n.REGISTRY_EDITOR_SECURITY_ACCESS_TYPE</td>
+	      	  <td>
+	      	  	<select name="allow_type" onChange="changeList(this); return true;">
+	      	  		<option value="owner">$l10n.REGISTRY_EDITOR_SECURITY_ACCESS_OWNER</option>
+	      	  		<option value="user">$l10n.REGISTRY_EDITOR_SECURITY_ACCESS_USER</option>
+	      	  		<option value="role">$l10n.REGISTRY_EDITOR_SECURITY_ACCESS_ROLE</option>
+	      	  		<option value="group">$l10n.REGISTRY_EDITOR_SECURITY_ACCESS_GROUP</option>                    
+                    <option value="groupRole">$l10n.REGISTRY_EDITOR_SECURITY_ACCESS_GROUP_ROLE</option>                    
+	      	  	</select>
+	      	  </td>
+	      	</tr>
+	      	<tr>
+	      	  <td><DIV ID="groupLabel" STYLE="visibility:hidden">$l10n.REGISTRY_EDITOR_SECURITY_ACCESS_VALUE</DIV></td>
+	      	  <td>
+	      	  	<select name="allow_value" STYLE="visibility:hidden">
+	      	  	</select>
+	      	  </td>
+	      	</tr>
+	      	<tr>
+	      	  <td><div id="roleLabel" STYLE="visibility:hidden">${l10n.SECURITY_FORM_VALUE_2_VM}</div></td>
+	      	  <td>
+	      	  	<select name="allow_value2" STYLE="visibility:hidden">
+	      	  	</select>
+	      	  </td>
+	      	</tr>
+	      	<tr>
+	      	  <td><input type="submit" name="eventSubmit_doAddaccess" value="$l10n.REGISTRY_EDITOR_SECURITY_INSERT_ACCESS"/>
+	      	</tr>
+	      </table>
+	     </form>      
+      #end
+      
+<table>
+  <tr>
+    <td>
+  	<form name="BackToBrowserForm" method="post" action="$jslink.getPaneByName("SecurityBrowser").setAction("portlets.SecurityUpdateAction")">
+  		<input type="submit" name="eventSubmit_doCancel" value="$l10n.REGISTRY_EDITOR_SECURITY_CANCEL"/>
+  	</form>
+    </td>
+  </tr>
+</table>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+Copyright 2004 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<registry>
+
+  <portlet-controller-entry name="CardPortletController" hidden="true">
+    <classname>org.apache.jetspeed.portal.controllers.VelocityPanedPortletController</classname>
+    <parameter name="template" value="card.vm" />
+    <parameter name="action" value="controllers.PanedControllerAction" />    
+    <parameter name="parameter" value="pane" />
+    <parameter name="defaultpane" value="0" />
+    <media-type ref="html"/>
+  </portlet-controller-entry>
+
+  <portlet-controller-entry name="FlowPortletController" hidden="true">
+    <classname>org.apache.jetspeed.portal.controllers.VelocityPortletController</classname>
+    <parameter name="template" value="flow.vm" />
+    <parameter name="action" value="controllers.RowColumnControllerAction" />
+    <media-type ref="html"/>
+    <media-type ref="wml"/>
+    <meta-info>
+      <title>Continuous flow</title>
+    </meta-info>
+  </portlet-controller-entry>
+
+  <portlet-controller-entry name="GridPortletController" hidden="true">
+    <classname>org.apache.jetspeed.portal.controllers.GridPortletController</classname>
+    <media-type ref="html"/>
+  </portlet-controller-entry>
+
+  <portlet-controller-entry name="ColumnController" hidden="true">
+    <classname>org.apache.jetspeed.portal.controllers.VelocityPortletController</classname>
+    <parameter name="template" value="column.vm" />
+    <parameter name="action" value="controllers.RowColumnControllerAction" />
+    <media-type ref="html"/>
+    <media-type ref="wml"/>
+    <meta-info>
+      <title>Single column (Do not use)</title>
+      <description>This controller is being retired.  Use OneColumn instead.</description>
+    </meta-info>
+  </portlet-controller-entry>
+
+  <portlet-controller-entry name="RowController">
+    <classname>org.apache.jetspeed.portal.controllers.VelocityPortletController</classname>
+    <parameter name="template" value="row.vm" />
+    <parameter name="action" value="controllers.RowColumnControllerAction" />
+    <media-type ref="html"/>
+    <media-type ref="wml"/>
+    <meta-info>
+      <title>Single row</title>
+    </meta-info>
+  </portlet-controller-entry>
+
+  <portlet-controller-entry name="OneColumn">
+    <classname>org.apache.jetspeed.portal.controllers.VelocityPortletController</classname>
+    <parameter name="template" value="multicolumn.vm" />
+    <parameter name="action" value="controllers.MultiColumnControllerAction" />
+    <parameter name="sizes" value="100%" />
+    <parameter name="cols" value="1" />
+    <media-type ref="html"/>
+    <meta-info>
+      <title>One column</title>
+    </meta-info>
+  </portlet-controller-entry>
+
+  <portlet-controller-entry name="TwoColumns">
+    <classname>org.apache.jetspeed.portal.controllers.VelocityPortletController</classname>
+    <parameter name="template" value="multicolumn.vm" />
+    <parameter name="action" value="controllers.MultiColumnControllerAction" />
+    <parameter name="sizes" value="50%,50%" />
+    <parameter name="cols" value="2" />
+    <media-type ref="html"/>
+    <meta-info>
+      <title>Two columns (50/50)</title>
+    </meta-info>
+  </portlet-controller-entry>
+
+  <portlet-controller-entry name="TwoColumnsLeft">
+    <classname>org.apache.jetspeed.portal.controllers.VelocityPortletController</classname>
+    <parameter name="template" value="multicolumn.vm" />
+    <parameter name="action" value="controllers.MultiColumnControllerAction" />
+    <parameter name="sizes" value="75%,25%" />
+    <parameter name="cols" value="2" />
+    <media-type ref="html"/>
+    <meta-info>
+      <title>Two columns (75/25)</title>
+    </meta-info>
+  </portlet-controller-entry>
+
+  <portlet-controller-entry name="TwoColumnsRight">
+    <classname>org.apache.jetspeed.portal.controllers.VelocityPortletController</classname>
+    <parameter name="template" value="multicolumn.vm" />
+    <parameter name="action" value="controllers.MultiColumnControllerAction" />
+    <parameter name="sizes" value="25%,75%" />
+    <parameter name="cols" value="2" />
+    <media-type ref="html"/>
+    <meta-info>
+      <title>Two columns (25/75)</title>
+    </meta-info>
+  </portlet-controller-entry>
+
+  <portlet-controller-entry name="ThreeColumns">
+    <classname>org.apache.jetspeed.portal.controllers.VelocityPortletController</classname>
+    <parameter name="template" value="multicolumn.vm" />
+    <parameter name="action" value="controllers.MultiColumnControllerAction" />
+    <parameter name="sizes" value="25%,50%,25%" />
+    <parameter name="cols" value="3" />
+    <media-type ref="html"/>
+    <meta-info>
+      <title>Three columns (25/50/25)</title>
+    </meta-info>
+  </portlet-controller-entry>
+
+  <portlet-controller-entry name="ThreeColumnsSymetric">
+    <classname>org.apache.jetspeed.portal.controllers.VelocityPortletController</classname>
+    <parameter name="template" value="multicolumn.vm" />
+    <parameter name="action" value="controllers.MultiColumnControllerAction" />
+    <parameter name="sizes" value="33%,34%,33%" />
+    <parameter name="cols" value="3" />
+    <media-type ref="html"/>
+    <meta-info>
+      <title>Three columns (33/33/33)</title>
+    </meta-info>
+  </portlet-controller-entry>
+
+  <portlet-controller-entry name="TabController">
+    <classname>org.apache.jetspeed.portal.controllers.VelocityPanedPortletController</classname>
+    <parameter name="template" value="card.vm" />
+    <parameter name="action" value="controllers.PanedControllerAction" />    
+    <parameter name="parameter" value="pane" />
+    <parameter name="defaultpane" value="0" />
+    <parameter name="control" value="TabControl" />
+    <media-type ref="html"/>
+    <meta-info>
+      <title>Tab pane</title>
+    </meta-info>
+  </portlet-controller-entry>
+
+  <portlet-controller-entry name="MenuController">
+    <classname>org.apache.jetspeed.portal.controllers.VelocityPanedPortletController</classname>
+    <parameter name="template" value="card.vm" />
+    <parameter name="action" value="controllers.PanedControllerAction" />    
+    <parameter name="parameter" value="pane" />
+    <parameter name="defaultpane" value="0" />
+    <parameter name="control" value="MenuControl" />
+    <media-type ref="html"/>
+    <meta-info>
+      <title>Menu pane</title>
+    </meta-info>
+  </portlet-controller-entry>
+</registry>

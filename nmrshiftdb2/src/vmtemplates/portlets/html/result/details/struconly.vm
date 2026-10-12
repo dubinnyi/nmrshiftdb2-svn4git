@@ -1,0 +1,18 @@
+<p style="color:red">
+  $message
+</p>
+$mol.getTautomerLinks($lastaction,$molNumber,$startmolecule,$data.getSession())<br>
+#parse( "portlets/html/result/details/header.vm" )
+<table>
+	<tr>
+		<td>
+			#parse("portlets/html/result/details/moleculeimage.vm")
+		</td>
+		<td>
+			#parse("portlets/html/result/details/molecule.vm")
+		</td>
+	</tr>
+</table>
+<br>
+#parse("portlets/html/result/details/samples.vm")
+#parse("exportform_mol.vm")

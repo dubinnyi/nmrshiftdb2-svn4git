@@ -1,0 +1,101 @@
+#*
+Copyright 2004 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*#
+
+##<!-- begin jetspeed-tab.vm -->
+#if (! $data.Customized )
+  #if ( ! $tabs )
+    #parse ("jetspeed.vm")
+  #else
+<table cellpadding="0" cellspacing="0" border="0" width="100%" #if (${skin.TabStyleClass}) class="${skin.TabStyleClass}" #end >
+  <tr>
+    <td valign="top">
+      <div #if (${skin.PortletSkinClass}) class="${skin.PortletSkinClass}" #end>
+      <table align="left" cellspacing="0" border="0" cellpadding="0" #if (${skin.TabTitleStyleClass}) class="${skin.TabTitleStyleClass}" #end >
+        <tr width="100%">
+    #foreach ( $tab in $tabs )
+      #if ($tab.isSelected() )
+        #set ($bgcolor = $!{skin.HighlightBackgroundColor} )
+        #set ($color = $!{skin.HighlightTextColor} )
+        #set ($titleclass = $!{skin.HighlightTitleStyleClass} )
+      #else
+        #set ($bgcolor = $!{skin.TitleBackgroundColor} )
+        #set ($color = $!{skin.TitleTextColor} )
+        #set ($titleclass = $!{skin.TitleStyleClass} )
+      #end
+
+      #if (${bgcolor})
+        #if (${color})
+          #set ($titlestyle = "background-color: $bgcolor; color: $color;" )
+        #else
+          #set ($titlestyle = "background-color: $bgcolor;" )
+        #end
+      #else
+        #if (${color})
+          #set ($titlestyle = "color: $color;" )
+        #else
+          #set ($titlestyle = "" )
+        #end
+      #end
+      	  <td #if (${skin.PortletSkinClass}) #if ($tab.Link && ($tab.isSelected() == false))  class="TabLeftLow" #else class="TabLeft" #end #end></td>
+          <td valign="middle" #if (${skin.PortletSkinClass}) #if ($tab.Link && ($tab.isSelected() == false))  class="TabMiddleLow" #else class="TabMiddle" #end  #elseif ($titleclass) class="$titleclass" #end #if ($titlestyle) style="${titlestyle}" #end>&nbsp;
+            #if ($tab.Link && ($tab.isSelected() == false))
+              <a href="$tab.Link" #if (${skin.PortletSkinClass}) class="TabLink" #end #if ($color) style="color: $color;" #end>$tab.Title</a>
+            #else
+              $tab.Title
+            #end
+            #foreach ($action in $tab.Actions)
+              <a href="${action.Link}" title="${action.Name}"><img src="${skin.getImage($action.Name,"images/${action.Name}.gif")}" alt="${action.Name}" border="0"></a>
+            #end
+          &nbsp;</td>
+          <td #if (${skin.PortletSkinClass}) #if ($tab.Link && ($tab.isSelected() == false))  class="TabRightLow" #else class="TabRight" #end #end></td>
+    #end
+        </tr>
+      </table>
+      <table align="right" cellspacing="0" border="0" cellpadding="0">
+        <tr width="100%">    
+          <td align="right" nowrap="true" valign="middle">
+    #foreach ( $action in $actions )
+            <a href="${action.Link}" title="${action.Name}"><img src="${skin.getImage($action.Name,"images/${action.Name}.gif")}" alt="${action.Name}" border="0"></a>
+    #end
+          </td>
+        </tr>      
+      </table>
+      </div>
+    </td>
+  </tr>
+</table>
+<table cellspacing="0" width="100%" border="0" cellpadding="0" #if (${skin.TabStyleClass}) class="${skin.TabStyleClass}" #end >
+  <tr><td height="2" #if (${skin.HighlightBackgroundColor}) style="background-color: ${skin.HighlightBackgroundColor}" #end ><img height="2" width="2" src="images/dot.gif" /></td></tr>
+  <tr><td height="2" #if (${skin.BackgroundColor}) style="background-color: ${skin.BackgroundColor}" #end ><img height="2" width="2" src="images/dot.gif" /></td></tr>
+</table>
+<table cellspacing="0" width="100%" border="0" cellpadding="0" #if (${skin.TabStyleClass}) class="${skin.TabStyleClass}" #end >
+  <tr>
+    <td>
+      <table cellspacing="0" width="100%" border="0" cellpadding="0" #if (${skin.TabContentStyleClass}) class="${skin.TabContentStyleClass}" #end #if (${skin.BackgroundColor}) style="background-color: ${skin.BackgroundColor}" #end >
+        <tr>
+          <td valign="top" width="100%">
+            $portlet.getContent($data)
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+  #end
+  #else
+    $portlet.getContent($data)
+#end
+##<!-- end jetspeed-tab.vm -->

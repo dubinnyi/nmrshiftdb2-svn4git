@@ -1,0 +1,614 @@
+#if($error)
+    $error
+#elseif($login=="true")
+    $message
+    <form method="POST" action="$jslink.getPaneById("P-Quickcheck")?nextaction=$nextaction" enctype="application/x-www-form-urlencoded">
+        <input type="hidden" name="spectrum" value="$spectrum">
+        <input name="molecule" type="hidden" value="$molecule">
+        <input name="molecule" type="hidden" value="$molecule">
+        <table border="0" cellspacing="2" cellpadding="1">
+        <tr>
+        <td>Username</td><td><input size="10" name="username" maxlength="25" type="text" tabindex="1"/></td>
+        <td rowspan=2 align=center><small><input name="eventSubmit_doLoginafteraddspectrum" type="submit" value="Login" tabindex="3"/></td>
+        </tr>
+        <tr>
+        <td>Password</small></td><td><input size="10" name="password" maxlength="25" type="password" tabindex="2"/></td>
+        </tr>
+        </table>
+    </form>
+#elseif($reload=="true")
+    Please wait while login is performed!
+    <script>
+        window.location.href = 'portal/js_pane/P-Quickcheck;jsessionid=$data.getSession().getId()?eventSubmit_doChangelevel=changelevel&newlevel=$submitlevel';
+    </script>
+#else
+<script src="nmrshiftdbhtml/marvin4js/js/promise-0.1.1.min.js"></script>
+    <script src="nmrshiftdbhtml/marvin4js/js/marvinjslauncher.js"></script>
+<script LANGUAGE="JavaScript1.1">
+ (function(window, document, undefined){
+var XBTooltip = function( element, userConf, color, tooltip) {
+var config = {
+id: userConf.id|| undefined,
+className: userConf.className || undefined,
+x: userConf.x || 20,
+y: userConf.y || 20,
+text: userConf.text || undefined
+};
+var over = function(event) {
+tooltip.style.display = "block";
+tooltip.style.color=color;
+},
+out = function(event) {
+tooltip.style.display = "none";
+},
+move = function(event) {
+event = event ? event : window.event;
+if ( event.pageX == null && event.clientX != null ) {
+var doc = document.documentElement, body = document.body;
+event.pageX = event.clientX + (doc && doc.scrollLeft || body && body.scrollLeft || 0) - (doc && doc.clientLeft || body && body.clientLeft || 0);
+event.pageY = event.clientY + (doc && doc.scrollTop || body && body.scrollTop || 0) - (doc && doc.clientTop || body && body.clientTop || 0);
+}
+tooltip.style.top = (event.pageY+config.y) + "px";
+tooltip.style.left = (event.pageX+config.x) + "px";
+}
+if (tooltip === undefined && config.id) {
+tooltip = document.getElementById(config.id);
+if (tooltip) tooltip = tooltip.parentNode.removeChild(tooltip)
+}
+if (tooltip === undefined && config.text) {
+tooltip = document.createElement("div");
+if (config.id) tooltip.id= config.id;
+tooltip.innerHTML = config.text;
+}
+if (config.className) tooltip.className = config.className;
+tooltip = document.body.appendChild(tooltip);
+tooltip.style.position = "absolute";
+element.onmouseover = over;
+element.onmouseout = out;
+element.onmousemove = move;
+over();
+};
+window.XBTooltip = window.XBT = XBTooltip;
+})(this, this.document);
+
+function newPopup(url) {
+   popupWindow = window.open(url,'popUpWindow','height=300,width=300,left=10,top=10,resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no,directories=no,status=no')
+}
+function openTab(evt, cityName) {
+    // Declare all variables
+    var i, tabcontent, tablinks;
+
+    // Get all elements with class="tabcontent" and hide them
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+
+    // Get all elements with class="tablinks" and remove the class "active"
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+
+    // Show the current tab, and add an "active" class to the button that opened the tab
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+} 
+</script>
+    <form action="$jslink.getPaneById("P-Quickcheck")" name="MolForm" method="post">
+    	<input type="hidden" id="sortcolumn" name="sortcolumn" value="0">
+        <input type="hidden" id="oldsortcolumn" name="oldsortcolumn" value="-1">
+        <input type="hidden" name="descending" value="$descending">
+        <input type="hidden" name="nmrshiftdbaction" value="quickcheck">
+        #parse("structureinput/jsfunctions.vm")
+        #if($structureeditor!="JCP" || $session.getAttribute("applet")=="applet")
+          <input type="hidden" name="MolTxt" id="MolTxt">
+        #end
+   	    <a href="$jslink.getPaneById("P-Help")?URL=using.html#quickcheck" title="Help for QuickCheck"><img src="images/help.png" style="color:white"></a>
+	    <div style="color:red">
+	      $!messages
+	    </div>
+	    <table>
+	      <tr><td>
+	        #if($data.getUser().getUserName().equals("anon"))
+	           If you <a href="$jslink.getPaneById("P-Quickcheck")?eventSubmit_doChecklogin=checklogin&nextaction=loginforid">login</a>, your Quick Check results will be available later!
+	        #else
+                Enter a personal ID for this Quick Check: <input type="text" size="40" name="quickcheckid" value="$!quickcheckid">
+            #end
+            <br>
+    	    #parse("structureinput/display.vm")
+    	    Choose an MNova mol or sd file (MNova 11 or newer) or ChemDraw mol file with labels:
+            <input name="uploadmnova" id="uploadmnova" style="font-size:smaller" type="file" size="25" onclick="document.forms['MolForm'].enctype='multipart/form-data';document.forms['MolForm'].action='NmrshiftdbServlet;jsessionid=$data.getSession().getId()'" accept=".mol,.sd,.sdf"><br>
+            Choose a Topspin zip file including a CMC-SE result:
+            <input name="uploadtopspin" id="uploadtopspin" style="font-size:smaller" type="file" size="25" onclick="document.forms['MolForm'].enctype='multipart/form-data';document.forms['MolForm'].action='NmrshiftdbServlet;jsessionid=$data.getSession().getId()'" accept=".zip"><br>
+            Choose an NMReDATA file:
+            <input name="uploadnmredata" id="uploadnmredata" style="font-size:smaller" type="file" size="25" onclick="document.forms['MolForm'].enctype='multipart/form-data';document.forms['MolForm'].action='NmrshiftdbServlet;jsessionid=$data.getSession().getId()'" accept=".sd,.sdf"><br>
+    	    <input TYPE="submit" name="eventSubmit_doClear" VALUE="Clear form">
+            #if($structureeditor=="GGAKETCHER")
+                <input type="hidden" name="eventSubmit_doSubmitquickcheck" value="doSubmitquickcheck">
+                <input TYPE="button" name="eventSubmit_doSubmitquickcheck" id="eventSubmit_doSubmitquickcheck" style="background-color:#0000AA; color:white" VALUE="Transfer" onClick="exportMol()">
+            #else
+	            <input TYPE="submit" name="eventSubmit_doSubmitquickcheck" id="eventSubmit_doSubmitquickcheck" style="background-color:#0000AA; color:white" VALUE="Transfer" onClick="exportMol()">
+	        #end
+    	  </td><td>
+    	  <ul class="tab">
+    	  	<li><a id="tabheader1d" href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'tab1d')">1D spectra</a></li>
+    	  	<li><a id="tabheader2d" href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'tab2d')">2D spectra</a></li>
+    	  </ul>
+			<div id="tab1d" class="tabcontent">
+    	    <table><tr><th style="text-align:left"><a href="javascript:{}" onclick="exportMol();document.getElementById('sortcolumn').value = 0;document.getElementById('oldsortcolumn').value=$sortcolumn;document.getElementById('eventSubmit_doSubmitquickcheck').click();return false;">Atom No.</a>
+    	    #if($sortcolumn==0)
+               #if($descending)
+                   &uArr;
+               #else
+                   &dArr;
+               #end
+    	   	#end
+    	    </th><th style="text-align:left"><a href="javascript:{}" onclick="exportMol();document.getElementById('sortcolumn').value = 1;document.getElementById('oldsortcolumn').value=$sortcolumn;document.getElementById('eventSubmit_doSubmitquickcheck').click();return false;"><sup>13</sup>C Shift</a>
+    	    #if($sortcolumn==1)
+               #if($descending)
+                   &uArr;
+               #else
+                   &dArr;
+               #end
+    	   	#end
+    	    </th>
+    	    #if($carbons.size()>0)
+    	       <th style="text-align:left"></th>
+    	    #end
+    	    <th style="text-align:left"><sup><a href="javascript:{}" onclick="exportMol();document.getElementById('sortcolumn').value = 2;document.getElementById('oldsortcolumn').value=$sortcolumn;document.getElementById('eventSubmit_doSubmitquickcheck').click();return false;">1</sup>H Shift</a>
+    	    #if($sortcolumn==2)
+    	       #if($descending)
+    	           &uArr;
+    	       #else
+    	    	   &dArr;
+    	       #end
+    	   	#end
+    	    </th>
+    	    #if($hydrogens.size()>0)
+               <th style="text-align:left"></th>
+            #end
+            <th style="text-align:left">2<sup>nd</sup> shift for diastereotopic atoms</th>
+    	    </tr>
+    	    #foreach($atomid in $atoms)
+    	        #set($displayatomid=$atomid+1)
+    	    	<tr><td valign="top">#if($subdatac.getIdentifiers().get($atomid) && $subdatac.getIdentifiers().get($atomid)!="")$subdatac.getIdentifiers().get($atomid) #else $displayatomid #end</td><td valign="top" colspan="2"><input #if($carbons.size()>0 && !$carbons.containsKey($atomid))disabled#end type="text" size="4" name="inputc$atomid" value="#if($oldvaluesc.get($atomid))$oldvaluesc.get($atomid)#else$subdatac.getShift($atomid)#end">$subdatac.getMultiplicity($atomid)
+                #if($carbons.size()>0)
+                  #if($carbons.containsKey($atomid))
+                    <select id="assignc$atomid" name="assignc$atomid">
+                        <option value="keep">Keep unchanged</option>
+                        <option value="assignc$atomid">Auto assign</option>
+                        #foreach($shift in $subdatac.getSignalstable().getPeakChildren())
+                            <option value="$shift.getXValue()">$shift.getXValue()</option>
+                        #end
+                    </select>
+                  #end
+                #end
+    	    	<span style="display:inline-block;">
+    	    	#if($symmetricatoms.keySet().contains($atomid))
+    	    	  <span style="color:$symmetricatoms.get($atomid)">*</span>
+    	    	#end
+    	    	#if($carbons.containsKey($atomid) && !$carbons.get($atomid).getValue().isNaN())
+    	    	    <span id="atc$atomid" onmouseover="XBT(this, {text: '$carbons.get($atomid).getDisplayText()', className: 'xbtooltip'}, 'black')">
+    	    	    #if(!$subdatac.getShift($atomid).equals(""))
+                        #if($carbons.get($atomid).statisticsIsLessThan(3, 5))
+                            <img src="nmrshiftdbhtml/ampel_gruen.gif">
+                        #elseif($carbons.get($atomid).statisticsIsLessThan(3, 10))
+                            <img src="nmrshiftdbhtml/ampel_gelb.gif">
+                        #else
+                            <img src="nmrshiftdbhtml/ampel_rot.gif">
+                        #end
+                    #end
+                    $carbons.get($atomid).getStatistics(1)#if(!$subdatac.getShift($atomid).equals("")), diff: $carbons.get($atomid).getStatistics(3)#end </span>
+                    #set($imagewarning="warning.png")
+                    #set($textwarning="Probably not a reliable prediction: ")
+                    #if($carbons.get($atomid).statisticsIsLessThan(4,2) || ($carbons.get($atomid).statisticsIsLessThan(4,3) && $element.statisticsDiffMoreThan(7,8,10)))
+                        #set($imagewarning="warningstrong.png")
+                    #end
+                    #if($carbons.get($atomid).statisticsIsLessThan(4,3))
+                        #set($textwarning="$textwarning Only $carbons.get($atomid).getStatistics(4) spheres used")
+                    #end
+                    #if($carbons.get($atomid).statisticsDiffMoreThan(7,8,10))
+                        #if($carbons.get($atomid).statisticsIsLessThan(4,3))
+                            #set($textwarning="$textwarning, ")
+                        #end
+                        #set($textwarning="$textwarning Range > 10 ppm!")
+                    #end
+                    #if($carbons.get($atomid).statisticsIsLessThan(4,3) || $carbons.get($atomid).statisticsDiffMoreThan(7,8,10))
+                       <span onmouseover="XBT(this, {text: '$textwarning', className: 'xbtooltip'}, 'red')"><img src="nmrshiftdbhtml/$imagewarning"></span>
+                    #end
+                #end
+                </span>
+    	    	</td>
+    	    	<td valign="top" colspan="2">
+    	    	#if($hydrogens.containsKey($atomid) && $hydrogens.get($atomid).getAtom()>-1)
+    	    		#set( $atomnumber = $hydrogens.get($atomid).getAtom()+1  )
+    	    		H$atomnumber
+    	    	#end
+    	    	<input type="text" #if($hydrogens.size()>0 && !$hydrogens.containsKey($atomid))disabled#end size="4" name="inputh$atomid" value="#if($oldvaluesh.get($atomid))$oldvaluesh.get($atomid)#else$subdatah.getShiftH($atomid,1)#end">
+                #if($hydrogens.size()>0)                
+                  #if($hydrogens.containsKey($atomid))
+                    <select id="assignh$atomid" name="assignh$atomid">
+                        <option value="keep">Keep unchanged</option>
+                        <option value="assignh$atomid">Auto assign</option>
+                        #foreach($shift in $subdatah.getSignalstable().getPeakChildren())
+                            <option value="$shift.getXValue()">$shift.getXValue()</option>
+                        #end
+                    </select>
+                  #end
+                #end
+                <span style="display:inline-block;">
+                #if($symmetricatoms.keySet().contains($atomid))
+                  <span style="color:$symmetricatoms.get($atomid)">*</span>
+                #end
+                #if($hydrogens.containsKey($atomid) && $hydrogens.get($atomid) && !$hydrogens.get($atomid).getValue().isNaN())
+                    <span id="at1h$atomid" onmouseover="XBT(this, {text: '$hydrogens.get($atomid).getDisplayText()', className: 'xbtooltip'}, 'black')">
+                    #if(!$subdatah.getShiftH($atomid,1).equals(""))
+                        #if($hydrogens.get($atomid).statisticsIsLessThan(3, 1))
+                            <img src="nmrshiftdbhtml/ampel_gruen.gif">
+                        #elseif($hydrogens.get($atomid).statisticsIsLessThan(3, 2))
+                            <img src="nmrshiftdbhtml/ampel_gelb.gif">
+                        #else
+                            <img src="nmrshiftdbhtml/ampel_rot.gif">
+                        #end
+                    #end
+                    $hydrogens.get($atomid).getStatistics(1)#if(!$subdatah.getShiftH($atomid,1).equals("")), diff: $hydrogens.get($atomid).getStatistics(3)#end #if($subdatah.getShiftH($atomid,2)!="")(calculated from average of shifts)#end </span>
+                    #set($imagewarning="warning.png")
+                    #set($textwarning="Probably not a reliable prediction: ")
+                    #if($hydrogens.get($atomid).statisticsIsLessThan(4,2) || ($hydrogens.get($atomid).statisticsIsLessThan(4,3) && $element.statisticsDiffMoreThan(7,8,10)))
+                        #set($imagewarning="warningstrong.png")
+                    #end
+                    #if($hydrogens.get($atomid).statisticsIsLessThan(4,3))
+                        #set($textwarning="$textwarning Only $hydrogens.get($atomid).getStatistics(4) spheres used")
+                    #end
+                    #if($hydrogens.get($atomid).statisticsDiffMoreThan(7,8,10))
+                        #if($hydrogens.get($atomid).statisticsIsLessThan(4,3))
+                            #set($textwarning="$textwarning, ")
+                        #end
+                        #set($textwarning="$textwarning Range > 10 ppm!")
+                    #end
+                    #if($hydrogens.get($atomid).statisticsIsLessThan(4,3) || $hydrogens.get($atomid).statisticsDiffMoreThan(7,8,10))
+                       <span onmouseover="XBT(this, {text: '$textwarning', className: 'xbtooltip'}, 'red')"><img src="nmrshiftdbhtml/$imagewarning"></span>
+                    #end
+                #end
+                </span>
+    	    	</td>    	    	
+                <td valign="top">#if($secondHydrogens.containsKey($atomid) && $secondHydrogens.get($atomid).getAtom()>-1)
+            	#set( $atomnumber = $secondHydrogens.get($atomid).getAtom() + 1 )
+            	H$atomnumber 
+            	#end 
+            	<input type="text" #if(($hydrogens.size()>0 && !$hydrogens.containsKey($atomid)) || ($hydrogens.size()>0 && !$atomswith2hydrogens.contains($atomid)))disabled#end size="4" name="input2h$atomid" value="#if($oldvalues2h.get($atomid))$oldvalues2h.get($atomid)#else$subdatah.getShiftH($atomid,2)#end">
+                #if($secondHydrogens.containsKey($atomid) && $secondHydrogens.get($atomid) && !$secondHydrogens.get($atomid).getValue().isNaN())
+                    <span id="at1h$atomid" onmouseover="XBT(this, {text: '$secondHydrogens.get($atomid).getDisplayText()', className: 'xbtooltip'}, 'black')">
+                    #if(!$subdatah.getShiftH($atomid,1).equals(""))
+                        #if($secondHydrogens.get($atomid).statisticsIsLessThan(3, 1))
+                            <img src="nmrshiftdbhtml/ampel_gruen.gif">
+                        #elseif($secondHydrogens.get($atomid).statisticsIsLessThan(3, 2))
+                            <img src="nmrshiftdbhtml/ampel_gelb.gif">
+                        #else
+                            <img src="nmrshiftdbhtml/ampel_rot.gif">
+                        #end
+                    #end
+                    $secondHydrogens.get($atomid).getStatistics(1)#if(!$subdatah.getShiftH($atomid,1).equals("")), diff: $secondHydrogens.get($atomid).getStatistics(3)#end (calculated from average of shifts)</span>
+                    #set($imagewarning="warning.png")
+                    #set($textwarning="Probably not a reliable prediction: ")
+                    #if($secondHydrogens.get($atomid).statisticsIsLessThan(4,2) || ($secondHydrogens.get($atomid).statisticsIsLessThan(4,3) && $element.statisticsDiffMoreThan(7,8,10)))
+                        #set($imagewarning="warningstrong.png")
+                    #end
+                    #if($secondHydrogens.get($atomid).statisticsIsLessThan(4,3))
+                        #set($textwarning="$textwarning Only $secondHydrogens.get($atomid).getStatistics(4) spheres used")
+                    #end
+                    #if($secondHydrogens.get($atomid).statisticsDiffMoreThan(7,8,10))
+                        #if($secondHydrogens.get($atomid).statisticsIsLessThan(4,3))
+                            #set($textwarning="$textwarning, ")
+                        #end
+                        #set($textwarning="$textwarning Range > 10 ppm!")
+                    #end
+                    #if($secondHydrogens.get($atomid).statisticsIsLessThan(4,3) || $secondHydrogens.get($atomid).statisticsDiffMoreThan(7,8,10))
+                       <span onmouseover="XBT(this, {text: '$textwarning', className: 'xbtooltip'}, 'red')"><img src="nmrshiftdbhtml/$imagewarning"></span>
+                    #end
+                #end
+                </td>
+    	    	<tr>
+    	    #end
+    	    <tr><td colspan="5">If your structure has more atoms, transfer to get more fields!<br>
+    	    *=symmetrical atom, if left empty it will be filled in automatically
+    	    </td></tr>
+    	    #if($showoldinput=="true" && ($hydrogens.size()>0 || $carbons.size()>0))
+    	       <tr><td></td><td>
+    	           #if($carbons.size()>0)
+    	               <a href="$jslink.getPaneById("P-Submit")?eventSubmit_doChecklogin=checklogin&nextaction=submitfromquickcheck&type=c&submitlevel=3">Submit <sup>13</sup>C</a>
+    	           #end
+    	           </td>
+    	           #if($carbons.size()>0)
+                       <td></td>
+                   #end
+    	           <td>
+    	           #if($hydrogens.size()>0)
+    	               <a href="$jslink.getPaneById("P-Submit")?eventSubmit_doChecklogin=checklogin&nextaction=submitfromquickcheck&type=h&submitlevel=3">Submit <sup>1</sup>H</a>
+    	           #end
+    	           </td>
+    	       </tr>
+    	    #end
+    	    <tr><td></td><td>
+    	       Input list: <a href="JavaScript:newPopup('nmrshiftdbhtml/hints/formathint.html');">Input format</a><br>
+               <textarea name="shiftsc" id="shiftsc" cols="20" rows="10" onBlur="if (this.value == '') this.value = 'Shifts for auto assignment, format like:\r\n56.2S\r\n64.1Q\r\nmultiplicity optional';" onFocus="if (this.value.indexOf('format like:')>-1) this.value = '';" >$!ctoassign</textarea>
+    	    </td>
+    	    #if($carbons.size()>0)
+               <td></td>
+            #end
+    	    <td colspan="2">
+    	       Input list: <a href="JavaScript:newPopup('nmrshiftdbhtml/hints/formathint.html');">Input format</a><br>
+               <textarea name="shiftsh" id="shiftsh" cols="25" rows="10" onBlur="if (this.value == '') this.value = 'Shifts for auto assignment, format like:\r\n56.2\r\n64.1\r\nEnter diastereotopic pairs like this:\r\n1.8\r\n+1.6';" onFocus="if (this.value.indexOf('format like:')>-1) this.value = '';" >$!htoassign</textarea>
+    	    </td>
+            #if($hydrogens.size()>0)
+               <td></td>
+            #end
+            </tr>
+            <tr><td></td><td colspan="4">#parse("jcamp-settings.vm")</td></tr>
+            <tr>
+              <td></td><td  #if($carbons.size()>0) colspan="2" #end>
+                  Jcamp-dx file:
+                  <input name="uploadjcampc" style="font-size:smaller" type="file" size="25" onclick="document.forms['MolForm'].enctype='multipart/form-data';document.forms['MolForm'].action='NmrshiftdbServlet;jsessionid=$data.getSession().getId()'" accept=".dx,.jdx">
+            </td>
+            <td colspan="2">
+                  Jcamp-dx file:
+                  <input name="uploadjcamph" style="font-size:smaller" type="file" size="25" onclick="document.forms['MolForm'].enctype='multipart/form-data';document.forms['MolForm'].action='NmrshiftdbServlet;jsessionid=$data.getSession().getId()'" accept=".dx,.jdx">
+            </td>
+            #if($hydrogens.size()>0)
+               <td></td>
+            #end
+            </tr>
+            #if($csearchreport)
+                <tr><td></td><td>
+                #if($csearchreport=="true")
+                    There is an existing <a href="download/NmrshiftdbServlet/$quickcheckidreport.htm;jsessionid=$data.getSession().getId()?nmrshiftdbaction=exportcsearchreport&quickcheckid=$quickcheckid&username=$data.getUser().getUserName()">CSEARCH robot referee report</a>
+                #else
+                    A CSEARCH robot referee report has been requested. Please check later!
+                #end
+                </td>
+                #if($carbons.size()>0)
+                   <td></td>
+                #end
+                <td colspan="2"></td>
+                #if($hydrogens.size()>0)
+                   <td></td>
+                #end
+                </tr>
+                <tr><td style="line-height:15px;" colspan="100">&nbsp;</td></tr>
+            #end
+            #if(!$data.getUser().getUserName().equals("anon"))
+                <tr><td></td><td>
+                ##if($csearchreport=="requested")
+                ##    Re-submit to CSEARCH robot referee <input type="checkbox" name="userobot" value="true"> (no immediate processing, see <a href="http://nmrpredict.orc.univie.ac.at/robothelp.html">for data protection when using</a>)
+                ##else
+                ##    I want to use the CSEARCH robot referee <input type="checkbox" name="userobot" value="true"> (no immediate processing, see <a href="http://nmrpredict.orc.univie.ac.at/robothelp.html">for data protection when using</a>)
+                ##end
+                </td>
+                #if($carbons.size()>0)
+                    <td></td>
+                #end
+                <td colspan="2"></td>
+                #if($hydrogens.size()>0)
+                    <td></td>
+                #end
+                </tr>
+                <tr><td style="line-height:15px;" colspan="100">&nbsp;</td></tr>
+            #end
+            #if($reportc)
+               <tr><td></td><td #if($carbons.size()>0) colspan="2" #end>
+                  Quality report for carbon spectrum: $reportc (<a href="nmrshiftdbhtml/tmp/qcc${data.getSession().getId()}.pdf" target="_blank">Show full report</a>)
+               </td>
+               <td colspan="2">
+                  Quality report for hydrogen spectrum: $reporth (<a href="nmrshiftdbhtml/tmp/qch${data.getSession().getId()}.pdf" target="_blank">Show full report</a>)
+               </td>
+               #if($hydrogens.size()>0)
+                  <td></td>
+               #end
+               </tr>
+            #end
+            #if($report2d)
+	          	<tr><td colspan="5">Overall quality report <a href="nmrshiftdbhtml/tmp/qcall${data.getSession().getId()}.pdf" target="_blank">Show overall report</a></td></tr>
+	        #end
+            <tr><td></td><td #if($carbons.size()>0) colspan="2" #end>$!ccountwarning</td><td colspan="2">$!hcountwarning</td></tr>
+    	    </table>
+    	    </div>
+			<div id="tab2d" class="tabcontent">
+			#if(!$show2d)
+				Please do a transfer after entering 1D shifts to enter 2D spectra!
+			#elseif($subdatah.getSignalstable().getPeakElements().size()==0 || $subdatac.getSignalstable().getPeakElements().size()==0)
+				You need to eenter <sup>13</sup>C and <sup>1</sup>H shifts to do 2d assignments!
+			#else
+			    Enter <b>[C]OSY</b><br>
+			    <input type="checkbox" name="entertocsy" value="true" onClick="onofftocsy()" #if($showtocsy)checked#end ><b>[T]OCSY</b><br>
+			    <input type="checkbox" name="enternoesy" value="true" onClick="onoffnoesy()" #if($shownoesy)checked#end ><b>[N]OESY</b><br>
+			    correlations here
+                <input type="hidden" name="enter2d" value="enter2d">
+			    <table style="border:none;border-collapse:collapse;">
+                <tr>
+                <th style="border-left: 1px solid black;border-right: 1px solid black; background-color:#D3D3D3"></th>
+                #foreach($peak in $subdatah.getSignalstableOrderedDescending())
+                    <th style="border-right: 1px solid black;background-color:#D3D3D3;">
+                    #foreach($atomref in $peak.getAtomRefs())
+                        $subdatah.getLabel($atomref)
+                    #end
+                    <br>$peak.getXValue()
+                    </th>
+                #end
+                </tr>
+                #foreach($peak in $subdatah.getSignalstableOrderedAscending())
+                        #set($greyorwhite=$velocityCount%2)
+                        #set($atomid1=$velocityCount)
+                        <tr 
+                        #if($greyorwhite==0)
+                                bgcolor="#D3D3D3" 
+                        #end  style="border:none">
+                        <td style="border-right: 1px solid black;border-left: 1px solid black;text-align:center;font-weight:bold; #if($greyorwhite==0)background-color:#D3D3D3;#end">
+                            #foreach($atomref in $peak.getAtomRefs())
+                                $subdatah.getLabel($atomref)
+                            #end
+                            <br>$peak.getXValue()
+                        </td>
+                        #foreach($peaky in $subdatah.getSignalstableOrderedDescending())
+                            #set($atomid2=$subdatah.getSignalstableOrderedAscending().size()-$velocityCount+1)
+                            <td style="border-right: 1px solid black;"
+                            #if($atomid2==$atomid1)
+                                bgcolor="#FFFFFF">
+                            #else
+                                #if($atomid2<$atomid1)
+                                    bgcolor="#FFFFFF"
+                                #end 
+                                >
+                                #if($atomid2<$atomid1)
+                                    <span id="field${atomid1}${atomid2}C" style="visibility:#if($subdatah.containsPeak($cosypeaks,$peaky,$peak,false))visible#else hidden#end ;">C</span>
+                                    <span id="field${atomid1}${atomid2}T" style="visibility:#if($subdatah.containsPeak($tocsypeaks,$peaky,$peak,false))visible#else hidden#end ;">T</span>
+                                    <span id="field${atomid1}${atomid2}N" style="visibility:#if($subdatah.containsPeak($noesypeaks,$peaky,$peak,false))visible#else hidden#end ;">N</span>
+                                #else
+	                                C <input type="checkbox" name="cosy${atomid1}${atomid2}" id="cosy${atomid1}${atomid2}" value="true" #if($subdatah.containsPeak($cosypeaks,$peak,$peaky,false))checked#end #if($subdatah.isValidCrosspeak("cosy",$peaky,$peak)) style="outline:3px solid green;outline-offset:-3px" #end onclick="if(document.MolForm.cosy${atomid1}${atomid2}.checked){document.getElementById('field${atomid2}${atomid1}C').style.visibility='visible';}else{document.getElementById('field${atomid2}${atomid1}C').style.visibility='hidden';};">
+                                    <div class="tocsy" style="display:#if($showtocsy)visible#else none #end ">
+	                                T <input type="checkbox" name="tocsy${atomid1}${atomid2}" id="tocsy${atomid1}${atomid2}" value="true" #if($subdatah.containsPeak($tocsypeaks,$peak,$peaky,false))checked#end #if($subdatah.isValidCrosspeak("tocsy",$peaky,$peak)) style="outline:3px solid green;outline-offset:-3px" #end onclick="if(document.MolForm.tocsy${atomid1}${atomid2}.checked){document.getElementById('field${atomid2}${atomid1}T').style.visibility='visible';}else{document.getElementById('field${atomid2}${atomid1}T').style.visibility='hidden';};">
+	                                </div> 
+                                    <div class="noesy" style="display:#if($shownoesy)visible#else none #end ">
+                                    N <input type="checkbox" name="noesy${atomid1}${atomid2}" id="noesy${atomid1}${atomid2}" value="true" #if($subdatah.containsPeak($noesypeaks,$peak,$peaky,false))checked#end #if($subdatah.isValidCrosspeak("noesy",$peaky,$peak)) style="outline:3px solid green;outline-offset:-3px" #end onclick="if(document.MolForm.noesy${atomid1}${atomid2}.checked){document.getElementById('field${atomid2}${atomid1}N').style.visibility='visible';}else{document.getElementById('field${atomid2}${atomid1}N').style.visibility='hidden';};">
+                                    </div>
+                                #end
+                            #end
+                            </td>
+                        #end
+                        </tr>
+                #end
+                </table>
+                <br><br>
+			    Enter <b>H[S]QC</b><br>
+			    Enter <b>H[M]BC</b><br>
+			    correlations here
+			    <table style="border:none;border-collapse:collapse;">
+                <tr>
+                <th style="border-left: 1px solid black;border-right: 1px solid black; background-color:#D3D3D3"></th>
+                #foreach($peak in $subdatah.getSignalstableOrderedDescending())
+                    <th style="border-right: 1px solid black;background-color:#D3D3D3;">
+                    #foreach($atomref in $peak.getAtomRefs())
+                        $subdatah.getLabel($atomref)
+                    #end
+                    <br>$peak.getXValue()
+                    </th>
+                #end
+                </tr>
+                #foreach($peak in $subdatac.getSignalstableOrderedAscending())
+                        #set($greyorwhite=$velocityCount%2)
+                        #set($atomid1=$velocityCount)
+                        <tr 
+                        #if($greyorwhite==0)
+                                bgcolor="#D3D3D3" 
+                        #end  style="border:none">
+                        <td style="border-right: 1px solid black;border-left: 1px solid black;text-align:center;font-weight:bold; #if($greyorwhite==0)background-color:#D3D3D3;#end">
+                            #foreach($atomref in $peak.getAtomRefs())
+                                $subdatah.getLabel($atomref)
+                            #end
+                            <br>$peak.getXValue()
+                        </td>
+                        #foreach($peaky in $subdatah.getSignalstableOrderedDescending())
+                            #set($atomid2=$subdatah.getSignalstableOrderedAscending().size()-$velocityCount+1)
+                            <td style="border-right: 1px solid black;"
+                            #if($atomid2==$atomid1)
+                                bgcolor="#FFFFFF"
+                            #end
+                            >
+                                S <input type="checkbox" name="hsqc${atomid1}${atomid2}" id="hsqc${atomid1}${atomid2}" value="true"  #if($subdatah.containsPeak($hsqcpeaks,$peaky,$peak,false))checked#end #if($subdatah.isValidCrosspeak("hsqc",$peaky,$peak)) style="outline:3px solid green;outline-offset:-3px" #end>
+						        <br>
+                                M <input type="checkbox" name="hmbc${atomid1}${atomid2}" id="hmbc${atomid1}${atomid2}" value="true"  #if($subdatah.containsPeak($hmbcpeaks,$peaky,$peak,false))checked#end #if($subdatah.isValidCrosspeak("hmbc",$peaky,$peak)) style="outline:3px solid green;outline-offset:-3px" #end>
+                            </td>
+                        #end
+                        </tr>
+                #end
+                </table>
+                <br><br>
+	            #if($report2d)
+	            	Quality report for 2d spectra: $report2d (<a href="nmrshiftdbhtml/tmp/qc2d${data.getSession().getId()}.pdf" target="_blank">Show full report</a>)
+	            #else
+	                $!submitagainmessage
+	            #end
+			#end	
+			</div>
+    	  </td></tr></table>
+	</form>
+    #if($showoldinput=="true")
+        <script LANGUAGE="JavaScript1.1">
+        <!--
+          function exportqc() {
+            if(document.downloadall.format.value==="nmredata")
+                document.downloadall.action="download/NmrshiftdbServlet/quickcheck.nmredata.sdf;jsessionid=$data.getSession().getId()";
+            else
+                document.downloadall.action="download/NmrshiftdbServlet/quickcheck.jcamp;jsessionid=$data.getSession().getId()";
+          }
+        //-->
+        </script>
+	    <form action="" name="downloadall" method="post" target="_new" >
+              Solvent (for dataset download):
+	    	<select name="solvent">
+              #foreach($condition in $condition.getExistingConditions())
+	    		<option value="$condition.getConditionId()">$condition.getValue()</option>
+              #end
+			</select><br>
+			Frequency (<sup>1</sup>H in MHz, for dataset downlaod, enter or choose):
+			<input type="text" name="freqtext">			
+	    	<select name="freq">
+              	<option value="200">200</option>
+              	<option value="300">300</option>
+              	<option value="400">400</option>
+              	<option value="500">500</option>
+              	<option value="600">600</option>
+              	<option value="700">700</option>
+              	<option value="800">800</option>
+              	<option value="900">900</option>
+              	<option value="1000">1000</option>
+			</select><br>
+	    	<select name="format">
+	    		<option value="nmredata">NMReDATA</option>
+	    		<option value="jcampc">13C jcamp-dx</option>
+	    		<option value="jcamph">1H jcamp-dx</option>
+	    		<option value="lsd">LSD</option>
+			</select>
+			<input type="hidden" name="nmrshiftdbaction" value="qcdownload">
+	    	<input TYPE="submit" name="eventSubmit_doDownloadall" VALUE="Download dataset" onClick="exportqc()">
+	    </form>
+	#end
+    #foreach($quickcheck in $quickchecks)
+        <form action="$jslink.getPaneById("P-Quickcheck")" name="deletequickcheckform" method="post">
+            <table><tr><td>$quickcheck.getDate() <a href="$jslink.getPaneById("P-Quickcheck")?eventSubmit_doShowquickcheck=eventSubmit_doShowquickcheck&quickcheckid=$quickcheck.getQuickCheckId()">$quickcheck.getName()</a></td>
+            <input type="hidden" name="quickcheckid" value="$quickcheck.getQuickCheckId()">
+            <td><input type="checkbox" id="confirm" name="confirm" value="true"></td>
+            <td><input TYPE="submit" style="font-size:smaller" name="eventSubmit_doDeletequickcheck" VALUE="Delete"></td></tr></table>
+        </form>
+    #end
+<script>
+document.getElementById('tabheader1d').click();
+document.MolForm.shiftsc.focus();
+document.MolForm.shiftsc.blur();
+document.MolForm.shiftsh.focus();
+document.MolForm.shiftsh.blur();
+window.scrollTo(0, 0);
+
+function onofftocsy(){
+    var noesys = document.querySelectorAll(".tocsy");
+    for (i = 0; i < noesys.length; i++) {
+        if(noesys[i].style.display === "none"){
+            noesys[i].style.display = "block";
+        }else{
+            noesys[i].style.display = "none";
+        }
+    }
+}
+
+function onoffnoesy(){
+    var noesys = document.querySelectorAll(".noesy");
+    for (i = 0; i < noesys.length; i++) {
+        if(noesys[i].style.display === "none"){
+            noesys[i].style.display = "block";
+        }else{
+            noesys[i].style.display = "none";
+        }
+    }
+}
+</script>
+#end

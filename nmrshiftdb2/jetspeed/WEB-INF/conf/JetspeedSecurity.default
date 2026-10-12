@@ -1,0 +1,113 @@
+# Copyright 2004 The Apache Software Foundation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#     http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# -------------------------------------------------------------------
+# $Id: JetspeedSecurity.default,v 1.9 2004/03/17 19:10:26 jford Exp $
+#
+# This is the configuration file for JetspeedSecurity
+#
+# Note that strings containing "," (comma) characters must backslash
+# escape the comma (i.e. '\,')
+#
+# -------------------------------------------------------------------
+services.JetspeedSecurity.classname=org.apache.jetspeed.services.security.JetspeedDBSecurityService
+
+#########################################
+# Authentication Service                #
+#########################################
+
+services.PortalAuthentication.classname=org.apache.jetspeed.services.security.turbine.TurbineAuthentication
+#services.PortalAuthentication.classname=org.apache.jetspeed.services.security.nosecurity.NoAuthentication
+### LDAP: services.PortalAuthentication.classname=org.apache.jetspeed.services.security.ldap.LDAPAuthentication
+
+#########################################
+# Authorization Service                 #
+#########################################
+
+services.PortalAccessController.classname=org.apache.jetspeed.services.security.registry.RegistryAccessController
+#services.PortalAccessController.classname=org.apache.jetspeed.services.security.turbine.TurbineAccessController
+#services.PortalAccessController.classname=org.apache.jetspeed.services.security.nosecurity.NoSecurityAccessController
+
+#########################################
+# User Management Service               #
+#########################################
+
+services.UserManagement.classname=org.apache.jetspeed.services.security.turbine.TurbineUserManagement
+services.JetspeedSecurity.user.class=org.apache.jetspeed.om.security.BaseJetspeedUser
+#services.UserManagement.classname=org.apache.jetspeed.services.security.nosecurity.NoUserManagement
+### LDAPservices.UserManagement.classname=org.apache.jetspeed.services.security.ldap.LDAPUserManagement   
+### LDAP: services.JetspeedSecurity.user.class=org.apache.jetspeed.om.security.ldap.LDAPUser 
+
+#########################################
+# Role Management Service               #
+#########################################
+
+services.RoleManagement.classname=org.apache.jetspeed.services.security.turbine.TurbineRoleManagement
+services.JetspeedSecurity.role.class=org.apache.jetspeed.om.security.BaseJetspeedRole
+#services.RoleManagement.classname=org.apache.jetspeed.services.security.nosecurity.NoRoleManagement
+### LDAP: services.RoleManagement.classname=org.apache.jetspeed.services.security.ldap.LDAPRoleManagement   
+### LDAP: services.JetspeedSecurity.role.class=org.apache.jetspeed.om.security.ldap.LDAPRole 
+
+#########################################
+# Group Management Service              #
+#########################################
+
+services.GroupManagement.classname=org.apache.jetspeed.services.security.turbine.TurbineGroupManagement
+services.JetspeedSecurity.group.class=org.apache.jetspeed.om.security.BaseJetspeedGroup
+#services.GroupManagement.classname=org.apache.jetspeed.services.security.nosecurity.NoGroupManagement
+### LDAP: services.GroupManagement.classname=org.apache.jetspeed.services.security.ldap.LDAPGroupManagement   
+### LDAP: services.JetspeedSecurity.group.class=org.apache.jetspeed.om.security.ldap.LDAPGroup   
+
+
+#########################################
+# Permission Management Service        #
+#########################################
+
+services.PermissionManagement.classname=org.apache.jetspeed.services.security.turbine.TurbinePermissionManagement
+services.JetspeedSecurity.permission.class=org.apache.jetspeed.om.security.BaseJetspeedPermission
+#services.PermissionManagement.classname=org.apache.jetspeed.services.security.nosecurity.NoPermissionManagement
+### LDAP: services.PermissionManagement.classname=org.apache.jetspeed.services.security.ldap.LDAPPermissionManagement   
+### LDAP: services.JetspeedSecurity.permission.class=org.apache.jetspeed.om.security.ldap.LDAPPermission
+
+
+#########################################
+# Security Cache Service                #
+#########################################
+
+services.SecurityCache.classname=org.apache.jetspeed.services.security.SecurityCacheImpl
+
+ #########################################   
+ # LDAP Service                          #   
+ #########################################   
+services.ldap.classname=org.apache.jetspeed.services.ldap.LDAPService   
+services.ldap.host=127.0.0.0
+services.ldap.port=389
+services.ldap.sslport=636   
+services.ldap.basedn=ou/jetspeed%o/apache
+services.ldap.managerdn=cn/ldapadmin%ou/jetspeed%o/apache
+services.ldap.password=secret
+services.ldap.anonymousbind=false   
+services.ldap.securityauthentication=simple   
+#services.ldap.securityprotocol=ssl   
+#services.ldap.socketfactory=javax.net.ssl.SSLSocketFactory   
+#services.ldap.jndiprovider=com.sun.jndi.ldap.LdapCtxFactory   
+#services.ldap.saslclientpckgs=   
+services.ldap.limit=0   
+services.ldap.timeout=0   
+services.ldap.version=3   
+LocalWords:  SHA
+   
+
+
+

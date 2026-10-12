@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+       "http://www.w3.org/TR/html4/transitional.dtd">
+<html>
+  <head>
+    <title>nmrshiftdb2 export</title>
+  </head>
+  <body>
+    <h1>$spectrum.getDBSpectrumType().getNameFormatted() for $names</h1>
+    <table>
+      <tr>
+        <td rowspan="2">
+          <table>
+                <tr bgcolor="#0000AA"><th><div style="color:white">Atom<br>No.</div></th>
+                <th><div style="color:white">Mult.<br>(coupling const.)</div></th>
+                <th><div style="color:white">Meas.<br>Shift</div></th>
+                #if($spectrum.hasAnyIntensities())
+                  <th><div style="color:white">Intensity</div></th>
+                #end
+                </tr>
+                #foreach ($option in $atoms)
+                <tr>
+                  <td>
+                    #if($option.getIdentifier()=="")
+	                  $option.getDisplayText()
+		            #else
+		              $option.getIdentifier()
+	    	        #end
+                  </td>
+                  <td align="center">$option.getMultiplicity()</td>
+                  <td>$option.getRange()</td>
+                  #if($spectrum.hasAnyIntensities())
+                    <td>$option.getIntensity()</td>
+                  #end
+                </tr>
+                #end
+          </table>
+        </td>
+        <td>
+          <img src="$baseurl/../nmrshiftdbhtml/tmp/$moleculepicture">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <img width="400" src="$baseurl/../nmrshiftdbhtml/tmp/$spectrumpicture">
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          Canonical name: $canname<br>
+          CAS-Number: $cas, Chemical formula: $formula<br>
+          #if ($spectrum.getConditionType()=="m")
+            Measurement conditions for that spectrum were:<br>
+          #else
+            Calculation conditions for that spectrum were:<br>
+          #end
+          #foreach ($cond in $spectrum.getMeasurementConditions())
+            - $cond.getConditionName(): $cond.getValue() 
+          #end
+          <br>
+          #if($spectrum.getLiteraturesNew().size()>0)
+          Literature:
+          #end
+          #foreach($literature in $spectrum.getLiteraturesNew())
+            $literature.toString()<br>
+          #end
+          Additional comments: $spectrum.getCommentAsString()<br>
+          Source: www.nmrshiftdb.org<br>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
+

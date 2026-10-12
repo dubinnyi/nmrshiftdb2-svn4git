@@ -1,0 +1,37 @@
+					<tr bgcolor="#0000AA"><th><div style="color:white">Molecule</div></th><th><div style="color:white">$mol.getMoleculeId()</div></th></tr>
+					<tr><td nowrap="nowrap">Chemical name(s)</td><td>$mol.getChemicalNamesAsOneString(true, true) #parse( "makeconfiguration.vm" )</td></tr>
+					<tr bgcolor="#D3D3D3"><td>Chemical formula</td><td>$mol.getMolecularFormula(true)</td></tr>
+					<tr><td>Molecular weight</td><td>$mol.getMolecularWeightFloat()</td></tr>
+					<tr bgcolor="#D3D3D3"><td>Number of double bond equivalents (DBEs)</td><td>$mol.getDbe()</td></tr>
+					<tr><td>Number of all rings, size of smallest set of smallest rings</td><td>$mol.getSar(), $mol.getSssr()</td></tr>
+					<tr bgcolor="#D3D3D3"><td valign="top">Canonical name(s)</td><td>
+					<ul>
+					<li><span class="chem:smiles">$genutil.getShort($mol.getSmilesStringStr(),30)</span> (SMILES)</li>
+					#if($mol.isChiral())
+					  <li><span class="chem:smiles">$genutil.getShort($mol.getSmilesStringChiralStr(),30)</span> (chiral SMILES)</li>
+					#end
+					#foreach($canname in $mol.getDBCanonicalNames())
+                                          #if($canname.getCanonicalNameTypeId() == 4)
+										    <li>$genutil.getShortInChI($canname.getName()) ($canname.getDBCanonicalNameType().getCanonicalNameType())</li>
+                                          #else
+                                            <li>$genutil.getShort($canname.getName(),30) ($canname.getDBCanonicalNameType().getCanonicalNameType())</li>
+                                          #end
+					#end
+					</ul></td></tr>
+                                        <tr><td>CAS-Number</td><td>
+                                        #if($mol.getCasNumber() && $mol.getCasNumber().size() > 0)
+                                          <span class="chem:casnumber">$mol.getCasNumber()</span>
+                                        #else
+                                          $mol.getCasNumber()
+                                        #end
+                                        </td></tr>
+					<tr bgcolor="#D3D3D3"><td>Additional information</td><td> 
+					#foreach($link in $mol.getLinks())
+						<a target="_blank" href="$link.getHyperlink()">$link.getDescription()</a>; 
+					#end
+					<br>Links from Unichem: $genutil.getShort($mol.getUnichemLinks($data),200)
+					</td></tr>
+					<tr><td>Molecule keywords</td><td>$mol.getMoleculeKeywordsAsOneString()</td></tr>
+					#if($mol.getDoi())
+						<tr bgcolor="#D3D3D3"><td>DOI</td><td>$mol.getDoi()</td></tr>
+					#end

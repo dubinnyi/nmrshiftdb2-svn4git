@@ -1,0 +1,310 @@
+#*
+Copyright 2004 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*#
+
+<table bgcolor="#ffffff" cellpadding="5">
+      #if ($msg)
+      <tr>
+        <td colspan="2">
+          <table bgcolor="#ffffff">
+            <tr>
+              <td>
+                $msg
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      #end
+      #if($reason)
+      <tr>
+        <td colspan="2">
+          <table bgcolor="#ffffff">
+            <tr>
+              <td>
+                $reason
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      #end
+</table>
+
+      #if (($mode == "delete"))
+      	<form name="ClientForm" method="post" action="$jslink.getPaneByName("ClientBrowser").setAction("portlets.ClientUpdateAction")">
+      <table>
+          <tr>
+              <td colspan="2">${l10n.CLIENT_FORM_ARE_YOU_SURE_YOU_WAN_VM}</td>
+          </tr>
+        <tr>
+            #formReadOnlyCell ($l10n.REGISTRY_EDITOR_CLIENT_NAME "client_name" $!entry.Name)
+        </tr>
+      </table>
+      <table border="0"  cellspacing="0" cellpadding="5" width="30%">
+      <tr>
+        <td>
+          <input type="submit" name="eventSubmit_doDelete" value="$l10n.REGISTRY_EDITOR_CLIENT_DELETE"/>
+        </td>
+        ##<td>
+        ##  <input type="submit" name="eventSubmit_doCancel" value="Cancel"/>
+        ##</td>
+      </tr>
+      </table>
+      </form>
+      #elseif ($mode == "insert")
+      <form name="ClientForm method="post" action="$jslink.getPaneByName("ClientForm").setAction("portlets.ClientUpdateAction")">
+	<table>
+		<input type="hidden" name="mode" value="update"/>
+		<tr>
+		  <td bgcolor="$!{skin.TitleBackgroundColor}">
+		    <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_CLIENT_NAME</font></b>
+		  </td>
+		  <td bgcolor="$!{skin.TitleBackgroundColor}">
+		    <font face="$ui.sansSerifFonts">
+		      <input type="text" size="30" name="client_name" value="$!data.user.getTemp("client_name")"/>
+		    </font>
+		  </td>
+		</tr>
+		<tr>
+		  <td bgcolor="$!{skin.TitleBackgroundColor}">
+		    <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_CLIENT_USER_AGENT_PATTERN</font></b>
+		  </td>
+		  <td bgcolor="$!{skin.TitleBackgroundColor}">
+		    <font face="$ui.sansSerifFonts">
+		      <input type="text" size="30" name="user_agent_pattern" value="$!data.user.getTemp("user_agent_pattern")"/>
+		    </font>
+		  </td>
+		</tr>
+		<tr>
+		  <td bgcolor="$!{skin.TitleBackgroundColor}">
+		    <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_CLIENT_MANUFACTURER</font></b>
+		  </td>
+		  <td bgcolor="$!{skin.TitleBackgroundColor}">
+		    <font face="$ui.sansSerifFonts">
+		      <input type="text" size="30" name="manufacturer" value="$!data.user.getTemp("manufacturer")"/>
+		    </font>
+		  </td>
+		</tr>
+		<tr>
+		  <td bgcolor="$!{skin.TitleBackgroundColor}">
+		    <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_CLIENT_MODEL</font></b>
+		  </td>
+		  <td bgcolor="$!{skin.TitleBackgroundColor}">
+		    <font face="$ui.sansSerifFonts">
+		      <input type="text" size="30" name="model" value="$!data.user.getTemp("model")"/>
+		    </font>
+		  </td>
+		</tr>
+		<tr>
+		  <td bgcolor="$!{skin.TitleBackgroundColor}">
+		    <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_CLIENT_VERSION</font></b>
+		  </td>
+		  <td bgcolor="$!{skin.TitleBackgroundColor}">
+		    <font face="$ui.sansSerifFonts">
+		      <input type="text" size="30" name="version" value="$!data.user.getTemp("version")"/>
+		    </font>
+		  </td>
+		</tr>
+		#*
+		<tr>
+		  <td bgcolor="$!{skin.TitleBackgroundColor}">
+		    <b><font face="$ui.sansSerifFonts">Hidden</font></b>
+		  </td>
+		  <td bgcolor="$!{skin.TitleBackgroundColor}">
+		    <font face="$ui.sansSerifFonts">
+		      <input type="checkbox" size="30" name="hidden" #if($!data.user.getTemp("hidden") == "on") checked="true"#end"/>
+		    </font>
+		  </td>
+		</tr>
+		*#
+	</table>
+	<table border="0"  cellspacing="0" cellpadding="5" width="30%">
+	  <tr>
+	    <td>
+	      <input type="submit" name="eventSubmit_doInsert" value="$l10n.REGISTRY_EDITOR_CLIENT_INSERT"/>
+	    </td>
+	        ##<td>
+	        ##  <input type="submit" name="eventSubmit_doCancel" value="Cancel"/>
+	        ##</td>
+	  </tr>
+	</table>
+      </form>
+      #elseif($mode == "update")
+      <form name="ClientForm method="post" action="$jslink.getPaneByName("ClientForm").setAction("portlets.ClientUpdateAction")">
+      	<table>
+		<input type="hidden" name="mode" value="update"/>
+		#formReadOnlyCell($l10n.REGISTRY_EDITOR_CLIENT_NAME "client_name" $!entry.name)
+		<tr>
+		  <td bgcolor="$!{skin.TitleBackgroundColor}">
+		    <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_CLIENT_USER_AGENT_PATTERN</font></b>
+		  </td>
+		  <td bgcolor="$!{skin.TitleBackgroundColor}">
+		    <font face="$ui.sansSerifFonts">
+		      <input type="text" size="30" name="user_agent_pattern" value="$!entry.useragentpattern"/>
+		    </font>
+		  </td>
+		</tr>
+		<tr>
+		  <td bgcolor="$!{skin.TitleBackgroundColor}">
+		    <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_CLIENT_MANUFACTURER</font></b>
+		  </td>
+		  <td bgcolor="$!{skin.TitleBackgroundColor}">
+		    <font face="$ui.sansSerifFonts">
+		      <input type="text" size="30" name="manufacturer" value="$!entry.manufacturer"/>
+		    </font>
+		  </td>
+		</tr>
+		<tr>
+		  <td bgcolor="$!{skin.TitleBackgroundColor}">
+		    <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_CLIENT_MODEL</font></b>
+		  </td>
+		  <td bgcolor="$!{skin.TitleBackgroundColor}">
+		    <font face="$ui.sansSerifFonts">
+		      <input type="text" size="30" name="model" value="$!entry.model"/>
+		    </font>
+		  </td>
+		</tr>
+		<tr>
+		  <td bgcolor="$!{skin.TitleBackgroundColor}">
+		    <b><font face="$ui.sansSerifFonts">$l10n.REGISTRY_EDITOR_CLIENT_VERSION</font></b>
+		  </td>
+		  <td bgcolor="$!{skin.TitleBackgroundColor}">
+		    <font face="$ui.sansSerifFonts">
+		      <input type="text" size="30" name="version" value="$!entry.version"/>
+		    </font>
+		  </td>
+		</tr>
+		#*
+		<tr>
+		  <td bgcolor="$!{skin.TitleBackgroundColor}">
+		    <b><font face="$ui.sansSerifFonts">Hidden</font></b>
+		  </td>
+		  <td bgcolor="$!{skin.TitleBackgroundColor}">
+		    <font face="$ui.sansSerifFonts">
+		      <input type="checkbox" size="30" name="hidden" #if($!entry.hidden) checked="true"#end/>
+		    </font>
+		  </td>
+		</tr>
+		*#
+		<tr>
+        	  <td align="center"><input type="submit" name="eventSubmit_doUpdate" value="$l10n.REGISTRY_EDITOR_CLIENT_UPDATE"/></td>
+    		</tr>
+	</table>
+      </form>
+      <hr />
+      #if($entry.MimetypeMap.Mimetypes.hasNext())
+      <form name="RemoveMimeType method="post" action="$jslink.getPaneByName("ClientForm").setAction("portlets.ClientUpdateAction")">
+      	<input type="hidden" name="client_name" value="$!entry.name"/>
+      	<input type="hidden" name="mode" value="update"/>
+      	<table>
+      	  #foreach($mimeType in $entry.MimetypeMap.Mimetypes)
+      	  	<tr>
+                    <td><input type="checkbox" name="mime_type" value="$!mimeType"/></td>
+      	  		<td>$mimeType</td>
+      	  	</tr>
+      	  #end
+      	  <tr>
+      	  	<td>
+      	  		<td colspan="2" align="center"><input type="submit" name="eventSubmit_doRemovemimetype" value="$l10n.REGISTRY_EDITOR_REMOVE_MIMETYPES"/></td>
+      	  	</td>
+      	  </tr>
+      	</table>
+      </form>
+      #end
+      #parse("include/mime-combo.vm")
+      #parse("include/capability-combo.vm")
+      
+      <p>$l10n.REGISTRY_EDITOR_CLIENT_NOTE</p>
+      <form name="AddMimeType" method="post" action="$jslink.getPaneByName("ClientForm").setAction("portlets.ClientUpdateAction")">
+      	<input type="hidden" name="client_name" value="$!entry.name"/>
+      	<input type="hidden" name="mode" value="update"/>
+      	<table>
+      	  <tr>
+                <td colspan="2"><input size="50" type="text" name="mime_type" value="$!data.user.getTemp("mime_type")"/></td>
+      	  </tr>
+      	  <tr>
+      	  	<td>
+                <select name="type" onChange="changeMimeList(document.AddMimeType); updateMimeType(document.AddMimeType); return true;">
+      	  		<option value="text">${l10n.CLIENT_FORM_TEXT_VM}</option>
+      	  		<option value="multipart">${l10n.CLIENT_FORM_MULTIPART_VM}</option>
+      	  		<option value="message">${l10n.CLIENT_FORM_MESSAGE_VM}</option>
+      	  		<option value="application">${l10n.CLIENT_FORM_APPLICATION_VM}</option>
+      	  		<option value="image">${l10n.CLIENT_FORM_IMAGE_VM}</option>
+      	  		<option value="audio">${l10n.CLIENT_FORM_AUDIO_VM}</option>
+      	  		<option value="video">${l10n.CLIENT_FORM_VIDEO_VM}</option>
+      	  		<option value="model">${l10n.CLIENT_FORM_MODEL_VM}</option>
+      	  	</select>
+      	  	</td>
+      	  	<td>
+                <select name="subtype" onChange="updateMimeType(document.AddMimeType); return true;"><script>document.AddMimeType.type.selectedIndex=0; changeMimeList(document.AddMimeType); updateMimeType(document.AddMimeType);</script></select>
+      	  	</td>
+      	  </tr>
+      	  <tr>
+      	  	<td colspan="2">
+      	  		<input type="submit" name="eventSubmit_doAddmimetype" value="$l10n.REGISTRY_EDITOR_ADD_MIMETYPE"/>
+      	  	</td>
+      	  </tr>
+      	</table>
+      </form>
+      <hr />
+      #if($entry.CapabilityMap.Capabilities.hasNext())
+      <form name="RemoveCapability method="post" action="$jslink.getPaneByName("ClientForm").setAction("portlets.ClientUpdateAction")">
+      	<input type="hidden" name="client_name" value="$!entry.name"/>
+      	<input type="hidden" name="mode" value="update"/>
+      	<table>
+      	  #foreach($capability in $entry.CapabilityMap.Capabilities)
+      	  	<tr>
+      	  		<td><input type="checkbox" name="capability" value="$!capability"/></td>
+      	  		<td>$!capability</td>
+      	  	</tr>
+      	  #end
+      	  <tr>
+      	  	<td>
+      	  		<td colspan="2" align="center"><input type="submit" name="eventSubmit_doRemovecapability" value="$l10n.REGISTRY_EDITOR_DELETE_CAPABILITIES"/></td>
+      	  	</td>
+      	  </tr>
+      	</table>
+      </form>
+      #end
+      <form name="AddCapability" method="post" action="$jslink.getPaneByName("ClientForm").setAction("portlets.ClientUpdateAction")">
+      	<input type="hidden" name="client_name" value="$!entry.name"/>
+      	<input type="hidden" name="mode" value="update"/>
+      	<table>
+      	  <tr>
+      	  	<td>
+      	  		<select multiple="true" name="capability">
+      	  		<option value=""></option>
+                    <script>changeCapList(document.AddCapability); </script>
+      	  		</select>
+      	  	</td>
+      	  </tr>
+      	  <tr>
+      	  	<td>
+      	  		<input type="submit" name="eventSubmit_doAddcapability" value="$l10n.REGISTRY_EDITOR_INSERT_CAPABILITY"/>
+      	  	</td>
+      	  </tr>
+      	</table>
+      </form>	
+      #end
+<table>
+  <tr>
+    <td>
+      <form name="PortletForm" method="post" action="$jslink.getPaneByName("ClientBrowser").setAction("portlets.ClientUpdateAction")">
+        <input type="submit" name="eventSubmit_doCancel" value="$l10n.REGISTRY_EDITOR_CLIENT_CANCEL"/>
+      </form>
+    </td>
+  </tr>
+</table>

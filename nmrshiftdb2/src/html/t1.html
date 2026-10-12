@@ -1,0 +1,306 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+></TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"><LINK
+REL="NEXT"
+TITLE="Using nmrshiftdb2"
+HREF="using.html"></HEAD
+><BODY
+CLASS="article"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="ARTICLE"
+><DIV
+CLASS="TOC"
+><DL
+><DT
+><B
+>Table of Contents</B
+></DT
+><DT
+><A
+HREF="t1.html#about"
+>About nmrshiftdb2</A
+></DT
+><DT
+><A
+HREF="using.html"
+>Using nmrshiftdb2</A
+></DT
+><DT
+><A
+HREF="technology.html"
+>Technology used by nmrshiftdb2</A
+></DT
+><DT
+><A
+HREF="credits.html"
+>Credits</A
+></DT
+></DL
+></DIV
+><DIV
+CLASS="sect1"
+><H1
+CLASS="sect1"
+><A
+NAME="about"
+>About nmrshiftdb2</A
+></H1
+><DIV
+CLASS="sect2"
+><H2
+CLASS="sect2"
+><A
+NAME="whatis"
+>What is nmrshiftdb2?</A
+></H2
+><P
+>nmrshiftdb2 is a NMR database (web database) for organic structures and their nuclear magnetic resonance (nmr) spectra. It allows for spectrum prediction (<SUP
+>13</SUP
+>C, <SUP
+>1</SUP
+>H and other nuclei) as well as for searching spectra, structures and other properties. The nmrshiftdb2 software is open source, the data is published under an open content license. The core of nmrshitdb2 are fully assigned spectra with raw data and peak lists (we have pure peak lists as well). Those datasets are peer reviewed by a <A
+HREF="https://nmrshiftdb2.sourceforge.io/referees.html"
+TARGET="_top"
+>board of reviewers</A
+>. The project is supported by a <A
+HREF="https://nmrshiftdb2.sourceforge.io/advisoryboard.html"
+TARGET="_top"
+>scientific advisory board</A
+>. nmrshiftdb2 is part of the <A
+HREF="derefer.jsp?url=https://nfdi4chem.de/"
+TARGET="_top"
+>NFDI4Chem initiative</A
+> and will provide a component for a curated repository there.</P
+><P
+>One-dimensional NMR shift data (<SUP
+>13</SUP
+>C, <SUP
+>1</SUP
+>H, <SUP
+>15</SUP
+>N, <SUP
+>31</SUP
+>P etc.) can be stored as well as two-dimensional spectra of any type. Nuclei and spectrum types can be added as needed. For each spectrum (one-dimensional as well as two-dimensional) peak lists, spectrum images, and raw data can be stored. Together, they form the full characterization of a structure, which is available together with the automatic report and the reviewer opinion for download. The implemented search algorithms can scan the database for example for the following items: substance name, formula, structure, substructures, chemical shifts, and a Hit List of best matches is generated. Furthermore, a shift prediction algorithm for all nuclei has been included.</P
+><P
+>It is the policy of nmrshiftdb2 to have its content freely available. This means that spectra in nmrshiftdb2 can be accessed and used without restrictions. Access to single items is possible via the software and we also make available the bunch data (without the personal data). Note that, according to our opinion, NMR spectra do not represent "literary and artistic works" as mentioned in Art. 2 (1) of the Berne Convention, the author of a spectrum is, so to say, nature, and that therefore there is no copyright in NMR data. nmrshiftdb2 as a database is a protected work in the sense of article 5 of the WIPO Copyright Convention, authored by its contributors and reviewers. It is available under the <A
+HREF="nmrshiftdbhtml/nmrshiftdb2datalicense.txt"
+TARGET="_top"
+>nmrshiftdb2 Data License</A
+>.</P
+><P
+>The nmrshiftdb2 data are available as:
+<DIV
+CLASS="table"
+><A
+NAME="AEN20"
+></A
+><P
+><B
+>Table 1. Data downloads</B
+></P
+><TABLE
+BORDER="1"
+BGCOLOR="#E0E0E0"
+CELLSPACING="0"
+CELLPADDING="4"
+CLASS="CALSTABLE"
+><THEAD
+><TR
+><TH
+>-</TH
+><TH
+>With 2D coordinates</TH
+></TR
+></THEAD
+><TBODY
+><TR
+><TD
+><a href="https://nmredata.org/">NMReDATA</a></TD
+><TD
+><A
+HREF="https://sourceforge.net/projects/nmrshiftdb2/files/data/nmrshiftdb2.nmredata.sd/download"
+TARGET="_top"
+>nrmshiftdb2.nmredata.sd</A
+></TD
+></TR
+><TR
+><TD
+>sdf</TD
+><TD
+><A
+HREF="https://sourceforge.net/projects/nmrshiftdb2/files/data/nmrshiftdb2.sd/download"
+TARGET="_top"
+>nmrshiftdb2.sd</A
+></TD
+></TR
+><TR
+><TD
+>sdf with spectra</TD
+><TD
+><A
+HREF="https://sourceforge.net/projects/nmrshiftdb2/files/data/nmrshiftdb2withsignals.sd/download"
+TARGET="_top"
+>nmrshiftdb2withsignals.sd</A
+></TD
+></TR
+><TR
+><TD
+>cml</TD
+><TD
+><A
+HREF="https://sourceforge.net/projects/nmrshiftdb2/files/data/nmrshiftdb2.xml/download"
+TARGET="_top"
+>nmrshiftdb2.xml</A
+></TD
+></TR
+></TBODY
+></TABLE
+></DIV
+>
+</P
+><P
+>Questions about nmrshiftdb2 should be directed to the administrator.</P
+></DIV
+><DIV
+CLASS="sect2"
+><H2
+CLASS="sect2"
+><A
+NAME="howtouse"
+>How to use nmrshiftdb2</A
+></H2
+><P
+>nmrshiftdb2 is accessible via the Web interface at <A
+HREF="http://www.nmrshiftdb.org"
+TARGET="_top"
+>www.nmrshiftdb.org</A
+>.</P
+><P
+>The use of nmrshiftdb2 via a Web browser is straightforward, and numerous Help links (symbol <SPAN
+CLASS="inlinemediaobject"
+><IMG
+SRC="../images/help.png"></SPAN
+>) are provided. nmrshiftdb2 will work without any special plugins, but at numerous places you can switch to a Java-based version. This gives additional comfort with entering and viewing data, but a prerequisite for your browser is then that the Java VM (virtual machine) must be installed and JavaScript activated. A major problem in the development of Web-based applications is the wide range of ever-changing capabilities and incompatibilities of the popular browsers in use. In the following we offer some comments and tips concerning browser choice, based on current experience, and we welcome your comments.</P
+><P
+></P
+><UL
+><LI
+><P
+>Firefox</P
+><P
+>Firefox is the recommended browser, which we have extensively tested. We recommend the latest release. Firefox 16 has been tested on Windows and Linux. When you want to use the Java Version of nmrshiftdb2 you should download and install the latest version of the Java 2 VM from the Sun Website.</P
+></LI
+><LI
+><P
+>Internet Explorer</P
+><P
+>IE 8 has been tested and no problems were found. The Sun Java VM should be installed when you want to use the Java version of nmrshiftdb2; when necessary, IE should prompt for this the first time you visit the nmrshiftdb2 site and carry out an automatic installation.</P
+></LI
+><LI
+><P
+>Opera</P
+><P
+>With Opera 7.x (we tested 7.11 build 406) and Java VM all functionalities of nmrshiftdb2 are available. Some versions of Opera 6.x had problems with JavaScript, so the functions Submit, Search and Predict with Java Version do not operate correctly. Please upgrade to Opera 7.</P
+></LI
+><LI
+><P
+>Konqueror/Safari</P
+><P
+>Konqueror =&#62;3.1 and Safari &#62;= 1.2 should work. Older versions do not operate correctly for the functions Submit, Search and Predict with the Java version, due to flaws in Konqueror's JavaScript implementation.</P
+></LI
+><LI
+><P
+>Macintosh</P
+><P
+>On MacOS 10.1 or higher Safari 1.2, Netscape 7.02 and Opera 7.50 (beta) are reported to work with Java VM 1.4.2. On Classic OS, iCab 2.9.7 should work. With other browsers on Macintosh (OS 9 as well as OS X) the so-called "Live-Connect" feature is not available. This means that Submit, Search, Predict do not operate correctly with the Java Version.</P
+></LI
+></UL
+></DIV
+><DIV
+CLASS="sect2"
+><H2
+CLASS="sect2"
+><A
+NAME="involve"
+>Getting involved</A
+></H2
+><P
+>nmrshiftdb2 is an open-source, open-access application, and users are strongly encouraged to get involved, not only by submitting spectra, but also by reporting bugs and making suggestions for improvements and new functionalities.</P
+><P
+>Bugs should be reported to the administrator; please give details, browser and operating system used, date and time of failure. You can also use the <A
+HREF="https://sourceforge.net/p/nmrshiftdb2/bugs/"
+TARGET="_top"
+>bug tracker</A
+>.</P
+><P
+>Interested users are also encouraged to submit code or documentation; please visit the <A
+HREF="http://sourceforge.net/projects/nmrshiftdb2"
+TARGET="_top"
+>Project Homepage at SourceForge</A
+>. If you have any questions, do not hesitate to email the administrator.</P
+></DIV
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="using.html"
+ACCESSKEY="N"
+>Next &#62;&#62;&#62;</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Using nmrshiftdb2</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

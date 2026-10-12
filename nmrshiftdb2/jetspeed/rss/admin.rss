@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<!--
+Copyright 2004 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<rss version="0.91">
+  <channel>
+    <title>Jetspeed Administration</title>
+    <description>
+      The Jetspeed Administration features are mainly 
+      implemented in administrative portlets which you can access
+      from the admin user home page by chosing the "Admin" and "Security" tabs.
+      Here are some the most common administrative portlets from both tabs:
+    </description>
+    <item>
+      <title>Global</title>
+      <description>
+        This portlet gives general information about the portal
+        resources utilisation
+      </description>    
+      <link>./portal?action=controls.Maximize&#38;js_peid=333</link>
+    </item>
+    <item>    
+    <title>Java Runtime</title>
+      <description>
+        Give you all the properties defined for the JVM running 
+        the application
+      </description>
+      <link>./portal?action=controls.Maximize&#38;js_peid=339</link>
+    </item>
+    <item>
+      <title>Daemons</title>
+      <description>
+        From this portlet you can control the various deamon threads
+        operations. The three daemons currently implemented are the
+        feed daemon which processes OCS feeds in order to register 
+        new RSS datasources in the portal, the disk cache daemon which
+        periodically refreshes the cached syndicated files and the
+        bad URL daemon which removes from the syndicated data source list
+        the unreachable or stale URLs
+      </description>
+      <link>./portal?action=controls.Maximize&#38;js_peid=341</link>
+    </item>
+    <item>
+      <title>User Browser</title>
+      <description>
+        Allows you to maintain users in the portal database.
+      </description>
+      <link>./portal?action=controls.Maximize&#38;js_peid=323</link>
+    </item>
+    <item>
+      <title>BadURLManager</title>
+      <description>
+        Lists the URLs currently marked as unreachable by the system and
+        allows you to manually test these URLs.
+      </description>
+      <link>./portal?action=controls.Maximize&#38;js_peid=343</link>
+    </item>
+  </channel>
+</rss>

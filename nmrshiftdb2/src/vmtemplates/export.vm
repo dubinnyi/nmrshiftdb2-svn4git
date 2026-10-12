@@ -1,0 +1,95 @@
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+          "https://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+
+<article>
+	<para>
+		<figure>
+			<title>$spectrum.getDBSpectrumType().getName() for $chemnames</title>
+			<informaltable frame="none">
+				<tgroup cols="2">
+					<colspec colname="1" colwidth="1*"/><colspec colname="2" colwidth="4*"/>
+					<spanspec spanname="hspan" namest="1" nameend="2"/>
+					<tbody>
+						<row>
+							#if($format=="pdf")
+								<entrytbl cols="2">
+									<tbody>
+										<row><entry>Atom</entry><entry>Shift(s)</entry></row>
+										#foreach($atom in $atoms)
+											<row><entry>
+	              							#if($atom.getIdentifier()=="")
+	                                            $atom.getDisplayText()
+                                            #else
+	                                            $atom.getIdentifier()
+	                                        #end
+											</entry><entry>$atom.getRange()</entry>
+											</row>
+										#end
+									</tbody>
+								</entrytbl>
+							#else
+								<entry>
+                  					<para>
+					                    Atom   Shift(s)
+					                </para>
+					                #foreach($atom in $atoms)
+					                    <para>
+						                      $atom.getDisplayText()   $atom.getRange()
+					                    </para>
+				                   #end
+			                   </entry>
+						    #end
+							<entry>
+								<mediaobject>
+									<imageobject>
+										<imagedata fileref="$moleculepicture" format="$formatpic"/>
+									</imageobject>
+								</mediaobject>
+								<mediaobject>
+									<imageobject>
+										<imagedata fileref="$spectrumpicture" format="$formatpic"/>
+									</imageobject>
+								</mediaobject>
+							</entry>
+						</row>
+						<row>
+							<entry spanname="hspan">
+								<para>
+									 
+								</para>
+								<para>
+									Canonical name: $canname
+								</para>
+								<para>
+									CAS-Number: $cas, Chemical formula: $formula
+								</para>
+								<para>
+									#if ($spectrum.getConditionType()=="m")
+										Measurement conditions for that spectrum were:
+									#else
+										Calculation conditions for that spectrum were:
+									#end
+									#foreach ($cond in $spectrum.getMeasurementConditions())
+										- $cond.getConditionName(): $cond.getValue() 
+									#end
+								</para>
+								<para>
+									Literature:
+                  					#foreach($literature in $spectrum.getLiteraturesNew())
+					                    <para>$literature.toString()</para>
+				                  	#end
+								</para>
+								<para>
+									Additional comments: $spectrum.getCommentAsString()
+								</para>
+								<para>
+									Source: www.nmrshiftdb.org
+								</para>
+							</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</informaltable>
+		</figure>
+	</para>
+</article>

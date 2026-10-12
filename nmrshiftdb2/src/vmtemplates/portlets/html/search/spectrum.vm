@@ -1,0 +1,60 @@
+<script LANGUAGE="JavaScript1.1">	
+<!--
+  function newPopup(url) {
+	popupWindow = window.open(
+		url,'popUpWindow','height=300,width=300,left=10,top=10,resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no,directories=no,status=no')
+  }
+-->
+</script>
+  <p style="color:red">$!message</p>
+<br>
+	<form name="spectrumform" action="portal/js_pane/P-Search;jsessionid=$data.getSession().getId()" method="post">
+		<input name="eventSubmit_doSwitchmode" type="submit" value="#if($mode=="expert")Switch to normal search mode #else Switch to expert search mode #end">
+	</form>
+<br>
+#if ($data.User.hasLoggedIn())
+	<a href="portal/js_pane/P-Results;jsessionid=$data.getSession().getId()?eventSubmit_doMyspectra=$constants.getMYSPECTRA()">Show all my contributions</a><br>
+#end
+#if($unassigned)
+	<a href="portal/js_pane/P-Results;jsessionid=$data.getSession().getId()?nmrshiftdbaction=$constants.getBROWSESPEC()&startbrowseall=$firstmolecule">Browse all spectra</a>
+#else
+	<a href="portal/js_pane/P-Results;jsessionid=$data.getSession().getId()?nmrshiftdbaction=$constants.getBROWSE()&startbrowseall=$firstmolecule">Browse all structures</a>
+#end
+<br>
+<form name="spectrumform" action="portal/js_pane/P-Results;jsessionid=$data.getSession().getId()" method="post">
+	<table width="420">
+		<tr>
+			<td>
+		        Input list <a href="portal/js_pane/P-Help;jsessionid=$data.getSession().getId()?URL=using.html#sspec" title="Help for spectrum searches" style="color:white"><img src="images/help.png"></a>: <a href="JavaScript:newPopup('nmrshiftdbhtml/hints/formathint.html');">Input format</a><br>
+				<textarea name="spectrum" cols="20" rows="10" onBlur="if (this.value == '') this.value = 'Format ()=optional:\r\nShift(;Intensity)(Multiplicity)\r\nShift(;Intensity)(Multiplicity';" onFocus="if (this.value.indexOf('Format')>-1) this.value = '';" >$!searchSpectrum</textarea>
+			</td>
+			<td width="220">
+				Spectrum type to search:<br>
+				<select name="spectrumtypespectrumsearch" size="1">
+				#foreach($spectrumtype in $spectrumtypes)
+		    	  <option value="$spectrumtype.getSpectrumTypeId()" #if($spectrumtypeselected.getSpectrumTypeId()==$spectrumtype.getSpectrumTypeId()) selected #end>$spectrumtype.getName()</option>
+				#end
+			    </select>
+			    <br><br>
+    			<input type="radio" name="suborwhole" value="sub" 
+		        #if($subortotal=="sub")
+		          checked
+		        #end
+		        >Subspectrum<br>
+				<input type="radio" name="suborwhole" value="whole" 
+		        #if($subortotal=="whole")
+		          checked
+		        #end
+		        >Complete<br><br>
+				<input name="eventSubmit_doSearchbyspectrumspec" type="submit" style="background-color:#0000AA; color:white" value="Search by spectrum">
+			</td>
+		</tr>
+	</table>
+</form>
+<form action="NmrshiftdbServlet;jsessionid=$data.getSession().getId()" enctype="multipart/form-data" name="uploadjcamp" method="post">
+  Or choose jcamp file:<br>
+  <input style="font-size:smaller" name="uploadjcamp" type="file" size="20" maxlength="100000" accept=".dx,.jdx">
+  <input type="hidden" name="nmrshiftdbaction" value="uploadjcampsearch">
+  <input style="font-size:smaller" TYPE="submit" VALUE="Upload file">
+</form>
+<br>

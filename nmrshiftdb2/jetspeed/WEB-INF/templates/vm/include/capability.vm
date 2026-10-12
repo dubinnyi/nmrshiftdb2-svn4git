@@ -1,0 +1,17 @@
+#*
+Copyright 2004 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*#
+
+#set($capabilities = ["HTML_3_2","HTML_4_0","HTML_TABLE","HTML_NESTED_TABLE","HTML_FORM","HTML_FRAME","HTML_IMAGE","HTML_JAVA","HTML_JAVA_1_0","HTML_JAVA_1_1","HTML_JAVA_JRE","HTML_JAVASCRIPT","HTML_JAVASCRIPT_1_0","HTML_JAVASCRIPT_1_1","HTML_JAVASCRIPT_1_2","HTML_ACTIVE_X","HTML_PLUGIN","HTML_CSS1","HTML_CSS2","HTML_CSSP","HTML_IFRAME","HTML_LAYER","","HTML_DOM_IE","HTML_DOM_NS4","HTML_DOM_1","HTML_DOM_2","","WML_1_0","WML_1_1","WML_TABLE","","XML_XSLT","XML_XPATH","XML_XINCLUDE","","HTTP_1_1","HTTP_COOKIE"])

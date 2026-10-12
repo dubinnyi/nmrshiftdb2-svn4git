@@ -1,0 +1,53 @@
+#if($error)
+	$error
+#else
+	<form action="$jslink.getPaneById("P-Results")" name="searchsampleprops" method="post">
+	  <h3>Sample properties</h3>
+		Search expression: <input type="text" name="searchstringsample" value="$!searchName">
+		<select name="searchactionsample" size="1">
+			<option value="$constants.getEXACT()" 
+			#if($searchaction=="$constants.getEXACT()")
+				selected
+			#end
+			>Exact</option>
+	    <option value="$constants.getREGEXP()" 
+			#if($searchaction=="$constants.getREGEXP()")
+				selected
+			#end
+			>Regular expression</option>
+	    <option value="$constants.getFRAGMENT()" 
+			#if($searchaction=="$constants.getFRAGMENT()")
+				selected
+			#end
+			>Fragment</option>
+	    <option value="$constants.getFUZZY()" 
+			#if($searchaction=="$constants.getFUZZY()")
+				selected
+			#end
+			>Fuzzy</option>
+	  </select>
+	  <select name="sampleprops" style="width:200px">
+		<option value="$constants.getSAMPLE_USERS_ID()">Sample I. D.</option>
+		<option value="$constants.getSAMPLE_KEYWORD()">Keyword</option>
+		<option value="$constants.getSAMPLE_CARE()">Special care</option>
+	  </select><br>
+	  <input name="eventSubmit_doSearchbysampleprops" type="submit" style="background-color:#0000AA; color:white" value="Search by sample properties" /> <a href="$jslink.getPaneById("P-Help").addQueryData("URL","using.html")#ssamples" title="Help for samples search" style="color:white"><img src="images/help.png"></a>
+	</form>
+	<form action="$jslink.getPaneById("P-Results")" name="searchsampleprops" method="post">
+	  <h3>Experiment requested</h3>
+	  <table>
+	    <tr>
+	      #foreach($category in $experiments)
+	        <td>
+		    #foreach($type in $category)
+		      $type.getLineBefore()
+		  		<input type="checkbox" name="experiment$type.getExperimentId()" value="experiment$type.getExperimentId()" #if($searchsampleexperiments.contains($type.getExperimentId())) checked #end>
+			  $type.getName()<br>
+			#end
+	        </td>
+		  #end
+	    </tr>
+	  </table>
+	  <input name="eventSubmit_doExperimenttypes" type="submit" style="background-color:#0000AA; color:white" value="Search by experiment type" /> <a href="$jslink.getPaneById("P-Help").addQueryData("URL","using.html")#ssamples" title="Help for sample search" style="color:white"><img src="images/help.png"></a>
+	</form>
+#end

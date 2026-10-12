@@ -1,0 +1,82 @@
+		<script LANGUAGE="JavaScript1.1">
+		<!--
+		  function exportMol() {
+		    document.molexport.action="download/NmrshiftdbServlet/submit."+document.molexport.format.value+";jsessionid=$data.getSession().getId()?moleculeid=subdata&nmrshiftdbaction=exportmol";
+		  }
+		  function exportSpec() {
+		      document.exportspec.action="download/NmrshiftdbServlet/submit."+document.exportspec.format.value+";jsessionid=$data.getSession().getId()?spectrumid=subdata&nmrshiftdbaction=exportspec&lastsearchtype=$lastsearch.getDisplayText()";
+		  }
+		  function exportBoth() {
+		    if(document.exportboth.format.value=="pdf"){
+		      document.exportboth.action="download/NmrshiftdbServlet/submit.pdf;jsessionid=$data.getSession().getId()?spectrumid=subdata&nmrshiftdbaction=exportspec";
+		    }else{
+		      if(document.exportboth.format.value=="simplehtml")
+		        document.exportboth.action="download/NmrshiftdbServlet/submit.html;jsessionid=$data.getSession().getId()?spectrumid=subdata&nmrshiftdbaction=exportspec";
+		      else if(document.exportboth.format.value=="cmlboth")
+		        document.exportboth.action="download/NmrshiftdbServlet/submit.cml;jsessionid=$data.getSession().getId()?spectrumid=subdata&nmrshiftdbaction=exportspec";
+		      else if(document.exportboth.format.value=="docbook")
+		        document.exportboth.action="download/NmrshiftdbServlet/submit.zip;jsessionid=$data.getSession().getId()?spectrumid=subdata&nmrshiftdbaction=exportspec";
+		      else if(document.exportboth.format.value=="rtf")
+		        document.exportboth.action="download/NmrshiftdbServlet/submit.rtf;jsessionid=$data.getSession().getId()?spectrumid=subdata&nmrshiftdbaction=exportspec";
+              else if(document.exportboth.format.value=="nmredata.sd")
+                document.exportboth.action="download/NmrshiftdbServlet/submit.nmredata.sd;jsessionid=$data.getSession().getId()?spectrumid=subdata&nmrshiftdbaction=exportspec";
+              else if(document.exportboth.format.value=="nmredata.zip")
+                document.exportboth.action="download/NmrshiftdbServlet/submit.nmredata.zip;jsessionid=$data.getSession().getId()?spectrumid=subdata&nmrshiftdbaction=exportspec";
+		      else
+		        document.exportboth.action="download/NmrshiftdbServlet/submit.txt;jsessionid=$data.getSession().getId()?spectrumid=subdata&nmrshiftdbaction=exportspec";
+		    }
+		  }
+		//-->
+		</script>
+		Export your submit (does not save or finish the submit):<br><br>
+		#if($subdata.getMolOriginal())
+			<form action="" method="post" target="_new" name="molexport">
+				Get this molecule as 
+				<select name="format" size="1">
+					<option value="svg">svg</option>
+					<option value="jpeg">jpeg</option>
+					<option value="png">png</option>
+					<option value="tiff">tiff</option>
+					<option value="mdl">mdl molfile</option>
+			    <option value="cml">cml code</option>
+				</select>
+				 file 
+				<input type="submit" value="Request" onClick="exportMol()">
+			</form>
+        #end
+		#if($subdata.getSignalstable().getPeakElements().size()>0)
+			<form action="" method="post" target="_new" name="exportspec">
+				Get this spectrum as 
+				<select name="format" size="1">
+					<option value="svg">svg</option>
+					<option value="jpeg">jpeg</option>
+					<option value="png">png</option>
+					<option value="tiff">tiff</option>
+					#if ($spectrum.getJcamp())
+						<option value="jcamp">jcamp-dx (orignal spectrum)</option>
+					#end
+					<option value="jcamppeaks">jcamp-dx (peaks only)</option>
+			    <option value="txt">ascii table</option>
+			    <option value="cml">cml code</option>
+				</select>
+				 file 
+				<input type="submit" value="Request" onClick="exportSpec()">
+			</form>
+			<form action="" method="post" target="_new" name="exportboth">
+				Get this spectrum and its molecule as 
+				<select name="format" size="1">
+			    	<option value="simplehtml">simple html</option>
+					<option value="pdf">pdf</option>
+					<option value="docbook">docbook (zip file)</option>
+					<option value="rtf">rtf</option>
+					#foreach($template in $templates)
+						<option value="exsection-$template.getName()">experimental section (format: $template.getName())</option>
+					#end
+			    	<option value="cmlboth">cml</option>
+                    <option value="nmredata.sd">NMReDATA</option>
+                    <option value="nmredata.zip">NMR Record</option>
+				</select>
+				 file 
+				<input type="submit" value="Request" onClick="exportBoth()">
+			</form>
+		#end

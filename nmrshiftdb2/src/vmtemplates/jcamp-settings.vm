@@ -1,0 +1,2 @@
+<input type="radio" name="jcamp_strict" #if($jcamp_strict.booleanValue()) checked #end value="jcamp_strict">Use .SHIFT REFERENCE in jcamp files (e. g. files from Topspin)<br>
+<input type="radio" name="jcamp_strict" #if(!$jcamp_strict.booleanValue()) checked #end value="jcamp_relaxed">Do not use .SHIFT REFERENCE in jcamp files (e. g. files from ACD/SpecManager, Spinworks)<br>

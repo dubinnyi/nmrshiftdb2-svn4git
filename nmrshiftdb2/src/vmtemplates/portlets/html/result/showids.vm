@@ -1,0 +1,3 @@
+#foreach($result in $results)
+  MoleculeID: $peer.retrieveByPK($int.parseInt($result)).getMoleculeId(), SpectrumIDs: $peer.retrieveByPK($int.parseInt($result)).getSpectrumIds()<br>
+#end

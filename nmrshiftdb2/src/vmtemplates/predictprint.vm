@@ -1,0 +1,22 @@
+<html>
+  <head>
+    <base href="$baseurl">
+  </head>
+  <body onLoad="window.print()">
+    <table>
+      <tr>
+        <td>
+            <img src="$imagefile" alt="A picture of the molcule">
+        </td>
+        <td rowspan="2" valign="top">
+          #parse ("predicttable.vm")
+        </td>
+      </tr>
+      <tr>
+        <td>
+            <img src="$specfile" alt="A picture of the spectrum">
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

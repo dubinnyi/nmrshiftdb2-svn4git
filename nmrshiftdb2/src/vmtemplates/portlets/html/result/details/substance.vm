@@ -1,0 +1,83 @@
+<p style="color:red">
+  $message
+</p>
+<br>
+
+#foreach($spectrum in $spectra)
+  #if($spectrum.getMark()>$spectrum.getDisplaymark() || $displayall=="true")
+    #set($outercounter=$velocityCount)
+    #set($tabheaders=["Spectral Data","Additional Data","Download"])
+    #set($tabname="tab")
+	#set($tab=$innertabs)
+	#parse( "portlets/html/result/details/tabs.vm" )
+   	#if($tab.get($outercounter)==0)
+		    #if ($viewingaction=="searchbyspectrum")
+		      <h3>
+		      #if($searchtype==$constants.getSUBSPECTRUM())
+		        Search for subspectrum: Similarity measure for input shifts within this record is $spectrum.getSimilarityFormatted().
+		      #else
+		        Search for complete spectrum: Similarity measure for the complete spectrum in this record is $spectrum.getSimilarityFormatted().
+		      #end
+		      </h3>
+		    #end
+		    #if($lastsearch.getDisplayText()=="my spectra")
+		      #if($spectrum.getReviewFlag()=="true")
+		        <h3>This spectrum has been reviewed as valid by <a href="mailto:$spectrum.getEmailOfAsssignedReviewer()">$spectrum.getNameOfAsssignedReviewer()</a></h3>
+		      #elseif($spectrum.getReviewFlag()=="false")
+		        <h3>This spectrum has no yet been reviewed by <a href="mailto:$spectrum.getEmailOfAsssignedReviewer()">$spectrum.getNameOfAsssignedReviewer()</a></h3>
+		      #elseif($spectrum.getReviewFlag()=="edited")
+		        <h3>This spectrum has been edited and is scheduled for deletion!</h3>
+		      #else
+		        <h3>This spectrum has been reviewed as invalid by <a href="mailto:$spectrum.getEmailOfAsssignedReviewer()">$spectrum.getNameOfAsssignedReviewer()</a></h3>
+		      #end
+		    #end
+		    <table>
+		      <tr>
+		        <td>
+		        	$substance.getSubstanceComment()<br>
+                      $substance.getKeywords(false)
+		        </td>
+		        <td>
+		          <img src="images/blank.gif" height="1" width="20">
+		        </td>
+		        <td rowspan="2" valign="top">
+					##parse("portlets/html/result/details/spectrumtable.vm")
+		        </td>
+		      </tr>
+		      <tr>
+		        <td>
+		        	#parse("portlets/html/result/details/spectrumimage.vm")
+		        </td>
+		      </tr>
+		    </table>
+    #end
+    #if($tab.get($outercounter)==1)
+			<table xmlns:chem="http://www.blueobelisk.org/chemistryblogs/">
+				#parse("portlets/html/result/details/spectrum.vm")
+		    </table>
+		    #if($urltool.getTurbineUser($data).isReviewer()||$urltool.getTurbineUser($data).getUserName()==$spectrum.getContributor().getUserName())
+		      <form action="portal/js_pane/P-Submit;jsessionid=${sessionidext}?spectrum=${spectrum.getSpectrumId()}&eventSubmit_doEditspectrum=editSpectrum" method="post"> #parse("chooseedit.vm") <input type="submit" value="Edit that spectrum"></form>
+		    #end
+		    #if($urltool.getTurbineUser($data).isContributor())
+		      <form action="portal/js_pane/P-Results;jsessionid=${sessionidext}?spectrum=${spectrum.getSpectrumId()}&nmrshiftdbaction=$lastaction&markspectrum=markspectrum&molNumber=$molNumber&startmolecule=$startmolecule" method="post">Mark (1-10): <input type="text" name="mark" size="5">, comment: <input type="text" name="comment" size="30"><input type="submit" value="Mark this spectrum"></form>
+		    #end
+    #end
+    #if($tab.get($outercounter)==2)
+		    #parse("exportform_spec.vm")
+    #end
+  #else
+    There is a spectrum which seems to be wrong (rating: $spectrum.getMark() , comment: $spectrum.getMarkComment()). If you want to see it nevertheless, <a href="portal/js_pane/P-Results;jsessionid=${sessionidext}?spectrum=${spectrum.getSpectrumId()}&nmrshiftdbaction=$lastaction&displayall=displayall&molNumber=$molNumber&startmolecule=$startmolecule">click here</a>.<br>
+  #end
+  <hr>
+#end
+<br>
+<a target="_new" href="http://sourceforge.net/p/nmrshiftdb2/database-errors/">Report incorrect data</a>
+<br>
+#if ($viewingaction=="fromlast")
+  <form action="portal/js_pane/P-Home;jsessionid=${sessionidext}" method="post"><input type="submit" value="Back"></form>
+#end
+#if ($urltool.getTurbineUser($data).hasLoggedIn())
+  <form action="portal/js_pane/P-Results;jsessionid=${sessionidext}?moleculeid=${mol.getMoleculeId()}&nmrshiftdbaction=addbookmark" method="post"><input type="submit" value="Bookmark this molecule"></form>
+#end
+<a href="$easylink">Copy molecule link</a><a href="portal/js_pane/P-Help;jsessionid=${sessionidext}?URL=using.html#fixedlink" title="Help for viewing dataset details" style="color:white"><img src="images/help.png"></a>
+<form action="portal/js_pane/P-Submit;jsessionid=${sessionidext}?molecule=${mol.getMoleculeId()}&eventSubmit_doChecklogin=checklogin&nextaction=addSpectrumToMolecule&submitlevel=2" method="post"><input type="submit" value="Submit a new spectrum for that molecule"></form>

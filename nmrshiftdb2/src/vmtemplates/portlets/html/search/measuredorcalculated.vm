@@ -1,0 +1,18 @@
+#if($mode=="expert")
+	<form name="exactnameform" action="portal/js_pane/P-Search;jsessionid=$data.getSession().getId()" method="post">
+		<input type="checkbox" name="measured" value="measured" 
+		#if($measured=="true")
+			checked
+		#end
+		>Measured spectra
+		<input type="checkbox" name="calculated" value="calculated"
+		#if($calculated=="true")
+			checked
+		#end
+		>Calculated spectra
+		<br><br>
+		<input name="eventSubmit_doMeasuredornot" type="submit" style="background-color:#0000AA; color:white" value="Submit"> <a href="portal/js_pane/P-Help;jsessionid=$data.getSession().getId()?URL=using.html#smeasorcalc" title="Help for restriction to measured or calculated" style="color:white"><img src="images/help.png"></a>
+	</form>
+#else
+	Only visible in <a href="portal/js_pane/P-Search;jsessionid=$data.getSession().getId()?eventSubmit_doSwitchmode=switchmode">expert mode</a>
+#end

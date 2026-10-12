@@ -1,0 +1,608 @@
+RELEASENOTES
+------------
+
+alter table MACHINE add NUMBER_OF_HOLDERS INTEGER;
+
+1.5 Release
+-----------
+
+ALTER TABLE MACHINE_CONDITION ADD CONSTRAINT UC_M_C UNIQUE (MACHINE_ID,CONDITION_ID);
+alter table MACHINE_CONDITION drop primary key;
+alter table MACHINE_CONDITION change MACHINE_ID `MACHINE_ID` int null;
+alter table MACHINE_CONDITION drop constraint MACHINE_CONDITION_ibfk_2;
+
+alter table MACHINE add HAS_LOW_PRIO enum("false","true") not null;
+alter table SAMPLE add LOW_PRIO enum("false","true") not null;
+alter table SPECTRUM_TYPE add RED_LIMIT FLOAT, ORANGE_LIMIT FLOAT;
+update SPECTRUM_TYPE set RED_LIMIT=10, ORANGE_LIMIT=5 where NAME="13C";
+update SPECTRUM_TYPE set RED_LIMIT=2, ORANGE_LIMIT=1 where NAME="1H";
+alter table SPECTRUM_TYPE add `NMREDATA_DIMENSIONALITY` int NOT NULL DEFAULT '0';
+alter table TURBINE_USER add HOST_ID VARCHAR (256);
+alter table TURBINE_USER add HOST_ID_TIME TIMESTAMP;
+alter table SPECTRUM add CORRELATION_SPECFILE MEDIUMTEXT NOT NULL;
+alter table EXPERIMENT_SAMPLE add DURATION INTEGER;
+insert into SPECTRUM_TYPE values (99,1,"13C/1H correlation", 1, 1,"false", NULL, NULL, NULL);
+create table SUBSTANCE_KEYWORD(    SUBSTANCE_ID int(11) NOT NULL DEFAULT '0',    KEYWORD_ID int(11) NOT NULL DEFAULT '0',    PRIMARY KEY (`SUBSTANCE_ID`,`KEYWORD_ID`),    FOREIGN KEY (`SUBSTANCE_ID`) REFERENCES `SUBSTANCE` (`SUBSTANCE_ID`)    ,    FOREIGN KEY (`KEYWORD_ID`) REFERENCES `KEYWORD` (`KEYWORD_ID`));
+alter table SAMPLE add ADDITIONAL_DURATION INTEGER;
+alter table ATOM add EQUIVALENCE_NUMBER INTEGER NOT NULL;
+INSERT INTO TURBINE_ROLE_PERMISSION VALUES(10,17);
+INSERT INTO TURBINE_PERMISSION VALUES(17,'review-organometals',NULL);
+insert into CANONICAL_NAME_TYPE values (7,"TUCAN");
+
+spectrumsimilarity.cc needs to be recompiled to get the correlation search working. Then do
+create function spectrumsimilarity2d RETURNS REAL SONAME "spectrumsimilarity.so";
+
+For handling TUCAN, follow the installation at https://github.com/TUCAN-nest/TUCAN. Then create a simple TUCAN command line by this script in /usr/local/bin (or wherever it is found and executable):
+#!/usr/bin/env python3
+from tucan.io.molfile_reader import graph_from_file
+from tucan.canonicalization import canonicalize_molecule
+from tucan.serialization import serialize_molecule
+
+molecule = graph_from_file("/tmp/test.mol")
+canonical_molecule = canonicalize_molecule(molecule)
+tucan_string = serialize_molecule(canonical_molecule)
+
+print(tucan_string)
+
+1.4.15 Release
+--------------
+Changes in database:
+INSERT INTO TURBINE_PERMISSION VALUES(16,'edit',NULL);
+INSERT INTO TURBINE_ROLE VALUES(11,'editor',NULL);
+insert into TURBINE_ROLE_PERMISSION values(11,16);
+CREATE TABLE REVIEWTYPE (REVIEWTYPE_ID INTEGER NOT NULL, REVIEWTYPE_NAME VARCHAR (20) NOT NULL, USER_ID INTEGER, PRIMARY KEY(REVIEWTYPE_ID), FOREIGN KEY (USER_ID) REFERENCES TURBINE_USER (USER_ID), UNIQUE (REVIEWTYPE_NAME(20)));
+CREATE TABLE REVIEWTYPE_USER(REVIEWTYPE_ID INTEGER NOT NULL, USER_ID INTEGER NOT NULL, PRIMARY KEY(REVIEWTYPE_ID,USER_ID), FOREIGN KEY (USER_ID) REFERENCES TURBINE_USER (USER_ID), FOREIGN KEY (REVIEWTYPE_ID) REFERENCES REVIEWTYPE (REVIEWTYPE_ID));
+
+1.4.14 Release
+--------------
+Changes in database:
+* alter table SAMPLE add print INTEGER, scan INTEGER, complete INTEGER;
+* alter table SPECTRUM_TYPE add NMREDATA_NAME VARCHAR(255);
+* CREATE TABLE DATASET_DOI_KEYWORD(DATASET_DOI_ID INTEGER NOT NULL, KEYWORD_ID INTEGER NOT NULL, PRIMARY KEY(DATASET_DOI_ID,KEYWORD_ID));
+* alter table DATASET_DOI add DATASET_DOI_ID INTEGER NOT NULL;
+* SET @rank:=0;
+* update DATASET_DOI set DATASET_DOI_ID=@rank:=@rank+1;
+* insert into DATASET_DOI_KEYWORD (select DATASET_DOI_ID, KEYWORD_ID from DATASET_DOI);
+* alter table DATASET_DOI drop  column KEYWORD_ID ;
+* alter table DATASET_DOI drop primary key;
+* alter table DATASET_DOI add primary key (DATASET_DOI_ID);
+* insert into ID_TABLE values (41,"DATASET_DOI",100,1);
+* insert into ID_TABLE values (42,"DATASET_REVIEW_KEY",100,1);
+* CREATE TABLE DATASET_REVIEW_KEY(DATASET_REVIEW_KEY_ID INTEGER NOT NULL, MOLECULE_ID INTEGER NOT NULL, CONDITION_ID INTEGER NOT NULL, REVIEW_KEY VARCHAR(6) NOT NULL, PRIMARY KEY(DATASET_REVIEW_KEY_ID));
+* CREATE TABLE DATASET_REVIEW_KEY_KEYWORD(DATASET_REVIEW_KEY_ID INTEGER NOT NULL, KEYWORD_ID INTEGER NOT NULL, PRIMARY KEY(DATASET_REVIEW_KEY_ID,KEYWORD_ID));
+* alter table REVIEWGROUP add USER_ID INTEGER;
+* alter table REVIEWGROUP add FOREIGN KEY (USER_ID) REFERENCES TURBINE_USER (USER_ID);
+* alter table MACHINE add MEASURE_BARCODE enum("false","true") not null;
+* alter table MACHINE add MEASURE_BARCODE_NIGHT enum("false","true") not null;
+* alter table MACHINE add MEASURE_BARCODE_ENFORCE_STRUCTURE enum("false","true") not null;
+* alter table MACHINE change DEFAULT_MODE_NIGHT `DEFAULT_MODE_NIGHT` enum('self','worker','robot','barcode') NOT NULL DEFAULT 'self';
+* alter table MACHINE change DEFAULT_MODE `DEFAULT_MODE` enum('self','worker','robot','barcode') NOT NULL DEFAULT 'self';
+* alter table SAMPLE change PROCESS `PROCESS` enum('self','worker','robot','barcode') NOT NULL DEFAULT 'self';
+* alter table SAMPLE add SHORT_ID INTEGER;
+
+1.4.14 Release
+--------------
+Changes in database:
+* alter table MOLECULE add DOI VARCHAR (255) NOT NULL;
+* CREATE TABLE DATASET_DOI(MOLECULE_ID INTEGER NOT NULL, KEYWORD_ID INTEGER NOT NULL, CONDITION_ID INTEGER NOT NULL, DOI VARCHAR (255) NOT NULL, PRIMARY KEY(MOLECULE_ID,KEYWORD_ID,CONDITION_ID));
+* CREATE TABLE SPECTRUM_TYPE_CONDITION(    SPECTRUM_TYPE_ID INTEGER NOT NULL,    CONDITION_TYPE_ID INTEGER NOT NULL,    PRIMARY KEY(SPECTRUM_TYPE_ID,CONDITION_TYPE_ID));
+
+1.4.13 Release
+--------------
+Changes in database:
+* alter table RAW_FILE add DATE DATETIME;
+
+1.4.12 Release
+--------------
+Changes in database:
+* alter table EXPERIMENT add SUB_EXPERIMENT_1_ID INTEGER;
+* alter table EXPERIMENT add SUB_EXPERIMENT_2_ID INTEGER;
+* alter table EXPERIMENT add FOREIGN KEY (SUB_EXPERIMENT_1_ID) REFERENCES EXPERIMENT (EXPERIMENT_ID);
+* alter table EXPERIMENT add FOREIGN KEY (SUB_EXPERIMENT_2_ID) REFERENCES EXPERIMENT (EXPERIMENT_ID);
+* alter table EXPERIMENT_MACHINE add COMPULSORY enum("false","true") not null default "false";
+* alter table MACHINE add MEASURE_SELF_NIGHT enum("false","true") not null, add MEASURE_OPERATOR_NIGHT enum("false","true") not null, add MEASURE_CHANGER_NIGHT enum("false","true") not null;
+* update MACHINE set MEASURE_SELF_NIGHT=MEASURE_SELF, MEASURE_OPERATOR_NIGHT=MEASURE_OPERATOR, MEASURE_CHANGER_NIGHT=MEASURE_CHANGER;
+* alter table MACHINE add DEFAULT_MODE_NIGHT enum("self","worker","robot") not null default "self";
+* update MACHINE set DEFAULT_MODE_NIGHT=DEFAULT_MODE;
+* alter table MACHINE add     HOUR_DAY_MONDAY INTEGER NOT NULL,
+   add MINUTE_DAY_MONDAY INTEGER NOT NULL,
+   add HOUR_NIGHT_MONDAY INTEGER NOT NULL,
+   add MINUTE_NIGHT_MONDAY INTEGER NOT NULL,
+   add HOUR_DAY_TUESDAY INTEGER NOT NULL,
+   add MINUTE_DAY_TUESDAY INTEGER NOT NULL,
+   add HOUR_NIGHT_TUESDAY INTEGER NOT NULL,
+   add MINUTE_NIGHT_TUESDAY INTEGER NOT NULL,
+   add HOUR_DAY_WEDNESDAY INTEGER NOT NULL,
+   add MINUTE_DAY_WEDNESDAY INTEGER NOT NULL,
+   add HOUR_NIGHT_WEDNESDAY INTEGER NOT NULL,
+   add MINUTE_NIGHT_WEDNESDAY INTEGER NOT NULL,
+   add HOUR_DAY_THURSDAY INTEGER NOT NULL,
+   add MINUTE_DAY_THURSDAY INTEGER NOT NULL,
+   add HOUR_NIGHT_THURSDAY INTEGER NOT NULL,
+   add MINUTE_NIGHT_THURSDAY INTEGER NOT NULL,
+   add HOUR_DAY_FRIDAY INTEGER NOT NULL,
+   add MINUTE_DAY_FRIDAY INTEGER NOT NULL,
+   add HOUR_NIGHT_FRIDAY INTEGER NOT NULL,
+   add MINUTE_NIGHT_FRIDAY INTEGER NOT NULL,
+   add HOUR_DAY_SATURDAY INTEGER NOT NULL,
+   add MINUTE_DAY_SATURDAY INTEGER NOT NULL,
+   add HOUR_NIGHT_SATURDAY INTEGER NOT NULL,
+   add MINUTE_NIGHT_SATURDAY INTEGER NOT NULL,
+   add HOUR_DAY_SUNDAY INTEGER NOT NULL,
+   add MINUTE_DAY_SUNDAY INTEGER NOT NULL,
+   add HOUR_NIGHT_SUNDAY INTEGER NOT NULL,
+   add MINUTE_NIGHT_SUNDAY INTEGER NOT NULL;
+* update MACHINE set     HOUR_DAY_MONDAY =HOUR_DAY,
+    MINUTE_DAY_MONDAY =MINUTE_DAY,
+    HOUR_NIGHT_MONDAY =HOUR_NIGHT,
+    MINUTE_NIGHT_MONDAY=MINUTE_NIGHT,
+    HOUR_DAY_TUESDAY =HOUR_DAY,
+    MINUTE_DAY_TUESDAY =MINUTE_DAY,
+    HOUR_NIGHT_TUESDAY=HOUR_NIGHT,
+    MINUTE_NIGHT_TUESDAY=MINUTE_NIGHT,
+    HOUR_DAY_WEDNESDAY  =HOUR_DAY,
+    MINUTE_DAY_WEDNESDAY=MINUTE_DAY,
+    HOUR_NIGHT_WEDNESDAY=HOUR_NIGHT,
+    MINUTE_NIGHT_WEDNESDAY=MINUTE_NIGHT,
+    HOUR_DAY_THURSDAY  =HOUR_DAY,
+    MINUTE_DAY_THURSDAY=MINUTE_DAY,
+    HOUR_NIGHT_THURSDAY=HOUR_NIGHT,
+    MINUTE_NIGHT_THURSDAY=MINUTE_NIGHT,
+    HOUR_DAY_FRIDAY  =HOUR_DAY,
+    MINUTE_DAY_FRIDAY=MINUTE_DAY,
+    HOUR_NIGHT_FRIDAY=HOUR_NIGHT,
+    MINUTE_NIGHT_FRIDAY=MINUTE_NIGHT,
+    HOUR_DAY_SATURDAY  =HOUR_DAY,
+    MINUTE_DAY_SATURDAY=MINUTE_DAY,
+    HOUR_NIGHT_SATURDAY =HOUR_NIGHT,
+    MINUTE_NIGHT_SATURDAY =MINUTE_NIGHT,
+    HOUR_DAY_SUNDAY  =HOUR_DAY,
+    MINUTE_DAY_SUNDAY=MINUTE_DAY,
+    HOUR_NIGHT_SUNDAY=HOUR_NIGHT,
+    MINUTE_NIGHT_SUNDAY=MINUTE_NIGHT;
+* alter table MACHINE drop HOUR_DAY, drop MINUTE_DAY, drop HOUR_NIGHT, drop MINUTE_NIGHT;
+* alter table MACHINE add FORCE_WEEKEND enum("false","true") not null;
+* CREATE TABLE MACHINE_USER_EXCLUDED(MACHINE_ID INTEGER NOT NULL, USER_ID INTEGER NOT NULL,    PRIMARY KEY(MACHINE_ID,USER_ID), FOREIGN KEY (MACHINE_ID) REFERENCES MACHINE (MACHINE_ID), FOREIGN KEY (USER_ID) REFERENCES TURBINE_USER (USER_ID));
+* alter table MACHINE change DEFAULT_MACHINE DEFAULT_MACHINE INTEGER NOT NULL;
+* update MACHINE set DEFAULT_MACHINE =0 where DEFAULT_MACHINE =1;
+* update MACHINE set DEFAULT_MACHINE =1 where DEFAULT_MACHINE =2;
+* alter table EXPERIMENT_MACHINE add     HIDE_HOUR_BEGIN INTEGER, add    HIDE_MINUTE_BEGIN INTEGER,  add   HIDE_HOUR_END INTEGER, add    HIDE_MINUTE_END INTEGER;
+* CREATE TABLE EXPERIMENT_PARAMETER(    PARAMETER_ID INTEGER NOT NULL,    NAME_DISPLAY VARCHAR(50) NOT NULL,     NAME_ICONNMR VARCHAR(50) NOT NULL,   PRIMARY KEY(PARAMETER_ID));
+* alter table EXPERIMENT_MACHINE add EXPERIMENT_MACHINE_ID INTEGER NOT NULL;
+* set @a=0;update EXPERIMENT_MACHINE set EXPERIMENT_MACHINE_ID=@a:=@a+1;
+* alter table EXPERIMENT_MACHINE add key(EXPERIMENT_ID), drop primary key, add primary key(EXPERIMENT_MACHINE_ID);
+* CREATE TABLE EXPERIMENT_MACHINE_PARAMETER(    EXPERIMENT_MACHINE_PARAMETER_ID INTEGER NOT NULL,    EXPERIMENT_MACHINE_ID INTEGER NOT NULL,    PARAMETER_ID INTEGER NOT NULL,    DEFAULT_VALUE FLOAT NOT NULL,    PRIMARY KEY(EXPERIMENT_MACHINE_PARAMETER_ID),     FOREIGN KEY (EXPERIMENT_MACHINE_ID) REFERENCES EXPERIMENT_MACHINE (EXPERIMENT_MACHINE_ID),    FOREIGN KEY (PARAMETER_ID) REFERENCES EXPERIMENT_PARAMETER (PARAMETER_ID));
+* CREATE TABLE EXPERIMENT_SAMPLE_PARAMETER(    EXPERIMENT_ID INTEGER NOT NULL,    SAMPLE_ID INTEGER NOT NULL,    PARAMETER_ID INTEGER NOT NULL, SEQUENCE INTEGER NOT NULL,   VALUE FLOAT NOT NULL,    PRIMARY KEY(EXPERIMENT_ID,SAMPLE_ID,PARAMETER_ID, SEQUENCE),FOREIGN KEY (SAMPLE_ID) REFERENCES SAMPLE (SAMPLE_ID),FOREIGN KEY (EXPERIMENT_ID) REFERENCES EXPERIMENT (EXPERIMENT_ID),FOREIGN KEY (PARAMETER_ID) REFERENCES EXPERIMENT_PARAMETER (PARAMETER_ID));
+* alter table EXPERIMENT_SAMPLE add SEQUENCE INTEGER NOT NULL;
+* alter table EXPERIMENT_SAMPLE drop primary key, add PRIMARY KEY(EXPERIMENT_ID, SAMPLE_ID , SEQUENCE);
+* alter table EXPERIMENT add     ORDER_POSITION INTEGER NOT NULL;
+* alter table MACHINE add NIGHT_LIMIT INTEGER;
+* alter table EXPERIMENT add SUB_EXPERIMENT_3_ID INTEGER, add FOREIGN KEY (SUB_EXPERIMENT_3_ID) REFERENCES EXPERIMENT (EXPERIMENT_ID);
+* alter table EXPERIMENT add IDENTICAL_WITH INTEGER, add FOREIGN KEY (IDENTICAL_WITH) REFERENCES EXPERIMENT (EXPERIMENT_ID);
+* alter table EXPERIMENT_PARAMETER add VISIBLE enum("false","true") not null;
+* update EXPERIMENT_PARAMETER set VISIBLE="true";
+* alter table MACHINE add DEFAULT_ON_CLIENT VARCHAR(20) NOT NULL;
+
+1.4.11 Release
+--------------
+Changes in database:
+* alter table TURBINE_USER add SALT varchar(32);
+* alter table STATISTICS add QUICK_CHECK int default 0;
+
+1.4.10 Release
+--------------
+Changes in database:
+* create table IDENTIFIER_NEW select ATOM_ID, SPECTRUM_ID, IDENTIFIER from IDENTIFIER join LITERATURE using (LITERATURE_ID ) join SPECTRUM_LITERATURE using (LITERATURE_ID) join SPECTRUM using (SPECTRUM_ID);
+* drop table IDENTIFIER;
+* alter table IDENTIFIER_NEW rename IDENTIFIER;
+* alter table SPECTRUM_FILE change `FORMAT` `FORMAT` varchar(15) NOT NULL;
+Update the smiles by running task 1 in AdminTasks (this is because of a CDK update, the canonical form of smiles changed).
+
+1.4.10 Release
+--------------
+Changes in database:
+* alter table SAMPLE add FINISHED_EXPERIMENTS INTEGER;
+* CREATE TABLE AFFILIATION_1_LOV(AFFILIATION_1_LOV_ID INTEGER NOT NULL, AFFILIATION_1 VARCHAR (255) NOT NULL, PRIMARY KEY(AFFILIATION_1_LOV_ID));
+* CREATE TABLE AFFILIATION_2_LOV(AFFILIATION_2_LOV_ID INTEGER NOT NULL, AFFILIATION_1_LOV_ID INTEGER NOT NULL, AFFILIATION_2 VARCHAR (255) NOT NULL, DESCRIPTION VARCHAR (255) NOT NULL, PRIMARY KEY(AFFILIATION_2_LOV_ID), FOREIGN KEY (AFFILIATION_1_LOV_ID) REFERENCES AFFILIATION_1_LOV (AFFILIATION_1_LOV_ID));
+* ALTER TABLE MACHINE ADD SFTP_HOST VARCHAR (50);
+* ALTER TABLE MACHINE ADD SFTP_USER VARCHAR (50);
+* ALTER TABLE MACHINE ADD SFTP_PASSWORD VARCHAR (50);
+* ALTER TABLE MACHINE ADD SCP_PASSWORD VARCHAR (50);
+* ALTER TABLE MACHINE ADD SCP_USERNAME VARCHAR (50);
+If you use the lab system the entries iconnmrscppassword and iconnmrscpuser from NMRShiftDB.properties are now in the database per machine. 
+
+1.4.9 Release
+-------------
+Add a rule like this:
+RewriteRule ^/molecule/([0-9]*)/dataset/(.*)$ /portal/js_pane/P-Results/nmrshiftdbaction/showDetailsFromHome/molNumber/$1/dataset/$2 [R]
+to the rewrite rules if you want /molecule/x links to work for dataset links. It should be after 
+RewriteRule ^/molecule/([0-9]*)$ /portal/js_pane/P-Results/nmrshiftdbaction/showDetailsFromHome/molNumber/$1 [R]
+
+If you use image caching: Update the rewrite rule for the image cache as in src/conf/jetspeed/WEB-INF/conf/NMRShiftDB.properties 
+
+Changes in database:
+* CREATE TABLE EXCLUDING_EXPERIMENTS( MACHINE_ID INTEGER NOT NULL, EXPERIMENT_ID_1 INTEGER NOT NULL, EXPERIMENT_ID_2 INTEGER NOT NULL, PRIMARY KEY(MACHINE_ID,EXPERIMENT_ID_1,EXPERIMENT_ID_2), FOREIGN KEY (MACHINE_ID) REFERENCES MACHINE (MACHINE_ID), FOREIGN KEY (EXPERIMENT_ID_1) REFERENCES EXPERIMENT (EXPERIMENT_ID), FOREIGN KEY (EXPERIMENT_ID_2) REFERENCES EXPERIMENT (EXPERIMENT_ID));
+* alter table EXPERIMENT add AUTOMATION_ORDER INTEGER NOT NULL;
+* alter table ATOM change HOSE_CODE HOSE_CODE mediumtext;
+* alter table ATOM change HOSE_CODE_WITH_RINGS HOSE_CODE_WITH_RINGS mediumtext;
+* alter table CONDITION_TYPE add FOR_1D enum("false","true") not null;
+* alter table CONDITION_TYPE add FOR_2D enum("false","true") not null;
+* alter table MOLECULE add VIEWS INTEGER default 0;
+* alter table SPECTRUM_TYPE add PEAKS_MANDATORY enum("false","true") not null;
+* update SPECTRUM_TYPE set PEAKS_MANDATORY="true";
+* CREATE TABLE SPECTRUM_FILE(SPECTRUM_ID INTEGER NOT NULL, TYPE VARCHAR (25) NOT NULL, FORMAT VARCHAR (8) NOT NULL, DATA LONGBLOB NOT NULL, PRIMARY KEY(SPECTRUM_ID,TYPE), FOREIGN KEY (SPECTRUM_ID) REFERENCES SPECTRUM (SPECTRUM_ID));
+* insert into SPECTRUM_FILE select SPECTRUM_ID, "image", IMAGE_FORMAT , IMAGE from SPECTRUM where IMAGE is not null;
+* insert into SPECTRUM_FILE select SPECTRUM_ID, "pdf", "pdf" , PDF from SPECTRUM where PDF is not null;
+* insert into SPECTRUM_FILE select SPECTRUM_ID, "jcamp", "jcamp" , JCAMP from SPECTRUM where JCAMP is not null;
+* insert into SPECTRUM_FILE select SPECTRUM_ID, "csearchreport", "csearch" , REPORT_URL from SPECTRUM where REPORT_URL is not null;
+* alter table SPECTRUM drop column REPORT_URL , drop JCAMP , drop RAW_DATA , drop IMAGE, drop IMAGE_FORMAT , drop PDF;
+* CREATE TABLE QUICK_CHECK(QUICK_CHECK_ID INTEGER NOT NULL, USER_ID INTEGER, DATE DATETIME NOT NULL, NAME VARCHAR (255) NOT NULL, CML MEDIUMTEXT NOT NULL, PRIMARY KEY(QUICK_CHECK_ID), FOREIGN KEY (USER_ID) REFERENCES TURBINE_USER (USER_ID));
+* insert into ID_TABLE values (40,"QUICK_CHECK",100,1);
+* alter table SPECTRUM add RAW_DATA_VIEWS INTEGER default 0;
+
+These are for changing the coupling to either relate to two atoms or one signal (you may need to change the foreign key names);
+* alter table COUPLING drop foreign key 0_341;
+* alter table COUPLING drop foreign key 0_342;
+* alter table COUPLING drop foreign key 0_343;
+* alter table COUPLING drop PRIMARY key;
+* alter table COUPLING modify ATOM_ID_1 int null default null;
+* alter table COUPLING modify ATOM_ID_2 int null default null;
+* alter table COUPLING add (SIGNAL_ID INTEGER null default null);
+* alter table COUPLING add (FOREIGN KEY (ATOM_ID_2) REFERENCES ATOM (ATOM_ID));
+* alter table COUPLING add (FOREIGN KEY (ATOM_ID_1) REFERENCES ATOM (ATOM_ID));
+* alter table COUPLING add (FOREIGN KEY (SIGNAL_ID) REFERENCES NMR_SIGNAL (SIGNAL_ID));
+* alter table COUPLING add CONSTRAINT COUPLIG_CONSTRAINT UNIQUE (SPECTRUM_ID, ATOM_ID_1, ATOM_ID_2, SIGNAL_ID);
+
+1.4.8 Release
+-------------
+Changes in database:
+* alter table MACHINE add CHANGE_TIME INTEGER NOT NULL;
+* alter table EXPERIMENT_MACHINE add DURATION INTEGER NOT NULL;
+* alter table MACHINE drop column SHIFT_OPERATION;
+* alter table MACHINE add SHIFT_OPERATION_MON enum("false","true") not null default 'false';
+* alter table MACHINE add SHIFT_OPERATION_TUE enum("false","true") not null default 'false';
+* alter table MACHINE add SHIFT_OPERATION_WED enum("false","true") not null default 'false';
+* alter table MACHINE add SHIFT_OPERATION_THU enum("false","true") not null default 'false';
+* alter table MACHINE add SHIFT_OPERATION_FRI enum("false","true") not null default 'false';
+* alter table MACHINE add SHIFT_OPERATION_SAT enum("false","true") not null default 'false';
+* alter table MACHINE add SHIFT_OPERATION_SUN enum("false","true") not null default 'false';
+* update TURBINE_USER set searchhistory="", structureshistory=""; (this is because serialisation has changed)
+
+1.4.7 Release
+-------------
+Changes in database:
+* alter table ATOM add ATOM_NUMBER INTEGER NOT NULL;
+* update ATOM set ATOM_NUMBER=ATOM_ID; (the ATOM_NUMBERS are only used for sort by, so if they have the same order as ATOM_IDs which were used for ordering so far, nothing changes)
+* alter table MACHINE add SHIFT_OPERATION enum("false","true") not null default "false";
+* alter table MACHINE add HOUR_DAY INTEGER NOT NULL;
+* alter table MACHINE add MINUTE_DAY INTEGER NOT NULL;
+* alter table MACHINE add HOUR_NIGHT INTEGER NOT NULL;
+* alter table MACHINE add MINUTE_NIGHT INTEGER NOT NULL;
+* alter table EXPERIMENT_MACHINE add VALID_DAY enum("false","true") not null default "false";
+* alter table EXPERIMENT_MACHINE add VALID_NIGHT enum("false","true") not null default "false";
+* update EXPERIMENT_MACHINE set VALID_DAY="true"; (so far there was no distinction, all existing experiments are always possible)
+
+1.4.6 Release
+-------------
+
+Changes in database:
+* alter table `CONDITION` rename NMR_CONDITION;
+* alter table `SIGNAL` rename NMR_SIGNAL; (this is because SIGNAL and CONDITION have become keyword in mysql, which makes things messy)
+* update ID_TABLE set TABLE_NAME ="NMR_CONDITION" where TABLE_NAME ="CONDITION";
+* update ID_TABLE set TABLE_NAME ="NMR_SIGNAL" where TABLE_NAME ="SIGNAL";
+* alter table SPECTRUM add RAW_DATA LONGBLOB;
+* alter table SPECTRUM add REPORT_URL LONGBLOB;
+* insert into CANONICAL_NAME_TYPE values (6,'InChI with fixed H layer');
+
+1.4.5 Release
+-------------
+
+In order to get special characters working properly, several changes were 
+necessary to have Unicode implemented. You need to do a few steps to update 
+an existing installation (new installations should work with Unicode out of 
+the box):
+* Do a "SET CHARACTER SET utf8" in the mysql client. This should change various 
+settings in mysql. You can check if this is necessary by doing a "show variables like "character_set%";" and 
+"show variables like "collation%";". If this says utf8 everywhere, no change is needed. If you are using 
+mysl 5.5.3 or later, use utf8mb4 instead of utf8 everywhere (utf8 in mysql isn't utf8m, 
+it only handles 3 byte characters, utf8mb4 is proper utf8, but only available from 5.5.3).
+* The my.cnf file should have
+[mysqld] 
+character-set-server = utf8
+collation-server = utf8_unicode_ci
+in it
+* Existing tables must be changed to utf8 with "ALTER TABLE tbl_name CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;"
+In theory, it would be enough to convert tables which happen to have "freetext" in them 
+(like CHEMICAL_NAME), but I would recommend to do it for all tables.
+* Unfortunately, the text columns must also be changed indiviually. http://codex.wordpress.org/Converting_Database_Character_Sets 
+seems to be a good guide on how to do this.
+* Now unfortunately in the past some character (namely alpha and beta) were inserted 
+in tables directly as &#945; and &#946; These must be replaced by the unicode characters alpha and beta.
+* Everything should work now. It is also important to add useUnicode=true&characterEncoding=UTF-8 to the connection 
+string for jdbc, but this is done if you use the config files from the nmrshiftdb2 source.
+
+Issues with isotope numbers:
+For unknown reasons, in the past isotope numbers where not correctly saved (many Cs got 6 etc.). This 
+didn't really hurt, since the isotopes where not displayed or exported. I fixed this to a) proper save 
+isotope numbers and b) show/export them. This means the old numbers need to be fixed. I suggest to use 
+the most common isotope, C=12 and so on. Since isotopes where in effect not handled in the past, there 
+should not be a real loss.
+
+Changes in database:
+* alter table SAMPLE add HOLDER_NO INTEGER NOT NULL;
+* alter table RAW_FILE add MD5 VARCHAR (32) NOT NULL;
+* alter table SPECTRUM add PUBLISHED enum("false","true") not null;
+* alter table MACHINE add ICONNMR_INTEGRATION enum("false","true") not null default "false";
+* alter table EXPERIMENT_MACHINE add NAME_ICONNMR VARCHAR (50);
+* alter table MACHINE add SCP_MACHINE_NAME VARCHAR (50);
+* alter table MACHINE add SCP_PATH VARCHAR (50);
+* alter table SPECTRUM add IMAGE LONGBLOB;
+* alter table SPECTRUM add IMAGE_FORMAT VARCHAR (8);
+* CREATE TABLE MACHINE_CONDITION (MACHINE_ID INTEGER NOT NULL, CONDITION_ID INTEGER NOT NULL, NAME_ICONNMR VARCHAR (50), ORDER_POSITION INTEGER NOT NULL, PRIMARY KEY(MACHINE_ID,CONDITION_ID), FOREIGN KEY (MACHINE_ID) REFERENCES MACHINE (MACHINE_ID), FOREIGN KEY (CONDITION_ID) REFERENCES CONDITION (CONDITION_ID));
+
+1.4.4 Release
+-------------
+
+A bugfix release with some improvements
+
+Changes in database:
+* alter table CONDITION_TYPE add CONDITION_NAME_INPUT VARCHAR (255);
+* update CONDITION_TYPE set CONDITION_NAME_INPUT="Spectrometer Frequency for 1H [MHz]" where CONDITION_TYPE_ID =3;
+* alter table SPECTRUM_TYPE add FREQUENCY_RATIO FLOAT NOT NULL;
+* update SPECTRUM_TYPE set FREQUENCY_RATIO=4 where SPECTRUM_TYPE_ID=1;
+* update SPECTRUM_TYPE set FREQUENCY_RATIO=1 where SPECTRUM_TYPE_ID=2;
+* alter table USER_HISTORY change LABGROUP_ID LABGROUP_ID INTEGER;
+* alter table SPECTRUM add PDF LONGBLOB;
+
+1.4.3 Release
+-------------
+
+A bugfix release.
+
+Changes in database:
+* alter table SPECTRUM drop LITERATURE;
+* alter table SPECTRUM drop LITERATURE_SOUNDEX;
+* alter table SIGNAL_ATOM add AXIS INTEGER NOT NULL;
+* update SIGNAL_ATOM set AXIS=1;
+* alter table SIGNAL_ATOM drop primary key;
+* alter table SIGNAL_ATOM add PRIMARY KEY(SIGNAL_ID,AXIS,ATOM_ID);
+* alter table SIGNAL_ATOM drop foreign key SIGNAL_ATOM_ibfk_1;
+* alter table SIGNAL_ATOM add FOREIGN KEY (SIGNAL_ID, AXIS) REFERENCES SHIFT (SIGNAL_ID, AXIS);
+
+1.4.2 Release
+-------------
+
+Some new features, bugfixes.
+
+Changes in database:
+* CREATE TABLE MIXTURE (MIXTURE_ID INTEGER NOT NULL, USER_ID INTEGER NOT NULL, MIXTURE_COMMENT MEDIUMTEXT default '', PRIMARY KEY(MIXTURE_ID), FOREIGN KEY (USER_ID) REFERENCES TURBINE_USER (USER_ID)) ENGINE=InnoDB;
+CREATE TABLE MIXTURE_MOLECULE (MIXTURE_ID INTEGER NOT NULL, MOLECULE_ID INTEGER NOT NULL, RATIO INTEGER NOT NULL, PRIMARY KEY(MIXTURE_ID,MOLECULE_ID), FOREIGN KEY (MIXTURE_ID) REFERENCES MIXTURE (MIXTURE_ID), FOREIGN KEY (MOLECULE_ID) REFERENCES MOLECULE (MOLECULE_ID)) ENGINE=InnoDB;
+CREATE TABLE SUBSTANCE (SUBSTANCE_ID INTEGER NOT NULL, USER_ID INTEGER NOT NULL, SUBSTANCE_COMMENT MEDIUMTEXT default '', PRIMARY KEY(SUBSTANCE_ID), FOREIGN KEY (USER_ID) REFERENCES TURBINE_USER (USER_ID)) ENGINE=InnoDB;
+alter table SPECTRUM change MOLECULE_ID MOLECULE_ID INTEGER;
+alter table SPECTRUM add MIXTURE_ID INTEGER;
+alter table SPECTRUM add SUBSTANCE_ID INTEGER;
+alter table SPECTRUM add FOREIGN KEY (MIXTURE_ID) REFERENCES MIXTURE (MIXTURE_ID);
+alter table SPECTRUM add FOREIGN KEY (SUBSTANCE_ID) REFERENCES SUBSTANCE (SUBSTANCE_ID);
+alter table SPECTRUM add INDEX MIXTURE_ID_INDEX (MIXTURE_ID);
+alter table SPECTRUM add INDEX SUBSTANCE_ID_INDEX (SUBSTANCE_ID);
+alter table MIXTURE_MOLECULE add FOREIGN KEY (MIXTURE_ID) REFERENCES MIXTURE (MIXTURE_ID);
+alter table MIXTURE_MOLECULE add FOREIGN KEY (MOLECULE_ID) REFERENCES MOLECULE (MOLECULE_ID);
+insert into ID_TABLE values (36,"MIXTURE",100,1);
+insert into ID_TABLE values (37,"SUBSTANCE",100,1);
+Run "create hose codes" task in AdminTasks
+Recompile the spectrumsimilarity.cc udf and reinstall it (copy to lib dir and restart of mysql should do), since it changed
+Run "rebuild aromaticity" and "rebuild fingerprints" in AdminTasks (this is because of new cdk)
+
+1.4.1 Release
+-------------
+
+Some new features, bugfixes.
+
+Changes in Database:
+* Do CREATE TABLE USER_HISTORY( USER_HISTORY_ID INTEGER NOT NULL,  USER_ID INTEGER, JOIN_DATE DATETIME NOT NULL, LEAVE_DATE DATETIME, LABGROUP_ID INTEGER NOT NULL, AFFILIATION_1 VARCHAR (99), AFFILIATION_2 VARCHAR (99), PRIMARY KEY(USER_HISTORY_ID), FOREIGN KEY (USER_ID) REFERENCES TURBINE_USER (USER_ID), FOREIGN KEY (LABGROUP_ID) REFERENCES LABGROUP (LABGROUP_ID));
+SET @rank=0;
+insert into USER_HISTORY select @rank:=@rank+1 AS USER_HISTORY_ID, USER_ID, CREATED , null, LABGROUP_ID , AFFILIATION_1, AFFILIATION_2 from TURBINE_USER;
+insert into ID_TABLE values(37,"USER_HISTORY",@rank+1,1);
+alter table TURBINE_USER drop foreign key TURBINE_USER_ibfk_1;
+alter table TURBINE_USER drop AFFILIATION_1, drop AFFILIATION_2, drop LABGROUP_ID;
+alter table USER_HISTORY add FOREIGN KEY (USER_ID) REFERENCES TURBINE_USER (USER_ID);
+alter table USER_HISTORY add FOREIGN KEY (LABGROUP_ID) REFERENCES LABGROUP (LABGROUP_ID);
+alter table SPECTRUM change REVIEW_FLAG REVIEW_FLAG enum("false","true","rejected","edited",'change','hidden','private') not null default 'false';
+
+1.4 Release
+-------------
+
+First release of nmrshiftdb2. Bugfixes and some new features. See changelog.
+
+Changes in database:
+* BROKEN_SUBMIT and BROKEN_EDIT columns in TURBINE_USER must be set to null, due to new format for submit data, old entries cannot be read.
+* All CONDITION_TYPES must have DICT_REF entries, use cml:solvent for solvent and nmr:CONDITION_NAME for the calculated condition types.
+* New columns in MOLECULE:
+alter table MOLECULE add FORMULA MEDIUMTEXT default '';
+alter table MOLECULE add MULTIPLICITY_0 INTEGER default 0;
+alter table MOLECULE add MULTIPLICITY_1 INTEGER default 0;
+alter table MOLECULE add MULTIPLICITY_2 INTEGER default 0;
+alter table MOLECULE add MULTIPLICITY_3 INTEGER default 0;
+alter table MOLECULE add INDEX FORMULA_INDEX (FORMULA(100));
+alter table MOLECULE add INDEX MULTIPLICITY_0_INDEX (MULTIPLICITY_0);
+alter table MOLECULE add INDEX MULTIPLICITY_1_INDEX (MULTIPLICITY_1);
+alter table MOLECULE add INDEX MULTIPLICITY_2_INDEX (MULTIPLICITY_2);
+alter table MOLECULE add INDEX MULTIPLICITY_3_INDEX (MULTIPLICITY_3);
+Use AdminTasks to update existing entries.
+* New tables/columns for lab system:
+CREATE TABLE EXPERIMENT( EXPERIMENT_ID INTEGER NOT NULL, NAME VARCHAR (50) NOT NULL, VALID VARCHAR (10) NOT NULL, LABGROUP_ID INTEGER NOT NULL, EXPERIMENT_CATEGORY_ID INTEGER NOT NULL, EXPERIMENT_REPORT_CATEGORY_ID INTEGER NOT NULL, MAX_NUMBER INTEGER NOT NULL, LINE_BEFORE VARCHAR (50) NOT NULL, PRIMARY KEY(EXPERIMENT_ID), FOREIGN KEY (EXPERIMENT_CATEGORY_ID) REFERENCES EXPERIMENT_CATEGORY (EXPERIMENT_CATEGORY_ID),  FOREIGN KEY (LABGROUP_ID) REFERENCES LABGROUP (LABGROUP_ID));
+CREATE TABLE EXPERIMENT_MACHINE(EXPERIMENT_ID INTEGER NOT NULL, MACHINE_ID INTEGER NOT NULL, FOREIGN KEY (MACHINE_ID) REFERENCES MACHINE (MACHINE_ID), FOREIGN KEY (EXPERIMENT_ID) REFERENCES EXPERIMENT (EXPERIMENT_ID));
+CREATE TABLE EXPERIMENT_SAMPLE(EXPERIMENT_ID INTEGER NOT NULL, SAMPLE_ID INTEGER NOT NULL, COUNT INTEGER NOT NULL, FOREIGN KEY (SAMPLE_ID) REFERENCES SAMPLE (SAMPLE_ID), FOREIGN KEY (EXPERIMENT_ID) REFERENCES EXPERIMENT (EXPERIMENT_ID));
+CREATE TABLE EXPERIMENT_CATEGORY(EXPERIMENT_CATEGORY_ID INTEGER NOT NULL, NAME VARCHAR (20) NOT NULL, ORDER_POSITION INTEGER NOT NULL, PRIMARY KEY(EXPERIMENT_CATEGORY_ID));
+CREATE TABLE EXPERIMENT_REPORT_CATEGORY ( EXPERIMENT_REPORT_CATEGORY_ID INTEGER NOT NULL, NAME VARCHAR (20) NOT NULL,  ORDER_POSITION INTEGER NOT NULL,     PRIMARY KEY(EXPERIMENT_REPORT_CATEGORY_ID) );
+insert into ID_TABLE values (34,"EXPERIMENT_CATEGORY",100,1);
+insert into ID_TABLE values (35,"EXPERIMENT",100,1);
+insert into ID_TABLE values (36,"EXPERIMENT_REPORT_CATEGORY",100,1);
+alter table EXPERIMENT type=innoDB;
+alter table EXPERIMENT_CATEGORY type=innoDB;
+alter table EXPERIMENT_REPORT_CATEGORY type=innoDB;
+alter table EXPERIMENT_MACHINE type=innoDB;
+alter table EXPERIMENT_SAMPLE type=innoDB;
+alter table EXPERIMENT_SAMPLE add FOREIGN KEY (SAMPLE_ID) REFERENCES SAMPLE (SAMPLE_ID);
+alter table EXPERIMENT_SAMPLE add FOREIGN KEY (EXPERIMENT_ID) REFERENCES EXPERIMENT (EXPERIMENT_ID);
+alter table EXPERIMENT_MACHINE add FOREIGN KEY (MACHINE_ID) REFERENCES MACHINE (MACHINE_ID);
+alter table EXPERIMENT_MACHINE add FOREIGN KEY (EXPERIMENT_ID) REFERENCES EXPERIMENT (EXPERIMENT_ID);
+alter table EXPERIMENT add FOREIGN KEY (EXPERIMENT_CATEGORY_ID) REFERENCES EXPERIMENT_CATEGORY (EXPERIMENT_CATEGORY_ID);
+alter table EXPERIMENT add FOREIGN KEY (EXPERIMENT_REPORT_CATEGORY_ID) REFERENCES EXPERIMENT_REPORT_CATEGORY (EXPERIMENT_REPORT_CATEGORY_ID);
+alter table EXPERIMENT add FOREIGN KEY (LABGROUP_ID) REFERENCES LABGROUP (LABGROUP_ID);
+alter table SAMPLE drop OTHER_NUCLEI;
+alter table SAMPLE drop WISHED_SPECTRUM;
+alter table SAMPLE change SPECIAL_CARE SPECIAL_CARE VARCHAR (1000) NOT NULL;
+* User profiles should be updated since Guestbook portlet no longer exists
+* Do alter table SESSIONS add SESSIONS_ALL_DATE DATETIME and update SESSIONS set SESSIONS_ALL_DATE= now() for creating the new all sessions count
+* Do INSERT INTO TURBINE_PERMISSION VALUES(13,'labgroupmember',NULL); INSERT INTO TURBINE_ROLE VALUES(9,'labgroup_member',NULL);INSERT INTO TURBINE_ROLE_PERMISSION VALUES(9,13);
+* All users who have LABGROUP_KEY=-1 must become member of group "labgroup_member" (admission is now via role, no longer via LABGROUP_KEY flag)
+* Do alter table EXPERIMENT add LINE_BEFORE VARCHAR (50) NOT NULL;
+* Do alter table MACHINE add MEASURE_SELF_ENFORCE_STRUCTURE enum("false","true") NOT NULL;
+alter table MACHINE add MEASURE_OPERATOR_ENFORCE_STRUCTURE enum("false","true") NOT NULL;
+alter table MACHINE add MEASURE_CHANGER_ENFORCE_STRUCTURE enum("false","true") NOT NULL;
+* Set values to true/false depending on if structure input should be enforced or not
+* Do alter table MACHINE add DEFAULT_MODE enum("self","worker","robot") not null default "self";
+* Fill in as wished.
+* Rebuild HOSE codes using AdminTasks.
+* Do alter table SPECTRUM add JCAMP LONGBLOB;
+* Do INSERT INTO CONDITION_TYPE VALUES(12,'Program','p','String','','','','false');
+* Do INSERT INTO `CONDITION` VALUES(11,'CSEARCH',12,1);
+
+1.3.5 Release
+-------------
+
+A bugfix release. See changelog.
+
+Release 1.3.5
+-------------
+
+A bugfix release. See changelog.
+
+Release 1.3.4
+-------------
+
+A bugfix release. See changelog.
+
+Release 1.3.3
+-------------
+
+A bugfix release. See changelog.
+
+Release 1.3.2
+-------------
+
+A bugfix release. Main point is that saving of conditions was broken.
+
+Release 1.3
+-------------
+
+Main new thing is an increase in performance. Especially the spectrum search is much faster now, but also overall speed should be improved.
+
+Known bugs:
+- Strange problems with input (shifts disappear) reported, cannot be reproduced. As soon as we find something, we will fix it.
+
+
+Release 1.2.1
+-------------
+This has some new features and bugfixes. Major change of user interface. No known bugs.
+
+Release 1.2
+-------------
+This has some new features and bugfixes. Applets changed to JChemPaint. No known bugs.
+
+Release 1.1
+-------------
+This has some new features and bugfixes. No known bugs.
+
+Release 1.0.10
+-------------
+This is another bugfix release with some new features.
+
+Known bugs:
+- Sometimes 100-sum(distances) calculated from matchings given in the result of the spectrum search will be slightly higher than the given similarity measure.
+- There are still some minor problems with substructure search (see sf.net)
+- Sometimes structure searches do not work with pi-rings, but with alternating double-single bonds
+
+Release 1.0.9
+-------------
+This is another bugfix release with some new features.
+
+No changes in db necessary. Software upgrade should do it. Please rebuild HOSE codes after upgrade, since HOSE codes might have slightly changed.
+
+Known bugs:
+- Sometimes 100-sum(distances) calculated from matchings given in the result of the spectrum search will be slightly higher than the given similarity measure.
+- There are still some minor problems with substructure search (see sf.net)
+
+Release 1.0.8
+-------------
+This is another bugfix release with some new features.
+
+Known bugs:
+- Sometimes 100-sum(distances) calculated from matchings given in the result of the spectrum search will be slightly higher than the given similarity measure.
+- There are still some minor problems with substructure search (see sf.net)
+
+Release 1.0.7
+-------------
+This is another bugfix release with some new features.
+
+Known bugs:
+- Sometimes 100-sum(distances) calulated from matchings given in the result of the spectrum search will be slightly higher than the given similarity measure.
+- There are still some minor problems with substructure search (see sf.net)
+
+Release 1.0.6
+-------------
+This is another bugfix release with some new features.
+
+Known bugs:
+- Sometimes 100-sum(distances) calulated from matchings given in the result of the spectrum search will be slightly higher than the given similarity measure.
+- There are still some minor problems with substructure search (see sf.net)
+
+Release 1.0.5
+-------------
+This is another bugfix release, mainly improving prediction.
+
+Known bugs:
+- Sometimes 100-sum(distances) calulated from matchings given in the result of the spectrum search will be slightly higher than the given similarity measure.
+- There are still some minor problems with substructure search (see sf.net)
+
+Release 1.0.4
+-------------
+Main purpose of this release is to enable synchronisation with myrnmshiftdb.
+
+Known bugs:
+- The predictions are sometimes not as good as they could be (although not wrong), see CDK bug #818570
+- Sometimes 100-sum(distances) calulated from matchings given in the result of the spectrum search will be slightly higher than the given similarity measure.
+- There are still some minor problems with substructure search (see sf.net)
+
+Release 1.0.3
+-------------
+This is mainly a bugfix release plus some new features. It contains a thorough improvement of the substructure search.
+
+Known bugs:
+- The predictions are sometimes not as good as they could be (although not wrong), see CDK bug #818570
+- Sometimes 100-sum(distances) calulated from matchings given in the result of the spectrum search will be slightly higher than the given similarity measure.
+
+Release 1.0.2
+-------------
+This is mainly a bugfix release plus some new features.
+
+Known bugs:
+- The predictions are sometimes not as good as they could be (although not wrong), see CDK bug #818570
+- In certain rare circumstances, the identity search does not work.
+
+Release 1.0.1
+-------------
+This is mainly a bugfix release.
+
+Known bugs:
+- The predictions are sometimes not as good as they could be (although not wrong), see CDK bug #818570
+- In certain rare circumstances, the identity search does not work.
+
+Release 1.0.0
+-------------
+This is the first NMRShiftDB release. It should be offer basic functions and everything should work.
+
+Known bugs:
+- The predictions are sometimes not as good as they could be (although not wrong), see CDK bug #818570
+- On IE 6, the Latest Structures are not diplayed if you change back to the home page

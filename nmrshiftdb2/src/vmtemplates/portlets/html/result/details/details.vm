@@ -1,0 +1,192 @@
+<p style="color:red">
+  $message
+</p>
+$mol.getIsomerLinks($lastaction,$molNumber,$startmolecule,${sessionidext})<br>
+$mol.getTautomerLinks($lastaction,$molNumber,$startmolecule,${sessionidext})<br>
+
+#if($showtypebutton)
+    Only $showtypebutton spectra are shown because of your search
+    <form action="portal/js_pane/P-Results;jsessionid=${sessionidext}?spectrum=${spectrum.getSpectrumId()}&nmrshiftdbaction=$lastaction&showalltypes=showalltypes&molNumber=$molNumber&startmolecule=$startmolecule$startbrowseall" method="post">
+        <input type="submit" value="Show all types">
+    </form>
+#end
+
+#parse( "portlets/html/result/details/header.vm" )
+
+
+
+#foreach($newid in $mol.getNewMoleculeIdsOfOldSpectra())
+    A spectrum (id $newid.get(0)) was once assigned to this molecule, but has been moved to <a href="portal/js_pane/P-Results/nmrshiftdbaction/showDetailsFromHome/molNumber/$newid.get(1)">molecule $newid.get(1)</a> now.<br>
+#end
+#if($spectralists.keySet().size()>1 || !$spectralists.keySet().contains("General"))
+    #set($outercounter=0)
+    #set($tabheaders=$spectralists.keySet())
+    #set($tabname="showoutertab")
+    #parse( "portlets/html/result/details/tabs.vm" )
+    #set($datasettab=$tab.get($outercounter)) 
+#end
+#foreach($spectrum in $spectra)
+  <a name="spectrum${spectrum.getSpectrumId()}"></a>
+  #if($spectrum.getMark()>$spectrum.getDisplaymark() || $displayall=="true")
+    #set($outercounter=$velocityCount)
+    #set($tabheaders=["Spectral Data","Additional Data","Download"])
+    #set($tab=$innertabs)
+    #set($tabname="tab")
+	#parse( "portlets/html/result/details/tabs.vm" )
+    #if($tab.get($outercounter)==0)
+	    #if ($viewingaction=="searchbyspectrum")
+	      <h3>
+	      #if($searchtype==$constants.getSUBSPECTRUM())
+	        Search for subspectrum: Similarity measure for input shifts within this record is $spectrum.getSimilarityFormatted().
+          #elseif($searchtype==$constants.getTOTALSPECTRUM())
+            Search for complete spectrum: Similarity measure for the complete spectrum in this record is $spectrum.getSimilarityFormatted().
+          #else
+            Search for 13C/1H correlation.
+          #end
+	      </h3>
+	    #end
+	    #if($lastsearch.getDisplayText()=="my spectra")
+	      #if($spectrum.getReviewFlag()=="true")
+	        <h3>This spectrum has been reviewed as valid by <a href="mailto:$spectrum.getEmailOfAsssignedReviewer()">$spectrum.getNameOfAsssignedReviewer()</a></h3>
+	      #elseif($spectrum.getReviewFlag()=="false")
+	        <h3>This spectrum has no yet been reviewed by <a href="mailto:$spectrum.getEmailOfAsssignedReviewer()">$spectrum.getNameOfAsssignedReviewer()</a></h3>
+	      #elseif($spectrum.getReviewFlag()=="edited")
+	        <h3>This spectrum has been edited and is scheduled for deletion!</h3>
+	      #elseif($spectrum.getReviewFlag()=="private")
+	      	<h3>This is a private spectrum and only visible to you!</h3>
+	      #else
+	        <h3>This spectrum has been reviewed as invalid by <a href="mailto:$spectrum.getEmailOfAsssignedReviewer()">$spectrum.getNameOfAsssignedReviewer()</a></h3>
+	      #end
+	    #end
+	    <table>
+	      <tr>
+	        <td>
+	          Type: $spectrum.getDBSpectrumType().getName() #if($spectrum.getFrequency()!="Unknown")$spectrum.getFrequency()#end <a href="portal/js_pane/P-Help;jsessionid=${sessionidext}?URL=using.html#browse" title="Help for viewing dataset details" style="color:white"><img src="images/help.png"></a> #if($spectrum.getReviewFlag()=="private") <span style="color:#0000AA;font-weight: bold">Private data</span> #end
+	          #parse("portlets/html/result/details/moleculeimage.vm")
+	        </td>
+	        #if($spectrum.getDBSignals().size()>0)
+    	        <td rowspan="2">
+    	          <img src="images/blank.gif" height="1" width="20">
+    	        </td>
+    	        <td rowspan="2" valign="top">
+    	        	#parse("portlets/html/result/details/spectrumtable.vm")
+    	        </td>
+    	    #end
+	      </tr>
+       	  #parse("portlets/html/result/details/spectrumimage.vm")
+	    </table>
+	#end
+	#if($tab.get($outercounter)==1)
+		<table xmlns:chem="http://www.blueobelisk.org/chemistryblogs/">
+			#if($outercounter==1)
+				#parse("portlets/html/result/details/molecule.vm")
+			#end
+			#parse("portlets/html/result/details/spectrum.vm")
+	    </table>
+	    #if($urltool.getTurbineUser($data).isReviewer()||$urltool.getTurbineUser($data).getLoginName()==$spectrum.getContributor().getLoginName())
+	      <form action="portal/js_pane/P-Submit;jsessionid=${sessionidext}?spectrum=${spectrum.getSpectrumId()}&eventSubmit_doEditspectrum=editSpectrum" method="post"> #parse("chooseedit.vm") <input type="submit" value="Edit"></form>
+	    #end
+	    #if($urltool.getTurbineUser($data).isContributor())
+	      <form action="portal/js_pane/P-Results;jsessionid=${sessionidext}?spectrum=${spectrum.getSpectrumId()}&nmrshiftdbaction=$lastaction&markspectrum=markspectrum&molNumber=$molNumber&startmolecule=$startmolecule" method="post">Mark (1-10): <input type="text" name="mark" size="5">, comment: <input type="text" name="comment" size="30"><input type="submit" value="Mark this spectrum"></form>
+	    #end
+	    <br><br>
+    #end
+	#if($tab.get($outercounter)==2)
+		<table>
+        #parse("portlets/html/result/details/spectrumheader.vm")
+		</table>
+		#set( $mol = $spectrum.getDBMolecule() )
+		#parse("exportform.vm")
+	#end
+	#if($spectrum.getReviewFlag()=="private")
+	<br>
+		<form action="$link.getPaneById("P-Results").addPathInfo("nmrshiftdbaction","submitforreview").addPathInfo("spectrumid","$spectrum.getSpectrumId()")" method="post"><input type="submit" value="Submit for review"></form>
+		<a href="portal/js_pane/P-Results?nmrshiftdbaction=showprivatebykey&molnumber=spectrum:$spectrum.getSpectrumId()&viewkey=$spectrum.getReviewKey()" onclick="return showlink('portal/js_pane/P-Results?nmrshiftdbaction=showprivatebykey&molnumber=spectrum:$spectrum.getSpectrumId()&viewkey=$spectrum.getReviewKey()');">Copy link for reviewer</a><br>
+	#end
+  #else
+    There is a spectrum which seems to be wrong (rating: $spectrum.getMark() , comment: $spectrum.getMarkComment()). If you want to see it nevertheless, <a href="portal/js_pane/P-Results;jsessionid=${sessionidext}?spectrum=${spectrum.getSpectrumId()}&nmrshiftdbaction=$lastaction&displayall=displayall&molNumber=$molNumber&startmolecule=$startmolecule$startbrowseall">click here</a>.<br>
+  #end
+  #if($urltool.getTurbineUser($data).isLabgroupLeader() && $spectrum.getNmrshiftdbUser().getLabgroupId()>0)
+  	<form action="portal/js_pane/P-Results;jsessionid=${sessionidext}?spectrumid=${spectrum.getSpectrumId()}&eventSubmit_doPublish=publish" method="post">
+		<input type="text" name="server" size="50" value="$publishserver">
+  	<input name="eventSubmit_doPublish" type="submit" value="Publish this spectrum"></form>
+  #end
+  <hr>
+#end
+
+<script LANGUAGE="JavaScript1.1">
+    function showlink(link){
+        link = getAbsoluteUrl(link);
+        window.prompt("Copy to clipboard: Ctrl+C, Enter", link);
+        return false;
+    }
+
+    var getAbsoluteUrl = (function() {
+        var a;
+
+        return function(url) {
+                if(!a) a = document.createElement('a');
+                a.href = url;
+
+                return a.href;
+        };
+    })();
+</script>
+
+#parse("portlets/html/result/details/samples.vm")
+<br>
+<a target="_new" href="http://sourceforge.net/p/nmrshiftdb2/database-errors/">Report incorrect data</a>
+<br>
+#if ($viewingaction=="fromlast")
+  <form action="portal/js_pane/P-Home;jsessionid=${sessionidext}" method="post"><input type="submit" value="Back"></form>
+#end
+#if ($data.User.hasLoggedIn())
+  <form action="portal/js_pane/P-Results;jsessionid=${sessionidext}?moleculeid=${mol.getMoleculeId()}&nmrshiftdbaction=addbookmark" method="post"><input type="submit" value="Bookmark this molecule"></form>
+#end
+#if($easylinkdataset)
+  <a href="$easylinkdataset" onclick="return showlink('$easylinkdataset');">Copy dataset link</a><br>
+  #if($datasetdoi)
+  	DOI for this dataset: $datasetdoi<br>
+  #end
+	<script LANGUAGE="JavaScript1.1">
+	<!--
+		  function exportDataset() {
+		    if(document.datasetexport.format.value=="cml"){
+		      document.datasetexport.action="download/NmrshiftdbServlet/${mol.getMoleculeId()}.cml?spectrumid=${datasetspecid}&nmrshiftdbaction=exportdataset";
+		    }else if(document.datasetexport.format.value=="nmredata.zip"){
+		        document.datasetexport.action="download/NmrshiftdbServlet/${mol.getMoleculeId()}.nmredata.zip?spectrumid=${datasetspecid}&nmrshiftdbaction=exportdataset";
+		    }else if(document.datasetexport.format.value=="nmredata.sd"){
+		        document.datasetexport.action="download/NmrshiftdbServlet/${mol.getMoleculeId()}.nmredata.sd?spectrumid=${datasetspecid}&nmrshiftdbaction=exportdataset";
+		    }else if(document.datasetexport.format.value=="pdf"){
+		        document.datasetexport.action="download/NmrshiftdbServlet/${mol.getMoleculeId()}.pdf?spectrumid=${datasetspecid}&nmrshiftdbaction=exportdataset";
+		    }
+          }
+	//-->
+	</script>
+  <form action="" method="post" target="_new" name="datasetexport">
+	Get this dataset as 
+	<select name="format" size="1">
+		<option value="nmredata.zip">NMR record</option>
+		<option value="nmredata.sd">NMReDATA</option>
+		<option value="cml">cml</option>
+		<option value="pdf">Report</option>
+	</select>
+	 file 
+	<input type="submit" value="Request" onClick="exportDataset()">
+  </form>
+  #if($urltool.getTurbineUser($data).isLabgroupLeader() && $spectrum.getNmrshiftdbUser().getLabgroupId()>0)
+    <form action="portal/js_pane/P-Results;jsessionid=${sessionidext}?spectrumid=${spectra.get(0).getSpectrumId()}&eventSubmit_doPublishdataset=publish" method="post">
+        <input type="text" name="server" size="50" value="$publishserver">
+        <input name="eventSubmit_doPublishdataset" type="submit" value="Publish this dataset">
+    </form>
+  #end
+  #if($easylinkdatasetreview)
+      <a href="$easylinkdatasetreview" onclick="return showlink('$easylinkdatasetreview');">Copy dataset link for reviewer</a><br>
+      <form action="$link.getPaneById("P-Results").addPathInfo("nmrshiftdbaction","submitforreviewdataset").addPathInfo("moleculeid","$mol.getMoleculeId()").addPathInfo("dataset","$submitdatasetvorreview")" method="post"><input type="submit" value="Submit all private spectra for review"></form>
+  #end
+#end
+#if($showliteratureedit)
+  <a href="$link.getPaneById("P-Submit").addPathInfo("spectrumid","$spectra.get(0).getSpectrumId()").addPathInfo("eventSubmit_doDatasetliteratureedit","eventSubmit_doDatasetliteratureedit")">Edit literature for this dataset</a><br>
+#end
+<a href="$easylink" onclick="return showlink('$easylink');">Copy molecule link</a><a href="portal/js_pane/P-Help;jsessionid=${sessionidext}?URL=using.html#fixedlink" title="Help for viewing dataset details" style="color:white"><img src="images/help.png"></a>
+<form action="portal/js_pane/P-Submit;jsessionid=${sessionidext}?molecule=${mol.getMoleculeId()}&eventSubmit_doChecklogin=checklogin&nextaction=addSpectrumToMolecule&submitlevel=6" method="post"><input type="submit" value="Submit a new spectrum for that molecule"></form>

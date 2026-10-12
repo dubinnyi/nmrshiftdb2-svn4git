@@ -1,0 +1,63 @@
+	  <table border="none" rules="none">
+	    <tr>
+	      <td colspan="2">
+            <b>Order $sample.getUsersId()</b>. Spectrometer: $sample.getDBMachine().getName() ($sample.getDBMachine().getDBCondition().getValue() Mhz). Process: $sample.getProcess().#if($sample.getDBMachine().getIconnmrIntegration()=="true" && $sample.getDBMachine().getMeasureChanger()=="true") Holder No.: #if($sample.getHolderNo()==-1) Defined later #else $sample.getHolderNo() #end #end <br>
+	        Name: $urltool.getTurbineUser($data).getFirstName() $urltool.getTurbineUser($data).getLastName()<br>
+	        Institute/Workgroup: $urltool.getTurbineUser($data).getAffiliation1()/$urltool.getTurbineUser($data).getAffiliation2()<br>
+	        Sample I. D.: $sample.getUsersId() (personal keyword: $sample.getUsersIdComment())<br>
+	        Date: $sample.getDate()<br>
+	        <br>
+	        Solvent: $sample.getDBCondition().getValue()
+	        <br>
+	          #if($sample.getProbableStructure()!=0)
+	          	#if($data.getSession().getAttribute("applet")=="applet")
+		        	<a href="$urltool.removesessionid($data.getRequest().getRequestURI());jsessionid=${sessionidext}?$data.getRequest().getQueryString()&applet=noapplet" title="Switch off Java applets" style="color:white"><img src="images/nojava.png"></a><br>
+	                <script LANGUAGE="JavaScript1.1" SRC="nmrshiftdbhtml/marvin.js"></script>
+	                <script LANGUAGE="JavaScript1.1">
+	                    mview_mayscript = true;
+	                    mview_name = "JcpViewer";
+	                    mview_begin("$urltool.getBaseUrl()/../nmrshiftdbhtml", 300, 300);
+	                    mview_param("load","$urltool.getBaseUrl()/../download/NmrshiftdbServlet/${sample.getDBMolecule().getMoleculeId()}.mol;jsessionid=${sessionidext}?nmrshiftdbaction=exportmdl&moleculeid=$sample.getDBMolecule().getMoleculeId()&coordsetid=1");
+	                    mview_param("atomNumbersVisible","true");
+	                    mview_param("background","12632256");
+	                    mview_param("detachable","true");
+	                    mview_end();
+	                 </script>
+	            #else
+	            	<a href="$urltool.removesessionid($data.getRequest().getRequestURI());jsessionid=${sessionidext}?$data.getRequest().getQueryString()&applet=applet" title="Switch on Java-Applets" style="color:white"><img src="images/java.png"></a><br><br>
+	            	<img src="download/NmrshiftdbServlet/$sample.getDBMolecule().getMoleculeId().jpg;jsessionid=${sessionidext}?nmrshiftdbaction=exportmol&moleculeid=$sample.getDBMolecule().getMoleculeId()&format=jpeg&size=200x200&backcolor=12632256">
+	            #end
+	          #else
+	             No probable structure suggested!
+	          #end
+	        <br>
+	      </td>
+	    </tr>
+	    <tr>
+	      <td>
+	      	Spectrum types to measure
+	      </td>
+	    </tr>
+	    <tr>
+	      <td>
+          #foreach($experiment in $sample.getDBExperimentDBSamples())
+	        $experiment.getDBExperiment().getName()<br>
+	      #end
+	      </td>
+	    </tr>
+	    	<tr><td>$sample.getOtherWishedSpectrum()</td></tr>
+	    <tr>
+	      <td colspan="2">
+	        Special care for sample: $sample.getSpecialCare()<br>
+        	#if($sample.getAttachmentIsSet()) <a href="download/NmrshiftdbServlet/$sample.getAttachmentName()?sampleid=$sample.getSampleId()&nmrshiftdbaction=getattachment">File attached by user</a> #end
+	        #foreach($sample in $sample.getDBRawFiles())
+	          <a href="$sample.getUrl()">Download the raw NMR file here</a><br>
+	          #if($sample.getAssigned()=="false")
+		        <a href="$link.getPaneById("P-Submit").addPathInfo("id","$sample.getRawFileId()").addPathInfo("eventSubmit_doAssignrawdata","assignrawdata")">Assign spectrum</a><br>
+		      #else
+		      	<br><a href="$link.getPaneById("P-Results").addPathInfo("nmrshiftdbaction","showDetailsFromHome").addPathInfo("molNumber","$sample.getDBRawFileDBSpectrums().get(0).getDBSpectrum().getMoleculeId()").addPathInfo("tab","1")">Show assignment for these raw data</a>
+		      #end
+	        #end
+	      </td>
+	    </tr>
+	  </table>

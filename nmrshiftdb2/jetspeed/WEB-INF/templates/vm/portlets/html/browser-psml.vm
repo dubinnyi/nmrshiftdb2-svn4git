@@ -1,0 +1,254 @@
+#*
+Copyright 2004 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*#
+
+#set ( $filter = $data.getRequest().getParameter("filter_value") )
+#set ( $filter_type = $data.getRequest().getParameter("filter_type") )
+#set ( $regexp = $data.getRequest().getParameter("filter_regexp") )
+
+<form method="post">
+<b>${l10n.BROWSER_PSML_FILTER_STRING_VM}</b> <input type="Text" name="filter_value" value="$!filter"/>
+<select name="filter_type">
+  <option value="filter_type_user" #if ($filter_type == "filter_type_user") selected #end>${l10n.BROWSER_PSML_USER_VM}</option>
+  <option value="filter_type_role" #if ($filter_type == "filter_type_role") selected #end>${l10n.BROWSER_PSML_ROLE_VM}</option>  
+  <option value="filter_type_group" #if ($filter_type == "filter_type_group") selected #end>${l10n.BROWSER_PSML_GROUP_VM}</option>    
+</select>
+<input type="submit" name="eventSubmit_doFilter" value="${l10n.BROWSER_PSML_FILTER_VM}"/>
+<INPUT TYPE="CHECKBOX" NAME="filter_regexp" #if($!regexp) checked #end/>${l10n.BROWSER_PSML_USE_REGULAR_EXPRESS_VM}</form>
+<form method="post">
+<input type="submit" name="eventSubmit_doRefresh" value="${l10n.BROWSER_PSML_REFRESH_VM}"/>
+</form>
+<table width=100%" border="1" cellpadding="0" cellspacing="0">
+<tr>
+    <td colspan="5"><img src="images/blank.gif" width="20%" height="1" border="0"></td>
+    <td><img src="images/blank.gif" width="80%" height="1" border="0"></td>
+</tr>
+
+#foreach ( $entry in $psml )
+
+    #if($!entry.GroupName)
+        #set ($category = "Group")
+        #set ($catName = $!entry.GroupName)
+        #set ($link1 = $jslink.setGroup($catName))
+    #elseif($!entry.RoleName)
+        #set ($category = "Role")
+        #set ($catName = $!entry.RoleName)
+        #set ($link1 = $jslink.setRole($catName))
+    #elseif($!entry.UserName)
+        #set ($category = "User")
+        #set ($catName = $!entry.UserName)
+        #set ($link1 = $jslink.setUser($catName))
+    #else
+        #set ($category = "null")
+        #set ($catName = "null")
+    #end
+
+    #if ($!entry.MediaType)
+        #set ($mediaType = $entry.MediaType)
+    #else
+        #set ($mediaType = "null")
+    #end
+
+    #if ($!entry.Language)
+        #set ($language = $!entry.Language)
+    #else
+        #set ($language = "null")
+    #end
+
+    #if ($!entry.Country)
+        #set ($country = $!entry.Country)
+    #else
+        #set ($country = "null")
+    #end
+
+    #set ($blank = 1)
+
+    #if($!entry.GroupName)
+        #set ($link1 = $jslink.setGroup($catName,$entry.Name))
+    #elseif($!entry.RoleName)
+        #set ($link1 = $jslink.setRole($catName,$entry.Name))
+    #elseif($!entry.UserName)
+        #set ($link1 = $jslink.setUser($catName,$entry.Name))
+    #end
+
+    #if ($category != "null")
+        #if ($prevCategory == $category)
+        #else
+            <tr>
+                <td style="font-size:10">$!category</td>
+                <td colspan=5><img src="images/blank.gif" height="1" border="0"></td>
+            </tr>
+        #end
+    #end
+
+    #if ($catName != "null")
+        #if($prevCatName == $catName)
+        #else
+            <tr>
+                <td><img src="images/blank.gif"height="1" border="0"></td>
+                <td style="font-size:10">$!catName</td>
+                <td colspan=4><img src="images/blank.gif" height="1" border="0"></td>
+            </tr>
+        #end
+    #end
+
+    #if ($mediaType != "null")
+        #set ($link1 = $link1.addPathInfo("mtype",$mediaType))
+        #set ($link1 = $link1.addPathInfo("reset","on"))
+        #set ($blank = $blank + 1 )
+        #if($prevMediaType == $mediaType)
+            #if($prevCatName == $catName)
+            #else
+            <tr>
+                #foreach ($index in [1..$blank])
+                    <td><img src="images/blank.gif" height="1" border="0"></td>
+                #end
+                <td style="font-size:10">$mediaType</td>
+                <td colspan="3"><img src="images/blank.gif" height="1" border="0"></td>
+        </tr>
+            #end
+        #else
+            <tr>
+                #foreach ($index in [1..$blank])
+                <td><img src="images/blank.gif" height="1" border="0"></td>
+                #end
+                <td style="font-size:10">$mediaType</td>
+                <td colspan="3"><img src="images/blank.gif" height="1" border="0"></td>
+            </tr>
+        #end
+    #end
+
+    #if ($language != "null")
+        #set ($link1 = $link1.addPathInfo("language",$language))
+        #set ($blank = $blank + 1 )
+        #if($prevLanguage == $language)
+            #if ($prevMediaType == $mediaType)
+            #else
+            <tr>
+                #foreach ($index in [1..$blank])
+                    <td style="font-size:10">&nbsp;</td>
+                #end
+                <td style="font-size:10">$language</td>
+                <td colspan="2"><img src="images/blank.gif"height="1" border="0"></td>
+            </tr>
+            #end
+        #else
+        <tr>
+            #foreach ($index in [1..$blank])
+                <td style="font-size:10">&nbsp;</td>
+            #end
+                <td style="font-size:10">$language</td>
+                <td colspan="2"><img src="images/blank.gif"height="1" border="0"></td>
+        </tr>
+        #end
+    #else
+        #set ($link1 = $link1.addPathInfo("language","-1"))
+    #end
+
+    #if ($country!= "null")
+        #set ($link1 = $link1.addPathInfo("country",$country))
+        #set ($blank = $blank + 1 )
+        #if($prevCountry == $country)
+            #if($prevLanguage == $language)
+            #else
+            <tr>
+                #foreach ($index in [1..$blank])
+                    <td style="font-size:10">&nbsp;</td>
+                #end
+                <td style="font-size:10">$country</td>
+                <td><img src="images/blank.gif" height="1" border="0"></td>
+            </tr>
+            #end
+        #else
+        <tr>
+            #foreach ($index in [1..$blank])
+                <td style="font-size:10">&nbsp;</td>
+            #end
+                <td style="font-size:10">$country</td>
+                <td><img src="images/blank.gif" height="1" border="0"></td>
+        </tr>
+        #end
+    #end
+
+    #set ($link1 = $link1.setAction("controls.Customize"))
+    <tr>
+        #set ($blank = $blank + 1 )
+        #foreach ($index in [1..$blank])
+                <td><img src="images/blank.gif"height="1" border="0"></td>
+        #end
+        #set ($number = 6 - $blank)
+        <td colspan=$number>
+        <table width="100%" border=0 cellpadding=0 cellspacing=0>
+            <tr>
+                <td align=left>
+                    <a style="font-size:10" href="$link1">$!entry.Name </a>&nbsp;&nbsp;
+                </td>
+                <td align=right>
+                    #set ($link2 = $jslink.setPaneByName("PsmlForm").addQueryData("mode","delete").addQueryData("entityid", $!entry.Path))
+                    <a style="font-size:10" href='$link2'>${l10n.BROWSER_PSML_DELETE_VM}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                    #set ($link3 = $jslink.setPaneByName("PsmlForm").addQueryData("mode","insert").addQueryData("entityid", $!entry.Path))
+                    <a style="font-size:10" href='$link3'>${l10n.BROWSER_PSML_CLONE_VM}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                    #set ($link4 = $jslink.setPaneByName("PsmlForm").addQueryData("mode","export").addQueryData("entityid", $!entry.Path))
+                    <a style="font-size:10" href='$link4'>${l10n.BROWSER_PSML_EXPORT_VM}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                    #set ($link5 = $jslink.setPaneByName("PsmlForm").addQueryData("mode","import").addQueryData("entityid", $!entry.Path))
+                    <a style="font-size:10" href='$link5'>${l10n.BROWSER_PSML_IMPORT_VM}</a>
+                </td>
+            </tr>
+        </table>
+        </td>
+        
+    </tr>
+
+    #set ($prevCategory = $category)
+    #set ($prevCatName = $catName)
+    #set ($prevMediaType = $mediaType)
+    #set ($prevLanguage = $language)
+    #set ($prevCountry = $country)
+
+#end
+<tr/>
+<tr>
+    #set ($link4 = $jslink.setPaneByName("PsmlForm").addQueryData("mode","insert"))
+    #set ($exportAll = $jslink.setPaneByName("PsmlForm").addQueryData("mode","export_all")) 
+    #set ($importAll = $jslink.setPaneByName("PsmlForm").addQueryData("mode","import_all"))       
+    #set ($import = $jslink.setPaneByName("PsmlForm").addQueryData("mode","import"))           
+    <td colspan=6 align="left">
+        <a style="font-size:10" href='$link4'>${l10n.BROWSER_PSML_ADD_VM}</a>&nbsp;&nbsp;&nbsp;&nbsp;    
+        <a style="font-size:10" href='$exportAll'>${l10n.BROWSER_PSML_EXPORT_ALL_VM}</a>&nbsp;&nbsp;&nbsp;&nbsp;    
+        <a style="font-size:10" href='$import'>${l10n.BROWSER_PSML_IMPORT_VM}</a>&nbsp;&nbsp;&nbsp;&nbsp;            
+        <a style="font-size:10" href='$importAll'>${l10n.BROWSER_PSML_IMPORT_ALL_VM}</a>        
+    </td>
+</tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr>
+    <td align="right" width="50%">
+#if ($prev)
+<form action="$jslink" method="post">
+       <input type="submit" value="${l10n.BROWSER_PSML_LT_LT_PREVIOUS_VM}">
+      <input type="hidden" name="start" value="$prev">
+</form>
+#end
+    </td>
+    <td align="left" width="50%">
+#if ($next)
+<form action="$jslink" method="post">
+       <input type="submit" value="${l10n.BROWSER_PSML_NEXT_GT_GT_VM}">
+      <input type="hidden" name="start" value="$next">
+</form>
+#end
+    </td>
+  </tr>
+</table>

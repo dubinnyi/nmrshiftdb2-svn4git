@@ -1,0 +1,40 @@
+				#parse("portlets/html/result/details/spectrumheader.vm")
+				<tr><td>Type</td><td>$spectrum.getDBSpectrumType().getName()</td></tr>
+			    <tr bgcolor="#D3D3D3"><td colspan="2">
+			    #if ($spectrum.getConditionType()=="m")
+			      Measurement conditions
+			    #elseif ($spectrum.getConditionType()=="c")
+			      Calculation conditions
+			    #else
+			      Prediction conditions
+			    #end
+			    </td></tr>
+			    #foreach ($cond in $spectrum.getMeasurementConditions())
+			      <tr #if($velocityCount%2==0) bgcolor="#D3D3D3" #end ><td>$cond.getConditionName()</td><td>$cond.getValue()</td></tr>
+			    #end
+			    <tr><td>Literature</td><td>
+			    #foreach($literature in $spectrum.getLiteraturesNew())
+			      $literature.toString()<br>
+			    #end
+			    </td></tr>
+			    <tr bgcolor="#D3D3D3"><td>Additional comments</td><td>$spectrum.getCommentAsString()</td></tr>
+			    #if($spectrum.getReportUrl())
+			    	<tr><td>CSEARCH quality report</td><td>
+			    	#if($spectrum.getReportUrlString().startsWith("<image"))
+			    		<a target="_blank" href="download/NmrshiftdbServlet/$spectrum.getSpectrumId()report.htm;jsessionid=${sessionidext}?nmrshiftdbaction=exportcsearchreport&spectrumid=$spectrum.getSpectrumId()">Download</a>
+			    	#else
+			    		<a target="_blank" href="$spectrum.getReportUrlString()">Download</a>
+			    	#end
+			    	</td></tr>
+			    #end
+                #if($spectrum.getReportNmrshiftdb())
+                    <tr><td>nmrshiftdb2 quality report</td><td>
+                        <a target="_blank" href="download/NmrshiftdbServlet/$spectrum.getSpectrumId()report.htm;jsessionid=${sessionidext}?nmrshiftdbaction=exportnmrshiftdbreport&spectrumid=$spectrum.getSpectrumId()">Download</a>
+                    </td></tr>
+                #end
+			    <tr bgcolor="#D3D3D3"><td nowrap="nowrap">Additional information</td><td> 
+			    #foreach($link in $spectrum.getLinks())
+			      <a target="_blank" href="$link.getHyperlink()">$link.getDescription()</a> 
+			    #end
+			    </td></tr>
+			    <tr><td>Spectrum categories</td><td>$spectrum.getKeywords()</td></tr>

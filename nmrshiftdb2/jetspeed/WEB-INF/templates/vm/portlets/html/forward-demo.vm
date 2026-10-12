@@ -1,0 +1,55 @@
+#*
+Copyright 2004 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*#
+
+#if (!$fda_next)
+#set ( $fda_next = "CurrentPage" )
+#end
+<form action="$jslink.addPathInfo($jslink.ActionKey,"portlets.ForwardDemoAction")" method="post">
+  <font color="$!{skin.Color}">
+    <h2>$fda_next, $fda_target</h2>
+    <br/>
+    <p>${l10n.FORWARD_DEMO_SELECT_A_FORWARD_NAM_VM}<br/>
+      #if($fda_forwards)
+        <select name="fda_next">        
+          #foreach ( $entry in $fda_forwards )
+              <option value="$entry.Name" #if ($entry.Selected) selected #end>$entry.Name</option>
+          #end
+        </select>      
+      #end
+      <input type="submit" name="eventSubmit_doUpdate" value="${l10n.FORWARD_DEMO_FORWARD_VM}">
+    </p>
+    <br/>
+    <p>${l10n.FORWARD_DEMO_LOGICAL_PORTLET_FORW_VM}<br/>
+      #if($fda_targets)
+        <select name="fda_target">        
+          #foreach ( $entry in $fda_targets )
+              <option value="$entry.Name" #if ($entry.Selected) selected #end>$entry.Name</option>
+          #end
+        </select>      
+      #end
+      <input type="submit" name="eventSubmit_doTarget" value="${l10n.FORWARD_DEMO_PORTLETFORWARD_VM}">
+    </p>                                     
+    <p>
+    <a href="$jsforward.forward('ApacheGroupNews')">${l10n.FORWARD_DEMO_TOOL_FORWARD_VM}</a>
+    <br/>
+    <a href="$jsforward.forward('ForwardDemo','Pane')">${l10n.FORWARD_DEMO_TOOL_PORTLETFORWAR_VM}</a>
+    </p>
+    <p>${l10n.FORWARD_DEMO_DYNAMIC_TEST_FORWAR_VM}<input type="submit" name="eventSubmit_doDynamic" value="${l10n.FORWARD_DEMO_FORWARDDYNAMIC_VM}">
+    </p>
+    <p>${l10n.FORWARD_DEMO_DYNAMIC_TEST_PORTLE_VM}<input type="submit" name="eventSubmit_doDynamic2" value="${l10n.FORWARD_DEMO_PORTLETFORWARDDYNAMI_VM}">
+    </p>
+  </font>
+</form>

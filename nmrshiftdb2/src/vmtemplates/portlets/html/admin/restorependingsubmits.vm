@@ -1,0 +1,21 @@
+<span style="color:#0000AA">$!message</span><br>
+<h3>Please ckeck the submits you want to save</h3>
+<script LANGUAGE="JavaScript1.1">
+	function selectAll(){
+		var selects=document.backupform.elements;
+		for(var i=0;i<selects.length;i++){
+			if(selects[i].type="checkbox"){
+				selects[i].checked=true;
+			}
+		}
+	}
+</script>
+<form action="portal;jsessionid=$data.getSession().getId()" method="post" NAME="backupform">
+	#foreach($backupfile in $backupfiles)
+		<input type="checkbox" name="$backupfile.getName()" value="true">$backupfile.getName()<br>
+	#end
+	<input type="button" value="Check all" onClick="selectAll()">
+	<input type="reset" value="Clear all">
+	<input type="submit" name="eventSubmit_doSavesubmits" value="Restore">
+</form>
+

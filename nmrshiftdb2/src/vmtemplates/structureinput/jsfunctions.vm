@@ -1,0 +1,104 @@
+      #if($structureeditor=="MARVINJS")
+        <script src="$baseurl/../nmrshiftdbhtml/marvin4js/js/lib/jquery-1.9.1.min.js"></script>
+        <script src="$baseurl/../nmrshiftdbhtml/marvin4js/js/util.js"></script>
+        <script>
+        var marvinSketcherInstance;
+            
+        $(document).ready(function handleDocumentReady (e) {
+            getMarvinPromise("#sketch").done(function (sketcherInstance) {
+
+                marvinSketcherInstance = sketcherInstance;
+                
+                #if($showoldinput=="true")
+                    marvinSketcherInstance.importAsMol("$molfile");
+                #end
+
+                #if($showatomnumbers=="true")
+                	marvinSketcherInstance.setDisplaySettings({
+						"atomIndicesVisible": true
+					});
+				#end
+
+            }).fail(function () {
+                alert("Cannot retrieve sketcher instance from iframe");
+            });
+        });
+
+        function exportMol() {
+            var source = marvinSketcherInstance.exportAsMol();
+            document.MolForm.MolTxt.value=source;
+        }
+        
+        function openStructureHistory(){
+          mywindow=window.open("nmrshiftdbhtml/importfromstructureshistory.jsp;jsessionid=$session.getId()","molimport","height=200,width=900");
+          mywindow.focus();
+        }
+        </script>
+      #elseif($session.getAttribute("applet")=="applet")
+    	<a href="$request.getRequestURI();jsessionid=$session.getId()?$request.getQueryString()&applet=noapplet" title="Switch off Java applets" style="color:white"><img src="images/nojava.png"></a><br>
+	    #if($input=="0")
+	      	<span style="color:#0000AA">Double click to get resizeable window!</span><br>
+      	#end
+        <script src="nmrshiftdbhtml/Jmol.js"></script>
+        <script LANGUAGE="JavaScript1.1" SRC="nmrshiftdbhtml/marvin.js"></script>
+        <script LANGUAGE="JavaScript1.1">
+        <!--
+        var currentlyworking=-1;
+        function exportMol() {
+          if(document.JcpEditor != null) {
+            s = document.JcpEditor.getMolFile();
+            s = unix2local(s);
+            document.MolForm.MolTxt.value=s;
+          } else {
+            alert("Cannot import molecule: no JavaScript to Java communication in your browser.");
+          }
+        }
+        function openStructureHistory(){
+          mywindow=window.open("nmrshiftdbhtml/importfromstructureshistory.jsp;jsessionid=$session.getId()","molimport","height=200,width=900");
+          mywindow.focus();
+        }
+        //-->
+        </script>
+      #elseif($structureeditor=="GGAKETCHER")
+        <script>
+                function getKetcher()
+                {
+						var ketcherFrame = document.getElementById('ketcherFrame');
+						var ketcher = null;
+						if ('contentDocument' in ketcherFrame)
+							ketcher = ketcherFrame.contentWindow.ketcher;
+						else // IE7
+							ketcher = document.frames['ketcherFrame'].window.ketcher;
+						return ketcher;
+                }
+
+                function exportMol()
+                {
+                        var ketcher = getKetcher();
+                        if (ketcher)
+                                ketcher.getMolfile().then(meta => {document.MolForm.MolTxt.value=meta;document.MolForm.submit();});
+                }
+                
+
+                function sleep(ms) {
+                    return new Promise(resolve => setTimeout(resolve, ms));
+                }
+
+                function loadMol(){
+                    #if($showoldinput=="true")
+                        const ketcher = document.getElementById('ketcherFrame').contentWindow.ketcher;
+                        // Chrome fires the onload event too early, so we have to wait until 'ketcher' exists.
+                        if (ketcher) {
+                           	    ketcher.setMolecule('$molfile');
+                        } else {
+                                setTimeout(() => onKetcherLoaded('ketcherFrame'), 0);
+                        }
+	           #end
+                }
+
+		        function openStructureHistory(){
+		          mywindow=window.open("nmrshiftdbhtml/importfromstructureshistory.jsp;jsessionid=$session.getId()","molimport","height=200,width=900");
+		          mywindow.focus();
+		        }
+        </script>
+      #end

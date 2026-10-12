@@ -1,0 +1,64 @@
+#*
+Copyright 2004 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*#
+
+#parse("include/capability.vm")
+
+<script>
+var capabilities = new Array;
+var populatedCapabilites = false;
+
+function populateCapabilites()
+{
+    #set($capCount = 0)
+    
+    #foreach($capability in $capabilities)
+        
+        #if(!$entry.CapabilityMap.contains($capability))
+            var option$capCount = new Option;
+            option${capCount}.text = "$capability";
+            option${capCount}.value = "$capability";
+            capabilities[$capCount] = option$capCount;
+            #set($capCount = $capCount + 1)
+        #end
+    #end
+    
+    populatedCapabilites = true;
+}
+
+function changeCapList(theForm)
+{
+    if(!populatedCapabilites)
+    {
+        populateCapabilites();
+    }
+    
+    var capElement = theForm.capability;
+    for(var i=0; i<capabilities.length; i++)
+    {
+        capElement.options[i] = capabilities[i];
+    }
+    
+    for(var j=capabilities.length; j<capElement.options.length; j++)
+    {
+        capElement.options[j] = null;
+    }
+}
+
+
+
+
+</script>
+

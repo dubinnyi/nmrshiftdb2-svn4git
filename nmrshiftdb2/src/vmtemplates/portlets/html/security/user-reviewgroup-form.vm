@@ -1,0 +1,45 @@
+#**
+
+@author <a href="mailto:taylor@apache.org">David Sean Taylor</a>Adopted by shk3
+@version $Id: user-reviewgroup-form.vm,v 1.1 2002/07/17 16:59:15 shk3 Exp $
+
+*#
+
+<h3>$user.FirstName $user.LastName is member of these review groups<h3>
+#set ( $headings = ["Review Group", "Member"] )
+
+<form method="post" action="$jlink.setPanel("User Reviewgroups").setAction("portlets.security.UserReviewgroupUpdateAction")">
+
+<table>
+
+  <tr>
+    <td>
+      <table border="true" cellspacing="1" cellpadding="3">
+        <tr>
+          #foreach ($heading in $headings)
+          #headerCell ($heading)
+          #end
+        </tr>
+
+        #foreach ($role in $roles)
+        <tr>
+          #entryCell ($role.getReviewgroupName())
+          #formCheckBox ($role.getReviewgroupName() $selected.elementAt($velocityCount).booleanValue())
+        </tr>
+        #end
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td>
+       <input type="submit" name="eventSubmit_doUpdate" value="Update"/>
+    <td>
+      <td>
+         $!msg         
+      </td>
+  </tr>
+</table>
+<input type="hidden" name="entityid" value="$!user.UserName"/>
+</form>
+
+
