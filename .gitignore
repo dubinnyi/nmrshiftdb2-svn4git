@@ -1,28 +1,6 @@
-# Compiled Java class files
-*.class
-*.jar
-*.war
-*.ear
-
-# Build directories and outputs
-build/
-dist/
-target/
-build_cli/
-bin/
-**/dist/
-**/build/
-**/target/
-**/build_cli/
-
-# svn folder
-.svn
-
-# Heavy database dumps and molecular dataset files
-snapshots/*
-nmrshiftdb2-tests/nmrshiftdb.sql.gz
-
-# IDE and Editor configurations
+# Системные файлы и IDE
+.DS_Store
+Thumbs.db
 .idea/
 .vscode/
 *.iml
@@ -32,13 +10,49 @@ nmrshiftdb2-tests/nmrshiftdb.sql.gz
 .classpath
 .settings/
 
-# Logs and temporary files
+# Сборочные артефакты и директории
+build/
+dist/
+target/
+build_cli/
+bin/
+
+# Компилированные файлы Java
+*.class
+*.jar
+*.war
+*.ear
+
+# Системы контроля версий
+.svn
+
+# Тяжелые библиотеки визуализации и сторонние компоненты
+nmrshiftdb2/src/html/jsmol/
+nmrshiftdb2/jetspeed/
+
+# Тяжелые дампы баз данных и наборы данных
+snapshots/*
+nmrshiftdb2-tests/nmrshiftdb.sql.gz
+nmrshiftdb2-tests/
+
+# Логи и временные файлы
+tmp/
+temp/
 *.log
 *.tmp
 *.bak
 *.swp
+*.swo
 *~
 
-# OS generated files
-.DS_Store
-
+# Документация, отчеты и статика
+nmrshiftdb2/doc/
+api-docs/
+docs/
+*.pdf
+*.html
+*.png
+*.gif
+*.jpg
+*.jpeg
+*.svg

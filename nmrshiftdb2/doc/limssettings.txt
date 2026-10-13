@@ -1,6 +1,0 @@
-Einige Einstellungen des LIMS sind aktuell nur direkt in der Datenbank, nicht in der Oberfläche möglich. Dies sind:
-- EXCLUDING_EXPERIMENTS: Experimente können nicht gleichzeitg ausgewählt werden.
-- EXPERIMENT_MACHINE.HIDE_*: Experiment ist zu bestimmten Zeiten unsichtbar (nicht verwenden, wenn Experiment überhaupt nicht verfügbar sein soll).
-- EXPERIMENT.AUTOMATION_ORDER: Bestimmt, in welcher Reiehenfolge die Experimente in der IconNMR-external setup-Datei auftauchen
-- EXPERIMENT_PARAMETER: Einstellbare Parameter. Außerdem spielen EXPERIMENT_MACHINE_PARAMETER und EXPERIMENT_SAMPLE_PARAMETER eine Rolle.
-- MACHINE_USER_EXCLUDED: Benutzer kann Spektrometer nicht nutzen (default: Jeder kann jedes nutzen).

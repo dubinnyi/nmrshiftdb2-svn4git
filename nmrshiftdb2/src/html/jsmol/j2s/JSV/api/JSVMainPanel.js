@@ -1,3 +1,0 @@
-Clazz.declarePackage("JSV.api");
-Clazz.declareInterface(JSV.api, "JSVMainPanel", JSV.api.JSVViewPanel);
-;//5.0.1-v2 Sun May 05 10:20:01 CDT 2024

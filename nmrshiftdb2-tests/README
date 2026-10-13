@@ -1,3 +1,0 @@
-This projects contains test for the nmrshiftdb2 software. It depends on nmrshiftdb2 and nmrshiftdb2-webservices projects.
-
-Tests run with nmrshiftdb.sql.gz database included. With other data the results may not be as expected. Change the constants in TestContstants.java for the server you want to test.
