@@ -1,3 +1,0 @@
-#foreach($key in $urltool.getUsersMap().keySet())
-	$urltool.getUsersMap().get($key) <br>
-#end

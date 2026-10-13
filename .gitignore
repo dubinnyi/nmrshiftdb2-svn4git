@@ -23,6 +23,12 @@ bin/
 *.war
 *.ear
 
+# Документация, XSLT и стили
+**/docbook-xsl/
+**/html/marvin4js/
+**/html/ketcher/
+**/spectrumapplet/
+
 # Системы контроля версий
 .svn
 
@@ -51,6 +57,7 @@ api-docs/
 docs/
 *.pdf
 *.html
+*.vm
 *.png
 *.gif
 *.jpg

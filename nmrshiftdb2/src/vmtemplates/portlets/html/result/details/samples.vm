@@ -1,5 +1,0 @@
-#foreach($sample in $samples)
-	#foreach($rawfile in $sample.getDBRawFiles())
-		#parse("portlets/html/result/details/sample.vm")
-	#end
-#end
