@@ -1,1 +1,0 @@
-The pipeline definitions have been moved into the Spring configuration file WEB-INF/assembly/pipelines.xml

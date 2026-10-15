@@ -1,0 +1,6 @@
+{
+  "summary": "Implementation plan for porting the original NMRShiftDB2 13C NN and 1H NN neural network prediction engine and HOSE code lookup into AI Studio, bypassing the 1000-file import quota via repository filtering and transpiling Java/CDK/Weka logic to TypeScript.",
+  "updatedAt": "2026-10-13T12:37:26.255922103Z",
+  "requestFeedback": true,
+  "userFacing": true
+}

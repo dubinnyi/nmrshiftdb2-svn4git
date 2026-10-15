@@ -1,0 +1,8 @@
+{
+  "name": "NMRShiftDB2",
+  "description": "Open-Source Open-Access Database for Organic Compounds and Nuclear Magnetic Resonance (NMR) Spectra",
+  "permissions": [],
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
